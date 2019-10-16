@@ -1,6 +1,7 @@
 package dataStorage;
 
 import java.io.File;					// for creating directories
+import java.io.FileWriter;				// for writing to existing files
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -112,7 +113,7 @@ public class DataStorage
 		DirMaker1(serial);	
 		
 		// for testing:
-		System.out.println("Done");
+		System.out.println("Done making folders");
 	}
 	
 	
@@ -133,7 +134,7 @@ public class DataStorage
 		String[] formatted = new String[2];
 		Date date = new Date();
 		SimpleDateFormat dateFormatFileNames = new SimpleDateFormat("yyyy-MM-dd--HH-mm-ss"); // format for dates part of file names
-		SimpleDateFormat dateFormatColumns = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");	 // format for dates in csv columns
+		SimpleDateFormat dateFormatColumns = new SimpleDateFormat("yyyy-MM-dd HH:mm");	 	 // format for dates in csv columns
 		
 		formatted[0] = dateFormatFileNames.format(date);		// add formatted date strings to string array
 		formatted[1] = dateFormatColumns.format(date);
@@ -156,12 +157,12 @@ public class DataStorage
 	// inspiration for this code: 
 	// https://stackoverflow.com/questions/30073980/java-writing-strings-to-a-csv-file answer by Prashant Ghimire
 	
-	private static void writeTelemetryHeader(String[] formattedDates) 
+	private static void createTelemetryHeader(String[] formattedDates) 
 	{	
 		
 		try (PrintWriter writer = new PrintWriter(new File("../storage/telemetry/" + formattedDates[0] + "_data_telemetry.csv")))
 		{
-			String sb = "Current Time, Latitude, Longitude, Time, Altitude, Velocity, Satelites, Acceleration, Temperature, GyroX";
+			String sb = "Current Time, Latitude, Longitude, Time, Altitude, Velocity, Satelites, Acceleration, Temperature, GyroX\n";
 			writer.write(sb);
 		}
 		catch (FileNotFoundException e) 
@@ -185,7 +186,7 @@ public class DataStorage
 	// inspiration for this code: 
 	// https://stackoverflow.com/questions/30073980/java-writing-strings-to-a-csv-file answer by Prashant Ghimire
 	
-	private static void writeGPSHeader(String[] formattedDates) 
+	private static void createGPSHeader(String[] formattedDates) 
 	{	
 		
 		try (PrintWriter writer = new PrintWriter(new File("../storage/gps/" + formattedDates[0] + "_data_gps.csv")))
@@ -207,7 +208,7 @@ public class DataStorage
 	 * @return void
 	 */
 	
-	private static void writeRawTelemetry(String[] formattedDates)
+	private static void createRawTelemetry(String[] formattedDates)
 	{
 		try (PrintWriter writer = new PrintWriter(new File("../storage/raw_telemetry/" + formattedDates[0] + "_raw_data.txt")))
 		{
@@ -230,7 +231,7 @@ public class DataStorage
 	 * @return void
 	 */
 	
-	private static void writeRawGPS(String[] formattedDates)
+	private static void createRawGPS(String[] formattedDates)
 	{
 		try (PrintWriter writer = new PrintWriter(new File("../storage/raw_gps/" + formattedDates[0] + "_raw_data.txt")))
 		{
@@ -252,7 +253,7 @@ public class DataStorage
 	 * @return void
 	 */
 	
-	private static void writeRawAntenna(String[] formattedDates)
+	private static void createRawAntenna(String[] formattedDates)
 	{
 		try (PrintWriter writer = new PrintWriter(new File("../storage/antenna_angles/" + formattedDates[0] + "_antenna_angles.txt")))
 		{
@@ -264,6 +265,71 @@ public class DataStorage
 		      System.out.println(e.getMessage());
 		}
 	}
+	
+	// ----------------------------------  BELOW ARE METHODS FOR WRITING DATA --------------------------------- //
+	
+	
+	/**
+	 * Writes <b>telemetry</b> data to an existing CSV file. The data is passed into the
+	 * method by a double array with <b>9 entries</b>; the data is written onto a single 
+	 * line in the CSV file. The end of the writing process adds a newline.
+	 * 
+	 * @param formattedDates - String[] 2-entry string array with formatted date strings
+	 * @param data - double[] 9-entry double array with telemetry data
+	 * @return void
+	 */
+	
+	private static void writeSaveTelemetry(String[] formattedDates, double[] data)
+	{
+		// set true so that we append
+		try (FileWriter pw = new FileWriter("../storage/telemetry/" + formattedDates[0] + "_data_telemetry.csv", true))	
+		{
+			pw.write(formattedDates[1]);
+			pw.write(',');
+			for (int i = 0; i < data.length; i++)
+			{
+				pw.write(String.valueOf(data[i]));
+				pw.write(',');
+			}
+			pw.append('\n');
+			
+		}
+		 catch (Exception e) {
+            System.out.println("exception :" + e.getMessage());
+        }
+	}
+	
+	
+	/**
+	 * Writes <b>GPS</b> data to an existing CSV file. The data is passed into the
+	 * method by a double array with <b>6 entries</b>; the data is written onto a single 
+	 * line in the CSV file. The end of the writing process adds a newline.
+	 * 
+	 * @param formattedDates - String[] 2-entry string array with formatted date strings
+	 * @param data - double[] 6-entry double array with telemetry data
+	 * @return void
+	 */
+	
+	private static void writeSaveGPS(String[] formattedDates, double[] data)
+	{
+		// set true so that we append
+		try (FileWriter pw = new FileWriter("../storage/gps/" + formattedDates[0] + "_data_gps.csv", true))
+		{
+			pw.write(formattedDates[1]);
+			pw.write(',');
+			for (int i = 0; i < data.length; i++)
+			{
+				pw.write(String.valueOf(data[i]));
+				pw.write(',');
+			}
+			pw.append('\n');
+			
+		}
+		 catch (Exception e) {
+            System.out.println("exception :" + e.getMessage());
+        }
+	}
+	
 	
 	
 	/**
@@ -281,21 +347,73 @@ public class DataStorage
 	
 	public static void main(String[] args) 
 	{
-		// code for main method
-		makeFolders();
-	
 		// generate formatted strings for current time and date
 		String[] formattedDates = dateFormats();
 		
-		// create empty files
-		writeTelemetryHeader(formattedDates);
-		writeGPSHeader(formattedDates);
-		writeRawTelemetry(formattedDates);
-		writeRawGPS(formattedDates);
-		writeRawAntenna(formattedDates);
+		// code for main method
+		makeFolders();
+	
+		// based on a little testing, the writeSaveTelemetry and writeSaveGPS
+		// methods are able to create the file if it does not exist.
+		// therefore, i will test to see if the createTelemetryHeader, GPSHeader, etc.
+		// methods are necessary
+		//
+		
+		// create empty files with the correct column labels
+		createTelemetryHeader(formattedDates);
+		createGPSHeader(formattedDates);
+		createRawTelemetry(formattedDates);
+		createRawGPS(formattedDates);
+		createRawAntenna(formattedDates);
+		
+		
+		// writing data to CSV files
+		
+		for (int i = 0; i < 10; i++)	// runs 9 times to create 9 datasets
+		{
+			double[] dataTelemetry = new double[9];
+			for (int j = 0; j < 9; j++)
+			{
+				dataTelemetry[j] = (double) j*i*9;				// populate the datasets
+			}
+			writeSaveTelemetry(formattedDates, dataTelemetry);	// write the data to CSV
+			try
+			{
+				Thread.sleep(100);	// testing to see if it can write data with a pause
+			}
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println("Finished adding telemetry data"); // indicate when loop finishes
+		
+		
+		for (int i = 0; i < 7; i++)		// runs 6 times for 6 datasets
+		{
+			double[] dataGPS = new double[6];		// dataset with 6 entries
+			for (int j = 0; j < 6; j++)
+			{
+				dataGPS[j] = (double) j*i*6;		// populate the datasets
+			}
+			writeSaveGPS(formattedDates, dataGPS); 	// write the data to CSV
+			try
+			{
+				Thread.sleep(100);	// testing to see if it can write data with a pause
+			}
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println("Finished adding GPS data"); // indicate when loop finishes
+		
 		
 		// testing things:
 		//System.out.println("../something/" + dateFormatFileNames.format(date) + "/something/else");
 		//System.out.println(dateFormatFileNames());
+		
 	}
 }
