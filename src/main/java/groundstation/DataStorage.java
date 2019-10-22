@@ -42,6 +42,8 @@ public class DataStorage
 	
 	private static boolean PRINTEXIST = false;		// if true, program prints message indicating if folders already exist
 	private static final boolean TESTING = true;	// if true, run tests from tests.java
+	private static final int TelemetryLength = 10;  // length of array (or string) for CSV GPS data to be written
+	private static final int GPSLength = 7;			// length of array (or string) for CSV telemetry data to be written
 	
 	/**
 	 * Creates a <b>single</b> directory with a specific input path
@@ -255,7 +257,7 @@ public class DataStorage
 	{
 		try (PrintWriter writer = new PrintWriter(new File("../storage/raw_telemetry/" + formattedDates[0] + "_raw_data.txt")))
 		{
-			String initialRow = "Raw Data:\n____________________\n\n\n" + "____________________\n";
+			String initialRow = "Raw Data:\n____________________\n";
 			writer.write(initialRow);
 		}
 		catch (FileNotFoundException e)
@@ -279,7 +281,7 @@ public class DataStorage
 	{
 		try (PrintWriter writer = new PrintWriter(new File("../storage/raw_gps/" + formattedDates[0] + "_raw_data.txt")))
 		{
-			String initialRow = "Raw Data:\n____________________\n\n\n" + "____________________\n";
+			String initialRow = "Raw Data:\n____________________\n";
 			writer.write(initialRow);
 		}
 		catch (FileNotFoundException e)
@@ -302,7 +304,7 @@ public class DataStorage
 	{
 		try (PrintWriter writer = new PrintWriter(new File("../storage/antenna_angles/" + formattedDates[0] + "_antenna_angles.txt")))
 		{
-			String initialRow = "Raw Data:\n____________________\n\n\n" + "____________________\n";
+			String initialRow = "Raw Data:\n____________________\n";
 			writer.write(initialRow);
 		}
 		catch (FileNotFoundException e)
@@ -335,7 +337,7 @@ public class DataStorage
 		try (FileWriter file = new FileWriter("../storage/telemetry/" + fileTime + "_data_telemetry.csv", true))	
 		{
 			
-			if (data.length == 10)								// ensure we write the clean data to the CSV only
+			if (data.length == TelemetryLength)					// ensure we write the clean data to the CSV only
 			{
 				file.write(formattedDates[1]);					// writes the current time to the first column of the row
 				//String currentTime = formattedDates[1];		// current date precise to ms
@@ -390,8 +392,8 @@ public class DataStorage
 		
 			try (FileWriter file = new FileWriter("../storage/gps/" + fileTime + "_data_gps.csv", true))	
 			{
-				
-				if (data.length == 7)							// ensure we write the clean data to the CSV only
+				// change to global variable so that we can change it easily
+				if (data.length == GPSLength)					// ensure we write the clean data to the CSV only
 				{
 					file.write(formattedDates[1]);				// writes the current time to the first column of the row
 					//String currentTime = formattedDates[1];	// current date precise to ms
@@ -442,7 +444,7 @@ public class DataStorage
 			//pw.write(formattedDates[1] + "\n");		// while testing, indicate which version of file i am viewing
 			
 			file.write(data);		// write the raw telemetry data string to file
-			file.append('\n');		// add newline
+			file.append("\n\n");	// add newline
 		}
 		
 		catch (FileNotFoundException e)
@@ -471,9 +473,9 @@ public class DataStorage
 		// set true so that we append
 		try (FileWriter file = new FileWriter("../storage/raw_gps/" + fileTime + "_raw_data.txt", true))	
 		{
-			file.write(formattedDates[1] + "\n");		// while testing, indicate which version of file i am viewing
+			//file.write(formattedDates[1] + "\n");		// while testing, indicate which version of file i am viewing
 			file.write(data);							// write the raw gps data string to file
-			file.append('\n');							// add newline
+			file.append("\n\n");						// add newline
 		}
 		
 		catch (FileNotFoundException e)
@@ -599,26 +601,29 @@ public class DataStorage
 		createRawTelemetry(formattedDates);
 		createRawGPS(formattedDates);
 		createRawAntenna(formattedDates);
-		
+		*/
 		
 		// writing data to CSV files
 		
 		String telData = readLine("../testReadingTelemetry.txt"); 			// get the string from the test Reader text file
-		System.out.println(telData + "\n");
+		//System.out.println(telData + "\n");
 		String[] formattedDatesInit = dateFormats();
 		
 		createGPSHeader(formattedDatesInit);
+		createTelemetryHeader(formattedDatesInit);
+		
 		createRawGPS(formattedDatesInit);
+		createRawTelemetry(formattedDatesInit);
 		
 		// testing: saving GPS data to CSV
 		for (int testing = 0; testing < 100; testing++)
 		{
-			String telemetryData = readLine("../testReadingGPS.txt"); // get the string from the test Reader text file
+			String gpsData = readLine("../testReadingGPS.txt"); // get the string from the test Reader text file
 			
 			
-			String[] convToStringArray = (telemetryData.split(",")); // split data from string into string array
+			String[] convToStringArray = (gpsData.split(",")); // split data from string into string array
 			double[] data = new double[convToStringArray.length];    // array to store data for writing to CSV
-			for (int i = 0; i < data.length; i++) 					 // populate the array
+			for (int i = 0; i < data.length-1; i++) 					 // populate the array
 			{
 				data[i] = Double.valueOf(convToStringArray[i]);
 			}
@@ -626,15 +631,28 @@ public class DataStorage
 			
 			String fileTime = formattedDatesInit[0];		// record the current time
 			
-			//saveTelemetryCSV(dateFormats(), fileTime, data);
-			//saveTelemetryRaw(dateFormats(), fileTime, telemetryData);
+			
+			
 			
 			saveGPSCSV(dateFormats(), fileTime, data);		// save data to CSV
+			saveGPSRaw(dateFormats(), fileTime, gpsData);
 			//Thread.sleep(12);								// add small pause between writes
+			
+			String telemetryData = readLine("../testReadingTelemetry.txt"); // get the string from the test Reader text file
+			
+			
+			String[] convToStringArray2 = (telemetryData.split(",")); // split data from string into string array
+			double[] data2 = new double[convToStringArray2.length];    // array to store data for writing to CSV
+			for (int i = 0; i < data2.length-1; i++) 					 // populate the array
+			{
+				data2[i] = Double.valueOf(convToStringArray2[i]);
+			}
 
+			saveTelemetryCSV(dateFormats(), fileTime, data2);
+			saveTelemetryRaw(dateFormats(), fileTime, telemetryData);
 		}
 		
-		*/
+		
 		
 		System.out.println("program terminated");
 	}
