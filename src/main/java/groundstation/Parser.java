@@ -1,4 +1,5 @@
 package main.java.groundstation;
+import java.util.regex.*;
 
 public class Parser {
     public Parser() {
@@ -17,8 +18,31 @@ public class Parser {
      *
      * @return an array containing the the split values
      */
-    public int[] parse(String sIn, int numCommas) {
-        int[] out = {};
+
+    private Pattern regexPattern = Pattern.compile("^S{0,1}(\\d+\\.\\d+$|\\d+$)"); // Matches S + Integer, S + Double, or just Double.
+
+    public double[] parse(String sIn, int numCommas) {
+        int index = 0;
+        double[] out = new double[numCommas + 1];
+
+        String[] parsedListOfStrings = sIn.split(","); // Call Java's built-in method to split the string by the "," symbol.
+
+        if (parsedListOfStrings.length != numCommas + 1) {
+            return out; // Maybe apply some magic regex filter to savage some data?
+        }
+
+        for (String entry: parsedListOfStrings) {
+            Matcher matcher = regexPattern.matcher(entry);
+            if (matcher.find()) {
+                out[index] = Double.parseDouble(matcher.group(0));
+            }
+            else {
+                out[index] = -1;
+            }
+            index += 1;
+        }
+
+
 
 
 
