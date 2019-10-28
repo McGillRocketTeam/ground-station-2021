@@ -8,7 +8,7 @@ Push to your individual feature branch for your project then do a pull request w
 
 https://openjfx.io/openjfx-docs/#install-javafx
 
-Important: Look at the "Running HelloWorld using JavaFX 13" part and not the gradle part because I couldn't get it to function with gradle properly.
+Important: Look at the "Running HelloWorld using JavaFX 13" part and not the gradle part because I couldn't get it to function with gradle properly. Also, make sure you're using JDK 11 or newer (I'm not sure it'll work without it).
 
 Note: If you decide to use FXML (recommended, but do as you wish), css, or images, put them in the appropriate folder in "src/main/resources/"
 
