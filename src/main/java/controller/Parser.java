@@ -1,4 +1,4 @@
-package main.java.groundstation;
+package controller;
 
 public class Parser {
     public Parser() {
