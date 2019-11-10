@@ -31,7 +31,7 @@ class Launch():
             return 0
         elif altitude > self.main_deploy_altitude and self.drogue_deploys == True:
             return self.vertical_drag_coeff_drogue
-        elif altitude <= self.main_deploy_altitude and :
+        elif altitude <= self.main_deploy_altitude and self.main_deploys == True:
             return self.vertical_drag_coeff_main
         
     def transverse_drag_coeff(self): 
