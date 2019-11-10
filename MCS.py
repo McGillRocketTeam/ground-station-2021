@@ -31,6 +31,7 @@ class MCGenerator:
     def __init__(self):
         self = self
         
+        
     def wind_data_generator(self,wind_altitude,inputw,wNormal = True):
         wind_direction = np.zeros(wind_altitude.shape[0])
         wind_velocity = np.zeros(wind_altitude.shape[0])
@@ -43,7 +44,7 @@ class MCGenerator:
     
         wind_data = np.concatenate((wind_altitude.reshape(1,5),wind_direction,wind_velocity), axis = 0)
         wind_df = pd.DataFrame(wind_data.T,
-                               columns =['altidude','direction','velocity'])
+                               columns =['altitude','direction','velocity'])
     
         return wind_df
     #-------------------------------Part 2: Monte Carlo----------------------------
@@ -57,7 +58,7 @@ class MCGenerator:
     '''
     def MCS(self,inputa,wind_altitude,inputw,aNormal = True ,wNormal= True,num_cycles = 3 ):
         angles = []       
-        wind = pd.DataFrame(columns =['altidude','direction','velocity'])
+        wind = pd.DataFrame(columns =['altitude','direction','velocity'])
         if aNormal:
             angles = np.random.normal(inputa[0],inputa[1],num_cycles)
         else:
@@ -65,11 +66,11 @@ class MCGenerator:
         
         for angle in angles:
               mock_wind = self.wind_data_generator(wind_altitude,inputw,wNormal)
-              print(angle,"\n")
-              print(mock_wind)s
-              wind = wind.append(mock_wind)
+#              print(angle,"\n")
+#              print(mock_wind)
+              wind = wind.append(mock_wind,ignore_index = True)
               
-        return angles, wind
+        return wind
     
     
     #Fake
@@ -88,15 +89,16 @@ inputw_c = np.array([[12,7,8],
                      [0.1,0.2,0.7]])
 inputa_c = np.array([[90,89,91],[0.2,0.3,0.5]])  
 inputw_n = np.array([4,3,7,10])
-inputa_n = np.array([1,3,4,7])
+inputa_n = np.array([1,3])
 mcs = MCGenerator()
 # T&T: both normal
 wind = mcs.MCS(inputa_n,w_al,inputw_n)
-# T&F: normal angle
+
+## T&F: normal angle
 #mcs.MCS(inputa_n,w_al,inputw_c,wNormal = False)
-## F&T: normal wind
+### F&T: normal wind
 #mcs.MCS(inputa_c,w_al,inputw_n,aNormal = False)
-## F&F: both false
+### F&F: both false
 #mcs.MCS(inputa_c,w_al,inputw_c,aNormal = False,wNormal = False)
 #
 #
@@ -118,47 +120,7 @@ wind = mcs.MCS(inputa_n,w_al,inputw_n)
 
 
 
-#---------------------------------First Version--------------------------------
-'''
-def MCS(option,num_cycles,angle_input1,angle_input2,wind_input1,wind_input2):
-    
-    angle_target = []
-    wind_target = []
-    
-    if(option == "BOTH"):
-        #Add checking to other options
-        if(type(angle_input1) != float and type(angle_input2) != float):
-            print("Inputs must be floats!")
-            return 
-        angle_target = generate_angle(angle_input1,angle_input2, num_cycles)
-        wind_target = generate_wind(wind_input1,wind_input2, num_cycles)
-    elif(option == "ANGLE"):
-        
-# Option 2 : Specify certain angles as input
-# Generate normally valuesributed wind data
-#------------------------------------------------------------------------------                         
-        #angle_target contains angle_values, angle_prob is the probability
-        angle_target = generate_angle(angle_input1,angle_input2, num_cycles)
-        wind_target = normal_wind(wind_input1,wind_input2, num_cycles)
-    elif(option == "WIND"):
-# Option 3 : Specify certain wind data as input
-# Generate normally distributed wind data
-#------------------------------------------------------------------------------                                          
-        #!!!Currently wind is assumed to be 1D array                 
-        angle_target = normal_angle(angle_input1,angle_input2, num_cycles)
-        wind_target = generate_wind(wind_input1,wind_input2, num_cycles)      
-    else:
-# Option default : Generate normally distributed random variables as input
-#------------------------------------------------------------------------------     
-        
-        angle_target = normal_angle(angle_input1,angle_input2, num_cycles)  
-        wind_target = normal_wind(wind_input1,wind_input2, num_cycles)
-    
-    for x in range(num_cycles):
-        simulator(angle_target,wind_target)     
-    
-#------------------------------------------------------------------------------
-'''
+
 
 
         
