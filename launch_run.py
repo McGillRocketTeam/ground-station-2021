@@ -6,29 +6,41 @@ class Launch():
     kPa_2_Pa = 1000
     rocket_mass = 100 #kg
     gravity_constant = 9.807 #m/s2
+    time_step = 1 #s
     
     def __init__(self, launch_zenith_angle_in, launch_azimith_angle_in, drogue_deploy_altitude_in, main_deploy_altitude_in,
-                 wind_dataframe_in, drag_coeff_drogue_in, drag_coeff_main_in, apogee_in, drogue_deploys_in, main_deploys_in):
+                 wind_dataframe_in, vertical_drag_coeff_drogue_in, vertical_drag_coeff_main_in, apogee_in, drogue_deploys_in, main_deploys_in,
+                 transverse_drag_coeff_drogue_in, transverse_drag_coeff_main_in, velocity_off_rail_mag_in):
         self.launch_zenith_angle = launch_zenith_angle_in
         self.launch_azimith_angle = launch_azimith_angle_in
         self.drogue_deploy_altitude = drogue_deploy_altitude_in
         self.main_deploy_altitude = main_deploy_altitude_in
         self.wind_dataframe = wind_dataframe_in
-        self.drag_coeff_drogue = drag_coeff_drogue_in
-        self.drag_coeff_main = drag_coeff_main_in
+        self.vertical_drag_coeff_drogue = vertical_drag_coeff_drogue_in
+        self.vertical_drag_coeff_main = vertical_drag_coeff_main_in
         self.apogee = apogee_in
         self.drogue_deploys = drogue_deploys_in #boolean
         self.main_deploys = main_deploys_in #boolean
+        self.transverse_drag_coeff_drogue = transverse_drag_coeff_drogue_in
+        self.transverse_drag_coeff_main = transverse_drag_coeff_main_in
+        self.velocity_off_rail_mag = velocity_off_rail_mag_in
     
     
-    def drag_coeff(self, altitude):
+    def vertical_drag_coeff(self, altitude):
         if altitude > self.drogue_deploy_altitude:
             return 0
-        elif altitude > self.main_deploy_altitude:
-            return self.drag_coeff_drogue
-        else:
-            return self.drag_coeff_main
+        elif altitude > self.main_deploy_altitude and self.drogue_deploys == True:
+            return self.vertical_drag_coeff_drogue
+        elif altitude <= self.main_deploy_altitude and :
+            return self.vertical_drag_coeff_main
         
+    def transverse_drag_coeff(self): 
+        if altitude > self.drogue_deploy_altitude:
+            return 0 #assume negligible effect of wind prior to parachute deployment; not great, but not awful
+        elif altitude > self.main_deploy_altitude and self.drogue_deploys == True:
+            return self.transverse_drag_coeff_drogue
+        else:
+            return self.transverse_drag_coeff_main
         
     def calculate_temperature(self, altitude): #K
         if altitude < 11000:
@@ -53,14 +65,32 @@ class Launch():
     
     
     def calculate_descent_rate(self,altitude): #m/s
-        Cd = self.drag_coeff(altitude)
+        Cd = self.vertical_drag_coeff(altitude)
         if Cd != 0:
             return np.sqrt(2*self.rocket_mass*self.gravity_cosntant/(self.calculate_density(altitude) * Cd))
         else:
             return np.sqrt(2*self.gravity_constant*(self.apogee-altitude))
         
+    def calculate_wind(altitude):
         
+    def calculate_force(altitude):
+        Cd = 
+        forceVec 
+    
     def run_launch(self):
+        postions = []
+        positions.append[self.apogee*np.sin(self.launch_azimuth_angle),
+                            self.apogee*np.cos(self.launch_azimuth_angle), self.apogee]
+        velocity = []
+        velocity.append[self.velocity_off_rail_mag*np.sin(self.launch_zenith_angle)*np.sin(self.launch_azimith_angle),
+                        self.velocity_off_rail_mag*np.sin(self.launch_zenith_angle)*np.sin(self.launch_azimith_angle),
+                        0]
+        #[x,y,z] with t = index*time_step
         
-        apogee_postition = [self.apogee*np.sin(self.launch_azimuth_angle),
-                            self.apogee*np.cos(self.launch_azimuth_angle)]
+        lv_1 = 1
+        time = 0
+        
+        while positions[lv_1][2] > 0:
+            
+        
+        
