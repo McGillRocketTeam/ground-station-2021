@@ -6,7 +6,8 @@ class Launch():
     kPa_2_Pa = 1000
     rocket_mass = 100 #kg
     gravity_constant = 9.807 #m/s2
-    time_step = 1 #s
+    time_step = 0.01 #size of timestep s
+    max_steps = 1e5 #break iteration if more than this
     
     def __init__(self, launch_zenith_angle_in, launch_azimith_angle_in, drogue_deploy_altitude_in, main_deploy_altitude_in,
                  wind_dataframe_in, vertical_drag_coeff_drogue_in, vertical_drag_coeff_main_in, apogee_in, drogue_deploys_in, main_deploys_in,
@@ -26,7 +27,7 @@ class Launch():
         self.velocity_off_rail_mag = velocity_off_rail_mag_in
     
     
-    def vertical_drag_coeff(self, altitude):
+    def calculute_vertical_drag_coeff(self, altitude):
         if altitude > self.drogue_deploy_altitude:
             return 0
         elif altitude > self.main_deploy_altitude and self.drogue_deploys == True:
@@ -34,7 +35,7 @@ class Launch():
         elif altitude <= self.main_deploy_altitude and self.main_deploys == True:
             return self.vertical_drag_coeff_main
         
-    def transverse_drag_coeff(self): 
+    def calculate_transverse_drag_coeff(self): 
         if altitude > self.drogue_deploy_altitude:
             return 0 #assume negligible effect of wind prior to parachute deployment; not great, but not awful
         elif altitude > self.main_deploy_altitude and self.drogue_deploys == True:
@@ -65,32 +66,54 @@ class Launch():
     
     
     def calculate_descent_rate(self,altitude): #m/s
-        Cd = self.vertical_drag_coeff(altitude)
+        Cd = self.calculate_vertical_drag_coeff(altitude)
         if Cd != 0:
             return np.sqrt(2*self.rocket_mass*self.gravity_cosntant/(self.calculate_density(altitude) * Cd))
         else:
             return np.sqrt(2*self.gravity_constant*(self.apogee-altitude))
         
     def calculate_wind(altitude):
+        dirn = np.interp(altitude, wind_dataframe['altitude'], wind_datafram['direction'])
+        vel = np.interp(altitude, wind_dataframe['altitude'], wind_datafram['velocity'])
+        return [vel*np.cos(dirn), vel*np.sin(dirn)]
         
-    def calculate_force(altitude):
-        Cd = 
-        forceVec 
+    def calculate_force_xy(self, altitude):
+        Cd = calculate_transverse_drag_coefficient(altitude)
+        wind_vel = calculate_wind(altitude)
+        rho = calculate_density(altitude)
+        return Cd*rho*(wind_vel[0]**2)/2 , Cd*rho*(wind_vel[1]**2)/2
+
+    def calculate_force_z(self, altitude, vel):
+        Cd = calculate_vertical_drag_coefficient(altitude)
+        rho = calculate_density(altitude)
+        return (Cd*rho*vel**2)/2
     
     def run_launch(self):
-        postions = []
-        positions.append[self.apogee*np.sin(self.launch_azimuth_angle),
-                            self.apogee*np.cos(self.launch_azimuth_angle), self.apogee]
+        positions = []
+        x, y, z = self.apogee*np.sin(self.launch_azimuth_angle), \
+                            self.apogee*np.cos(self.launch_azimuth_angle), self.apogee
         velocity = []
-        velocity.append[self.velocity_off_rail_mag*np.sin(self.launch_zenith_angle)*np.sin(self.launch_azimith_angle),
-                        self.velocity_off_rail_mag*np.sin(self.launch_zenith_angle)*np.sin(self.launch_azimith_angle),
-                        0]
-        #[x,y,z] with t = index*time_step
+        v_x, v_y, v_z = self.velocity_off_rail_mag*np.sin(self.launch_zenith_angle)*np.sin(self.launch_azimith_angle), \
+                        self.velocity_off_rail_mag*np.sin(self.launch_zenith_angle)*np.sin(self.launch_azimith_angle), \
+                        0
         
-        lv_1 = 1
-        time = 0
-        
-        while positions[lv_1][2] > 0:
-            
-        
-        
+        loops = 0
+        t = 0
+        altitude = self.apogee
+        while z > 0 and loops > max_loops:
+            loops = loops + 1
+            t = t + dt
+            dt = timeStep
+            fx, fy = calculate_force_xy(z)
+            fz = calculate_force_z(z,v_z)
+            delta_v_x, delta_v_y, delta_v_z = (fx, fy, fz) * dt/self.rocket_mass
+            v_x, v_y, v_z = (v_x + delta_v_x, v_y + delta_v_y, v_z + delta_v_z)
+            delta_x, delta_y, delta_z = (v_x,v_y,v_z)*dt
+            x, y, z = (x + delta_x, y + delta_y, z + delta_z)
+            positions.append((x, y, z, t))
+            velocities.append((v_x, v_y, v_z, t))
+
+        print("x = ", x)
+        print("y = ", y)
+        print("z = ", z)
+        print("t = ", t)
