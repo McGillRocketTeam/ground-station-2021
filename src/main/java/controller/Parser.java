@@ -43,7 +43,8 @@ public class Parser {
         double[] out = new double[this.numberOfValues];
 //        Arrays.fill(out, EMPTY_ARRAY);
         // Check if first and last characters are S and E respectively
-        if (sIn.charAt(0) != 'S' && sIn.charAt(sIn.length()-1) != 'E') throw new IllegalArgumentException("First and Last characters are not S and E");
+        if (sIn.charAt(0) != 'S' && sIn.charAt(sIn.length()-1) != 'E' && sIn.charAt(sIn.length()-2) != ',')
+            throw new IllegalArgumentException("First and Last characters are not S and E");
         else if (sIn.charAt(0) != 'S') throw new IllegalArgumentException("First Character in input String is not S");
         else if (sIn.charAt(sIn.length()-1) != 'E') throw new IllegalArgumentException("Last Character in input string is not E");
         else if (sIn.charAt(sIn.length()-2) != ',') throw new IllegalArgumentException("Last Character in input string is not ,");
