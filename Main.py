@@ -4,7 +4,7 @@ Created on Sun Nov 10 14:13:52 2019
 
 @author: sunge
 """
-
+import wind_data_code as wind_code
 import numpy as np
 import pandas as pd
 from MCS import MCGenerator
@@ -51,6 +51,8 @@ inputw_n = np.array([4,3,7,10])
 inputa_n = np.array([1,3])
 mcs = MCGenerator()
 
-wind = mcs.MCS(inputa_n,w_al,inputw_n)
+wind = mcs.MCS(inputa_n,w_al,inputw_n, num_cycles=1)
+w_class = wind_code.Wind()
+wind = w_class.get_wind_dataframe()
 
 x = perturbWind(wind,1,2,num_launches)    
