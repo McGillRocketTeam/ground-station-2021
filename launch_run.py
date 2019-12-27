@@ -7,24 +7,26 @@ class Launch:
     rocket_mass = 100 #kg
     gravity_constant = 9.807 #m/s2
     time_step = 0.01 #size of timestep s
-    max_steps = 1e5 #break iteration if more than this
+    max_loops = 1e5 #break iteration if more than this
     
-    def __init__(self, launch_zenith_angle, launch_azimith_angle, drogue_deploy_altitude, main_deploy_altitude,
-                 wind_dataframe, vertical_drag_coeff_drogue, vertical_drag_coeff_main, drogue_deploys, main_deploys,
-                 transverse_drag_coeff_drogue, transverse_drag_coeff_main, velocity_off_rail_mag):
+    def __init__(self, launch_zenith_angle, launch_azimith_angle, wind_array, rocket_properties):
         self.launch_zenith_angle = launch_zenith_angle
-        self.launch_azimith_angle = launch_azimith_angle
-        #self.drogue_deploy_altitude = drogue_deploy_altitude
-        #self.main_deploy_altitude = main_deploy_altitude
-        self.wind_dataframe = wind_dataframe
-        #self.vertical_drag_coeff_drogue = vertical_drag_coeff_drogue
-        #self.vertical_drag_coeff_main = vertical_drag_coeff_main
-        #self.drogue_deploys_bool = drogue_deploys_bool #boolean
-        #self.main_deploys_bool = main_deploys_bool #boolean
-        #self.transverse_drag_coeff_drogue = transverse_drag_coeff_drogue
-        #self.transverse_drag_coeff_main = transverse_drag_coeff_main
-        #self.velocity_off_rail_mag = velocity_off_rail_mag
-        self.wind_dataframe = wind_dataframe
+        self.launch_azimuth_angle = launch_azimith_angle
+        self.wind_array = wind_array
+
+        # Extract properties from encapsulating RocketProperties Class
+        self.vertical_drag_coeff_drogue = rocket_properties.vertical_drag_coeff_drogue
+        self.vertical_drag_coeff_main = rocket_properties.vertical_drag_coeff_main
+        self.transverse_drag_coeff_drogue = rocket_properties.transverse_drag_coeff_drogue
+        self.transverse_drag_coeff_main = rocket_properties.transverse_drag_coeff_main
+
+        self.drogue_deploys_bool = rocket_properties.drogue_deploys_bool #boolean
+        self.main_deploys_bool = rocket_properties.main_deploys_bool #boolean
+
+        self.drogue_deploy_altitude = rocket_properties.drogue_deploy_altitude
+        self.main_deploy_altitude = rocket_properties.main_deploy_altitude # metres
+
+        self.velocity_off_rail_mag = rocket_properties.velocity_off_rail_mag # m/s
 
     def calculute_vertical_drag_coeff(self, altitude):
         if altitude > self.drogue_deploy_altitude:
@@ -101,9 +103,9 @@ class Launch:
         while z > 0 and loops > max_loops:
             loops = loops + 1
             t = t + dt
-            dt = timeStep
-            fx, fy = calculate_force_xy(z)
-            fz = calculate_force_z(z, v_z)
+            dt = time_step
+            fx, fy = self.calculate_force_xy(z)
+            fz = self.calculate_force_z(z, v_z)
             delta_v_x, delta_v_y, delta_v_z = (fx, fy, fz) * dt/self.rocket_mass
             v_x, v_y, v_z = (v_x + delta_v_x, v_y + delta_v_y, v_z + delta_v_z)
             delta_x, delta_y, delta_z = (v_x, v_y, v_z)*dt
