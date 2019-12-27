@@ -39,10 +39,10 @@ class Launch:
         elif altitude <= self.main_deploy_altitude and self.main_deploys == True:
             return self.vertical_drag_coeff_main
         
-    def calculate_transverse_drag_coeff(self): 
-        if self.altitude > self.drogue_deploy_altitude:
+    def calculate_transverse_drag_coeff(self, altitude):
+        if altitude > self.drogue_deploy_altitude:
             return 0 # assume negligible effect of wind prior to parachute deployment; not great, but not awful
-        elif self.altitude > self.main_deploy_altitude and self.drogue_deploys == True:
+        elif altitude > self.main_deploy_altitude and self.drogue_deploys == True:
             return self.transverse_drag_coeff_drogue
         else:
             return self.transverse_drag_coeff_main
