@@ -36,15 +36,15 @@ class MCGenerator:
         wind_direction = np.zeros(wind_altitude.shape[0])
         wind_velocity = np.zeros(wind_altitude.shape[0])
         if wNormal:     
-            wind_direction = np.random.normal(inputw[0],inputw[1],wind_altitude.reshape(1,5).shape[1] ).reshape(1,5)#.round(2)
-            wind_velocity = np.random.normal(inputw[2],inputw[3],wind_altitude.reshape(1,5).shape[1]).reshape(1,5)#.round(2)
+            wind_direction = np.random.normal(inputw[0],inputw[1],wind_altitude.reshape(1,5).shape[1] ).reshape(1, 5)#.round(2)
+            wind_velocity = np.random.normal(inputw[2],inputw[3],wind_altitude.reshape(1,5).shape[1]).reshape(1, 5)#.round(2)
         else:
             wind_direction = np.random.choice(inputw[0],wind_altitude.shape[0] ,p=inputw[1]).reshape(1,5)
             wind_velocity = np.random.choice(inputw[2],wind_altitude.shape[0] ,p=inputw[3]).reshape(1,5)
     
-        wind_data = np.concatenate((wind_altitude.reshape(1,5),wind_direction,wind_velocity), axis = 0)
+        wind_data = np.concatenate((wind_altitude.reshape(1, 5), wind_direction, wind_velocity), axis = 0)
         wind_df = pd.DataFrame(wind_data.T,
-                               columns =['altitude','direction','velocity'])
+                               columns = ['altitude', 'direction', 'velocity'])
     
         return wind_df
     #-------------------------------Part 2: Monte Carlo----------------------------
@@ -56,16 +56,16 @@ class MCGenerator:
     inputa: 
         same as inputw
     '''
-    def MCS(self,inputa,wind_altitude,inputw,aNormal = True ,wNormal= True,num_cycles = 3 ):
+    def MCS(self,inputa,wind_altitude,inputw,aNormal=True ,wNormal=True,num_cycles = 3 ):
         angles = []       
-        wind = pd.DataFrame(columns =['altitude','direction','velocity'])
+        wind = pd.DataFrame(columns=['altitude', 'direction', 'velocity'])
         if aNormal:
-            angles = np.random.normal(inputa[0],inputa[1],num_cycles)
+            angles = np.random.normal(inputa[0], inputa[1], num_cycles)
         else:
-            angles = np.random.choice(inputa[0],num_cycles, p=inputa[1])
+            angles = np.random.choice(inputa[0], num_cycles, p=inputa[1])
         
         for angle in angles:
-              mock_wind = self.wind_data_generator(wind_altitude,inputw,wNormal)
+              mock_wind = self.wind_data_generator(wind_altitude, inputw, wNormal)
 #              print(angle,"\n")
 #              print(mock_wind)
               wind = wind.append(mock_wind,ignore_index = True)
@@ -88,11 +88,11 @@ inputw_c = np.array([[12,7,8],
                      [122,72,82],
                      [0.1,0.2,0.7]])
 inputa_c = np.array([[90,89,91],[0.2,0.3,0.5]])  
-inputw_n = np.array([4,3,7,10])
-inputa_n = np.array([1,3])
+inputw_n = np.array([4, 3, 7, 10])
+inputa_n = np.array([1, 3])
 mcs = MCGenerator()
 # T&T: both normal
-wind = mcs.MCS(inputa_n,w_al,inputw_n)
+wind = mcs.MCS(inputa_n, w_al, inputw_n)
 
 ## T&F: normal angle
 #mcs.MCS(inputa_n,w_al,inputw_c,wNormal = False)

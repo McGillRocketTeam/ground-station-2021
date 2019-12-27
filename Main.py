@@ -9,22 +9,21 @@ import numpy as np
 import pandas as pd
 from MCS import MCGenerator
 #This is the new Monte Carlo
-def perturbWind(wind_data,sigma_direction,sigma_velocity,num_launches_u):
+def perturbWind(wind_data, sigma_direction, sigma_velocity, num_launches_u):
     index = 0
     index_2 = 0
-    wind_data_perturbed = np.zeros((num_launches_u,wind_data.shape[1],wind_data.shape[0]))
-    for element in wind_data['altitude']:  
+    wind_data_perturbed = np.zeros((num_launches_u, wind_data.shape[1], wind_data.shape[0]))
+    for element in wind_data['altitude']:
         for index_2 in range(num_launches_u):
-            wind_data_perturbed[index_2][0][index] = element#altitude
+            wind_data_perturbed[index_2][0][index] = element # altitude
             wind_data_perturbed[index_2][1][index] = np.random.normal(
-                wind_data['direction'][index],sigma_direction,1) #direction
+                wind_data['direction'][index], sigma_direction, 1) # direction
             wind_data_perturbed[index_2][2][index] = np.random.normal(
-                wind_data['velocity'][index],sigma_velocity,1) #direction
-            index_2+=1
-        index+=1
+                wind_data['velocity'][index], sigma_velocity, 1) # direction
+            index_2 += 1
+        index += 1
         #wind_data[num+launches][altitude/direction/velocity][index]
     return wind_data_perturbed
-
 
 #===================================Main=======================================
 #wind_data = pd.DataFrame(columns= ['altitude','direction','velocity']) #input wind data
