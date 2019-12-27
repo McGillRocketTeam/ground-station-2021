@@ -20,6 +20,10 @@ class Launch:
         self.transverse_drag_coeff_drogue = rocket_properties.transverse_drag_coeff_drogue
         self.transverse_drag_coeff_main = rocket_properties.transverse_drag_coeff_main
 
+        self.rocket_cx_area = rocket_properties.rocket_cx_area
+        self.drogue_cx_area = rocket_properties.drogue_cx_area
+        self.main_cx_area = rocket_properties.main_cx_area
+
         self.drogue_deploys_bool = rocket_properties.drogue_deploys_bool #boolean
         self.main_deploys_bool = rocket_properties.main_deploys_bool #boolean
 
@@ -34,7 +38,7 @@ class Launch:
     def calculute_vertical_drag_coeff(self, altitude):
         if altitude > self.drogue_deploy_altitude:
             return 0
-        elif altitude > self.main_deploy_altitude and self.drogue_deploys == True:
+        elif altitude > self.main_deploy_altitude and self.drogue_deploys_bool == True:
             return self.vertical_drag_coeff_drogue
         elif altitude <= self.main_deploy_altitude and self.main_deploys_bool == True:
             return self.vertical_drag_coeff_main
@@ -49,11 +53,11 @@ class Launch:
         
     def calculate_temperature(self, altitude): # KELVIN
         if altitude < 11000:
-            return 15.04-0.00649*altitude
+            return 15.04-0.00649*altitude + 273.15
         elif altitude < 25000:
-            return -56.46
+            return -56.46 + 273.15
         else:
-            return -131.21 + 0.00299*altitude
+            return -131.21 + 0.00299*altitude + 273.15
 
     def calculate_pressure(self, altitude): # Pa
         if altitude < 11000:
@@ -93,7 +97,13 @@ class Launch:
     def calculate_force_z(self, altitude, vel):
         Cd = self.calculute_vertical_drag_coeff(altitude)
         rho = self.calculate_density(altitude)
-        return (Cd*rho*vel**2)/2
+        m = self.rocket_mass
+        g = self.gravity_constant
+        #need to incorporate cross-sectional areas
+        net_force = Cd*rho*(abs(vel)*abs(vel)) * 0.05/2 - m*g
+        if net_force > 0:
+            print("Ahhhh")
+        return net_force
 
     def run_launch(self):
         # Initialise positions and velocities
@@ -121,9 +131,9 @@ class Launch:
             delta_v_y = fy * dt/self.rocket_mass
             delta_v_z = fz * dt/self.rocket_mass
 
-            v_x = v_x + delta_v_x
-            v_y = v_y + delta_v_y
-            v_z = v_z + delta_v_z
+            v_x += delta_v_x
+            v_y += delta_v_y
+            v_z += delta_v_z
 
             delta_x = v_x * dt
             delta_y = v_y * dt

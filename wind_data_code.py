@@ -53,8 +53,8 @@ class Wind():
 		temp_time = []
 
 		for index, current_set in enumerate(fl[:]):
-			if len(self.gph_lists) == 1312:
-				print('testhere')
+			# if len(self.gph_lists) == 1312:
+			# 	print('testhere')
 			val_split = current_set.split()
 			if len(val_split) == 11:
 				# print('data reset: {}'.format(current_set))

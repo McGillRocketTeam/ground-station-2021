@@ -61,9 +61,9 @@ wind = w_class.get_wind_dataframe()
 
 x = perturbWind(wind, 1, 2, num_launches)
 
-rocketProperties = RocketProperties(1, 1, 1, 1, 1, 1, 1, 1, 1, True, True)
+rocketProperties = RocketProperties()
 
-for simNumber in range(num_launches):
-    sim = Launch(zenith_angle_perturbed, azimuth_angle_perturbed, x[simNumber], rocketProperties)
+for simNumber in range(1):
+    sim = Launch(zenith_angle_perturbed[1], azimuth_angle_perturbed[1], x[simNumber], rocketProperties)
     sim.run_launch()
     
