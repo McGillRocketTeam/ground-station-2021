@@ -3,8 +3,8 @@ import pandas as pd
 
 class Launch:
     air_ideal_gas_constant = 287.05 #J/K*kg
-    kPa_2_Pa = 1000
-    rocket_mass = 100 #kg
+    kPa_to_Pa = 1000
+    deg_to_rad = np.pi/180
     gravity_constant = 9.807 #m/s2
     time_step = 0.01 #size of timestep s
     max_loops = 1e5 #break iteration if more than this
@@ -27,6 +27,7 @@ class Launch:
         self.main_deploy_altitude = rocket_properties.main_deploy_altitude # metres
 
         self.velocity_off_rail_mag = rocket_properties.velocity_off_rail_mag # m/s
+        self.rocket_mass = rocket_properties.rocket_mass
 
     def calculute_vertical_drag_coeff(self, altitude):
         if altitude > self.drogue_deploy_altitude:
@@ -71,9 +72,15 @@ class Launch:
             return np.sqrt(2*self.gravity_constant*(self.apogee-altitude))
         
     def calculate_wind(self, altitude):
-        dirn = np.interp(altitude, self.wind_dataframe['altitude'], self.wind_dataframe['direction'])
+        # Return a vector in the x-y plane with units of wind speed
+        dirn_deg = np.interp(altitude, self.wind_dataframe['altitude'], self.wind_dataframe['direction'])
         vel = np.interp(altitude, self.wind_dataframe['altitude'], self.wind_dataframe['velocity'])
-        return [vel*np.cos(dirn), vel*np.sin(dirn)]
+
+        dirn_rad = dirn_deg * self.deg_to_rad
+
+        #Assuming x-direction is North and Y is East
+
+        return [vel*np.cos(dirn_rad), vel*np.sin(dirn_rad)]
         
     def calculate_force_xy(self, altitude):
         Cd = self.calculate_transverse_drag_coefficient(altitude)
@@ -100,7 +107,7 @@ class Launch:
         loops = 0
         max_loops = int(1e6)
         t = 0
-        while z > 0 and loops > max_loops:
+        while z > 0 and loops < max_loops:
             loops = loops + 1
             t = t + dt
             dt = time_step
