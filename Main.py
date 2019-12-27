@@ -4,7 +4,7 @@ Created on Sun Nov 10 14:13:52 2019
 
 @author: sunge
 """
-
+import wind_data_code as wind_code
 import numpy as np
 import pandas as pd
 from MCS import MCGenerator
@@ -36,7 +36,7 @@ zenith_angle_perturbed = np.random.normal(launch_zenith_angle_in, sigma_zenith_a
 
 launch_azimuth_angle_in = 0     #from north to rocket
 sigma_azimuth_angle = 0
-azimuth_angle_perturbed = np.random.normal(launch_azimith_angle_in, sigma_azimith_angle, num_launches)
+azimuth_angle_perturbed = np.random.normal(launch_azimuth_angle_in, sigma_azimuth_angle, num_launches)
 
 drogue_deploy_altitude_in = 0
 wind_dataframe_in = 0
@@ -51,6 +51,8 @@ inputw_n = np.array([4, 1, 7, 1])
 inputa_n = np.array([1, 0.1])
 mcs = MCGenerator()
 
-#wind = mcs.MCS(inputa_n, w_al, inputw_n)
+wind = mcs.MCS(inputa_n,w_al,inputw_n, num_cycles=1)
+w_class = wind_code.Wind()
+wind = w_class.get_wind_dataframe()
 
 x = perturbWind(wind, 1, 2, num_launches)
