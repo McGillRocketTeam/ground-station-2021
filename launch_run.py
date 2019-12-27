@@ -71,7 +71,7 @@ class Launch:
         else:
             return np.sqrt(2*self.gravity_constant*(self.apogee-altitude))
         
-    def calculate_wind(self, altitude):
+    def calculate_wind_speed(self, altitude):
         # Return a vector in the x-y plane with units of wind speed
         dirn_deg = np.interp(altitude, self.wind_dataframe['altitude'], self.wind_dataframe['direction'])
         vel = np.interp(altitude, self.wind_dataframe['altitude'], self.wind_dataframe['velocity'])
@@ -84,7 +84,7 @@ class Launch:
         
     def calculate_force_xy(self, altitude):
         Cd = self.calculate_transverse_drag_coefficient(altitude)
-        wind_vel = self.calculate_wind(altitude)
+        wind_vel = self.calculate_wind_speed(altitude)
         rho = self.calculate_density(altitude)
         return Cd*rho*(wind_vel[0]**2)/2 , Cd*rho*(wind_vel[1]**2)/2
 
@@ -110,7 +110,7 @@ class Launch:
         while z > 0 and loops < max_loops:
             loops = loops + 1
             t = t + dt
-            dt = time_step
+            dt = self.time_step
             fx, fy = self.calculate_force_xy(z)
             fz = self.calculate_force_z(z, v_z)
             delta_v_x, delta_v_y, delta_v_z = (fx, fy, fz) * dt/self.rocket_mass
