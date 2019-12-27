@@ -39,7 +39,7 @@ zenith_angle_perturbed = np.random.normal(launch_zenith_angle_in, sigma_zenith_a
 
 launch_azimuth_angle_in = 0     #from north to rocket
 sigma_azimuth_angle = 0
-azimuth_angle_perturbed = np.random.normal(launch_azimith_angle_in, sigma_azimith_angle, num_launches)
+azimuth_angle_perturbed = np.random.normal(launch_azimuth_angle_in, sigma_azimuth_angle, num_launches)
 
 drogue_deploy_altitude_in = 0
 wind_dataframe_in = 0
@@ -61,9 +61,9 @@ wind = w_class.get_wind_dataframe()
 
 x = perturbWind(wind, 1, 2, num_launches)
 
-rocketProperties = RocketProperties(1, 1, 1, 1, 1, 1, 1, 1, true, true)
+rocketProperties = RocketProperties(1, 1, 1, 1, 1, 1, 1, 1, 1, True, True)
 
-for simNumber in num_launches:
+for simNumber in range(num_launches):
     sim = Launch(zenith_angle_perturbed, azimuth_angle_perturbed, x[simNumber], rocketProperties)
     sim.run_launch()
     

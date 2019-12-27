@@ -29,6 +29,8 @@ class Launch:
         self.velocity_off_rail_mag = rocket_properties.velocity_off_rail_mag # m/s
         self.rocket_mass = rocket_properties.rocket_mass
 
+        self.apogee = rocket_properties.apogee
+
     def calculute_vertical_drag_coeff(self, altitude):
         if altitude > self.drogue_deploy_altitude:
             return 0
@@ -83,13 +85,13 @@ class Launch:
         return [vel*np.cos(dirn_rad), vel*np.sin(dirn_rad)]
         
     def calculate_force_xy(self, altitude):
-        Cd = self.calculate_transverse_drag_coefficient(altitude)
+        Cd = self.calculate_transverse_drag_coeff(altitude)
         wind_vel = self.calculate_wind_speed(altitude)
         rho = self.calculate_density(altitude)
         return Cd*rho*(wind_vel[0]**2)/2 , Cd*rho*(wind_vel[1]**2)/2
 
     def calculate_force_z(self, altitude, vel):
-        Cd = self.calculate_vertical_drag_coefficient(altitude)
+        Cd = self.calculute_vertical_drag_coeff(altitude)
         rho = self.calculate_density(altitude)
         return (Cd*rho*vel**2)/2
 
@@ -99,8 +101,8 @@ class Launch:
         x, y, z = self.apogee*np.sin(self.launch_azimuth_angle), \
                   self.apogee*np.cos(self.launch_azimuth_angle), self.apogee
         velocities = []
-        v_x, v_y, v_z = self.velocity_off_rail_mag*np.sin(self.launch_zenith_angle)*np.sin(self.launch_azimith_angle), \
-                        self.velocity_off_rail_mag*np.sin(self.launch_zenith_angle)*np.sin(self.launch_azimith_angle), \
+        v_x, v_y, v_z = self.velocity_off_rail_mag*np.sin(self.launch_zenith_angle)*np.sin(self.launch_azimuth_angle), \
+                        self.velocity_off_rail_mag*np.sin(self.launch_zenith_angle)*np.sin(self.launch_azimuth_angle), \
                         0
 
         # Now set up the main iteration loop
@@ -109,8 +111,8 @@ class Launch:
         t = 0
         while z > 0 and loops < max_loops:
             loops = loops + 1
-            t = t + dt
             dt = self.time_step
+            t = t + dt
             fx, fy = self.calculate_force_xy(z)
             fz = self.calculate_force_z(z, v_z)
             delta_v_x, delta_v_y, delta_v_z = (fx, fy, fz) * dt/self.rocket_mass
