@@ -25,8 +25,7 @@ class Launch():
         self.transverse_drag_coeff_drogue = transverse_drag_coeff_drogue_in
         self.transverse_drag_coeff_main = transverse_drag_coeff_main_in
         self.velocity_off_rail_mag = velocity_off_rail_mag_in
-    
-    
+
     def calculute_vertical_drag_coeff(self, altitude):
         if altitude > self.drogue_deploy_altitude:
             return 0
@@ -37,13 +36,13 @@ class Launch():
         
     def calculate_transverse_drag_coeff(self): 
         if altitude > self.drogue_deploy_altitude:
-            return 0 #assume negligible effect of wind prior to parachute deployment; not great, but not awful
+            return 0 # assume negligible effect of wind prior to parachute deployment; not great, but not awful
         elif altitude > self.main_deploy_altitude and self.drogue_deploys == True:
             return self.transverse_drag_coeff_drogue
         else:
             return self.transverse_drag_coeff_main
         
-    def calculate_temperature(self, altitude): #K
+    def calculate_temperature(self, altitude): # KELVIN
         if altitude < 11000:
             return 15.04-0.00649*altitude
         elif altitude < 25000:
@@ -52,20 +51,20 @@ class Launch():
             return -131.21 + 0.00299*altitude
 
 
-    def calculate_pressure(self, altitude): #Pa
+    def calculate_pressure(self, altitude): # Pa
         if altitude < 11000:
-            return self.kPa_2_Pa*101.29*((self.calculate_temperature(altitude) +273.1)/288.08)**5.256
+            return self.kPa_2_Pa*101.29*((self.calculate_temperature(altitude) + 273.1)/288.08)**5.256
         elif altitude < 25000:
             return self.kPa_2_Pa*22.65 * np.exp(1.73-0.000157*altitude)
         else:
             return self.kPa_2_Pa*2.488*((self.calculate_temperature(altitude)+273.1)/216.6)**-11.388
         
         
-    def calculate_density(self,altitude): #kg/m3
+    def calculate_density(self,altitude): # kg/m3
         return self.calculate_pressure(altitude)/ (self.air_deal_gas_constant*self.calculate_temperature(altitude))
     
     
-    def calculate_descent_rate(self,altitude): #m/s
+    def calculate_descent_rate(self,altitude): # m/s
         Cd = self.calculate_vertical_drag_coeff(altitude)
         if Cd != 0:
             return np.sqrt(2*self.rocket_mass*self.gravity_cosntant/(self.calculate_density(altitude) * Cd))
@@ -87,16 +86,18 @@ class Launch():
         Cd = calculate_vertical_drag_coefficient(altitude)
         rho = calculate_density(altitude)
         return (Cd*rho*vel**2)/2
-    
+
     def run_launch(self):
+        # Initialise positions and velocities
         positions = []
         x, y, z = self.apogee*np.sin(self.launch_azimuth_angle), \
-                            self.apogee*np.cos(self.launch_azimuth_angle), self.apogee
+                  self.apogee*np.cos(self.launch_azimuth_angle), self.apogee
         velocity = []
         v_x, v_y, v_z = self.velocity_off_rail_mag*np.sin(self.launch_zenith_angle)*np.sin(self.launch_azimith_angle), \
                         self.velocity_off_rail_mag*np.sin(self.launch_zenith_angle)*np.sin(self.launch_azimith_angle), \
                         0
-        
+
+        # Now set up the main iteration loop
         loops = 0
         t = 0
         altitude = self.apogee
@@ -105,10 +106,10 @@ class Launch():
             t = t + dt
             dt = timeStep
             fx, fy = calculate_force_xy(z)
-            fz = calculate_force_z(z,v_z)
+            fz = calculate_force_z(z, v_z)
             delta_v_x, delta_v_y, delta_v_z = (fx, fy, fz) * dt/self.rocket_mass
             v_x, v_y, v_z = (v_x + delta_v_x, v_y + delta_v_y, v_z + delta_v_z)
-            delta_x, delta_y, delta_z = (v_x,v_y,v_z)*dt
+            delta_x, delta_y, delta_z = (v_x, v_y, v_z)*dt
             x, y, z = (x + delta_x, y + delta_y, z + delta_z)
             positions.append((x, y, z, t))
             velocities.append((v_x, v_y, v_z, t))
