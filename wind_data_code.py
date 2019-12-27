@@ -5,6 +5,8 @@ import datetime
 import os
 import sys
 
+import pandas as pd
+
 #NOTE: for all parameters, a value of -9999 means that the value does not exist. 
 class Wind():
 
@@ -122,6 +124,12 @@ class Wind():
 		# print('list lengths: gph:: {}\t dir:: {}\t speed:: {}'.format(len(self.gph_lists[index]), len(self.wdir_lists[index]), len(self.wspd_lists[index])))
 		return self.gph_lists[index], self.wdir_lists[index], self.wspd_lists[index]
 
+	def get_wind_dataframe(self):
+		x = self.get_wind_data_tuple()
+		lst = list(zip(x[0][::-1], x[1][::-1], x[2][::-1]))
+		df = pd.DataFrame(lst, columns=['altitude', 'direction', 'velocity'])
+		return df
+
 	def clean_data(self, input_tuple):
 		height, direction, speed = input_tuple
 		new_height = []
@@ -132,8 +140,13 @@ class Wind():
 				new_height.append(height)
 				new_direction.append(direction[index])
 				new_speed.append(speed[index])
-		return new_height, new_direction, new_speed
+		return new_height[-1], new_direction, new_speed
 
-wd = Wind()
-x = wd.get_wind_data_tuple()
+# wd = Wind()
+# # x = wd.get_wind_data_tuple()
+# # lst = list(zip(x[0][::-1], x[1][::-1], x[2][::-1]))
+# # print(x[0][::-1])
+# # df = pd.DataFrame(lst, columns=['altitude', 'direction', 'velocity'])
+# d = wd.get_wind_dataframe()
+# print('a')
 
