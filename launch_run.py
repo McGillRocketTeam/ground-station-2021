@@ -92,14 +92,14 @@ class Launch:
         Cd = self.calculate_transverse_drag_coeff(altitude)
         wind_vel = self.calculate_wind_speed(altitude)
         rho = self.calculate_density(altitude)
-        return Cd*rho*(wind_vel[0]**2)/2 , Cd*rho*(wind_vel[1]**2)/2
+        return Cd*rho*(wind_vel[0]**2)/2, Cd*rho*(wind_vel[1]**2)/2
 
     def calculate_force_z(self, altitude, vel):
         Cd = self.calculute_vertical_drag_coeff(altitude)
         rho = self.calculate_density(altitude)
         m = self.rocket_mass
         g = self.gravity_constant
-        #need to incorporate cross-sectional areas
+        # need to incorporate cross-sectional areas
         net_force = Cd*rho*(abs(vel)*abs(vel)) * 0.05/2 - m*g
         if net_force > 0:
             print("Ahhhh")
