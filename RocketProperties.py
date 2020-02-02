@@ -2,8 +2,8 @@ class RocketProperties:
     # This class contains everything which should be constant for a given set of simulations
     # All numbers are currently incorrect.
     def __init__(self, main_deploy_altitude=457, apogee=3000, velocity_off_rail_mag=580, rocket_cx_area=0.05, drogue_cx_area= 0.1, main_cx_area=0.3, vertical_drag_coeff_drogue=1.3,
-    vertical_drag_coeff_main=1.3, drogue_deploy_altitude=3000, transverse_drag_coeff_drogue=1.3, transverse_drag_coeff_main=1.3,
-    rocket_mass=40, drogue_deploys_bool=True, main_deploys_bool=True):
+    vertical_drag_coeff_main=1.3, drogue_deploy_altitude=3000, transverse_drag_coeff_drogue=0.1, transverse_drag_coeff_main=0.1,
+    rocket_mass=80, drogue_deploys_bool=True, main_deploys_bool=True):
     # Numerical Values which shouldn't change between sets of simulations
         self.main_deploy_altitude = main_deploy_altitude # meters
         self.drogue_deploy_altitude = drogue_deploy_altitude
