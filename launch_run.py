@@ -2,12 +2,12 @@ import numpy as np
 import pandas as pd
 
 class Launch:
-    air_ideal_gas_constant = 287.05 #J/K*kg
+    air_ideal_gas_constant = 287.05 # J/K*kg
     kPa_to_Pa = 1000
     deg_to_rad = np.pi/180
-    gravity_constant = 9.807 #m/s2
-    time_step = 0.01 #size of timestep s
-    max_loops = 1e5 #break iteration if more than this
+    gravity_constant = 9.807 # m/s2
+    time_step = 0.01 # size of timestep s
+    max_loops = 1e5 # break iteration if more than this
     
     def __init__(self, launch_zenith_angle, launch_azimith_angle, wind_array, rocket_properties):
         self.launch_zenith_angle = launch_zenith_angle
@@ -100,9 +100,9 @@ class Launch:
         m = self.rocket_mass
         g = self.gravity_constant
         # need to incorporate cross-sectional areas
-        net_force = Cd*rho*(abs(vel)*abs(vel)) * 0.05/2 - m*g
-        if net_force > 0:
-            print("Ahhhh")
+        net_force = Cd*rho*(abs(vel)**2) * 0.05/2 - m*g
+        #if net_force > 0:
+        #   print("Ahhhh")
         return net_force
 
     def run_launch(self):
