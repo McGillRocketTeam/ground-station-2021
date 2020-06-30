@@ -182,6 +182,43 @@ public class DataStorage {
 	}
 
 	// --- BELOW ARE METHODS FOR WRITING DATA --- //
+	
+	static boolean saveDataCSV(String[] formattedDates, enum dataType, String fileTime, double[] data) {
+		boolean success = true; // set true so that we append
+		
+		if (dataType == TELEMETRY || dataType == GPS) {
+			try (FileWriter file = new FileWriter(DATA_TYPE[dataType] + fileTime + DATA_FILENAME[dataType], true)) {
+				boolean data_uncorrupted = true;
+				
+				while (data_uncorrupted) { // check that we have uncorrupted data
+					if (dataType == TELEMETRY && data.length == TelemetryLength) break;
+					else if (dataType == GPS && data.length == GPSLength) break;
+					else data_uncorrupted = false;
+				}
+				
+				if (data_uncorrupted) {
+					file.write(formattedDates[1]); // writes the current time to the first column of the row
+					// String currentTime = formattedDates[1]; // current date precise to ms
+	
+					file.write(','); // for the CSV to be written to properly formatted
+					for (int i = 0; i < data.length - 1; i++) { // data.length-1 means 'E' at the end is not written
+						file.write(String.valueOf(data[i]));
+						file.write(',');
+					}
+					file.append('\n');
+				} else; // if data is "corrupt", don't do anything and move to next line to save
+			}
+			catch (FileNotFoundException e) {
+				System.out.println("exception :" + e.getMessage());
+				success = false;
+			} catch (IOException e) {
+				System.out.println("exception :" + e.getMessage());
+			}
+			return success; // method breaks as soon as failed is true (if file not found)
+		}
+	}
+	
+
 
 	/**
 	 * Writes <b>telemetry</b> data to an existing CSV file. The data is passed into
