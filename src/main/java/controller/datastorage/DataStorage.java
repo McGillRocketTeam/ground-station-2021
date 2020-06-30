@@ -12,6 +12,9 @@ import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date; // getting current date
 
+import controller.Parser;
+import controller.Parser.*;
+
 /**
  * This class is used to generate directories and files to be used for data
  * storage for the McGill Rocket Team Ground Station 2020.
@@ -33,13 +36,13 @@ import java.util.Date; // getting current date
 
 @SuppressWarnings("unused")
 public class DataStorage {
-	private static boolean PRINTEXIST = false; // if true, program prints message indicating if folders already exist
-	private static final boolean TESTING = true; // if true, run tests from tests.java
-	private static final int TelemetryLength = 10; // length of array (or string) for CSV GPS data to be written
+	private static boolean PRINTEXIST = true; // if true, program prints message indicating if folders already exist
+	private static final boolean TESTING = false; // if true, run tests from tests.java
+	private static final int TelemetryLength = 9; // length of array (or string) for CSV GPS data to be written
 	private static final int GPSLength = 7; // length of array (or string) for CSV telemetry data to be written
 
-	private static final String[] DATA_TYPE = { "../storage", "../storage/telemetry", "../storage/gps",
-			"../storage/raw_telemetry", "../storage/raw_gps", "../storage/antenna_angles", "../storage/serial" };
+	private static final String[] DATA_TYPE = { "../storage/", "../storage/telemetry/", "../storage/gps/",
+			"../storage/raw_telemetry/", "../storage/raw_gps/", "../storage/antenna_angles/", "../storage/serial/" };
 
 	private static final String TELEMETRY_HEADER = "Current Time, Latitude, Longitude, Time, Altitude, "
 			+ "Velocity, Satelites, Acceleration, Temperature, GyroX\n";
@@ -171,7 +174,7 @@ public class DataStorage {
 	// https://stackoverflow.com/questions/30073980/java-writing-strings-to-a-csv-file
 	// answer by Prashant Ghimire
 	
-	static void createHeader(String[] formattedDates, int dataType) {
+	static void createHeader(String[] formattedDates, int dataType) throws IllegalArgumentException {
 		if (dataType != STORAGE && dataType != SERIAL) {
 			try (PrintWriter writer = new PrintWriter(
 					new File(DATA_TYPE[dataType] + formattedDates[0] + DATA_FILENAME[dataType]))) {
@@ -207,7 +210,7 @@ public class DataStorage {
 	 * 
 	 * @param formattedDates - <code>String[]</code> 2-entry string array with
 	 *                       formatted date strings
-	 * @param dataType       - <code>enum</code> type of data to be saved (telemetry or GPS)
+	 * @param dataType       - <code>int</code> type of data to be saved (telemetry or GPS)
 	 * @param fileTime       - <code>String</code> Date and Time that is in the file
 	 *                       name that the data should be written to
 	 * @param data           - <code>double[]</code> Double array with telemetry
@@ -227,6 +230,7 @@ public class DataStorage {
 					else if (dataType == GPS && data.length == GPSLength) break;
 					else data_uncorrupted = false;
 				}
+				System.out.println(data.length);
 				
 				if (data_uncorrupted) {
 					file.write(formattedDates[1]); // writes the current time to the first column of the row
@@ -240,16 +244,15 @@ public class DataStorage {
 					
 					file.append('\n');
 				
-				} else; // if data is "corrupt", don't do anything and move to next line to save
+				} else System.out.println("corrupt data"); // if data is "corrupt", don't do anything and move to next line to save
 			} catch (FileNotFoundException e) {
 				System.out.println("exception :" + e.getMessage());
 				success = false;
 			} catch (IOException e) {
 				System.out.println("exception :" + e.getMessage());
 			}
-			
-			return success; // method breaks as soon as failed is true (if file not found)
 		}
+		return success; // method breaks as soon as failed is true (if file not found)
 	}
 	
 	/**
@@ -258,13 +261,13 @@ public class DataStorage {
 	 * 
 	 * @param formattedDates - <code>String[]</code> Contains the current date and
 	 *                       time formatted appropriately
-	 * @param dataType       - <code>enum</code> Type of data to save (telemetry, gps, antenna angles)
+	 * @param dataType       - <code>int</code> Type of data to save (telemetry, gps, antenna angles)
 	 * @param fileTime       - <code>String</code> Date/Time contained in the name
 	 *                       of the file to save the raw data to
 	 * @param data           - <code>String</code> Data to be saved
 	 * 
 	 */
-	static boolean saveDataRaw(String[] formattedDates, int dataType, String fileTime, String data) {
+	static void saveDataRaw(String[] formattedDates, int dataType, String fileTime, String data) {
 
 		if (dataType == RAW_TELEMETRY || dataType == RAW_GPS || dataType == ANTENNA_ANGLES) {
 			try (FileWriter file = new FileWriter(DATA_TYPE[dataType] + fileTime + DATA_FILENAME[dataType], true)) {
@@ -283,11 +286,6 @@ public class DataStorage {
 	 * Reads a single line from a file and returns a string with the data that is
 	 * read. The method will be used to read raw data from text files and pass the
 	 * data as strings to the methods to save telemetry or GPS data into CSVs.
-	 * <p>
-	 * 
-	 * Currently, the path to the file being read from is a
-	 * <code>testReading.txt</code> file which contains a single line of
-	 * comma-separated values. This path is hardcoded for testing.
 	 * <p>
 	 * 
 	 * @param filePath - <code>String</code> path to the file to be read from
@@ -337,54 +335,45 @@ public class DataStorage {
 	 * @throws Exception - for any errors related to non-existing files
 	 */
 
-//	public static void main(String[] args) throws Exception {
-//		if (TESTING) {
-//			DataStorageTests.runTests();
-//		}
-//
-//		/*
-//		 * // generate formatted strings for current time and date String[]
-//		 * formattedDates = dateFormats();
-//		 * 
-//		 * // code for main method makeFolders();
-//		 * 
-//		 * 
-//		 * // create empty files with the correct column labels
-//		 * createTelemetryHeader(formattedDates); createGPSHeader(formattedDates);
-//		 * createRawTelemetry(formattedDates); createRawGPS(formattedDates);
-//		 * createRawAntenna(formattedDates);
-//		 */
-//
-//		// writing data to CSV files
-//
-//		String telData = readLine("../testReadingTelemetry.txt"); // get the string from the test Reader text file
-//		// System.out.println(telData + "\n");
-//		String[] formattedDatesInit = dateFormats();
-//
-//		createGPSHeader(formattedDatesInit);
-//		createTelemetryHeader(formattedDatesInit);
-//
-//		createRawGPS(formattedDatesInit);
-//		createRawTelemetry(formattedDatesInit);
-//
-//		// testing: saving GPS data to CSV
-//		for (int testing = 0; testing < 100; testing++) {
-//			String gpsData = readLine("../testReadingGPS.txt"); // get the string from the test Reader text file
-//
-//			String[] convToStringArray = (gpsData.split(",")); // split data from string into string array
+	public static void main(String[] args) throws Exception {
+		
+		final Parser parsley = new Parser(TelemetryLength);
+		
+		
+		if (TESTING) {
+			DataStorageTests.runTests();
+		}
+
+		String[] formattedDates = dateFormats();
+		makeFolders();
+		
+		for (int i = TELEMETRY; i <= ANTENNA_ANGLES; i++) {
+			createHeader(formattedDates, i);
+		}
+
+
+		// testing: saving GPS data to CSV
+		for (int testing = 0; testing < 100; testing++) {
+			
+			String telem_raw = readLine("../test_1.txt"); // get the string from the test Reader text file
+			System.out.println(telem_raw);
+			
+//			String[] convToStringArray = (telem_raw.split(",")); // split data from string into string array
 //			double[] data = new double[convToStringArray.length]; // array to store data for writing to CSV
 //			for (int i = 0; i < data.length - 1; i++) // populate the array
 //			{
 //				data[i] = Double.valueOf(convToStringArray[i]);
 //			}
-//			// double[] data = {1,2,3,4,5,6,7,8,9,10};
-//
-//			String fileTime = formattedDatesInit[0]; // record the current time
-//
-//			saveGPSCSV(dateFormats(), fileTime, data); // save data to CSV
-//			saveGPSRaw(dateFormats(), fileTime, gpsData);
-//			// Thread.sleep(12); // add small pause between writes
-//
+			
+			double[] parseyed = parsley.parse(telem_raw);
+			
+			String fileTime = dateFormats()[0]; // record the current time
+			
+			
+			saveDataCSV(dateFormats(), TELEMETRY, fileTime, parseyed);
+			saveDataRaw(dateFormats(), RAW_TELEMETRY, fileTime, telem_raw);
+			saveDataRaw(dateFormats(), RAW_GPS, fileTime, telem_raw);
+			
 //			String telemetryData = readLine("../testReadingTelemetry.txt"); // get the string from the test Reader text
 //																			// file
 //
@@ -397,9 +386,9 @@ public class DataStorage {
 //
 //			saveTelemetryCSV(dateFormats(), fileTime, data2);
 //			saveTelemetryRaw(dateFormats(), fileTime, telemetryData);
-//		}
-//
-//		System.out.println("program terminated");
-//	}
-//
-//}
+		}
+
+		System.out.println("program terminated");
+	}
+
+}
