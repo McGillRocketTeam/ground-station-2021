@@ -337,69 +337,69 @@ public class DataStorage {
 	 * @throws Exception - for any errors related to non-existing files
 	 */
 
-//	public static void main(String[] args) throws Exception {
-//		if (TESTING) {
-//			DataStorageTests.runTests();
-//		}
-//
-//		/*
-//		 * // generate formatted strings for current time and date String[]
-//		 * formattedDates = dateFormats();
-//		 * 
-//		 * // code for main method makeFolders();
-//		 * 
-//		 * 
-//		 * // create empty files with the correct column labels
-//		 * createTelemetryHeader(formattedDates); createGPSHeader(formattedDates);
-//		 * createRawTelemetry(formattedDates); createRawGPS(formattedDates);
-//		 * createRawAntenna(formattedDates);
-//		 */
-//
-//		// writing data to CSV files
-//
-//		String telData = readLine("../testReadingTelemetry.txt"); // get the string from the test Reader text file
-//		// System.out.println(telData + "\n");
-//		String[] formattedDatesInit = dateFormats();
-//
-//		createGPSHeader(formattedDatesInit);
-//		createTelemetryHeader(formattedDatesInit);
-//
-//		createRawGPS(formattedDatesInit);
-//		createRawTelemetry(formattedDatesInit);
-//
-//		// testing: saving GPS data to CSV
-//		for (int testing = 0; testing < 100; testing++) {
-//			String gpsData = readLine("../testReadingGPS.txt"); // get the string from the test Reader text file
-//
-//			String[] convToStringArray = (gpsData.split(",")); // split data from string into string array
-//			double[] data = new double[convToStringArray.length]; // array to store data for writing to CSV
-//			for (int i = 0; i < data.length - 1; i++) // populate the array
-//			{
-//				data[i] = Double.valueOf(convToStringArray[i]);
-//			}
-//			// double[] data = {1,2,3,4,5,6,7,8,9,10};
-//
-//			String fileTime = formattedDatesInit[0]; // record the current time
-//
-//			saveGPSCSV(dateFormats(), fileTime, data); // save data to CSV
-//			saveGPSRaw(dateFormats(), fileTime, gpsData);
-//			// Thread.sleep(12); // add small pause between writes
-//
-//			String telemetryData = readLine("../testReadingTelemetry.txt"); // get the string from the test Reader text
-//																			// file
-//
-//			String[] convToStringArray2 = (telemetryData.split(",")); // split data from string into string array
-//			double[] data2 = new double[convToStringArray2.length]; // array to store data for writing to CSV
-//			for (int i = 0; i < data2.length - 1; i++) // populate the array
-//			{
-//				data2[i] = Double.valueOf(convToStringArray2[i]);
-//			}
-//
-//			saveTelemetryCSV(dateFormats(), fileTime, data2);
-//			saveTelemetryRaw(dateFormats(), fileTime, telemetryData);
-//		}
-//
-//		System.out.println("program terminated");
-//	}
-//
-//}
+	public static void main(String[] args) throws Exception {
+		if (TESTING) {
+			DataStorageTests.runTests();
+		}
+
+		/*
+		 * // generate formatted strings for current time and date String[]
+		 * formattedDates = dateFormats();
+		 * 
+		 * // code for main method makeFolders();
+		 * 
+		 * 
+		 * // create empty files with the correct column labels
+		 * createTelemetryHeader(formattedDates); createGPSHeader(formattedDates);
+		 * createRawTelemetry(formattedDates); createRawGPS(formattedDates);
+		 * createRawAntenna(formattedDates);
+		 */
+
+		// writing data to CSV files
+
+		String telData = readLine("../testReadingTelemetry.txt"); // get the string from the test Reader text file
+		// System.out.println(telData + "\n");
+		String[] formattedDatesInit = dateFormats();
+
+		createGPSHeader(formattedDatesInit);
+		createTelemetryHeader(formattedDatesInit);
+
+		createRawGPS(formattedDatesInit);
+		createRawTelemetry(formattedDatesInit);
+
+		// testing: saving GPS data to CSV
+		for (int testing = 0; testing < 100; testing++) {
+			String gpsData = readLine("../testReadingGPS.txt"); // get the string from the test Reader text file
+
+			String[] convToStringArray = (gpsData.split(",")); // split data from string into string array
+			double[] data = new double[convToStringArray.length]; // array to store data for writing to CSV
+			for (int i = 0; i < data.length - 1; i++) // populate the array
+			{
+				data[i] = Double.valueOf(convToStringArray[i]);
+			}
+			// double[] data = {1,2,3,4,5,6,7,8,9,10};
+
+			String fileTime = formattedDatesInit[0]; // record the current time
+
+			saveGPSCSV(dateFormats(), fileTime, data); // save data to CSV
+			saveGPSRaw(dateFormats(), fileTime, gpsData);
+			// Thread.sleep(12); // add small pause between writes
+
+			String telemetryData = readLine("../testReadingTelemetry.txt"); // get the string from the test Reader text
+																			// file
+
+			String[] convToStringArray2 = (telemetryData.split(",")); // split data from string into string array
+			double[] data2 = new double[convToStringArray2.length]; // array to store data for writing to CSV
+			for (int i = 0; i < data2.length - 1; i++) // populate the array
+			{
+				data2[i] = Double.valueOf(convToStringArray2[i]);
+			}
+
+			saveTelemetryCSV(dateFormats(), fileTime, data2);
+			saveTelemetryRaw(dateFormats(), fileTime, telemetryData);
+		}
+
+		System.out.println("program terminated");
+	}
+
+}
