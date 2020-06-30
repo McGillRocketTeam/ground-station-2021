@@ -230,7 +230,7 @@ public class DataStorage {
 					else if (dataType == GPS && data.length == GPSLength) break;
 					else data_uncorrupted = false;
 				}
-				System.out.println(data.length);
+				//System.out.println(data.length);
 				
 				if (data_uncorrupted) {
 					file.write(formattedDates[1]); // writes the current time to the first column of the row
@@ -338,11 +338,6 @@ public class DataStorage {
 	public static void main(String[] args) throws Exception {
 		
 		final Parser parsley = new Parser(TelemetryLength);
-		
-		
-		if (TESTING) {
-			DataStorageTests.runTests();
-		}
 
 		String[] formattedDates = dateFormats();
 		makeFolders();
@@ -386,6 +381,7 @@ public class DataStorage {
 //
 //			saveTelemetryCSV(dateFormats(), fileTime, data2);
 //			saveTelemetryRaw(dateFormats(), fileTime, telemetryData);
+
 		}
 
 		System.out.println("program terminated");
