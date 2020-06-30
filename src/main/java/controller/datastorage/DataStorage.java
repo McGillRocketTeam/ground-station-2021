@@ -3,17 +3,16 @@ package controller.datastorage;
 import java.io.BufferedReader;
 import java.io.File; // for creating directories
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter; // for writing to existing files
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date; // getting current date
 
-import controller.Parser;
-import controller.Parser.*;
+import controller.Parser; // used in Main to test methods
 
 /**
  * This class is used to generate directories and files to be used for data
@@ -22,12 +21,6 @@ import controller.Parser.*;
  * 
  * Raw data is stored in <code>.txt</code> files. Parsed data will be added to
  * .CSV files.
- * <p>
- * 
- * To improve this class, a method which to write data to CSV or text files
- * needs to be written. This method would invoke other methods in this class;
- * doing so would hide the complexity of the data storage process, and simplify
- * a program that can be used to save data received from antennas.
  * <p>
  * 
  * @author Jasper Yun
@@ -41,14 +34,17 @@ public class DataStorage {
 	private static final int TelemetryLength = 9; // length of array (or string) for CSV GPS data to be written
 	private static final int GPSLength = 7; // length of array (or string) for CSV telemetry data to be written
 
+	// file locations of folders
 	private static final String[] DATA_TYPE = { "../storage/", "../storage/telemetry/", "../storage/gps/",
 			"../storage/raw_telemetry/", "../storage/raw_gps/", "../storage/antenna_angles/", "../storage/serial/" };
 
+	// header rows of CSV files and TXT files
 	private static final String TELEMETRY_HEADER = "Current Time, Latitude, Longitude, Time, Altitude, "
 			+ "Velocity, Satelites, Acceleration, Temperature, GyroX\n";
 	private static final String GPS_HEADER = "Current Time, Latitude, Longitude, Time, GPS_Altitude, GPS_Speed, Number of Satelites\n";
 	private static final String RAW_HEADER = "Raw Data:\n____________________\n";
 
+	// array of filenames to be used
 	private static final String[] DATA_FILENAME = { "", "_data_telemetry.csv", "_data_gps.csv", "_raw_data.txt",
 			"_raw_data.txt", "_antenna_angles.txt", "" };
 	
@@ -60,20 +56,11 @@ public class DataStorage {
 	private static final int RAW_GPS = 4;
 	private static final int ANTENNA_ANGLES = 5;
 	private static final int SERIAL = 6;
-	
-	
-	/**
-	 * enum to easily access the strings in <code>FILES_TO_STORE</code>.
-	 */
-	enum Telemetry_type {
-		STORAGE, TELEMETRY, GPS, RAW_TELEMETRY, RAW_GPS, ANTENNA_ANGLES, SERIAL;
-	}
 
 	/**
 	 * Creates a <b>single</b> directory with a specific input path determined by
-	 * the programmer. Because McGill Rocket Team will consistently use the same
-	 * hierarchy of directories for data storage, we will hardcode the paths in
-	 * another method.
+	 * the programmer. The directory paths are given by calling an entry in the 
+	 * <code>DATA_TYPE</code> array.
 	 * <p>
 	 * 
 	 * This method also prints on the console to indicate whether the directory
@@ -110,7 +97,7 @@ public class DataStorage {
 	 * "raw_gps", "antenna_angles", "serial".
 	 * <p>
 	 * 
-	 * If the folders already exist, then nothing happens.
+	 * If the folders already exist, then nothing happens.<p>s
 	 * 
 	 */
 	protected static void makeFolders() {
@@ -165,10 +152,10 @@ public class DataStorage {
 	}
 
 	/**
-	 * Creates the first row in a .txt or .csv file based on the input.
+	 * Creates the first row/line in a .txt or .csv file based on the input.
 	 * 
 	 * @param formattedDates String[] formatted dates for the filename
-	 * @param dataType enum type of telemetry data to store
+	 * @param dataType int type of telemetry data to store
 	 */
 	// inspiration for this code:
 	// https://stackoverflow.com/questions/30073980/java-writing-strings-to-a-csv-file
@@ -237,14 +224,14 @@ public class DataStorage {
 					// String currentTime = formattedDates[1]; // current date precise to ms
 	
 					file.write(','); // for the CSV to be written to properly formatted
-					for (int i = 0; i < data.length - 1; i++) { // data.length-1 means 'E' at the end is not written
+					for (int i = 0; i < data.length; i++) { 
 						file.write(String.valueOf(data[i]));
 						file.write(',');
 					}
 					
 					file.append('\n');
 				
-				} else System.out.println("corrupt data"); // if data is "corrupt", don't do anything and move to next line to save
+				} else System.out.println("corrupt data"); // do nothing and move to next line
 			} catch (FileNotFoundException e) {
 				System.out.println("exception :" + e.getMessage());
 				success = false;
@@ -271,7 +258,7 @@ public class DataStorage {
 
 		if (dataType == RAW_TELEMETRY || dataType == RAW_GPS || dataType == ANTENNA_ANGLES) {
 			try (FileWriter file = new FileWriter(DATA_TYPE[dataType] + fileTime + DATA_FILENAME[dataType], true)) {
-				if (dataType == ANTENNA_ANGLES) file.write(formattedDates[1] + "\n"); // testing: see which version I am using
+				//if (dataType == ANTENNA_ANGLES) file.write(formattedDates[1] + "\n"); // testing: see which version I am using
 				file.write(data); // write the raw telemetry data string to file
 				file.append("\n\n"); // add newline
 			} catch (FileNotFoundException e) {
@@ -291,7 +278,7 @@ public class DataStorage {
 	 * @param filePath - <code>String</code> path to the file to be read from
 	 * @return line - <code>String</code> single line of data read from a file to be
 	 *         written to the CSV
-	 * @throws Exception - for any errors related to nonexisting files
+	 * @throws Exception - for any errors related to files that do not exist
 	 */
 	static String readLine(String filePath) throws Exception {
 		BufferedReader read = new BufferedReader(
@@ -310,78 +297,35 @@ public class DataStorage {
 	}
 
 	/**
-	 * Main method of the program. It begins by checking whether the necessary
-	 * folders have been created for data storage. If not, the directories will be
-	 * created with the parent folder name "storage".
-	 * <p>
-	 * 
-	 * The method will then create .CSV files for telemetry and GPS data storage,
-	 * and <code>.txt</code> files for telemetry, GPS, and antenna angle raw data
-	 * storage.
-	 * <p>
-	 * 
-	 * Currently, more code is written to test some of the methods for saving data
-	 * to CSV and/or text files. However, more tests <b><i>need</i></b> to be done,
-	 * and the tests must be more rigorous.
-	 * <p>
-	 * 
-	 * The file <code>tests.java</code> in the same package contains a method
-	 * <code>runTests()</code> that tests the methods in this class for creating
-	 * directories and creating new CSV and text files.
-	 * <p>
-	 * 
-	 * @param args - arguments as required by syntax
-	 * 
-	 * @throws Exception - for any errors related to non-existing files
+	 * Main method to test the methods written above.
+	 * This method should be removed when the program is complete.
 	 */
 
 	public static void main(String[] args) throws Exception {
 		
-		final Parser parsley = new Parser(TelemetryLength);
-
+		// Parser object
+		final Parser telem_parsing = new Parser(TelemetryLength);
+		
 		String[] formattedDates = dateFormats();
 		makeFolders();
 		
+		// create files with headers for all types of data
 		for (int i = TELEMETRY; i <= ANTENNA_ANGLES; i++) {
 			createHeader(formattedDates, i);
 		}
 
-
-		// testing: saving GPS data to CSV
 		for (int testing = 0; testing < 100; testing++) {
+			String telem_raw = readLine("../test_1.txt"); // get 1st line of test file
+			//System.out.println(telem_raw);
 			
-			String telem_raw = readLine("../test_1.txt"); // get the string from the test Reader text file
-			System.out.println(telem_raw);
-			
-//			String[] convToStringArray = (telem_raw.split(",")); // split data from string into string array
-//			double[] data = new double[convToStringArray.length]; // array to store data for writing to CSV
-//			for (int i = 0; i < data.length - 1; i++) // populate the array
-//			{
-//				data[i] = Double.valueOf(convToStringArray[i]);
-//			}
-			
-			double[] parseyed = parsley.parse(telem_raw);
+			double[] telem_Out = telem_parsing.parse(telem_raw);
 			
 			String fileTime = dateFormats()[0]; // record the current time
-			
-			
-			saveDataCSV(dateFormats(), TELEMETRY, fileTime, parseyed);
+						
+			saveDataCSV(dateFormats(), TELEMETRY, fileTime, telem_Out);
 			saveDataRaw(dateFormats(), RAW_TELEMETRY, fileTime, telem_raw);
 			saveDataRaw(dateFormats(), RAW_GPS, fileTime, telem_raw);
-			
-//			String telemetryData = readLine("../testReadingTelemetry.txt"); // get the string from the test Reader text
-//																			// file
-//
-//			String[] convToStringArray2 = (telemetryData.split(",")); // split data from string into string array
-//			double[] data2 = new double[convToStringArray2.length]; // array to store data for writing to CSV
-//			for (int i = 0; i < data2.length - 1; i++) // populate the array
-//			{
-//				data2[i] = Double.valueOf(convToStringArray2[i]);
-//			}
-//
-//			saveTelemetryCSV(dateFormats(), fileTime, data2);
-//			saveTelemetryRaw(dateFormats(), fileTime, telemetryData);
-
+			saveDataRaw(dateFormats(), ANTENNA_ANGLES, fileTime, telem_raw);
 		}
 
 		System.out.println("program terminated");
