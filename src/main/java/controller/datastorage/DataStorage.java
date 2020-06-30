@@ -149,7 +149,17 @@ public class DataStorage {
 		return formatted;
 	}
 	
-	static void createHeaderCSV(String[] formattedDates, enum dataType) {
+	/**
+	 * Creates the first row in a .txt or .csv file based on the input.
+	 * 
+	 * @param formattedDates String[] formatted dates for the filename
+	 * @param dataType enum type of telemetry data to store
+	 */
+	// inspiration for this code:
+	// https://stackoverflow.com/questions/30073980/java-writing-strings-to-a-csv-file
+	// answer by Prashant Ghimire
+	
+	static void createHeader(String[] formattedDates, enum dataType) {
 		if (dataType != STORAGE && dataType != SERIAL) {
 			try (PrintWriter writer = new PrintWriter(
 					new File(DATA_TYPE[dataType] + formattedDates[0] + DATA_FILENAME[dataType]))) {
@@ -171,122 +181,7 @@ public class DataStorage {
 		}
 	}
 
-	/**
-	 * Takes in an argument of a String array containing the current date in a
-	 * specific format. The method uses the first string to create a file with the
-	 * current time in the filename. The method then creates a header row in a CSV
-	 * file with column names pertinent to <b>telemetry</b> data storage.
-	 * <p>
-	 * 
-	 * @param formattedDates - <code>String[]</code> Contains current time and date
-	 *                       formatted appropriately
-	 * 
-	 */
-	// inspiration for this code:
-	// https://stackoverflow.com/questions/30073980/java-writing-strings-to-a-csv-file
-	// answer by Prashant Ghimire
-
-	static void createTelemetryHeader(String[] formattedDates) {
-
-		try (PrintWriter writer = new PrintWriter(
-				new File(DATA_TYPE[TELEMETRY] + formattedDates[0] + "_data_telemetry.csv"))) {
-			// column labels for CSV file -- first row in the file
-			String labels = "Current Time, Latitude, Longitude, Time, Altitude, "
-					+ "Velocity, Satelites, Acceleration, Temperature, GyroX\n";
-
-			// write the labels into the CSV
-			writer.write(labels);
-		} catch (FileNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
-	/**
-	 * Takes in argument of a String array containing the current date in a specific
-	 * format. The method uses the first string to create a file with the current
-	 * time in the filename. The method then creates a header row in a CSV file with
-	 * column names pertinent to <b>GPS</b> data storage.
-	 * <p>
-	 * 
-	 * @param formattedDates - <code>String[]</code> Contains current time and date
-	 *                       formatted appropriately
-	 * 
-	 */
-	// inspiration for this code:
-	// https://stackoverflow.com/questions/30073980/java-writing-strings-to-a-csv-file
-	// answer by Prashant Ghimire
-	
-	static void createGPSHeader(String[] formattedDates) {
-
-		try (PrintWriter writer = new PrintWriter(new File("../storage/gps/" + formattedDates[0] + "_data_gps.csv"))) {
-			// column labels for CSV files -- first row in the file
-			String labels = "Current Time, Latitude, Longitude, Time, GPS_Altitude, GPS_Speed, Number of Satelites\n";
-
-			// write the column labels into CSV
-			writer.write(labels);
-		} catch (FileNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
-	/**
-	 * Creates a <code>.txt</code> file for storing raw telemetry data.
-	 * <p>
-	 * 
-	 * @param formattedDates - <code>String[]</code> Contains current time and date
-	 *                       formatted appropriately
-	 * 
-	 */
-	static void createRawTelemetry(String[] formattedDates) {
-		try (PrintWriter writer = new PrintWriter(
-				new File("../storage/raw_telemetry/" + formattedDates[0] + "_raw_data.txt"))) {
-			String initialRow = "Raw Data:\n____________________\n";
-			writer.write(initialRow);
-		} catch (FileNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
-	/**
-	 * Creates a <code>.txt</code> file for storing raw GPS data.
-	 * <p>
-	 * 
-	 * @param formattedDates - <code>String[]</code> Contains current time and date
-	 *                       formatted appropriately
-	 * 
-	 */
-	static void createRawGPS(String[] formattedDates) {
-		try (PrintWriter writer = new PrintWriter(
-				new File("../storage/raw_gps/" + formattedDates[0] + "_raw_data.txt"))) {
-			String initialRow = "Raw Data:\n____________________\n";
-			writer.write(initialRow);
-		} catch (FileNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
-	/**
-	 * 
-	 * Creates a <code>.txt</code> file for storing raw antenna angles data.
-	 * <p>
-	 * 
-	 * @param formattedDates - <code>String[]</code> Contains current time and date
-	 *                       formatted appropriately
-	 * 
-	 */
-
-	static void createRawAntenna(String[] formattedDates) {
-		try (PrintWriter writer = new PrintWriter(
-				new File("../storage/antenna_angles/" + formattedDates[0] + "_antenna_angles.txt"))) {
-			String initialRow = "Raw Data:\n____________________\n";
-			writer.write(initialRow);
-		} catch (FileNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
-	// ---------------------------------- BELOW ARE METHODS FOR WRITING DATA
-	// --------------------------------- //
+	// --- BELOW ARE METHODS FOR WRITING DATA --- //
 
 	/**
 	 * Writes <b>telemetry</b> data to an existing CSV file. The data is passed into
@@ -329,19 +224,15 @@ public class DataStorage {
 			} else {
 			}
 			; // if data is "corrupt", don't do anything and move to next line to save
-
 		}
-
 		catch (FileNotFoundException e) {
 			System.out.println("exception :" + e.getMessage());
 			success = false;
 		}
-
 		catch (IOException e) {
 			System.out.println("exception :" + e.getMessage());
 		}
 		return success; // method breaks as soon as failed is true (if file not found)
-
 	}
 
 	/**
@@ -514,7 +405,6 @@ public class DataStorage {
 	static String readLine(String filePath) throws Exception {
 		BufferedReader read = new BufferedReader(
 				new InputStreamReader(new FileInputStream(new File(filePath)), Charset.forName("UTF-8")));
-
 		try {
 			String line = read.readLine();
 			return line;
