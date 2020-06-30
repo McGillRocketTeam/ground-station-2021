@@ -1,8 +1,12 @@
 package controller.datastorage;
 
+import org.junit.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assertions.*;
+
 import java.io.File;					// for creating directories
 
-public class tests {
+public class DataStorageTests {
 
 	private static final int SLEEP = 30; 		// choose how long the thread sleeps for in ms
 	
@@ -14,8 +18,7 @@ public class tests {
 	 * 
 	 * @throws Exception - In case of nonexistent files
 	 */
-	public static void runTests() throws Exception
-	{
+	public static void runTests() throws Exception {
 		
 		// test to check that folders were created successfully and properly
 		DataStorage.makeFolders(); // make folders
@@ -32,10 +35,8 @@ public class tests {
 		folders[5] = new File("../storage/antenna_angles");
 		folders[6] = new File("../storage/serial");
 		
-		for (int i = 0; i < folders.length; i++)
-		{
-			if (!folders[i].exists()) 
-			{
+		for (int i = 0; i < folders.length; i++) {
+			if (!folders[i].exists()) {
 				System.out.println("Error: Folder " + i);
 				error = true;
 			}
@@ -77,12 +78,10 @@ public class tests {
 		
 		error = false;
 		
-		for (int j = 0; j < pathsToReadFrom.length-1; j++)
-		{
+		for (int j = 0; j < pathsToReadFrom.length-1; j++) {
 			String s1 = DataStorage.readLine(pathsToReadFrom[j]);
 			String s2 = correctHeaders[j];
-			if (!(s1.equals(s2)))
-			{
+			if (!(s1.equals(s2))) {
 				System.out.println(s1);
 				System.out.println(s2);
 				System.out.println("Error: header not equal -- " + j + "\n");
@@ -109,4 +108,11 @@ public class tests {
 		System.out.println("-----  End of testing  -----\n");
 	}
 
+// ------------ below is new stuff as of 2020-06-29 --------- //
+	@Test
+	public void testMake1Dir() {
+		System.out.println("Testing: making 1 directory");
+		formattedDates = DataStorage.dateFormats();
+	}
 }
+
