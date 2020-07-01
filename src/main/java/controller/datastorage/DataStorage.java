@@ -32,7 +32,7 @@ import controller.Parser; // used in Main to test methods
 
 //@SuppressWarnings("unused")
 public class DataStorage {
-	private static boolean PRINTEXIST = true; // if true, program prints message indicating if folders already exist
+	private static boolean PRINTEXIST = false; // if true, program prints message indicating if folders already exist
 	static final int TelemetryLength = 10; // length of array (or string) for CSV GPS data to be written
 	static final int GPSLength = 6; // length of array (or string) for CSV telemetry data to be written
 
@@ -83,9 +83,10 @@ public class DataStorage {
 	private static void make1Dir(File file) {
 		// code origin: https://www.mkyong.com/java/how-to-create-directory-in-java/
 		if (!file.exists()) {
-			if (file.mkdir())
-				System.out.println("Directory " + file.toString() + " created successfully.");
-			else
+			if (file.mkdir()) {
+				if (PRINTEXIST)
+					System.out.println("Directory " + file.toString() + " created successfully.");
+			} else
 				System.out.println("Failed to create directory.");
 		} else {
 			// choose whether we want to see this message by setting PRINTEXIST
@@ -326,7 +327,7 @@ public class DataStorage {
 		final Parser telem_parsing = new Parser(TelemetryLength);
 		final tests TestingObj = new tests();
 		
-		String[] formattedDates = tests.TEST_FORMATTED_DATES;
+		String[] formattedDates = {"AB-CD-E--A-B-C", "AC-DE-FJ-ABC"};
 		//makeFolders();
 		TestingObj.testMakeFoldersWhenNoExist();
 		
@@ -347,12 +348,15 @@ public class DataStorage {
 		for (int i = 0; i < 1; i++) {
 			TestingObj.testSaveTelemetryCSV();
 			TestingObj.testSaveGPSCSV();
+			TestingObj.testSaveTelemetryRaw();
 		}
 		
 //		for (int testing = 0; testing < 100; testing++) {
 			String telem_raw = "";
 			try {
 				telem_raw = readLine("../test_1.txt");
+				for (int i=0; i<10;i++) 
+					saveDataRaw(formattedDates, RAW_TELEMETRY, formattedDates[0], telem_raw);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
