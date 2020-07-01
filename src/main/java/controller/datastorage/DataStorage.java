@@ -12,11 +12,14 @@ import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date; // getting current date
 
+import org.junit.jupiter.api.Test;
+
 import controller.Parser; // used in Main to test methods
 
 /**
  * This class is used to generate directories and files to be used for data
- * storage for the McGill Rocket Team Ground Station 2020.
+ * storage for the McGill Rocket Team Ground Station 2020. It contains methods
+ * to save data as well.
  * <p>
  * 
  * Raw data is stored in <code>.txt</code> files. Parsed data will be added to
@@ -27,7 +30,7 @@ import controller.Parser; // used in Main to test methods
  * 
  */
 
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 public class DataStorage {
 	private static boolean PRINTEXIST = true; // if true, program prints message indicating if folders already exist
 	private static final boolean TESTING = false; // if true, run tests from tests.java
@@ -49,13 +52,13 @@ public class DataStorage {
 			"_raw_data.txt", "_antenna_angles.txt", "" };
 	
 	// different data types to be written
-	private static final int STORAGE = 0;
-	private static final int TELEMETRY = 1;
-	private static final int GPS = 2;
-	private static final int RAW_TELEMETRY = 3;
-	private static final int RAW_GPS = 4;
-	private static final int ANTENNA_ANGLES = 5;
-	private static final int SERIAL = 6;
+	static final int STORAGE = 0;
+	static final int TELEMETRY = 1;
+	static final int GPS = 2;
+	static final int RAW_TELEMETRY = 3;
+	static final int RAW_GPS = 4;
+	static final int ANTENNA_ANGLES = 5;
+	static final int SERIAL = 6;
 
 	/**
 	 * Creates a <b>single</b> directory with a specific input path determined by
@@ -132,6 +135,10 @@ public class DataStorage {
 	 * represents milliseconds to three digits.
 	 * <p>
 	 * 
+	 * The array returned contains the filename format first, then the column
+	 * entry format.
+	 * <p>
+	 * 
 	 * @return formatted - <code>String[]</code> String array containing the
 	 *         formatted dates.
 	 */
@@ -151,8 +158,12 @@ public class DataStorage {
 		return formatted;
 	}
 
+	
 	/**
 	 * Creates the first row/line in a .txt or .csv file based on the input.
+	 * The input parameter <code>dataType</code> is an integer to indicate 
+	 * whether the data is telemetry, GPS, raw telemetry, raw GPS, 
+	 * or antenna angles. <p>
 	 * 
 	 * @param formattedDates String[] formatted dates for the filename
 	 * @param dataType int type of telemetry data to store
@@ -161,7 +172,7 @@ public class DataStorage {
 	// https://stackoverflow.com/questions/30073980/java-writing-strings-to-a-csv-file
 	// answer by Prashant Ghimire
 	
-	static void createHeader(String[] formattedDates, int dataType) throws IllegalArgumentException {
+	static void createHeader(String[] formattedDates, int dataType) throws Exception {
 		if (dataType != STORAGE && dataType != SERIAL) {
 			try (PrintWriter writer = new PrintWriter(
 					new File(DATA_TYPE[dataType] + formattedDates[0] + DATA_FILENAME[dataType]))) {
@@ -181,7 +192,7 @@ public class DataStorage {
 			throw new IllegalArgumentException("Input type cannot be STORAGE or SERIAL.");
 		}
 	}
-
+	
 	// --- BELOW ARE METHODS FOR WRITING DATA --- //
 
 	/**
@@ -299,9 +310,10 @@ public class DataStorage {
 	/**
 	 * Main method to test the methods written above.
 	 * This method should be removed when the program is complete.
+	 * @throws Exception 
 	 */
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		
 		// Parser object
 		final Parser telem_parsing = new Parser(TelemetryLength);
@@ -309,24 +321,34 @@ public class DataStorage {
 		String[] formattedDates = dateFormats();
 		makeFolders();
 		
-		// create files with headers for all types of data
-		for (int i = TELEMETRY; i <= ANTENNA_ANGLES; i++) {
-			createHeader(formattedDates, i);
+		// tests object
+		final tests TestingObj = new tests();
+		try {
+			TestingObj.testWriteTelemetryHeaderCSV(formattedDates);
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.println("caught exception :P");
 		}
-
-		for (int testing = 0; testing < 100; testing++) {
-			String telem_raw = readLine("../test_1.txt"); // get 1st line of test file
-			//System.out.println(telem_raw);
-			
-			double[] telem_Out = telem_parsing.parse(telem_raw);
-			
-			String fileTime = dateFormats()[0]; // record the current time
-						
-			saveDataCSV(dateFormats(), TELEMETRY, fileTime, telem_Out);
-			saveDataRaw(dateFormats(), RAW_TELEMETRY, fileTime, telem_raw);
-			saveDataRaw(dateFormats(), RAW_GPS, fileTime, telem_raw);
-			saveDataRaw(dateFormats(), ANTENNA_ANGLES, fileTime, telem_raw);
-		}
+		
+//		
+//		// create files with headers for all types of data
+//		for (int i = TELEMETRY; i <= ANTENNA_ANGLES; i++) {
+//			createHeader(formattedDates, i);
+//		}
+//
+//		for (int testing = 0; testing < 100; testing++) {
+//			String telem_raw = readLine("../test_1.txt"); // get 1st line of test file
+//			//System.out.println(telem_raw);
+//			
+//			double[] telem_Out = telem_parsing.parse(telem_raw);
+//			
+//			String fileTime = dateFormats()[0]; // record the current time
+//						
+//			saveDataCSV(dateFormats(), TELEMETRY, fileTime, telem_Out);
+//			saveDataRaw(dateFormats(), RAW_TELEMETRY, fileTime, telem_raw);
+//			saveDataRaw(dateFormats(), RAW_GPS, fileTime, telem_raw);
+//			saveDataRaw(dateFormats(), ANTENNA_ANGLES, fileTime, telem_raw);
+//		}
 
 		System.out.println("program terminated");
 	}
