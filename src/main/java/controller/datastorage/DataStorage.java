@@ -34,21 +34,21 @@ import controller.Parser; // used in Main to test methods
 public class DataStorage {
 	private static boolean PRINTEXIST = true; // if true, program prints message indicating if folders already exist
 	private static final boolean TESTING = false; // if true, run tests from tests.java
-	private static final int TelemetryLength = 9; // length of array (or string) for CSV GPS data to be written
-	private static final int GPSLength = 7; // length of array (or string) for CSV telemetry data to be written
+	static final int TelemetryLength = 9; // length of array (or string) for CSV GPS data to be written
+	static final int GPSLength = 7; // length of array (or string) for CSV telemetry data to be written
 
 	// file locations of folders
-	private static final String[] DATA_TYPE = { "../storage/", "../storage/telemetry/", "../storage/gps/",
+	static final String[] DATA_TYPE = { "../storage/", "../storage/telemetry/", "../storage/gps/",
 			"../storage/raw_telemetry/", "../storage/raw_gps/", "../storage/antenna_angles/", "../storage/serial/" };
 
 	// header rows of CSV files and TXT files
-	private static final String TELEMETRY_HEADER = "Current Time, Latitude, Longitude, Time, Altitude, "
+	static final String TELEMETRY_HEADER = "Current Time, Latitude, Longitude, Time, Altitude, "
 			+ "Velocity, Satelites, Acceleration, Temperature, GyroX\n";
-	private static final String GPS_HEADER = "Current Time, Latitude, Longitude, Time, GPS_Altitude, GPS_Speed, Number of Satelites\n";
-	private static final String RAW_HEADER = "Raw Data:\n____________________\n";
+	static final String GPS_HEADER = "Current Time, Latitude, Longitude, Time, GPS_Altitude, GPS_Speed, Number of Satelites\n";
+	static final String RAW_HEADER = "Raw Data:\n____________________\n";
 
 	// array of filenames to be used
-	private static final String[] DATA_FILENAME = { "", "_data_telemetry.csv", "_data_gps.csv", "_raw_data.txt",
+	static final String[] DATA_FILENAME = { "", "_data_telemetry.csv", "_data_gps.csv", "_raw_data.txt",
 			"_raw_data.txt", "_antenna_angles.txt", "" };
 	
 	// different data types to be written

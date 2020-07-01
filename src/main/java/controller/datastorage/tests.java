@@ -23,9 +23,10 @@ public class tests {
 		
 		@Test(expected=Exception.class)
 		public void testWriteTelemetryHeaderCSV() throws Exception {
-			DataStorage.createHeader(TEST_FORMATTED_DATES, DataStorage.TELEMETRY);
+			int dataType = DataStorage.TELEMETRY;
+			DataStorage.createHeader(TEST_FORMATTED_DATES, dataType);
 			
-			String filePath = "../storage/telemetry/" + TEST_FORMATTED_DATES[0] + "_data_telemetry.csv";
+			String filePath = DataStorage.DATA_TYPE[dataType] + TEST_FORMATTED_DATES[0] + DataStorage.DATA_FILENAME[dataType];
 			
 			String actual = "";
 			try {
@@ -34,8 +35,8 @@ public class tests {
 				e.printStackTrace();
 			}
 			
-			String expected = "Current Time, Latitude, Longitude, Time, Altitude, "
-					+ "Velocity, Satelites, Acceleration, Temperature, GyroX"; // no \n because readLine strips it
+			// remove \n because readLine strips it
+			String expected = DataStorage.TELEMETRY_HEADER.substring(0, DataStorage.TELEMETRY_HEADER.length()-1);
 			
 			Assert.assertEquals("failure - telemetry header written wrong", expected, actual);
 			System.out.println("telemetry CSV header - test complete.");
@@ -43,9 +44,10 @@ public class tests {
 	
 		@Test(expected=Exception.class)
 		public void testWriteGPSHeaderCSV() throws Exception {
-			DataStorage.createHeader(TEST_FORMATTED_DATES, DataStorage.GPS);
+			int dataType = DataStorage.GPS;
+			DataStorage.createHeader(TEST_FORMATTED_DATES, dataType);
 			
-			String filePath = "../storage/gps/" + TEST_FORMATTED_DATES[0] + "_data_gps.csv";
+			String filePath = DataStorage.DATA_TYPE[dataType] + TEST_FORMATTED_DATES[0] + DataStorage.DATA_FILENAME[dataType];
 			
 			String actual = "";
 			try {
@@ -54,16 +56,16 @@ public class tests {
 				e.printStackTrace();
 			}
 			
-			// no \n because readLine strips it
-			String expected = "Current Time, Latitude, Longitude, Time, GPS_Altitude, GPS_Speed, Number of Satelites";
+			// remove \n because readLine strips it
+			String expected = DataStorage.GPS_HEADER.substring(0, DataStorage.GPS_HEADER.length()-1);
 			
-			Assert.assertEquals("failure - GPS header written wrong", expected, actual);
+			Assert.assertEquals("failure - GPS CSV header written wrong", expected, actual);
 			System.out.println("GPS CSV header - test complete.");
 		}
 		
-		@Test
-		public void testWriteTelemetryHeaderRaw() {
-			
+		@Test(expected=Exception.class)
+		public void testWriteTelemetryHeaderRaw() throws Exception {
+			DataStorage.createHeader(TEST_FORMATTED_DATES, DataStorage.RAW_TELEMETRY);
 		}
 		
 		@Test
