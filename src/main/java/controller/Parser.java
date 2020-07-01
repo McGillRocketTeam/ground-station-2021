@@ -57,17 +57,31 @@ public class Parser {
         if (splitStr.length != this.numberOfValues) throw new IllegalArgumentException("Incorrect number of values: found:" + splitStr.length + " expected:" + this.numberOfValues);
         for (int i = 0; i < splitStr.length; i++) {
             if (i == this.hexLocation) {
-                try {
-                    out[i] = Integer.parseInt(splitStr[i], 16);
-                }
-                catch (Exception e) {
-                    throw new InvalidParameterException(
-                            "String: \"" + out[i] + " \" at index:"
-                            + i + " cannot be converted from hexidecimal string to integer \n"
-                            + "Message from original exception follows:\n"
-                            + e.getMessage()
-                    );
-                }
+            	if (this.containsHex) {
+	                try {
+	                    out[i] = Integer.parseInt(splitStr[i], 16);
+	                }
+	                catch (Exception e) {
+	                    throw new InvalidParameterException(
+	                            "String: \"" + out[i] + " \" at index:"
+	                            + i + " cannot be converted from hexidecimal string to integer \n"
+	                            + "Message from original exception follows:\n"
+	                            + e.getMessage()
+	                    );
+	                }
+            	} else {
+            		try {
+	                    out[i] = Integer.parseInt(splitStr[i], 10);
+	                }
+	                catch (Exception e) {
+	                    throw new InvalidParameterException(
+	                            "String: \"" + out[i] + " \" at index:"
+	                            + i + " cannot be converted from integer to integer \n"
+	                            + "Message from original exception follows:\n"
+	                            + e.getMessage()
+	                    );
+	                }
+            	}
             }
             else {
 

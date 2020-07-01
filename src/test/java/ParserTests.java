@@ -74,4 +74,25 @@ public class ParserTests {
     	});
     	System.out.println("Test with strings instead of doubles in data passed");
     }
+    
+    @Test
+    public void testNoHexExpected() {
+    	String test_1 = "S32.943008,-106.914925,1883089,1.26,0.000000,F,8.54,31.05,0.000000,-102,E";
+    	String test_2 = "S32.943008,-106.914925,1883089,1.26,0.000000,8,8.54,31.05,0.000000,-102,E";
+    	double[] expected_2 = {32.943008,-106.914925,1883089.0,1.26,0.0,8.0,8.54,31.05,0.0,-102.0};
+    	Parser testP = new Parser(10, false, 5);
+    	
+    	Assertions.assertThrows(InvalidParameterException.class, () -> {
+    		testP.parse(test_1);
+    	});
+    	
+    	double[] actual_2 = testP.parse(test_2);
+    	for (int i = 0; i < expected_2.length; i++) {
+    		Assertions.assertEquals(expected_2[i], actual_2[i]);
+    		System.out.println("Success at index: " + i);
+    	}
+    	
+    	System.out.println("Test with unexpected hex value passed");
+    	
+    }
 }
