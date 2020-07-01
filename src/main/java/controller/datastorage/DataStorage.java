@@ -33,7 +33,7 @@ import controller.Parser; // used in Main to test methods
 //@SuppressWarnings("unused")
 public class DataStorage {
 	private static boolean PRINTEXIST = true; // if true, program prints message indicating if folders already exist
-	static final int TelemetryLength = 9; // length of array (or string) for CSV GPS data to be written
+	static final int TelemetryLength = 10; // length of array (or string) for CSV GPS data to be written
 	static final int GPSLength = 7; // length of array (or string) for CSV telemetry data to be written
 
 	// file locations of folders
@@ -221,38 +221,41 @@ public class DataStorage {
 	 */
 	static boolean saveDataCSV(String[] formattedDates, int dataType, String fileTime, double[] data) {
 		boolean success = true; // flag for whether data gets written or not
-		
 		if (dataType == TELEMETRY || dataType == GPS) {
 			try (FileWriter file = new FileWriter(DATA_TYPE[dataType] + fileTime + DATA_FILENAME[dataType], true)) {
 				boolean data_uncorrupted = true;
-				
 				while (data_uncorrupted) { // check that we have uncorrupted data
 					if (dataType == TELEMETRY && data.length == TelemetryLength) break;
 					else if (dataType == GPS && data.length == GPSLength) break;
-					else data_uncorrupted = false;
+					else {
+						data_uncorrupted = false;
+						success = false;
+					}
 				}
 				//System.out.println(data.length);
 				
 				if (data_uncorrupted) {
 					file.write(formattedDates[1]); // writes the current time to the first column of the row
 					// String currentTime = formattedDates[1]; // current date precise to ms
-	
+					
 					file.write(','); // for the CSV to be written to properly formatted
 					for (int i = 0; i < data.length; i++) { 
 						file.write(String.valueOf(data[i]));
 						file.write(',');
 					}
-					
 					file.append('\n');
 				
-				} else System.out.println("corrupt data"); // do nothing and move to next line
+				} else {
+					//System.out.println("corrupt data"); // do nothing and move to next line
+					success = false;
+				}
 			} catch (FileNotFoundException e) {
 				System.out.println("exception :" + e.getMessage());
 				success = false;
 			} catch (IOException e) {
 				System.out.println("exception :" + e.getMessage());
 			}
-		}
+		} else success = false;
 		return success; // method breaks as soon as failed is true (if file not found)
 	}
 	
@@ -340,21 +343,21 @@ public class DataStorage {
 			System.out.println(e.getMessage());
 		}
 		
+		for (int i = 0; i < 10; i++) {
+			TestingObj.testSaveTelemetryCSV();
+		}
 		
-		// create files with headers for all types of data
-//		for (int i = TELEMETRY; i <= ANTENNA_ANGLES; i++) {
-//			try {
-//				createHeader(formattedDates, i);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//
 //		for (int testing = 0; testing < 100; testing++) {
-//			String telem_raw = readLine("../test_1.txt"); // get 1st line of test file
-//			//System.out.println(telem_raw);
+			String telem_raw = "";
+			try {
+				telem_raw = readLine("../test_1.txt");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // get 1st line of test file
+			//System.out.println(telem_raw);
 //			
-//			double[] telem_Out = telem_parsing.parse(telem_raw);
+			//double[] telem_Out = telem_parsing.parse(telem_raw);
 //			
 //			String fileTime = dateFormats()[0]; // record the current time
 //						
@@ -364,6 +367,8 @@ public class DataStorage {
 //			saveDataRaw(dateFormats(), ANTENNA_ANGLES, fileTime, telem_raw);
 //		}
 
+//		System.out.println(saveDataCSV(dateFormats(), SERIAL, dateFormats()[1], telem_Out));
+//		System.out.println(saveDataCSV(dateFormats(), STORAGE, dateFormats()[1], telem_Out));
 		System.out.println("program terminated");
 	}
 
