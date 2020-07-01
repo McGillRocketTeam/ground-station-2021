@@ -1,3 +1,5 @@
+import java.security.InvalidParameterException;
+
 import org.junit.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Assertions.*;
@@ -18,7 +20,7 @@ public class ParserTests {
             Assert.assertEquals(testValidOutput[i], testOut[i], 0);
             System.out.println("Success at index:" + i);
         }
-        System.out.println("test done");
+        System.out.println("test complete - valid input containing hex");
     }
 
     @Test
@@ -29,5 +31,15 @@ public class ParserTests {
             testP.parse(test);
         });
         System.out.println("Test with no start or end characters passed");
+    }
+    
+    @Test
+    public void testInvalidHexChar() {
+    	String test = "S32.943008,-106.914925,1883089,1.26,0.000000,K,8.54,31.05,0.000000,-102,E"; // max hex is 0xF
+    	Parser testP = new Parser(10, true, 5);
+    	Assertions.assertThrows(InvalidParameterException.class, () -> {
+    		testP.parse(test);
+    	});
+    	System.out.println("Test with invalid hex character passed");
     }
 }
