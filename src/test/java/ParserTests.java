@@ -42,4 +42,14 @@ public class ParserTests {
     	});
     	System.out.println("Test with invalid hex character passed");
     }
+    
+    @Test
+    public void testIncorrectNumberOfValues() {
+    	String test = "S32.943008,-106.914925,1883089,1.26,0.000000,A,8.54,31.05,0.000000,-102,E"; // 10 values
+    	Parser testP = new Parser(9, true, 5);
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> {
+    		testP.parse(test);
+    	});
+    	System.out.println("Test with wrong number of values passed");
+    }
 }
