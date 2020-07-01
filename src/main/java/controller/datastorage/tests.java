@@ -336,7 +336,47 @@ public class tests {
 	
 	@Test
 	public void testSaveAntennaAnglesRaw() {
-		
+		// I have no idea what example data looks like but the methd should be able to write any data
+		String aa_1 = "S32.943012,-106.914963,3097894,4.71,371546.406250,C,8.63,36.80,0.000000,-79,E";
+		String aa_2 = "S46.00, -46, deg";
+		String aa_3 = "F";
+
+		int dataType = DataStorage.ANTENNA_ANGLES;
+		DataStorage.saveDataRaw(TEST_FORMATTED_DATES, dataType, TEST_FILE_TIME, aa_1);
+		DataStorage.saveDataRaw(TEST_FORMATTED_DATES, dataType, TEST_FILE_TIME, aa_2);
+		DataStorage.saveDataRaw(TEST_FORMATTED_DATES, dataType, TEST_FILE_TIME, aa_3);
+
+		// to check that the line was properly written to the CSV file
+		File file = new File(DataStorage.DATA_TYPE[dataType] + TEST_FILE_TIME + DataStorage.DATA_FILENAME[dataType]);
+		FileReader fr = null;
+		String line = "";
+		try {
+			fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			br.readLine();	// discard first line
+			br.readLine();	// discard second line
+			int counter = 0;
+			while (counter <= 3 && (line=br.readLine()) != null) {
+				if (!(line.equals(""))) {
+					counter += 1;
+					switch (counter) {
+					case 1:  Assert.assertTrue(line.equals(aa_1));
+					System.out.println("test complete - Antenna Angles raw 1");
+					break;
+					case 2:  Assert.assertTrue(line.equals(aa_2));
+					System.out.println("test complete - Antenna Angles raw 2");
+					break;
+					case 3:  Assert.assertTrue(line.equals(aa_3));
+					System.out.println("test complete - Antenna Angles raw 3");
+					break;
+					default: System.out.println("counter out of range");
+					break;
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -331,7 +331,6 @@ public class DataStorage {
 		//makeFolders();
 		TestingObj.testMakeFoldersWhenNoExist();
 		
-		
 		// tests object
 		try {
 			TestingObj.testWriteTelemetryHeaderCSV();
@@ -350,33 +349,22 @@ public class DataStorage {
 			TestingObj.testSaveGPSCSV();
 			TestingObj.testSaveTelemetryRaw();
 			TestingObj.testSaveGPSRaw();
+			TestingObj.testSaveAntennaAnglesRaw();
 		}
 		
-//		for (int testing = 0; testing < 100; testing++) {
-			String telem_raw = "";
-			try {
-				telem_raw = readLine("../test_1.txt");
-				for (int i=0; i<10;i++) 
-					saveDataRaw(formattedDates, RAW_TELEMETRY, formattedDates[0], telem_raw);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} // get 1st line of test file
-			//System.out.println(telem_raw);
-//			
-			//double[] telem_Out = telem_parsing.parse(telem_raw);
-//			
-//			String fileTime = dateFormats()[0]; // record the current time
-//						
-//			saveDataCSV(dateFormats(), TELEMETRY, fileTime, telem_Out);
-//			saveDataRaw(dateFormats(), RAW_TELEMETRY, fileTime, telem_raw);
-//			saveDataRaw(dateFormats(), RAW_GPS, fileTime, telem_raw);
-//			saveDataRaw(dateFormats(), ANTENNA_ANGLES, fileTime, telem_raw);
-//		}
-
+		String telem_raw = "";
+		try {
+			telem_raw = readLine("../test_1.txt");
+			for (int i=0; i<10;i++) 
+				saveDataRaw(formattedDates, RAW_TELEMETRY, formattedDates[0], telem_raw);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
+//		double[] telem_Out = telem_parsing.parse(telem_raw);
+//		
 //		System.out.println(saveDataCSV(dateFormats(), SERIAL, dateFormats()[1], telem_Out));
 //		System.out.println(saveDataCSV(dateFormats(), STORAGE, dateFormats()[1], telem_Out));
 		System.out.println("program terminated");
 	}
-
 }
