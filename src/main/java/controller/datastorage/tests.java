@@ -9,11 +9,7 @@ import java.io.File; // for creating directories
 import controller.datastorage.*;
 
 public class tests {
-
-//	private DataStorage ds = new DataStorage(); // ds = dataStorage
-	
-	private static final int SLEEP = 30; 		// choose how long the thread sleeps for in ms
-	
+	static final String[] TEST_FORMATTED_DATES = {"1234-56-78--12-34-56", "1234-56-78 12-34-56-789"};	
 	
 		@Test
 		public void testMakeFoldersWhenNoExist() {
@@ -25,18 +21,11 @@ public class tests {
 			
 		}
 		
-		@Test 
-		public void testDateFormats() {
-			
-		}
-		
 		@Test(expected=Exception.class)
-		public void testWriteTelemetryHeaderCSV(String[] formattedDates) throws Exception {
-			int dataType = DataStorage.TELEMETRY;
-			DataStorage.createHeader(formattedDates, dataType);
-			System.out.println("created header?");
+		public void testWriteTelemetryHeaderCSV() throws Exception {
+			DataStorage.createHeader(TEST_FORMATTED_DATES, DataStorage.TELEMETRY);
 			
-			String filePath = "../storage/telemetry/" + formattedDates[0] + "_data_telemetry.csv";
+			String filePath = "../storage/telemetry/" + TEST_FORMATTED_DATES[0] + "_data_telemetry.csv";
 			
 			String actual = "";
 			try {
@@ -46,18 +35,30 @@ public class tests {
 			}
 			
 			String expected = "Current Time, Latitude, Longitude, Time, Altitude, "
-					+ "Velocity, Satelites, Acceleration, Temperature, GyroX";
-			
-			//System.out.println(expected);
-			//System.out.println(actual);
+					+ "Velocity, Satelites, Acceleration, Temperature, GyroX"; // no \n because readLine strips it
 			
 			Assert.assertEquals("failure - telemetry header written wrong", expected, actual);
-			System.out.println("test complete.");
+			System.out.println("telemetry CSV header - test complete.");
 		}
 	
-		@Test
-		public void testWriteGPSHeaderCSV() {
+		@Test(expected=Exception.class)
+		public void testWriteGPSHeaderCSV() throws Exception {
+			DataStorage.createHeader(TEST_FORMATTED_DATES, DataStorage.GPS);
 			
+			String filePath = "../storage/gps/" + TEST_FORMATTED_DATES[0] + "_data_gps.csv";
+			
+			String actual = "";
+			try {
+				actual = DataStorage.readLine(filePath);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			// no \n because readLine strips it
+			String expected = "Current Time, Latitude, Longitude, Time, GPS_Altitude, GPS_Speed, Number of Satelites";
+			
+			Assert.assertEquals("failure - GPS header written wrong", expected, actual);
+			System.out.println("GPS CSV header - test complete.");
 		}
 		
 		@Test

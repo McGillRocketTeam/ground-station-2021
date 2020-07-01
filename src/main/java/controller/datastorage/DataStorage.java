@@ -317,24 +317,32 @@ public class DataStorage {
 		
 		// Parser object
 		final Parser telem_parsing = new Parser(TelemetryLength);
+		final tests TestingObj = new tests();
 		
-		String[] formattedDates = dateFormats();
+		String[] formattedDates = tests.TEST_FORMATTED_DATES;
 		makeFolders();
 		
+		
+		
 		// tests object
-		final tests TestingObj = new tests();
 		try {
-			TestingObj.testWriteTelemetryHeaderCSV(formattedDates);
+			TestingObj.testWriteTelemetryHeaderCSV();
+			TestingObj.testWriteGPSHeaderCSV();
 		} catch (Exception e) {
 			//e.printStackTrace();
 			System.out.println("caught exception :P");
+			System.out.println(e.getMessage());
 		}
 		
-//		
-//		// create files with headers for all types of data
-//		for (int i = TELEMETRY; i <= ANTENNA_ANGLES; i++) {
-//			createHeader(formattedDates, i);
-//		}
+		
+		// create files with headers for all types of data
+		for (int i = TELEMETRY; i <= ANTENNA_ANGLES; i++) {
+			try {
+				createHeader(formattedDates, i);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 //
 //		for (int testing = 0; testing < 100; testing++) {
 //			String telem_raw = readLine("../test_1.txt"); // get 1st line of test file
