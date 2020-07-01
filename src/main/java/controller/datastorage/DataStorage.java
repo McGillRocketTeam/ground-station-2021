@@ -349,6 +349,7 @@ public class DataStorage {
 			TestingObj.testSaveTelemetryCSV();
 			TestingObj.testSaveGPSCSV();
 			TestingObj.testSaveTelemetryRaw();
+			TestingObj.testSaveGPSRaw();
 		}
 		
 //		for (int testing = 0; testing < 100; testing++) {

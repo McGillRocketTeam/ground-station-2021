@@ -246,7 +246,6 @@ public class tests {
 	
 	@Test
 	public void testSaveTelemetryRaw() {
-		// properly parsed telemetry double[]
 		// example of raw telemetry data: S32.943012,-106.914963,3097894,4.71,371546.406250,C,8.63,36.80,0.000000,-79,E
 		String telemetry_1 = "S32.943012,-106.914963,3097894,4.71,371546.406250,C,8.63,36.80,0.000000,-79,E";
 		String telemetry_2 = "S32.943012,-106.914963,3097894,4.71,371546.406250,C,8.63,36.80,0.000000,E";
@@ -288,12 +287,51 @@ public class tests {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 	
 	@Test
 	public void testSaveGPSRaw() {
-		
+		// example of raw GPS data: S46.004520,-72.732620,577962,40.700001,0.018520,A,E
+		String gps_1 = "S32.943012,-106.914963,3097894,4.71,371546.406250,C,8.63,36.80,0.000000,-79,E";
+		String gps_2 = "S46.004520,-72.732620,577962,40.700001,0.018520,A,E";
+		String gps_3 = "F";
+
+		int dataType = DataStorage.RAW_GPS;
+		DataStorage.saveDataRaw(TEST_FORMATTED_DATES, dataType, TEST_FILE_TIME, gps_1);
+		DataStorage.saveDataRaw(TEST_FORMATTED_DATES, dataType, TEST_FILE_TIME, gps_2);
+		DataStorage.saveDataRaw(TEST_FORMATTED_DATES, dataType, TEST_FILE_TIME, gps_3);
+
+		// to check that the line was properly written to the CSV file
+		File file = new File(DataStorage.DATA_TYPE[dataType] + TEST_FILE_TIME + DataStorage.DATA_FILENAME[dataType]);
+		FileReader fr = null;
+		String line = "";
+		try {
+			fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			br.readLine();	// discard first line
+			br.readLine();	// discard second line
+			int counter = 0;
+			while (counter <= 3 && (line=br.readLine()) != null) {
+				if (!(line.equals(""))) {
+					counter += 1;
+					switch (counter) {
+					case 1:  Assert.assertTrue(line.equals(gps_1));
+					System.out.println("test complete - GPS raw 1");
+					break;
+					case 2:  Assert.assertTrue(line.equals(gps_2));
+					System.out.println("test complete - GPS raw 2");
+					break;
+					case 3:  Assert.assertTrue(line.equals(gps_3));
+					System.out.println("test complete - GPS raw 3");
+					break;
+					default: System.out.println("counter out of range");
+					break;
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
