@@ -34,7 +34,7 @@ import controller.Parser; // used in Main to test methods
 public class DataStorage {
 	private static boolean PRINTEXIST = true; // if true, program prints message indicating if folders already exist
 	static final int TelemetryLength = 10; // length of array (or string) for CSV GPS data to be written
-	static final int GPSLength = 7; // length of array (or string) for CSV telemetry data to be written
+	static final int GPSLength = 6; // length of array (or string) for CSV telemetry data to be written
 
 	// file locations of folders
 	static final String[] DATA_TYPE = { "../storage/", "../storage/telemetry/", "../storage/gps/",
@@ -230,9 +230,10 @@ public class DataStorage {
 					else {
 						data_uncorrupted = false;
 						success = false;
+						if (PRINTEXIST)
+							System.out.println("data is the wrong length");
 					}
 				}
-				//System.out.println(data.length);
 				
 				if (data_uncorrupted) {
 					file.write(formattedDates[1]); // writes the current time to the first column of the row
@@ -343,8 +344,9 @@ public class DataStorage {
 			System.out.println(e.getMessage());
 		}
 		
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1; i++) {
 			TestingObj.testSaveTelemetryCSV();
+			TestingObj.testSaveGPSCSV();
 		}
 		
 //		for (int testing = 0; testing < 100; testing++) {
