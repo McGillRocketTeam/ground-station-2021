@@ -2,32 +2,33 @@ package controller.datastorage;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 public class tests {
+	// date formats for files used for testing
 	static final String[] TEST_FORMATTED_DATES = {"1234-56-78--12-34-56", "1234-56-78 12-34-56-789"};
 	static final String TEST_FILE_TIME = TEST_FORMATTED_DATES[0];
 
 	@Test
 	public void testMakeFoldersWhenNoExist() {
-		DataStorage.setPRINTEXIST(false);
-		DataStorage.makeFolders();
+		DataStorage.setPRINTEXIST(false); // turn off debug printing
+		DataStorage.makeFolders(); 
 
+		// create File objects for each folder -- this does not create an actual folder
 		File[] folders = new File[DataStorage.DATA_TYPE.length];
 		for (int i = 0; i < folders.length; i++) {
 			folders[i] = new File(DataStorage.DATA_TYPE[i]);
 		}
 
+		// check that folders exist
 		for (int i = 0; i < folders.length; i++) {
 			Assert.assertTrue("Error -- " + DataStorage.DATA_TYPE[i] 
 					+ " -- folder", folders[i].exists());	
 		}
 		System.out.println("test complete - make folders");
-
 	}
 
 	@Test
@@ -48,8 +49,8 @@ public class tests {
 		int dataType = DataStorage.TELEMETRY;
 		DataStorage.createHeader(TEST_FORMATTED_DATES, dataType);
 
+		// check data written to file is correctly written
 		String filePath = DataStorage.DATA_TYPE[dataType] + TEST_FORMATTED_DATES[0] + DataStorage.DATA_FILENAME[dataType];
-
 		String actual = "";
 		try {
 			actual = DataStorage.readLine(filePath);
@@ -69,8 +70,8 @@ public class tests {
 		int dataType = DataStorage.GPS;
 		DataStorage.createHeader(TEST_FORMATTED_DATES, dataType);
 
+		// check data written to file is correctly written
 		String filePath = DataStorage.DATA_TYPE[dataType] + TEST_FORMATTED_DATES[0] + DataStorage.DATA_FILENAME[dataType];
-
 		String actual = "";
 		try {
 			actual = DataStorage.readLine(filePath);
@@ -91,8 +92,8 @@ public class tests {
 		int dataType = DataStorage.RAW_TELEMETRY;
 		DataStorage.createHeader(TEST_FORMATTED_DATES, dataType);
 
+		// check data written to file is correctly written
 		String filePath = DataStorage.DATA_TYPE[dataType] + TEST_FORMATTED_DATES[0] + DataStorage.DATA_FILENAME[dataType];
-
 		String actual = "";
 		try {
 			actual = DataStorage.readLine(filePath);
@@ -112,8 +113,8 @@ public class tests {
 		int dataType = DataStorage.RAW_GPS;
 		DataStorage.createHeader(TEST_FORMATTED_DATES, dataType);
 
+		// check data written to file is correctly written
 		String filePath = DataStorage.DATA_TYPE[dataType] + TEST_FORMATTED_DATES[0] + DataStorage.DATA_FILENAME[dataType];
-
 		String actual = "";
 		try {
 			actual = DataStorage.readLine(filePath);
@@ -133,8 +134,8 @@ public class tests {
 		int dataType = DataStorage.ANTENNA_ANGLES;
 		DataStorage.createHeader(TEST_FORMATTED_DATES, dataType);
 
+		// check data written to file is correctly written
 		String filePath = DataStorage.DATA_TYPE[dataType] + TEST_FORMATTED_DATES[0] + DataStorage.DATA_FILENAME[dataType];
-
 		String actual = "";
 		try {
 			actual = DataStorage.readLine(filePath);
@@ -199,7 +200,6 @@ public class tests {
 	
 	@Test
 	public void testSaveGPSCSV() {
-		// properly parsed telemetry double[]
 		// example of raw GPS data: S46.004520,-72.732620,577962,40.700001,0.018520,A,E
 		double[] good_gps = {46.004520,-72.732620,577962,40.700001,0.018520,10};
 
@@ -263,8 +263,8 @@ public class tests {
 		try {
 			fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
-			br.readLine();	// discard first line
-			br.readLine();	// discard second line
+			br.readLine();	// discard first line and second lines from the "Raw Data:" header
+			br.readLine();
 			int counter = 0;
 			while (counter <= 3 && (line=br.readLine()) != null) {
 				if (!(line.equals(""))) {
@@ -308,8 +308,8 @@ public class tests {
 		try {
 			fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
-			br.readLine();	// discard first line
-			br.readLine();	// discard second line
+			br.readLine();	// discard first line and second lines from the "Raw Data:" header
+			br.readLine();
 			int counter = 0;
 			while (counter <= 3 && (line=br.readLine()) != null) {
 				if (!(line.equals(""))) {
@@ -353,8 +353,8 @@ public class tests {
 		try {
 			fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
-			br.readLine();	// discard first line
-			br.readLine();	// discard second line
+			br.readLine();	// discard first line and second lines from the "Raw Data:" header
+			br.readLine();
 			int counter = 0;
 			while (counter <= 3 && (line=br.readLine()) != null) {
 				if (!(line.equals(""))) {
@@ -378,6 +378,5 @@ public class tests {
 			e.printStackTrace();
 		}
 	}
-
 }
 

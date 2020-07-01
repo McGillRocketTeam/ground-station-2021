@@ -323,15 +323,12 @@ public class DataStorage {
 
 	public static void main(String[] args) {
 		
-		// Parser object
 		final Parser telem_parsing = new Parser(TelemetryLength);
 		final tests TestingObj = new tests();
 		
 		String[] formattedDates = {"AB-CD-E--A-B-C", "AC-DE-FJ-ABC"};
-		//makeFolders();
 		TestingObj.testMakeFoldersWhenNoExist();
 		
-		// tests object
 		try {
 			TestingObj.testWriteTelemetryHeaderCSV();
 			TestingObj.testWriteGPSHeaderCSV();
@@ -360,7 +357,7 @@ public class DataStorage {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-			
+		
 //		double[] telem_Out = telem_parsing.parse(telem_raw);
 //		
 //		System.out.println(saveDataCSV(dateFormats(), SERIAL, dateFormats()[1], telem_Out));
