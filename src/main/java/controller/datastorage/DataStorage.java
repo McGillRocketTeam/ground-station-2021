@@ -33,7 +33,6 @@ import controller.Parser; // used in Main to test methods
 //@SuppressWarnings("unused")
 public class DataStorage {
 	private static boolean PRINTEXIST = true; // if true, program prints message indicating if folders already exist
-	private static final boolean TESTING = false; // if true, run tests from tests.java
 	static final int TelemetryLength = 9; // length of array (or string) for CSV GPS data to be written
 	static final int GPSLength = 7; // length of array (or string) for CSV telemetry data to be written
 
@@ -59,6 +58,10 @@ public class DataStorage {
 	static final int RAW_GPS = 4;
 	static final int ANTENNA_ANGLES = 5;
 	static final int SERIAL = 6;
+	
+	public static void setPRINTEXIST(boolean state) {
+		DataStorage.PRINTEXIST = state;
+	}
 
 	/**
 	 * Creates a <b>single</b> directory with a specific input path determined by
@@ -320,8 +323,8 @@ public class DataStorage {
 		final tests TestingObj = new tests();
 		
 		String[] formattedDates = tests.TEST_FORMATTED_DATES;
-		makeFolders();
-		
+		//makeFolders();
+		TestingObj.testMakeFoldersWhenNoExist();
 		
 		
 		// tests object

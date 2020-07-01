@@ -1,18 +1,28 @@
 package controller.datastorage;
 
-import org.junit.*;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Assertions.*;
+import java.io.File;
 
-
-import java.io.File; // for creating directories
-import controller.datastorage.*;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class tests {
 	static final String[] TEST_FORMATTED_DATES = {"1234-56-78--12-34-56", "1234-56-78 12-34-56-789"};	
 	
 		@Test
 		public void testMakeFoldersWhenNoExist() {
+			DataStorage.setPRINTEXIST(false);
+			DataStorage.makeFolders();
+			
+			File[] folders = new File[DataStorage.DATA_TYPE.length];
+			for (int i = 0; i < folders.length; i++) {
+				folders[i] = new File(DataStorage.DATA_TYPE[i]);
+			}
+			
+			for (int i = 0; i < folders.length; i++) {
+				Assert.assertTrue("Error -- " + DataStorage.DATA_TYPE[i] 
+						+ " -- folder", folders[i].exists());	
+			}
+			System.out.println("test complete - make folders");
 			
 		}
 		
@@ -20,6 +30,14 @@ public class tests {
 		public void testMakeFoldersWhenAlreadyExist() {
 			
 		}
+		
+		
+		// there is probably a way to combine a few of these tests into one single test 
+		// but it requires being able to pass a parameter into the test (dataType) to 
+		// know which data type (gps, telemetry, raw data) is being written.
+		// I think you can use parameterized JUnit tests, but I don't know how to do
+		// that while throwing Exceptions and expecting Exceptions.
+		
 		
 		@Test(expected=Exception.class)
 		public void testWriteTelemetryHeaderCSV() throws Exception {
@@ -63,6 +81,7 @@ public class tests {
 			System.out.println("test complete - GPS CSV header");
 		}
 		
+		// can probably combine the RAW header tests together somehow
 		@Test(expected=Exception.class)
 		public void testWriteTelemetryHeaderRaw() throws Exception {
 			int dataType = DataStorage.RAW_TELEMETRY;
@@ -126,9 +145,6 @@ public class tests {
 			System.out.println("test complete - telemetry RAW headers");
 		}
 		
-		
-	
-	
 	
 //	
 //	
@@ -162,70 +178,7 @@ public class tests {
 //			}
 //		}
 //		
-//		if (!error) System.out.println("Folders created successfully\n");
 //		
-//		// assume that dateFormats() does its job properly
-//		// since I don't know how to test it unless we just print it
-//		
-//		// test to check the headers were created properly
-//		String[] formattedDates = DataStorage.dateFormats();
-//		
-//		// create headers
-//		DataStorage.createTelemetryHeader(formattedDates);
-//		DataStorage.createGPSHeader(formattedDates);
-//		DataStorage.createRawTelemetry(formattedDates);
-//		DataStorage.createRawGPS(formattedDates);
-//		DataStorage.createRawAntenna(formattedDates);
-//		
-//		// test the headers were written correctly
-//		String[] pathsToReadFrom = new String[5];
-//		pathsToReadFrom[0] = "../storage/telemetry/" + formattedDates[0] + "_data_telemetry.csv";
-//		pathsToReadFrom[1] = "../storage/gps/" + formattedDates[0] + "_data_gps.csv";
-//		pathsToReadFrom[2] = "../storage/raw_telemetry/" + formattedDates[0] + "_raw_data.txt";
-//		pathsToReadFrom[3] = "../storage/raw_gps/" + formattedDates[0] + "_raw_data.txt";
-//		pathsToReadFrom[4] = "../storage/antenna_angles" + formattedDates[0] + "_antenna_angles.txt";
-//		
-//		// the correct headers:
-//		String[] correctHeaders = new String[5];
-//		correctHeaders[0] = "Current Time, Latitude, Longitude, Time, Altitude, "
-//				+ "Velocity, Satelites, Acceleration, Temperature, GyroX";
-//		correctHeaders[1] = "Current Time, Latitude, Longitude, Time, GPS_Altitude, GPS_Speed, Number of Satelites";
-//		correctHeaders[2] = "Raw Data:";
-//		correctHeaders[3] = "Raw Data:";
-//		correctHeaders[4] = "Raw Data:\n";
-//		
-//		
-//		
-//		error = false;
-//		
-//		for (int j = 0; j < pathsToReadFrom.length-1; j++) {
-//			String s1 = DataStorage.readLine(pathsToReadFrom[j]);
-//			String s2 = correctHeaders[j];
-//			if (!(s1.equals(s2))) {
-//				System.out.println(s1);
-//				System.out.println(s2);
-//				System.out.println("Error: header not equal -- " + j + "\n");
-//				error = true;
-//			}
-//			//System.out.println(error);
-//		}
-//		
-//		if (!error) System.out.println("Headers created successfully");
-//		//System.out.println("reached here");
-//		
-//		
-//		// this test is incomplete
-//		// check that data is saved properly
-//		String[] textToReadFrom = new String[5];
-//		textToReadFrom[0] = "../testReadingTelemetry.txt";
-//		textToReadFrom[1] = "../testReadingGPS.txt";
-//		textToReadFrom[2] = "../testReadingRawTelemetry.txt";
-//		textToReadFrom[3] = "../testReadingRawGPS.txt";
-//		textToReadFrom[4] = "../testReadingAntennas.txt";
-//		
-//		error = false;
-//		
-//		System.out.println("-----  End of testing  -----\n");
 //	}
 }
 
