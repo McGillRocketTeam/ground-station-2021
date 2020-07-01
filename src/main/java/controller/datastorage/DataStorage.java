@@ -328,6 +328,9 @@ public class DataStorage {
 		try {
 			TestingObj.testWriteTelemetryHeaderCSV();
 			TestingObj.testWriteGPSHeaderCSV();
+			TestingObj.testWriteTelemetryHeaderRaw();
+			TestingObj.testWriteGPSHeaderRaw();
+			TestingObj.testWriteAntennaAnglesHeaderRaw();
 		} catch (Exception e) {
 			//e.printStackTrace();
 			System.out.println("caught exception :P");
@@ -336,13 +339,13 @@ public class DataStorage {
 		
 		
 		// create files with headers for all types of data
-		for (int i = TELEMETRY; i <= ANTENNA_ANGLES; i++) {
-			try {
-				createHeader(formattedDates, i);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+//		for (int i = TELEMETRY; i <= ANTENNA_ANGLES; i++) {
+//			try {
+//				createHeader(formattedDates, i);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
 //
 //		for (int testing = 0; testing < 100; testing++) {
 //			String telem_raw = readLine("../test_1.txt"); // get 1st line of test file

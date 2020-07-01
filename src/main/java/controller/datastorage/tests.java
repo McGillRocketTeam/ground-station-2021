@@ -38,8 +38,8 @@ public class tests {
 			// remove \n because readLine strips it
 			String expected = DataStorage.TELEMETRY_HEADER.substring(0, DataStorage.TELEMETRY_HEADER.length()-1);
 			
-			Assert.assertEquals("failure - telemetry header written wrong", expected, actual);
-			System.out.println("telemetry CSV header - test complete.");
+			Assert.assertEquals("failure - telemetry CSV header written wrong", expected, actual);
+			System.out.println("test complete - telemetry CSV header");
 		}
 	
 		@Test(expected=Exception.class)
@@ -60,22 +60,70 @@ public class tests {
 			String expected = DataStorage.GPS_HEADER.substring(0, DataStorage.GPS_HEADER.length()-1);
 			
 			Assert.assertEquals("failure - GPS CSV header written wrong", expected, actual);
-			System.out.println("GPS CSV header - test complete.");
+			System.out.println("test complete - GPS CSV header");
 		}
 		
 		@Test(expected=Exception.class)
 		public void testWriteTelemetryHeaderRaw() throws Exception {
-			DataStorage.createHeader(TEST_FORMATTED_DATES, DataStorage.RAW_TELEMETRY);
+			int dataType = DataStorage.RAW_TELEMETRY;
+			DataStorage.createHeader(TEST_FORMATTED_DATES, dataType);
+			
+			String filePath = DataStorage.DATA_TYPE[dataType] + TEST_FORMATTED_DATES[0] + DataStorage.DATA_FILENAME[dataType];
+			
+			String actual = "";
+			try {
+				actual = DataStorage.readLine(filePath);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			//String expected = DataStorage.RAW_HEADER.substring(0, 9);
+			String expected = "Raw Data:";
+			
+			Assert.assertEquals("failure - telemetry RAW header written wrong", expected, actual);
+			System.out.println("test complete - telemetry RAW headers");
 		}
 		
-		@Test
-		public void testWriteGPSHeaderRaw() {
+		@Test(expected=Exception.class)
+		public void testWriteGPSHeaderRaw() throws Exception {
+			int dataType = DataStorage.RAW_GPS;
+			DataStorage.createHeader(TEST_FORMATTED_DATES, dataType);
 			
+			String filePath = DataStorage.DATA_TYPE[dataType] + TEST_FORMATTED_DATES[0] + DataStorage.DATA_FILENAME[dataType];
+			
+			String actual = "";
+			try {
+				actual = DataStorage.readLine(filePath);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			//String expected = DataStorage.RAW_HEADER.substring(0, 9);
+			String expected = "Raw Data:";
+			
+			Assert.assertEquals("failure - GPS RAW header written wrong", expected, actual);
+			System.out.println("test complete - GPS RAW headers");
 		}
 		
-		@Test
-		public void testWriteAntennaAnglesHeaderRaw() {
+		@Test(expected=Exception.class)
+		public void testWriteAntennaAnglesHeaderRaw() throws Exception {
+			int dataType = DataStorage.ANTENNA_ANGLES;
+			DataStorage.createHeader(TEST_FORMATTED_DATES, dataType);
 			
+			String filePath = DataStorage.DATA_TYPE[dataType] + TEST_FORMATTED_DATES[0] + DataStorage.DATA_FILENAME[dataType];
+			
+			String actual = "";
+			try {
+				actual = DataStorage.readLine(filePath);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			//String expected = DataStorage.RAW_HEADER.substring(0, 9);
+			String expected = "Raw Data:";
+			
+			Assert.assertEquals("failure - telemetry RAW header written wrong", expected, actual);
+			System.out.println("test complete - telemetry RAW headers");
 		}
 		
 		
