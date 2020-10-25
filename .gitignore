@@ -5,6 +5,10 @@
 build
 /bin/
 
-.project
+# Eclipse
 .classpath
-.DS_Store
+.project
+.settings/
+
+# Mac
+**/.DS_STORE
