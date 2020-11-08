@@ -1,6 +1,11 @@
 package controller;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class Parser {
     private int numberOfValues;
@@ -28,6 +33,28 @@ public class Parser {
         this.containsHex = containsHexValue;
         this.hexLocation = locationOfHexValue;
     }
+    
+    /**
+    *
+    * @param path of the text file
+    *
+    * @return a list containing each of the lines of the file
+    */
+	public static List<String> storeData(String path) throws FileNotFoundException
+	{
+		List<String> list = new ArrayList<String>();
+		File file = new File(path);
+		Scanner scan = new Scanner(file);
+		String str;
+		while(scan.hasNextLine()) {
+			str = scan.nextLine();
+			list.add(str);
+			}
+		//System.out.println(list);
+		//System.out.println(list.get(5371));
+		return list;
+		
+	}
 
     /**
      *
