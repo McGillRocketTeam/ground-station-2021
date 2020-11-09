@@ -33,7 +33,6 @@ public class MainApp extends Application {
         stage.setScene(mainApp);
         stage.show();
 
-
     }
 
     public static void main(String[] args) {

@@ -63,7 +63,7 @@ public class GraphController extends Application {
 			if (data.getData().size() > window_size)
 				data.getData().remove(0);
 		});
-		}, 0, 1, TimeUnit.SECONDS);
+		}, 0, 100, TimeUnit.MILLISECONDS);
 		
 	}
 	
