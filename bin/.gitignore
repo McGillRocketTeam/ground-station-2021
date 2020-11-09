@@ -1,3 +1,14 @@
-/main/
-/test/
-/default/
+/bin/bash: r: command not found
+.gradle
+
+# Ignore Gradle build output directory
+build
+/bin/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Mac
+**/.DS_STORE

@@ -12,6 +12,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -24,6 +25,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+import javafx.fxml.FXML;
+
 
 public class GraphController extends Application {
 	
@@ -34,6 +37,34 @@ public class GraphController extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception{
 		initializeGraphs(primaryStage);
+	}
+	
+	@FXML
+	private LineChart<String, Number> altitudeChart;
+	
+	public void initializeGraphs2() {
+		XYChart.Series<String, Number> data = new XYChart.Series<>();
+		data.setName("MYDATA");
+		
+		altitudeChart.getData().add(data);
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss");
+		
+		scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+		
+		scheduledExecutorService.scheduleAtFixedRate(() -> {
+			Integer testing = ThreadLocalRandom.current().nextInt(10);
+			
+			
+		Platform.runLater(()-> {
+			Date now = new Date();
+			data.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), testing));
+			
+			if (data.getData().size() > window_size)
+				data.getData().remove(0);
+		});
+		}, 0, 1, TimeUnit.SECONDS);
+		
 	}
 	
 	public void initializeGraphs(Stage primaryStage) {

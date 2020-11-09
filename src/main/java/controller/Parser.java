@@ -66,6 +66,9 @@ public class Parser {
      *
      * @return an array containing the the split values
      */
+	
+	// double[] myData = parse(string);
+	// double altitude = myData[3];
     public double[] parse(String sIn) throws IllegalArgumentException {
         double[] out = new double[this.numberOfValues];
 //        Arrays.fill(out, EMPTY_ARRAY);
