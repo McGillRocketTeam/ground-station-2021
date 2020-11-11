@@ -1,15 +1,19 @@
 import numpy as np
 import pandas as pd
+import math
 
 class Launch:
     air_ideal_gas_constant = 287.05 # J/K*kg
     kPa_to_Pa = 1000
     deg_to_rad = np.pi/180
     gravity_constant = 9.807 # m/s2
+    earth_radius = 6373231.0   #AS  https://rechneronline.de/earth-radius/
     time_step = 0.01 # size of timestep s
     max_loops = 1e5 # break iteration if more than this
+    launch_latitude = 32.9925986  #AS
+    launch_longitude = -106.9744309  #AS
     
-    def __init__(self, launch_zenith_angle, launch_azimith_angle, wind_array, rocket_properties):
+    def __init__(self, launch_zenith_angle, launch_azimith_angle, wind_array, rocket_properties, launch_latitude, launch_longitude):
         self.launch_zenith_angle = launch_zenith_angle
         self.launch_azimuth_angle = launch_azimith_angle
         self.wind_array = wind_array
@@ -34,6 +38,11 @@ class Launch:
         self.rocket_mass = rocket_properties.rocket_mass
 
         self.apogee = rocket_properties.apogee
+
+    def conversion_coordinates(x,y):
+        new_latitude = self.launch_latitude + (y/(2.0 * math.pi * self.earth_radius)) * 360.0
+        new_longitude = self.launch_longitude + (x/(2.0 * math.pi * earth_radius * math.cos(launch_latitude_rad))) * 360.0
+        return new_latitude, new_longitude
 
     def calculute_vertical_drag_coeff(self, altitude):
         if altitude > self.drogue_deploy_altitude:
@@ -68,7 +77,7 @@ class Launch:
             return self.kPa_to_Pa*2.488*((self.calculate_temperature(altitude)+273.1)/216.6)**-11.388
 
     def calculate_density(self, altitude): # kg/m3
-        return self.calculate_pressure(altitude)/ (self.air_ideal_gas_constant*self.calculate_temperature(altitude))
+        return self.calculate_pressure(altitude) / (self.air_ideal_gas_constant*self.calculate_temperature(altitude))
 
     def calculate_descent_rate(self, altitude): # m/s
         Cd = self.calculate_vertical_drag_coeff(altitude)
@@ -132,6 +141,7 @@ class Launch:
         loops = 0
         max_loops = int(1e6)
         t = 0
+
         while z > 0 and loops < max_loops:
             loops = loops + 1
             dt = self.time_step
@@ -158,8 +168,15 @@ class Launch:
 
             positions.append((x, y, z, t))
             velocities.append((v_x, v_y, v_z, t))
+        #print("x = ", x)
+        #print("y = ", y)
+        #print("z = ", z)
+        #print("t = ", t)
 
-        print("x = ", x)
-        print("y = ", y)
-        print("z = ", z)
-        print("t = ", t)
+        new_latitude = self.launch_latitude + (y/(2.0 * math.pi * self.earth_radius)) * 360.0
+        new_longitude = self.launch_longitude + (x/(2.0 * math.pi * self.earth_radius * math.cos(math.radians(self.launch_latitude)))) * 360.0
+        #print("lat = ", new_latitude)
+        #print("long = ", new_longitude)
+        return new_latitude,new_longitude
+
+

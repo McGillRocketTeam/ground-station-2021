@@ -11,6 +11,7 @@ from MCS import MCGenerator
 from launch_run import Launch
 from RocketProperties import RocketProperties
 
+
 #This is the new Monte Carlo
 def perturbWind(wind_data, sigma_direction, sigma_velocity, num_launches_u):
     index = 0
@@ -63,7 +64,13 @@ x = perturbWind(wind, 1, 2, num_launches)
 
 rocketProperties = RocketProperties()
 
-for simNumber in range(1):
-    sim = Launch(zenith_angle_perturbed[1], azimuth_angle_perturbed[1], x[simNumber], rocketProperties)
-    sim.run_launch()
-    
+coordinates = []
+for simNumber in range(num_launches):
+    sim = Launch(zenith_angle_perturbed[1], azimuth_angle_perturbed[1], x[simNumber], rocketProperties, 32.9925986, -106.9744309)
+    lat,lon = sim.run_launch()
+    coordinates.append ([lat,lon])
+
+save_file = False    #If you want to save a csv file of the coordinates
+
+if save_file == True:
+    np.savetxt("coordinates.csv", coordinates, delimiter=",")
