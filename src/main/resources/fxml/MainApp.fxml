@@ -51,8 +51,8 @@
                               </GridPane>
                            </children>
                         </HBox>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                         <ParallelCamera />
+                        <ImageView fx:id="mapImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </VBox>
                </right>
@@ -161,7 +161,7 @@
                                     <Insets left="20.0" />
                                  </padding>
                               </Label>
-                              <LineChart layoutY="19.0" minHeight="155.0" prefHeight="155.0" prefWidth="866.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="19.0">
+                              <LineChart fx:id="velocityChart" layoutY="19.0" minHeight="155.0" prefHeight="155.0" prefWidth="866.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="19.0">
                                  <xAxis>
                                     <CategoryAxis side="BOTTOM" />
                                  </xAxis>
@@ -178,7 +178,7 @@
                                     <Insets left="20.0" />
                                  </padding>
                               </Label>
-                              <LineChart layoutY="19.0" minHeight="155.0" prefHeight="155.0" prefWidth="866.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="19.0">
+                              <LineChart fx:id="accelerationChart" layoutY="19.0" minHeight="155.0" prefHeight="155.0" prefWidth="866.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="19.0">
                                  <xAxis>
                                     <CategoryAxis side="BOTTOM" />
                                  </xAxis>
@@ -195,7 +195,7 @@
                                     <Insets left="20.0" />
                                  </padding>
                               </Label>
-                              <LineChart layoutY="19.0" minHeight="155.0" prefHeight="155.0" prefWidth="866.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="19.0">
+                              <LineChart fx:id="RSSIChart" layoutY="19.0" minHeight="155.0" prefHeight="155.0" prefWidth="866.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="19.0">
                                  <xAxis>
                                     <CategoryAxis side="BOTTOM" />
                                  </xAxis>

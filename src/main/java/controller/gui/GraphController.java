@@ -30,7 +30,7 @@ import javafx.fxml.FXML;
 
 public class GraphController extends Application {
 	
-	final int window_size = 8;
+	final int window_size = 30;
 	private ScheduledExecutorService scheduledExecutorService;
 	
 	
@@ -42,11 +42,11 @@ public class GraphController extends Application {
 	@FXML
 	private LineChart<String, Number> altitudeChart;
 	
-	public void initializeGraphs2() {
-		XYChart.Series<String, Number> data = new XYChart.Series<>();
-		data.setName("MYDATA");
+	public void initializeAltitudeChart() {
+		XYChart.Series<String, Number> altitudeData = new XYChart.Series<>();
+		altitudeData.setName("altitudeData");
 		
-		altitudeChart.getData().add(data);
+		altitudeChart.getData().add(altitudeData);
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss");
 		
@@ -58,14 +58,103 @@ public class GraphController extends Application {
 			
 		Platform.runLater(()-> {
 			Date now = new Date();
-			data.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), testing));
+			altitudeData.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), testing));
 			
-			if (data.getData().size() > window_size)
-				data.getData().remove(0);
+			if (altitudeData.getData().size() > window_size)
+				altitudeData.getData().remove(0);
 		});
-		}, 0, 100, TimeUnit.MILLISECONDS);
+		}, 0, 300, TimeUnit.MILLISECONDS);
 		
 	}
+	
+	@FXML
+	private LineChart<String, Number> velocityChart;
+	
+	public void initializeVelocityChart() {
+		XYChart.Series<String, Number> velocityData = new XYChart.Series<>();
+		velocityData.setName("velocityData");
+	//	velocityChart.setTitle("TEST");
+		
+		velocityChart.getData().add(velocityData);
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss");
+		
+		scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+		
+		scheduledExecutorService.scheduleAtFixedRate(() -> {
+			Integer testing = ThreadLocalRandom.current().nextInt(10);
+			
+			
+		Platform.runLater(()-> {
+			Date now = new Date();
+			velocityData.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), testing));
+			
+			if (velocityData.getData().size() > window_size)
+				velocityData.getData().remove(0);
+		});
+		}, 0, 800, TimeUnit.MILLISECONDS);
+		
+	}
+	
+	@FXML
+	private LineChart<String, Number> accelerationChart;
+	
+	public void initializeAccelerationChart() {
+		XYChart.Series<String, Number> accelerationData = new XYChart.Series<>();
+		accelerationData.setName("accelerationData");
+		
+		accelerationChart.getData().add(accelerationData);
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss");
+		
+		scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+		
+		scheduledExecutorService.scheduleAtFixedRate(() -> {
+			Integer testing = ThreadLocalRandom.current().nextInt(10);
+			
+			
+		Platform.runLater(()-> {
+			Date now = new Date();
+			accelerationData.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), testing));
+			
+			if (accelerationData.getData().size() > window_size)
+				accelerationData.getData().remove(0);
+		});
+		}, 0, 500, TimeUnit.MILLISECONDS);
+		
+	}
+	
+	@FXML
+	private LineChart<String, Number> RSSIChart;
+	
+	public void initializeRSSIChart() {
+		XYChart.Series<String, Number> RSSIData = new XYChart.Series<>();
+		RSSIData.setName("MYDATA");
+		
+		RSSIChart.getData().add(RSSIData);
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss");
+		
+		scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+		
+		scheduledExecutorService.scheduleAtFixedRate(() -> {
+			Integer testing = ThreadLocalRandom.current().nextInt(10);
+			
+			
+		Platform.runLater(()-> {
+			Date now = new Date();
+			RSSIData.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), testing));
+			
+			if (RSSIData.getData().size() > window_size)
+				RSSIData.getData().remove(0);
+		});
+		}, 0, 200, TimeUnit.MILLISECONDS);
+		
+	}
+	
+	
+	
+	
 	
 	public void initializeGraphs(Stage primaryStage) {
 		// Initialize javafx graphs

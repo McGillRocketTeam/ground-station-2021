@@ -28,7 +28,10 @@ public class MainApp extends Application {
         Parent root = fxmlLoader.load();
         Scene mainApp = new Scene(root, 1920,1080);
         GraphController graphController = (GraphController)fxmlLoader.getController();
-        graphController.initializeGraphs2();
+        graphController.initializeAltitudeChart();
+        graphController.initializeVelocityChart();
+        graphController.initializeAccelerationChart();
+        graphController.initializeRSSIChart();
         stage.setTitle("McGill Rocket Team Ground Station");
         stage.setScene(mainApp);
         stage.show();
