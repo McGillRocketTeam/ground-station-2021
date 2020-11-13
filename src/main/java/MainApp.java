@@ -32,6 +32,8 @@ public class MainApp extends Application {
         graphController.initializeVelocityChart();
         graphController.initializeAccelerationChart();
         graphController.initializeRSSIChart();
+        graphController.initializeMap();
+        graphController.startTimer();
         stage.setTitle("McGill Rocket Team Ground Station");
         stage.setScene(mainApp);
         stage.show();
