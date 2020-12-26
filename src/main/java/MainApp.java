@@ -38,6 +38,7 @@ public class MainApp extends Application {
     	
         Label l = new Label("McGill Rocket Team Ground Station");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
+     //   FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
         Parent root = fxmlLoader.load();
         Scene mainApp = new Scene(root, 1920,1080);
         GraphController graphController = (GraphController)fxmlLoader.getController();
@@ -46,6 +47,7 @@ public class MainApp extends Application {
         graphController.initializeAccelerationChart();
         graphController.initializeRSSIChart();
         graphController.initializeMap();
+   
         stage.setTitle("McGill Rocket Team Ground Station");
         
         
@@ -82,7 +84,8 @@ public class MainApp extends Application {
 					graphController.addVelocityData(simpleDateFormat.format(now), data[4]);
 					graphController.addAccelerationData(simpleDateFormat.format(now), data[5]);
 					graphController.addRSSIData(simpleDateFormat.format(now), data[9]);
-					
+					graphController.initializeNumDisplay(myDataArrays);
+				
 				});
 				}, 0, 1000, TimeUnit.MILLISECONDS);
 				

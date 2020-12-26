@@ -100,6 +100,8 @@
                            <children>
                               <Label text="Peak Velocity:" />
                               <Label text="Current Velocity:" GridPane.rowIndex="1" />
+                              <Label fx:id="peakVelocityLabel" text="0" GridPane.columnIndex="1" />
+                              <Label fx:id="currentVelocityLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                            <padding>
                               <Insets left="10.0" />
@@ -117,6 +119,8 @@
                            <children>
                               <Label text="Peak Acceleration:" />
                               <Label text="Current Acceleration:" GridPane.rowIndex="1" />
+                              <Label fx:id="peakAccelerationLabel" text="0" GridPane.columnIndex="1" />
+                              <Label fx:id="currentAccelerationLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                            <padding>
                               <Insets left="10.0" />
@@ -132,6 +136,7 @@
                            </rowConstraints>
                            <children>
                               <Label text="Current RSSI:" />
+                              <Label fx:id="currentRSSILabel" text="0" GridPane.columnIndex="1" />
                            </children>
                            <padding>
                               <Insets left="10.0" />
