@@ -32,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
@@ -67,7 +68,14 @@ public class GraphController {
 	
 	XYChart.Series<String, Number> RSSIData;
 	
-	public void initializeAltitudeChart() {
+	public void initializeGraphs() {
+        initializeAltitudeChart();
+        initializeVelocityChart();
+        initializeAccelerationChart();
+        initializeRSSIChart();
+	}
+	
+	private void initializeAltitudeChart() {
 		altitudeData = new XYChart.Series<>();
 		altitudeData.setName("altitudeData");
 		altitudeChart.getData().add(altitudeData);
@@ -75,7 +83,7 @@ public class GraphController {
 		
 	}
 	
-	public void initializeVelocityChart() {
+	private void initializeVelocityChart() {
 		velocityData = new XYChart.Series<>();
 		velocityData.setName("velocityData");
 	//	velocityChart.setTitle("TEST");
@@ -83,38 +91,44 @@ public class GraphController {
 		
 	}
 	
-
-	
-	public void initializeAccelerationChart() {
+	private void initializeAccelerationChart() {
 		accelerationData = new XYChart.Series<>();
 		accelerationData.setName("accelerationData");
-		accelerationChart.getData().add(accelerationData);
-		
+		accelerationChart.getData().add(accelerationData);	
 	}
 	
-	public void initializeRSSIChart() {
+	private void initializeRSSIChart() {
 		RSSIData = new XYChart.Series<>();
 		RSSIData.setName("MYDATA");
-		RSSIChart.getData().add(RSSIData);
-		
+		RSSIChart.getData().add(RSSIData);	
 	}
 	
-	public void addAltitudeData(String x, Double y) {
+	public void addGraphData(double[] data, EnumMap<DataIndex, Integer> DataFormat) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss");
+		Date now = new Date();
+		String strNow = simpleDateFormat.format(now);
+		addAltitudeData(strNow, data[DataFormat.get(DataIndex.ALTITUDE_INDEX)]);
+		addVelocityData(strNow, data[DataFormat.get(DataIndex.VELOCITY_INDEX)]);
+		addAccelerationData(strNow, data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]);
+		addRSSIData(strNow, data[DataFormat.get(DataIndex.RSSI_INDEX)]);
+	}
+	
+	private void addAltitudeData(String x, Double y) {
 		altitudeData.getData().add(new XYChart.Data<>(x, y));
 		if (altitudeData.getData().size() > window_size)
 			altitudeData.getData().remove(0);
 	}
-	public void addVelocityData(String x, Double y) {
+	private void addVelocityData(String x, Double y) {
 		velocityData.getData().add(new XYChart.Data<>(x, y));
 		if (velocityData.getData().size() > window_size)
 			velocityData.getData().remove(0);
 	}
-	public void addAccelerationData(String x, Double y) {
+	private void addAccelerationData(String x, Double y) {
 		accelerationData.getData().add(new XYChart.Data<>(x, y));
 		if (accelerationData.getData().size() > window_size)
 			accelerationData.getData().remove(0);
 	}
-	public void addRSSIData(String x, Double y) {
+	private void addRSSIData(String x, Double y) {
 		RSSIData.getData().add(new XYChart.Data<>(x, y));
 		if (RSSIData.getData().size() > window_size)
 			RSSIData.getData().remove(0);
@@ -205,7 +219,6 @@ public class GraphController {
 	public void setPeakAltitudeLabel(String value){
 		this.peakAltitudeLabel.setText(value);
 	}
-	
 	@FXML
 	public void setCurrentAltitudeLabel(String value){
 		this.currentAltitudeLabel.setText(value);
@@ -231,33 +244,33 @@ public class GraphController {
 		this.currentRSSILabel.setText(value);
 	}
 
-	int i = 0;
-	public void initializeNumDisplay(ArrayList<double[]> myDataList) {
-		Timeline timeline = new Timeline();
-		timeline.getKeyFrames().add(new KeyFrame(Duration.ZERO,event ->{
-			//System.out.println(myDataList.get(i)[5]);
-			//set Peak Altitude 
-			if (myDataList.get(i)[3] > Double.parseDouble(peakAltitudeLabel.getText())) 
-				setPeakAltitudeLabel(String.valueOf(myDataList.get(i)[3]));
-			//set Current Altitude 
-			setCurrentAltitudeLabel(String.valueOf(myDataList.get(i)[3]));
-			//set Peak Velocity 
-			if (myDataList.get(i)[4]>Double.parseDouble(peakVelocityLabel.getText())) 
-				setPeakVelocityLabel(String.valueOf(myDataList.get(i)[4]));
-			//set Current Velocity 
-			setCurrentVelocityLabel(String.valueOf(myDataList.get(i)[4]));
-			//set Peak Acceleration
-			if (myDataList.get(i)[4]>Double.parseDouble(peakAccelerationLabel.getText())) 
-			setPeakAccelerationLabel(String.valueOf(myDataList.get(i)[5]));
-			//set Current Acceleration
-			setCurrentAccelerationLabel(String.valueOf(myDataList.get(i)[5]));
-			//setCurrentRSSI
-			setCurrentRSSILabel(String.valueOf(myDataList.get(i)[9]));
-			if((i+1)<myDataList.size()) i++;
-		}));
-		timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1)));
-		timeline.setCycleCount(Timeline.INDEFINITE);
-		timeline.play();
+	public void initializeNumDisplay() {
+		setCurrentAltitudeLabel("0");
+		setPeakVelocityLabel("0");
+		setCurrentVelocityLabel("0");
+		setPeakAccelerationLabel("0");
+		setCurrentAccelerationLabel("0");
+		setCurrentRSSILabel("0");
+	}
+	public void updateNumDisplay(double[] data, EnumMap<DataIndex, Integer> DataFormat) {
+		//System.out.println(myDataList.get(i)[5]);
+		//set Peak Altitude 
+		if (data[DataFormat.get(DataIndex.ALTITUDE_INDEX)] > Double.parseDouble(peakAltitudeLabel.getText())) 
+			setPeakAltitudeLabel(String.valueOf(data[DataFormat.get(DataIndex.ALTITUDE_INDEX)]));
+		//set Current Altitude 
+		setCurrentAltitudeLabel(String.valueOf(data[DataFormat.get(DataIndex.ALTITUDE_INDEX)]));
+		//set Peak Velocity 
+		if (data[DataFormat.get(DataIndex.VELOCITY_INDEX)]>Double.parseDouble(peakVelocityLabel.getText())) 
+			setPeakVelocityLabel(String.valueOf(data[DataFormat.get(DataIndex.VELOCITY_INDEX)]));
+		//set Current Velocity 
+		setCurrentVelocityLabel(String.valueOf(data[DataFormat.get(DataIndex.VELOCITY_INDEX)]));
+		//set Peak Acceleration
+		if (data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]>Double.parseDouble(peakAccelerationLabel.getText())) 
+		setPeakAccelerationLabel(String.valueOf(data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]));
+		//set Current Acceleration
+		setCurrentAccelerationLabel(String.valueOf(data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]));
+		//setCurrentRSSI
+		setCurrentRSSILabel(String.valueOf(data[DataFormat.get(DataIndex.RSSI_INDEX)]));
 	}
 
 
