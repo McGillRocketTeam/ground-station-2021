@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -12,6 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import controller.Parser;
+import controller.gui.DataIndex;
 import controller.gui.GraphController;
 import controller.gui.MainController;
 import controller.gui.Mode;
@@ -28,9 +30,10 @@ import javafx.fxml.FXMLLoader;
 
 public class MainApp extends Application {
 
-	static final Mode mode = Mode.OLD;
+	private final Mode mode = Mode.OLD;
+	private final EnumMap<DataIndex, Integer> DataFormat = new EnumMap<DataIndex, Integer>(DataIndex.class);
 	private ScheduledExecutorService scheduledExecutorService;
-	
+
     @Override
     public void start(Stage stage) throws Exception {
     	
@@ -41,10 +44,7 @@ public class MainApp extends Application {
         Parent root = fxmlLoader.load();
         Scene mainApp = new Scene(root, 1920,1080);
         GraphController graphController = (GraphController)fxmlLoader.getController();
-        graphController.initializeAltitudeChart();
-        graphController.initializeVelocityChart();
-        graphController.initializeAccelerationChart();
-        graphController.initializeRSSIChart();
+        graphController.initializeGraphs();
         graphController.initializeMap();
         
    
@@ -54,6 +54,7 @@ public class MainApp extends Application {
 		Parser parser = new Parser(10);
 		ArrayList<String> myData = new ArrayList<String>();
 		ArrayList<double[]> myDataArrays = new ArrayList<double[]>();
+		setDataFormat();
 		switch (mode) {
 			case OLD:
 				try {
@@ -69,7 +70,6 @@ public class MainApp extends Application {
 						System.out.println("Bad line");
 					}
 				}
-				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss");
 				
 				scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 				Iterator<double[]> dataItr = myDataArrays.iterator();
@@ -78,13 +78,12 @@ public class MainApp extends Application {
 					double[] data = dataItr.next();
 					
 				Platform.runLater(()-> {
+
 					System.out.println(data[3]);
 					Date now = new Date();
-					graphController.addAltitudeData(simpleDateFormat.format(now), data[3]);
-					graphController.addVelocityData(simpleDateFormat.format(now), data[4]);
-					graphController.addAccelerationData(simpleDateFormat.format(now), data[5]);
-					graphController.addRSSIData(simpleDateFormat.format(now), data[9]);
-					graphController.startTimer(myDataArrays);
+					graphController.addGraphData(data, DataFormat);
+					graphController.startTimer(data,DataFormat);
+
 				
 				});
 				}, 0, 1000, TimeUnit.MILLISECONDS);
@@ -109,6 +108,12 @@ public class MainApp extends Application {
 	public void stop() throws Exception{
 		super.stop();
 		scheduledExecutorService.shutdownNow();
+	}
+	private void setDataFormat() {
+		DataFormat.put(DataIndex.ALTITUDE_INDEX, 3);
+		DataFormat.put(DataIndex.VELOCITY_INDEX, 4);
+		DataFormat.put(DataIndex.ACCELERATION_INDEX, 5);
+		DataFormat.put(DataIndex.RSSI_INDEX, 9);
 	}
 
 }

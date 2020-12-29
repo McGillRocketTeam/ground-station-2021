@@ -34,6 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
@@ -48,9 +49,9 @@ public class GraphController {
 	@FXML private GridPane numbers;
 	@FXML private NumbersController numbersController;
 	
-	@FXML public void startTimer(ArrayList<double[]> myDataList) {
+	public void startTimer(double[] data, EnumMap<DataIndex, Integer> DataFormat) {
 //		System.out.println(numbersController);
-		numbersController.initializeNumDisplay(myDataList);
+		numbersController.updateNumDisplay(data, DataFormat);
 	}
 
 	
@@ -78,7 +79,14 @@ public class GraphController {
 	
 	XYChart.Series<String, Number> RSSIData;
 	
-	public void initializeAltitudeChart() {
+	public void initializeGraphs() {
+        initializeAltitudeChart();
+        initializeVelocityChart();
+        initializeAccelerationChart();
+        initializeRSSIChart();
+	}
+	
+	private void initializeAltitudeChart() {
 		altitudeData = new XYChart.Series<>();
 		altitudeData.setName("altitudeData");
 		altitudeChart.getData().add(altitudeData);
@@ -86,7 +94,7 @@ public class GraphController {
 		
 	}
 	
-	public void initializeVelocityChart() {
+	private void initializeVelocityChart() {
 		velocityData = new XYChart.Series<>();
 		velocityData.setName("velocityData");
 	//	velocityChart.setTitle("TEST");
@@ -94,38 +102,44 @@ public class GraphController {
 		
 	}
 	
-
-	
-	public void initializeAccelerationChart() {
+	private void initializeAccelerationChart() {
 		accelerationData = new XYChart.Series<>();
 		accelerationData.setName("accelerationData");
-		accelerationChart.getData().add(accelerationData);
-		
+		accelerationChart.getData().add(accelerationData);	
 	}
 	
-	public void initializeRSSIChart() {
+	private void initializeRSSIChart() {
 		RSSIData = new XYChart.Series<>();
 		RSSIData.setName("MYDATA");
-		RSSIChart.getData().add(RSSIData);
-		
+		RSSIChart.getData().add(RSSIData);	
 	}
 	
-	public void addAltitudeData(String x, Double y) {
+	public void addGraphData(double[] data, EnumMap<DataIndex, Integer> DataFormat) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss");
+		Date now = new Date();
+		String strNow = simpleDateFormat.format(now);
+		addAltitudeData(strNow, data[DataFormat.get(DataIndex.ALTITUDE_INDEX)]);
+		addVelocityData(strNow, data[DataFormat.get(DataIndex.VELOCITY_INDEX)]);
+		addAccelerationData(strNow, data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]);
+		addRSSIData(strNow, data[DataFormat.get(DataIndex.RSSI_INDEX)]);
+	}
+	
+	private void addAltitudeData(String x, Double y) {
 		altitudeData.getData().add(new XYChart.Data<>(x, y));
 		if (altitudeData.getData().size() > window_size)
 			altitudeData.getData().remove(0);
 	}
-	public void addVelocityData(String x, Double y) {
+	private void addVelocityData(String x, Double y) {
 		velocityData.getData().add(new XYChart.Data<>(x, y));
 		if (velocityData.getData().size() > window_size)
 			velocityData.getData().remove(0);
 	}
-	public void addAccelerationData(String x, Double y) {
+	private void addAccelerationData(String x, Double y) {
 		accelerationData.getData().add(new XYChart.Data<>(x, y));
 		if (accelerationData.getData().size() > window_size)
 			accelerationData.getData().remove(0);
 	}
-	public void addRSSIData(String x, Double y) {
+	private void addRSSIData(String x, Double y) {
 		RSSIData.getData().add(new XYChart.Data<>(x, y));
 		if (RSSIData.getData().size() > window_size)
 			RSSIData.getData().remove(0);
@@ -201,6 +215,45 @@ public class GraphController {
     //    Group root = new Group(mapImageView,circle);
 		
 	}
+	
+	@FXML
+	public Label peakAltitudeLabel;
+	public Label currentAltitudeLabel;
+	public Label peakVelocityLabel;
+	public Label currentVelocityLabel;
+	public Label peakAccelerationLabel;
+	public Label currentAccelerationLabel;
+	public Label currentRSSILabel;
+	
+	@FXML
+	public void setPeakAltitudeLabel(String value){
+		this.peakAltitudeLabel.setText(value);
+	}
+	@FXML
+	public void setCurrentAltitudeLabel(String value){
+		this.currentAltitudeLabel.setText(value);
+	}
+	@FXML
+	public void setPeakVelocityLabel(String value){
+		this.peakVelocityLabel.setText(value);
+	}
+	@FXML
+	public void setCurrentVelocityLabel(String value){
+		this.currentVelocityLabel.setText(value);
+	}
+	@FXML
+	public void setPeakAccelerationLabel(String value) {
+		this.peakAccelerationLabel.setText(value);
+	}
+	@FXML
+	public void setCurrentAccelerationLabel(String value){
+		this.currentAccelerationLabel.setText(value);
+	}
+	@FXML
+	public void setCurrentRSSILabel(String value) {
+		this.currentRSSILabel.setText(value);
+	}
+
 
 
 }

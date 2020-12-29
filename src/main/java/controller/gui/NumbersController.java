@@ -1,6 +1,7 @@
 package controller.gui;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -49,25 +50,24 @@ public class NumbersController {
 		this.currentRSSILabel.setText(value);
 	}
 
-	int i = 0;
-	public void initializeNumDisplay(ArrayList<double[]> myDataList) {
-		Timeline timeline = new Timeline();
-		timeline.getKeyFrames().add(new KeyFrame(Duration.ZERO,event ->{
-			//System.out.println(myDataList.get(i)[5]);
-			if (myDataList.get(i)[3] > Double.parseDouble(peakAltitudeLabel.getText())) 
-				setPeakAltitudeLabel(String.valueOf(myDataList.get(i)[3]));
-			setCurrentAltitudeLabel(String.valueOf(myDataList.get(i)[3]));
-			if (myDataList.get(i)[4]>Double.parseDouble(peakVelocityLabel.getText())) 
-				setPeakVelocityLabel(String.valueOf(myDataList.get(i)[4]));
-			setCurrentVelocityLabel(String.valueOf(myDataList.get(i)[4]));
-			if (myDataList.get(i)[4]>Double.parseDouble(peakAccelerationLabel.getText())) 
-			setPeakAccelerationLabel(String.valueOf(myDataList.get(i)[5]));
-			setCurrentAccelerationLabel(String.valueOf(myDataList.get(i)[5]));
-			setCurrentRSSILabel(String.valueOf(myDataList.get(i)[9]));
-			if((i+1)<myDataList.size()) i++;
-		}));
-		timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1)));
-		timeline.setCycleCount(Timeline.INDEFINITE);
-		timeline.play();
+	public void updateNumDisplay(double[] data, EnumMap<DataIndex, Integer> DataFormat) {
+		//System.out.println(myDataList.get(i)[5]);
+		//set Peak Altitude 
+		if (data[DataFormat.get(DataIndex.ALTITUDE_INDEX)] > Double.parseDouble(peakAltitudeLabel.getText())) 
+			setPeakAltitudeLabel(String.valueOf(data[DataFormat.get(DataIndex.ALTITUDE_INDEX)]));
+		//set Current Altitude 
+		setCurrentAltitudeLabel(String.valueOf(data[DataFormat.get(DataIndex.ALTITUDE_INDEX)]));
+		//set Peak Velocity 
+		if (data[DataFormat.get(DataIndex.VELOCITY_INDEX)]>Double.parseDouble(peakVelocityLabel.getText())) 
+			setPeakVelocityLabel(String.valueOf(data[DataFormat.get(DataIndex.VELOCITY_INDEX)]));
+		//set Current Velocity 
+		setCurrentVelocityLabel(String.valueOf(data[DataFormat.get(DataIndex.VELOCITY_INDEX)]));
+		//set Peak Acceleration
+		if (data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]>Double.parseDouble(peakAccelerationLabel.getText())) 
+		setPeakAccelerationLabel(String.valueOf(data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]));
+		//set Current Acceleration
+		setCurrentAccelerationLabel(String.valueOf(data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]));
+		//setCurrentRSSI
+		setCurrentRSSILabel(String.valueOf(data[DataFormat.get(DataIndex.RSSI_INDEX)]));
 	}
 }
