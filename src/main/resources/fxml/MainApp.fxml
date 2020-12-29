@@ -59,7 +59,6 @@
                <center>
                   <GridPane BorderPane.alignment="CENTER">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="532.0" minWidth="10.0" prefWidth="261.6000274658203" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="897.5999908447266" minWidth="10.0" prefWidth="819.1999725341797" />
                     </columnConstraints>
                     <rowConstraints>
@@ -69,80 +68,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <GridPane prefHeight="93.0" prefWidth="214.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Label text="Peak Altitude:" />
-                              <Label text="Current Altitude:" GridPane.rowIndex="1" />
-                              <Label fx:id="currentAltitudeLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label fx:id="peakAltitudeLabel" text="0" GridPane.columnIndex="1" />
-                           </children>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </GridPane>
-                        <GridPane prefHeight="93.0" prefWidth="214.0" GridPane.rowIndex="1">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <Label text="Peak Velocity:" />
-                              <Label text="Current Velocity:" GridPane.rowIndex="1" />
-                              <Label fx:id="peakVelocityLabel" text="0" GridPane.columnIndex="1" />
-                              <Label fx:id="currentVelocityLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                           </children>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </GridPane>
-                        <GridPane layoutX="10.0" layoutY="182.0" prefHeight="93.0" prefWidth="214.0" GridPane.rowIndex="2">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <Label text="Peak Acceleration:" />
-                              <Label text="Current Acceleration:" GridPane.rowIndex="1" />
-                              <Label fx:id="peakAccelerationLabel" text="0" GridPane.columnIndex="1" />
-                              <Label fx:id="currentAccelerationLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                           </children>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </GridPane>
-                        <GridPane layoutX="10.0" layoutY="355.0" prefHeight="93.0" prefWidth="214.0" GridPane.rowIndex="3">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <Label text="Current RSSI:" />
-                              <Label fx:id="currentRSSILabel" text="0" GridPane.columnIndex="1" />
-                           </children>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </GridPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="14.0" layoutY="5.0" text="Altitude Graph">
                                  <padding>
@@ -159,7 +85,7 @@
                               </LineChart>
                            </children>
                         </AnchorPane>
-                        <AnchorPane layoutX="224.0" layoutY="9.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <AnchorPane layoutX="224.0" layoutY="9.0" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                            <children>
                               <Label layoutX="14.0" layoutY="5.0" text="Velocity Graph">
                                  <padding>
@@ -176,7 +102,7 @@
                               </LineChart>
                            </children>
                         </AnchorPane>
-                        <AnchorPane layoutX="272.0" layoutY="181.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <AnchorPane layoutX="272.0" layoutY="181.0" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                            <children>
                               <Label layoutX="14.0" layoutY="5.0" text="Acceleration Graph">
                                  <padding>
@@ -193,7 +119,7 @@
                               </LineChart>
                            </children>
                         </AnchorPane>
-                        <AnchorPane layoutX="10.0" layoutY="9.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <AnchorPane layoutX="10.0" layoutY="9.0" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                            <children>
                               <Label layoutX="14.0" layoutY="5.0" text="RSSI Graph">
                                  <padding>
@@ -213,6 +139,19 @@
                      </children>
                   </GridPane>
                </center>
+               <left>
+                  <GridPane minWidth="261.6000274658203" BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    	<children>            		
+                    		<fx:include fx:id="numbers" source="Numbers.fxml"/>     
+                    	</children>
+                  </GridPane>
+               </left>
             </BorderPane>
          </content>
       </Tab>

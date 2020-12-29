@@ -11,9 +11,6 @@ import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 
 public class MainController {
-	
-	public void initializeNumberDisplays() {
-	}
 
 }
 	

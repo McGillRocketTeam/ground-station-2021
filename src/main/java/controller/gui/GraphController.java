@@ -20,11 +20,13 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.Duration;
 
 import java.io.FileInputStream;
@@ -42,6 +44,15 @@ import javafx.fxml.FXML;
 
 
 public class GraphController {
+	
+	@FXML private GridPane numbers;
+	@FXML private NumbersController numbersController;
+	
+	@FXML public void startTimer(ArrayList<double[]> myDataList) {
+//		System.out.println(numbersController);
+		numbersController.initializeNumDisplay(myDataList);
+	}
+
 	
 	final int window_size = 30;
 	ScheduledExecutorService scheduledExecutorService;
@@ -189,75 +200,6 @@ public class GraphController {
         mapImageView.setImage(image);
     //    Group root = new Group(mapImageView,circle);
 		
-		
-	}
-	
-	@FXML
-	public Label peakAltitudeLabel;
-	public Label currentAltitudeLabel;
-	public Label peakVelocityLabel;
-	public Label currentVelocityLabel;
-	public Label peakAccelerationLabel;
-	public Label currentAccelerationLabel;
-	public Label currentRSSILabel;
-	
-	@FXML
-	public void setPeakAltitudeLabel(String value){
-		this.peakAltitudeLabel.setText(value);
-	}
-	
-	@FXML
-	public void setCurrentAltitudeLabel(String value){
-		this.currentAltitudeLabel.setText(value);
-	}
-	@FXML
-	public void setPeakVelocityLabel(String value){
-		this.peakVelocityLabel.setText(value);
-	}
-	@FXML
-	public void setCurrentVelocityLabel(String value){
-		this.currentVelocityLabel.setText(value);
-	}
-	@FXML
-	public void setPeakAccelerationLabel(String value) {
-		this.peakAccelerationLabel.setText(value);
-	}
-	@FXML
-	public void setCurrentAccelerationLabel(String value){
-		this.currentAccelerationLabel.setText(value);
-	}
-	@FXML
-	public void setCurrentRSSILabel(String value) {
-		this.currentRSSILabel.setText(value);
-	}
-
-	int i = 0;
-	public void initializeNumDisplay(ArrayList<double[]> myDataList) {
-		Timeline timeline = new Timeline();
-		timeline.getKeyFrames().add(new KeyFrame(Duration.ZERO,event ->{
-			//System.out.println(myDataList.get(i)[5]);
-			//set Peak Altitude 
-			if (myDataList.get(i)[3] > Double.parseDouble(peakAltitudeLabel.getText())) 
-				setPeakAltitudeLabel(String.valueOf(myDataList.get(i)[3]));
-			//set Current Altitude 
-			setCurrentAltitudeLabel(String.valueOf(myDataList.get(i)[3]));
-			//set Peak Velocity 
-			if (myDataList.get(i)[4]>Double.parseDouble(peakVelocityLabel.getText())) 
-				setPeakVelocityLabel(String.valueOf(myDataList.get(i)[4]));
-			//set Current Velocity 
-			setCurrentVelocityLabel(String.valueOf(myDataList.get(i)[4]));
-			//set Peak Acceleration
-			if (myDataList.get(i)[4]>Double.parseDouble(peakAccelerationLabel.getText())) 
-			setPeakAccelerationLabel(String.valueOf(myDataList.get(i)[5]));
-			//set Current Acceleration
-			setCurrentAccelerationLabel(String.valueOf(myDataList.get(i)[5]));
-			//setCurrentRSSI
-			setCurrentRSSILabel(String.valueOf(myDataList.get(i)[9]));
-			if((i+1)<myDataList.size()) i++;
-		}));
-		timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1)));
-		timeline.setCycleCount(Timeline.INDEFINITE);
-		timeline.play();
 	}
 
 
