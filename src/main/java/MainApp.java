@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 import controller.Parser;
 import controller.gui.DataIndex;
 import controller.gui.GraphController;
-import controller.gui.MainController;
+import controller.gui.MainAppController;
 import controller.gui.Mode;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -43,9 +43,9 @@ public class MainApp extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
         Parent root = fxmlLoader.load();
         Scene mainApp = new Scene(root, 1920,1080);
-        GraphController graphController = (GraphController)fxmlLoader.getController();
-        graphController.initializeGraphs();
-        graphController.initializeMap();
+        MainAppController mainAppController = (MainAppController)fxmlLoader.getController();
+        mainAppController.mainAppInitializeGraphs();
+        mainAppController.mainAppInitializeMap();
         
    
         stage.setTitle("McGill Rocket Team Ground Station");
@@ -81,8 +81,8 @@ public class MainApp extends Application {
 
 					System.out.println(data[3]);
 					Date now = new Date();
-					graphController.addGraphData(data, DataFormat);
-					graphController.startTimer(data,DataFormat);
+					mainAppController.mainAppAddGraphData(data, DataFormat);
+					mainAppController.startTimer(data,DataFormat);
 
 				
 				});
