@@ -110,6 +110,7 @@ public class MainApp extends Application {
 		scheduledExecutorService.shutdownNow();
 	}
 	private void setDataFormat() {
+		DataFormat.put(DataIndex.TIME_INDEX, 2);
 		DataFormat.put(DataIndex.ALTITUDE_INDEX, 3);
 		DataFormat.put(DataIndex.VELOCITY_INDEX, 4);
 		DataFormat.put(DataIndex.ACCELERATION_INDEX, 5);

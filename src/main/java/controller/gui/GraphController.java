@@ -43,6 +43,9 @@ import java.util.concurrent.TimeUnit;
 import controller.Parser;
 import javafx.fxml.FXML;
 
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.Node;
+import javafx.event.EventHandler;
 
 public class GraphController {
 	
@@ -55,9 +58,8 @@ public class GraphController {
 //	}
 
 	
-	final int window_size = 30;
+	final int window_size = 20;
 	ScheduledExecutorService scheduledExecutorService;
-	
 	
 	@FXML
 	private LineChart<String, Number> altitudeChart;
@@ -91,37 +93,48 @@ public class GraphController {
 		altitudeData.setName("altitudeData");
 		altitudeChart.getData().add(altitudeData);
 		
+		NumberAxis yAxis = (NumberAxis) altitudeChart.getYAxis();
+		yAxis.setForceZeroInRange(false);
 		
+		
+		// addMouseScrolling(altitudeChart); 
+
 	}
 	
 	private void initializeVelocityChart() {
 		velocityData = new XYChart.Series<>();
 		velocityData.setName("velocityData");
-	//	velocityChart.setTitle("TEST");
 		velocityChart.getData().add(velocityData);
 		
+		NumberAxis yAxis = (NumberAxis) velocityChart.getYAxis();
+		yAxis.setForceZeroInRange(false);
 	}
 	
 	private void initializeAccelerationChart() {
 		accelerationData = new XYChart.Series<>();
 		accelerationData.setName("accelerationData");
 		accelerationChart.getData().add(accelerationData);	
+		
+		NumberAxis yAxis = (NumberAxis) accelerationChart.getYAxis();
+		yAxis.setForceZeroInRange(false);
 	}
 	
 	private void initializeRSSIChart() {
 		RSSIData = new XYChart.Series<>();
 		RSSIData.setName("MYDATA");
 		RSSIChart.getData().add(RSSIData);	
+		
+		NumberAxis yAxis = (NumberAxis) RSSIChart.getYAxis();
+		yAxis.setForceZeroInRange(false);
 	}
 	
 	public void addGraphData(double[] data, EnumMap<DataIndex, Integer> DataFormat) {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss");
-		Date now = new Date();
-		String strNow = simpleDateFormat.format(now);
-		addAltitudeData(strNow, data[DataFormat.get(DataIndex.ALTITUDE_INDEX)]);
-		addVelocityData(strNow, data[DataFormat.get(DataIndex.VELOCITY_INDEX)]);
-		addAccelerationData(strNow, data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]);
-		addRSSIData(strNow, data[DataFormat.get(DataIndex.RSSI_INDEX)]);
+		
+		
+		addAltitudeData(String.valueOf(data[DataFormat.get(DataIndex.TIME_INDEX)]), data[DataFormat.get(DataIndex.ALTITUDE_INDEX)]);
+		addVelocityData(String.valueOf(data[DataFormat.get(DataIndex.TIME_INDEX)]), data[DataFormat.get(DataIndex.VELOCITY_INDEX)]);
+		addAccelerationData(String.valueOf(data[DataFormat.get(DataIndex.TIME_INDEX)]), data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]);
+		addRSSIData(String.valueOf(data[DataFormat.get(DataIndex.TIME_INDEX)]), data[DataFormat.get(DataIndex.RSSI_INDEX)]);
 	}
 	
 	private void addAltitudeData(String x, Double y) {
@@ -129,23 +142,37 @@ public class GraphController {
 		if (altitudeData.getData().size() > window_size)
 			altitudeData.getData().remove(0);
 	}
+	
 	private void addVelocityData(String x, Double y) {
 		velocityData.getData().add(new XYChart.Data<>(x, y));
 		if (velocityData.getData().size() > window_size)
 			velocityData.getData().remove(0);
 	}
+	
 	private void addAccelerationData(String x, Double y) {
 		accelerationData.getData().add(new XYChart.Data<>(x, y));
 		if (accelerationData.getData().size() > window_size)
 			accelerationData.getData().remove(0);
 	}
+	
 	private void addRSSIData(String x, Double y) {
 		RSSIData.getData().add(new XYChart.Data<>(x, y));
 		if (RSSIData.getData().size() > window_size)
 			RSSIData.getData().remove(0);
 	}
 	
-
+	/*
+    public void addMouseScrolling(Node node) {
+        node.setOnScroll((ScrollEvent event) -> {
+            double zoomFactor = 1.05;
+            double deltaY = event.getDeltaY();
+            if (deltaY < 0) zoomFactor = 2.0 - zoomFactor;
+            node.setScaleX(node.getScaleX() * zoomFactor);
+            node.setScaleY(node.getScaleY() * zoomFactor);
+        });
+    }
+    */
+	
 }
 
 
