@@ -63,7 +63,6 @@ public class MainApp extends Application {
     	group.getChildren().add(box);
     	buildCamera();
    //     buildAxes();
-    	
         Label l = new Label("McGill Rocket Team Ground Station");
 //        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
 //        Parent root = fxmlLoader.load();
@@ -109,20 +108,20 @@ public class MainApp extends Application {
 				testArr.add(42);
 				Iterator<Integer> testArrItr = testArr.iterator();
 				scheduledExecutorService.scheduleAtFixedRate(() -> {
-					double[] data = dataItr.next();
-					int test = testArrItr.next();
-				Platform.runLater(()-> {
-					System.out.println(data[3]);
-					Date now = new Date();
-					System.out.println(data[8]);
-					group.setRotateYAnimated(test);
-					group.setRotateXAnimated(test);
-					//cameraXform.rx.setAngle(data[8]);
-//					mainAppControlle.mainAppAddGraphData(data, DataFormat);
-//					mainAppController.startTimer(data,DataFormat);
-
-				
-				});
+						double[] data = dataItr.next();
+						int test = testArrItr.next();
+						Platform.runLater(()-> {
+							System.out.println(data[3]);
+							Date now = new Date();
+							System.out.println(data[8]);
+							group.setRotateYAnimated(test);
+							group.setRotateXAnimated(test);
+							//cameraXform.rx.setAngle(data[8]);
+		//					mainAppControlle.mainAppAddGraphData(data, DataFormat);
+		//					mainAppController.startTimer(data,DataFormat);
+		
+					
+					});
 				}, 0, 1000, TimeUnit.MILLISECONDS);
 				
 			case SIMULATION:
@@ -206,9 +205,10 @@ public class MainApp extends Application {
 			this.getTransforms().clear();
 			this.getTransforms().addAll(t);
 		}
+		
 		void setRotateX(double ang) {
-//			t = new Rotate(data, new Point3D(1,0,0));
-//			this.getTransforms().add(t);
+			t = new Rotate(ang, new Point3D(1,0,0));
+			this.getTransforms().add(t);
 
 		}
 		void setRotateY(double ang) {
@@ -225,6 +225,32 @@ public class MainApp extends Application {
 			rYTransition.setAxis(new Point3D(10,50,0));
 			rYTransition.play();
 		}
+		
+		/*
+		 * pitch (around its X axis), yaw (around its Y axis) and roll (around its Z axis),
+		 * alf is roll, bet is pitch and gam is yaw.
+		 * https://stackoverflow.com/questions/30145414/rotate-a-3d-object-on-3-axis-in-javafx-properly
+		 */
+		private void matrixRotateNode(Node n, double alf, double bet, double gam){
+		    double A11=Math.cos(alf)*Math.cos(gam);
+		    double A12=Math.cos(bet)*Math.sin(alf)+Math.cos(alf)*Math.sin(bet)*Math.sin(gam);
+		    double A13=Math.sin(alf)*Math.sin(bet)-Math.cos(alf)*Math.cos(bet)*Math.sin(gam);
+		    double A21=-Math.cos(gam)*Math.sin(alf);
+		    double A22=Math.cos(alf)*Math.cos(bet)-Math.sin(alf)*Math.sin(bet)*Math.sin(gam);
+		    double A23=Math.cos(alf)*Math.sin(bet)+Math.cos(bet)*Math.sin(alf)*Math.sin(gam);
+		    double A31=Math.sin(gam);
+		    double A32=-Math.cos(gam)*Math.sin(bet);
+		    double A33=Math.cos(bet)*Math.cos(gam);
+
+		    double d = Math.acos((A11+A22+A33-1d)/2d);
+		    if(d!=0d){
+		        double den=2d*Math.sin(d);
+		        Point3D p= new Point3D((A32-A23)/den,(A13-A31)/den,(A21-A12)/den);
+		        n.setRotationAxis(p);
+		        n.setRotate(Math.toDegrees(d));                    
+		    }
+		}
+		
 	}
 
 }
