@@ -9,9 +9,22 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
 
+<VBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="controller.gui.MapController">
+	<children>
+<!-- 		<VBox prefHeight = "400.0" prefWidth = "74">
+			<children> -->
+				<StackPane fx:id="stackpane"/>
+				<Button fx:id="button"/>
+<!-- 			</children>
+		</VBox> -->
+	</children>
+</VBox>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="controller.gui.MapController">
+<!-- <VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="controller.gui.MapController">
    <children>
       <VBox prefHeight="400.0" prefWidth="74.0">
          <children>
@@ -31,14 +44,23 @@
                         <Label text="Longitude:" GridPane.rowIndex="1" />
                      </children>
                      <HBox.margin>
-                        <Insets left="20.0" />
+                        <Insets left="0.0" />
                      </HBox.margin>
+                     
                   </GridPane>
                </children>
             </HBox>
+            <HBox>
+            	<children>
+                	<GridPane prefHeight="100.0" prefWidth="400.0">
+		            	<ImageView fx:id="mapImageView" fitHeight="150.0" fitWidth="200.0" preserveRatio="true" />
+		            	<Circle fx:id="circle" GridPane.rowIndex="0" layoutX = "150" />
+		        	</GridPane>
+		        </children>
+            </HBox>
             <ParallelCamera />
-            <ImageView fx:id="mapImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
+        <Button fx:id="button" text="Resize" onAction = "#resize"/>
+        </children>
       </VBox>
    </children>
-</VBox>
+</VBox> -->
