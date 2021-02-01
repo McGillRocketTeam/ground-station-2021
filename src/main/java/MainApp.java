@@ -42,7 +42,7 @@ public class MainApp extends Application {
         Label l = new Label("McGill Rocket Team Ground Station");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
         Parent root = fxmlLoader.load();
-        Scene mainApp = new Scene(root, 1920,1080);
+        Scene mainApp = new Scene(root, 1024,768);
         MainAppController mainAppController = (MainAppController)fxmlLoader.getController();
         mainAppController.mainAppInitializeGraphs();
         mainAppController.mainAppInitializeMap();
