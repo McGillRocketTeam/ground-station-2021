@@ -3,7 +3,6 @@
 
 	import java.io.InputStream;
 
-
 	import javafx.fxml.FXML;
 	import javafx.scene.image.Image;
 	import javafx.scene.image.ImageView;
@@ -65,8 +64,12 @@
 		*/
 		
 		// THE STARTING SIZE OF THE IMAGE
-		private int image_width  = 2878	/10;
-		private int image_height = 1634	/10;
+		private int image_width  = 2878	 	/10;
+		private int image_height = 1634		/10;
+		
+		// THE ENLARGED SIZE OF THE IMAGE
+		private int image_width2  = 2878 	/2;
+		private int image_height2 = 1634 	/2;
 		
 		// THE CORNER LATITUDES AND LONGITUDES 
 		final double lower_lat = decimal_converter(33,10,17); // Top of the screen
@@ -82,43 +85,39 @@
 	    }
 	    
 	    //	CONVERTING LON TO X VALUE
-	    public int find_x (double lon) {
-	    	int x = Math.abs((int)(((lon - lower_lon)/(upper_lon-lower_lon))*image_width));
+	    public int find_x (double lon, int width) {
+	    	int x = Math.abs((int)(((lon - lower_lon)/(upper_lon-lower_lon))*width));
 	    	System.out.println(x);
 	    	return x;
 	    }
 	    
 	    //	CONVERTING LAT TO Y VALUE
-	    public int find_y (double lat) {
-	    	int y = Math.abs((int)(((lat - lower_lat)/(upper_lat-lower_lat))*image_height));
+	    public int find_y (double lat, int height) {
+	    	int y = Math.abs((int)(((lat - lower_lat)/(upper_lat-lower_lat))*height));
 	    	System.out.println(y);
 	    	return y;
 	    }
 	    
-		//	DON'T TOUCH THESE
-		private String buttonname = "Resize";
-		private boolean fullscreen = false;
-		private int count = 0;
 	    
 	    @FXML
 	    StackPane stackpane;
 	    
 	    @FXML
-	    Button button;
+	    StackPane stackpane2;
+	   
 	    
 		public void initializeMap() throws Exception{
 			
-	    	double lat = decimal_converter(33,05,03);
-	    	double lon = decimal_converter(107,03,30);
+	    	double lat = decimal_converter(33 ,05,03);
+	    	double lon = decimal_converter(107,05,30);
 	        
 	        Circle circle = new Circle();
 	        Circle circle2 = new Circle();
 	        
 	        //	LOCATION OF CIRCLE
-//	        circle.setTranslateX(find_x(lon));
-//	        circle.setTranslateY(find_y(lat));
-	        circle.setCenterY(find_x(lon));
-	        circle.setCenterY(find_y(lat));
+	        //	Starts from center, so move it to the corner first with "-image_width", "-image_height"
+	        circle.setTranslateX(-image_width/2+find_x(lon,image_width));
+	        circle.setTranslateY(-image_height/2+find_y(lat,image_height));
 	        
 	        //	SIZE & COLOR OF CIRCLE
 	        circle.setRadius(5); 
@@ -136,6 +135,8 @@
 	        iv.setFitWidth(image_width);
 	        iv.setPreserveRatio(true);
 	        
+	        Button button = new Button();
+	        
 	    	button.setText("Enlarge Map");
 	        
 	        EventHandler <ActionEvent> event = new EventHandler <ActionEvent> () {
@@ -143,23 +144,21 @@
 	        		
 	        		e.consume();
 	        		
-	        		circle2.setCenterX(find_x(lon));
-	                circle2.setCenterY(find_y(lat));
-	        		 
-	        		iv2.setFitWidth(image_width*10);
-	        		
+	        		circle2.setTranslateX(-image_width2 /2 + find_x(lon,image_width2 ));
+	                circle2.setTranslateY(-image_height2/2 + find_y(lat,image_height2));
+	                
+	        		iv2.setFitWidth(image_width2);
+	        		iv2.setPreserveRatio(true);
 	        		
 	        		StackPane secondaryLayout = new StackPane();
 	                secondaryLayout.getChildren().add(iv2);
 	                secondaryLayout.getChildren().add(circle2);
 	                
-	                
-	                
-	                Scene secondScene = new Scene(secondaryLayout, 1400,800);
+	                Scene secondScene = new Scene(secondaryLayout, image_width2,image_height2);
 	  
 	                 // New window (Stage)
 	                Stage newWindow = new Stage();
-	                newWindow.setTitle("Second Stage");
+	                newWindow.setTitle("Map");
 	                newWindow.setScene(secondScene);
 	                 
 	                newWindow.show();
@@ -171,5 +170,8 @@
 	        stackpane.getChildren().add(iv);
 	        stackpane.getChildren().add(circle);
 	        stackpane.setPadding(new Insets(20));
+	        
+	        stackpane2.getChildren().add(button);
+	        stackpane2.setPadding(new Insets(20));
 		}
 	}
