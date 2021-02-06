@@ -18,7 +18,7 @@
 <!-- 		<VBox prefHeight = "400.0" prefWidth = "74">
 			<children> -->
 				<StackPane fx:id="stackpane"/>
-				<Button fx:id="button"/>
+				<StackPane fx:id="stackpane2"/>
 <!-- 			</children>
 		</VBox> -->
 	</children>
