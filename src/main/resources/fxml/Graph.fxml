@@ -30,7 +30,7 @@
             </Label>
             <LineChart fx:id="altitudeChart" layoutY="19.0" minHeight="155.0" prefHeight="155.0" prefWidth="866.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="19.0">
                <xAxis>
-                  <CategoryAxis side="BOTTOM" />
+                  <NumberAxis side="BOTTOM" />
                </xAxis>
                <yAxis>
                   <NumberAxis side="LEFT" />
@@ -47,7 +47,7 @@
             </Label>
             <LineChart fx:id="velocityChart" layoutY="19.0" minHeight="155.0" prefHeight="155.0" prefWidth="866.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="19.0">
                <xAxis>
-                  <CategoryAxis side="BOTTOM" />
+                  <NumberAxis side="BOTTOM" />
                </xAxis>
                <yAxis>
                   <NumberAxis side="LEFT" />
@@ -64,7 +64,7 @@
             </Label>
             <LineChart fx:id="accelerationChart" layoutY="19.0" minHeight="155.0" prefHeight="155.0" prefWidth="866.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="19.0">
                <xAxis>
-                  <CategoryAxis side="BOTTOM" />
+                  <NumberAxis side="BOTTOM" />
                </xAxis>
                <yAxis>
                   <NumberAxis side="LEFT" />
@@ -81,7 +81,7 @@
             </Label>
             <LineChart fx:id="RSSIChart" layoutY="19.0" minHeight="155.0" prefHeight="155.0" prefWidth="866.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="19.0">
                <xAxis>
-                  <CategoryAxis side="BOTTOM" />
+                  <NumberAxis side="BOTTOM" />
                </xAxis>
                <yAxis>
                   <NumberAxis side="LEFT" />

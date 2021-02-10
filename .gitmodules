@@ -1,0 +1,3 @@
+[submodule "src/main/java/controller/gui/jfxutils"]
+	path = src/main/java/controller/gui/jfxutils
+	url = https://github.com/gillius/jfxutils.git

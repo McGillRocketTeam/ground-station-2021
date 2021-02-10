@@ -9,6 +9,8 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
@@ -40,12 +42,23 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-import controller.Parser;
 import javafx.fxml.FXML;
+
+
+import org.gillius.jfxutils.JFXUtil;
+import org.gillius.jfxutils.chart.ChartPanManager;
+import org.gillius.jfxutils.chart.FixedFormatTickFormatter;
+import org.gillius.jfxutils.chart.JFXChartUtil;
+import org.gillius.jfxutils.chart.StableTicksAxis;
+
+
+import controller.Parser;
+import javafx.fxml.FXMLLoader;
 
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.Node;
 import javafx.event.EventHandler;
+
 
 public class GraphController {
 	
@@ -56,30 +69,40 @@ public class GraphController {
 //		System.out.println(numbersController);
 //		numbersController.updateNumDisplay(data, DataFormat);
 //	}
+	
+	
+	/* ---------------INFO------------------
+	 *
+	 * Drag/scroll to zoom
+	 * 
+	 * Double click to reset to auto-zoom
+	 * 
+	 */
+	
 
 	
 	final int window_size = 20;
 	ScheduledExecutorService scheduledExecutorService;
 	
 	@FXML
-	private LineChart<String, Number> altitudeChart;
+	private LineChart<Number, Number> altitudeChart;
 	
-	XYChart.Series<String, Number> altitudeData;
-	
-	@FXML
-	private LineChart<String, Number> velocityChart;
-	
-	XYChart.Series<String, Number> velocityData;
+	XYChart.Series<Number, Number> altitudeData;
 	
 	@FXML
-	private LineChart<String, Number> accelerationChart;
+	private LineChart<Number, Number> velocityChart;
 	
-	XYChart.Series<String, Number> accelerationData;
+	XYChart.Series<Number, Number> velocityData;
 	
 	@FXML
-	private LineChart<String, Number> RSSIChart;
+	private LineChart<Number, Number> accelerationChart;
 	
-	XYChart.Series<String, Number> RSSIData;
+	XYChart.Series<Number, Number> accelerationData;
+	
+	@FXML
+	private LineChart<Number, Number> RSSIChart;
+	
+	XYChart.Series<Number, Number> RSSIData;
 	
 	public void initializeGraphs() {
         initializeAltitudeChart();
@@ -89,6 +112,7 @@ public class GraphController {
 	}
 	
 	private void initializeAltitudeChart() {
+		
 		altitudeData = new XYChart.Series<>();
 		altitudeData.setName("altitudeData");
 		altitudeChart.getData().add(altitudeData);
@@ -96,8 +120,19 @@ public class GraphController {
 		NumberAxis yAxis = (NumberAxis) altitudeChart.getYAxis();
 		yAxis.setForceZeroInRange(false);
 		
+		NumberAxis xAxis = (NumberAxis) altitudeChart.getXAxis();
+		xAxis.setForceZeroInRange(false);
 		
-		// addMouseScrolling(altitudeChart); 
+		JFXChartUtil.setupZooming(altitudeChart, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle( MouseEvent mouseEvent ) {
+				if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
+				     mouseEvent.isShortcutDown() )
+					mouseEvent.consume();
+			}
+		} );
+		
+		JFXChartUtil.addDoublePrimaryClickAutoRangeHandler(altitudeChart);
 
 	}
 	
@@ -108,6 +143,22 @@ public class GraphController {
 		
 		NumberAxis yAxis = (NumberAxis) velocityChart.getYAxis();
 		yAxis.setForceZeroInRange(false);
+		
+		NumberAxis xAxis = (NumberAxis) velocityChart.getXAxis();
+		xAxis.setForceZeroInRange(false);
+		
+		JFXChartUtil.setupZooming(velocityChart, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle( MouseEvent mouseEvent ) {
+				if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
+				     mouseEvent.isShortcutDown() )
+					mouseEvent.consume();
+			}
+			
+		} );
+		
+		JFXChartUtil.addDoublePrimaryClickAutoRangeHandler(velocityChart);
+		
 	}
 	
 	private void initializeAccelerationChart() {
@@ -117,6 +168,21 @@ public class GraphController {
 		
 		NumberAxis yAxis = (NumberAxis) accelerationChart.getYAxis();
 		yAxis.setForceZeroInRange(false);
+		
+		NumberAxis xAxis = (NumberAxis) accelerationChart.getXAxis();
+		xAxis.setForceZeroInRange(false);
+		
+		JFXChartUtil.setupZooming(accelerationChart, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle( MouseEvent mouseEvent ) {
+				if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
+				     mouseEvent.isShortcutDown() )
+					mouseEvent.consume();
+			}
+		} );
+
+		JFXChartUtil.addDoublePrimaryClickAutoRangeHandler(accelerationChart);
+		
 	}
 	
 	private void initializeRSSIChart() {
@@ -126,53 +192,56 @@ public class GraphController {
 		
 		NumberAxis yAxis = (NumberAxis) RSSIChart.getYAxis();
 		yAxis.setForceZeroInRange(false);
+		
+		NumberAxis xAxis = (NumberAxis) RSSIChart.getXAxis();
+		xAxis.setForceZeroInRange(false);
+		
+		JFXChartUtil.setupZooming(RSSIChart, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle( MouseEvent mouseEvent ) {
+				if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
+				     mouseEvent.isShortcutDown() )
+					mouseEvent.consume();
+			}
+		} );
+		
+		JFXChartUtil.addDoublePrimaryClickAutoRangeHandler(RSSIChart);
+		
 	}
 	
 	public void addGraphData(double[] data, EnumMap<DataIndex, Integer> DataFormat) {
 		
-		
-		addAltitudeData(String.valueOf(data[DataFormat.get(DataIndex.TIME_INDEX)]), data[DataFormat.get(DataIndex.ALTITUDE_INDEX)]);
-		addVelocityData(String.valueOf(data[DataFormat.get(DataIndex.TIME_INDEX)]), data[DataFormat.get(DataIndex.VELOCITY_INDEX)]);
-		addAccelerationData(String.valueOf(data[DataFormat.get(DataIndex.TIME_INDEX)]), data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]);
-		addRSSIData(String.valueOf(data[DataFormat.get(DataIndex.TIME_INDEX)]), data[DataFormat.get(DataIndex.RSSI_INDEX)]);
+		addAltitudeData(data[DataFormat.get(DataIndex.TIME_INDEX)], data[DataFormat.get(DataIndex.ALTITUDE_INDEX)]);
+		addVelocityData(data[DataFormat.get(DataIndex.TIME_INDEX)], data[DataFormat.get(DataIndex.VELOCITY_INDEX)]);
+		addAccelerationData(data[DataFormat.get(DataIndex.TIME_INDEX)], data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]);
+		addRSSIData(data[DataFormat.get(DataIndex.TIME_INDEX)], data[DataFormat.get(DataIndex.RSSI_INDEX)]);
 	}
 	
-	private void addAltitudeData(String x, Double y) {
+	private void addAltitudeData(Double x, Double y) {
 		altitudeData.getData().add(new XYChart.Data<>(x, y));
 		if (altitudeData.getData().size() > window_size)
 			altitudeData.getData().remove(0);
 	}
 	
-	private void addVelocityData(String x, Double y) {
+	private void addVelocityData(Double x, Double y) {
 		velocityData.getData().add(new XYChart.Data<>(x, y));
 		if (velocityData.getData().size() > window_size)
 			velocityData.getData().remove(0);
 	}
 	
-	private void addAccelerationData(String x, Double y) {
+	private void addAccelerationData(Double x, Double y) {
 		accelerationData.getData().add(new XYChart.Data<>(x, y));
 		if (accelerationData.getData().size() > window_size)
 			accelerationData.getData().remove(0);
 	}
 	
-	private void addRSSIData(String x, Double y) {
+	private void addRSSIData(Double x, Double y) {
 		RSSIData.getData().add(new XYChart.Data<>(x, y));
 		if (RSSIData.getData().size() > window_size)
 			RSSIData.getData().remove(0);
 	}
 	
-	/*
-    public void addMouseScrolling(Node node) {
-        node.setOnScroll((ScrollEvent event) -> {
-            double zoomFactor = 1.05;
-            double deltaY = event.getDeltaY();
-            if (deltaY < 0) zoomFactor = 2.0 - zoomFactor;
-            node.setScaleX(node.getScaleX() * zoomFactor);
-            node.setScaleY(node.getScaleY() * zoomFactor);
-        });
-    }
-    */
-	
+
 }
 
 
