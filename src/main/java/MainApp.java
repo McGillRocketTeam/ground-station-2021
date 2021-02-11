@@ -17,7 +17,6 @@ import controller.gui.DataIndex;
 import controller.gui.GraphController;
 import controller.gui.MainAppController;
 import controller.gui.Mode;
-import javafx.animation.RotateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -26,19 +25,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point3D;
-import javafx.application.Application;
-import javafx.scene.*;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Box;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
 
 public class MainApp extends Application {
 
@@ -46,18 +34,19 @@ public class MainApp extends Application {
 	private final EnumMap<DataIndex, Integer> DataFormat = new EnumMap<DataIndex, Integer>(DataIndex.class);
 	private ScheduledExecutorService scheduledExecutorService;
 
-
-    
     @Override
     public void start(Stage stage) throws Exception {
+    	
+    	
+    	
         Label l = new Label("McGill Rocket Team Ground Station");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
         Parent root = fxmlLoader.load();
         Scene mainApp = new Scene(root, 1024,768);
         MainAppController mainAppController = (MainAppController)fxmlLoader.getController();
- 	    mainAppController.mainAppInitializeGraphs();
+        mainAppController.mainAppInitializeGraphs();
         mainAppController.mainAppInitializeMap();
-
+        
    
         stage.setTitle("McGill Rocket Team Ground Station");
         
@@ -84,30 +73,19 @@ public class MainApp extends Application {
 				
 				scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 				Iterator<double[]> dataItr = myDataArrays.iterator();
-				ArrayList<Integer> testArr = new ArrayList<>();
-				testArr.add(1);
-				testArr.add(10);
-				testArr.add(20);
-				testArr.add(30);
-				testArr.add(40);
-				testArr.add(41);
-				testArr.add(42);
-				Iterator<Integer> testArrItr = testArr.iterator();
+				
 				scheduledExecutorService.scheduleAtFixedRate(() -> {
-						double[] data = dataItr.next();
-						int test = testArrItr.next();
-						Platform.runLater(()-> {
-							System.out.println(data[3]);
-							Date now = new Date();
-							System.out.println(data[8]);
-//							group.setRotateYAnimated(test);
-//							group.setRotateXAnimated(test);
-							//cameraXform.rx.setAngle(data[8]);
-							mainAppController.mainAppAddGraphData(data, DataFormat);
-							mainAppController.startTimer(data,DataFormat);
-		
+					double[] data = dataItr.next();
 					
-					});
+				Platform.runLater(()-> {
+
+					System.out.println(data[3]);
+					Date now = new Date();
+					mainAppController.mainAppAddGraphData(data, DataFormat);
+					mainAppController.startTimer(data,DataFormat);
+
+				
+				});
 				}, 0, 1000, TimeUnit.MILLISECONDS);
 				
 			case SIMULATION:
@@ -117,10 +95,8 @@ public class MainApp extends Application {
 		}
 
 	
-//        stage.setScene(mainApp);
         stage.setScene(mainApp);
         stage.show();
-
 
     }
 
@@ -140,8 +116,5 @@ public class MainApp extends Application {
 		DataFormat.put(DataIndex.ACCELERATION_INDEX, 5);
 		DataFormat.put(DataIndex.RSSI_INDEX, 9);
 	}
-	
 
 }
-
-
