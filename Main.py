@@ -11,7 +11,6 @@ from MCS import MCGenerator
 from launch_run import Launch
 from RocketProperties import RocketProperties
 
-
 #This is the new Monte Carlo
 def perturbWind(wind_data, sigma_direction, sigma_velocity, num_launches_u):
     index = 0
@@ -32,45 +31,50 @@ def perturbWind(wind_data, sigma_direction, sigma_velocity, num_launches_u):
 #===================================Main=======================================
 #wind_data = pd.DataFrame(columns= ['altitude','direction','velocity']) #input wind data
 
-num_launches = 100
+def main(num_launches):
+    print("Running {} simulations".format(num_launches))
+    launch_zenith_angle_in = 0  # from normal to rocket
+    sigma_zenith_angle = 0
+    zenith_angle_perturbed = np.random.normal(launch_zenith_angle_in, sigma_zenith_angle, num_launches)
 
-launch_zenith_angle_in = 0      #from normal to rocket
-sigma_zenith_angle = 0
-zenith_angle_perturbed = np.random.normal(launch_zenith_angle_in, sigma_zenith_angle, num_launches)
+    launch_azimuth_angle_in = 0  # from north to rocket
+    sigma_azimuth_angle = 0
+    azimuth_angle_perturbed = np.random.normal(launch_azimuth_angle_in, sigma_azimuth_angle, num_launches)
 
-launch_azimuth_angle_in = 0     #from north to rocket
-sigma_azimuth_angle = 0
-azimuth_angle_perturbed = np.random.normal(launch_azimuth_angle_in, sigma_azimuth_angle, num_launches)
+    drogue_deploy_altitude_in = 0
+    wind_dataframe_in = 0
 
-drogue_deploy_altitude_in = 0
-wind_dataframe_in = 0
+    drag_coeff_drogue_in = 0
+    drag_coeff_main_in = 0
+    apogee_in = 0
 
-drag_coeff_drogue_in = 0
-drag_coeff_main_in = 0
-apogee_in = 0
+    # ------------------------Sample Code-------------------------------------------
+    w_al = np.array([80, 60, 40, 20, 0])
+    inputw_n = np.array([4, 1, 7, 1])
+    inputa_n = np.array([1, 0.1])
+    mcs = MCGenerator()
 
-#------------------------Sample Code-------------------------------------------
-w_al = np.array([80, 60, 40, 20, 0])
-inputw_n = np.array([4, 1, 7, 1])
-inputa_n = np.array([1, 0.1])
-mcs = MCGenerator()
+    wind = mcs.MCS(inputa_n, w_al, inputw_n, num_cycles=1)
+    w_class = wind_code.Wind()
+    wind = w_class.get_wind_dataframe()
 
-wind = mcs.MCS(inputa_n,w_al,inputw_n, num_cycles=1)
-w_class = wind_code.Wind()
-wind = w_class.get_wind_dataframe()
+    x = perturbWind(wind, 1, 2, num_launches)
+
+    rocketProperties = RocketProperties()
+
+    coordinates = []
+    for simNumber in range(num_launches):
+        sim = Launch(zenith_angle_perturbed[1], azimuth_angle_perturbed[1], x[simNumber], rocketProperties, 32.9925986,
+                     -106.9744309)
+        lat, lon = sim.run_launch()
+        coordinates.append([lat, lon])
+
+    save_file = True  # If you want to save a csv file of the coordinates
+
+    if save_file == True:
+        np.savetxt("coordinates3.csv", coordinates, delimiter=",")
+        print("FIN CSV READY")
 
 
-x = perturbWind(wind, 1, 2, num_launches)
-
-rocketProperties = RocketProperties()
-
-coordinates = []
-for simNumber in range(num_launches):
-    sim = Launch(zenith_angle_perturbed[1], azimuth_angle_perturbed[1], x[simNumber], rocketProperties, 32.9925986, -106.9744309)
-    lat,lon = sim.run_launch()
-    coordinates.append ([lat,lon])
-
-save_file = False    #If you want to save a csv file of the coordinates
-
-if save_file == True:
-    np.savetxt("coordinates.csv", coordinates, delimiter=",")
+# if __name__ == '__main__':
+#     main()
