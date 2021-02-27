@@ -26,6 +26,9 @@ from PySide2.QtWidgets import *
 # Import the ui_ProgressCircle.ui file
 from ui_ProgressCircle import Ui_LoadingScreen
 
+# Global Variables
+counter = 0
+
 
 class ProgressCircle(QMainWindow):
     def __init__(self):
@@ -33,15 +36,47 @@ class ProgressCircle(QMainWindow):
         self.ui = Ui_LoadingScreen()
         self.ui.setupUi(self)
 
+        # Set initial progress bar value to 0
+        self.progressBarValue(0)
+
         # Test the progress bar function --> works all fine
         # self.progressBarValue(20)
 
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # Remove title bar
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # Set the background transparent
 
+        # Drop shadow effects
+        self.shadow = QGraphicsDropShadowEffect(self)
+        self.shadow.setBlurRadius(20)
+        self.shadow.setXOffset(0)
+        self.shadow.setYOffset(0)
+        self.shadow.setColor(QColor(0, 0, 0, 120))
+        self.ui.circularBG.setGraphicsEffect(self.shadow)
+
+        # Timer for the loading bar value
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.progress)
+        # Timer in milliseconds
+        self.timer.start(35)
+
         # Show main window
         self.show()
         # End main window
+
+    # Loading the bar value
+    def progress(self):
+        global counter
+        value = counter
+
+        # Set value to the progress bar
+        self.progressBarValue(value)
+
+        # Close splash screen and open app
+        if counter > 100:
+            self.timer.stop()
+            self.close()
+
+        counter += 1
 
     # Progress bar Value
     def progressBarValue(self, value):
