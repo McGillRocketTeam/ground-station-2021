@@ -57,7 +57,7 @@ class ProgressCircle(QMainWindow):
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.progress)
         # Timer in milliseconds
-        self.timer.start(35)
+        self.timer.start(15)
 
         # Show main window
         self.show()
@@ -68,14 +68,29 @@ class ProgressCircle(QMainWindow):
         global counter
         value = counter
 
+        # Percentage label
+        percent_html = """
+        <p><span style=" font-size:68pt;"> {VALUE} </span><span style=" font-size:48pt; vertical-align:super;">%</span></p>
+        """
+
+        percentage = "%.1f" % (value)
+
+        newPercentHtml = percent_html.replace("{VALUE}", str(percentage))
+        self.ui.Percent_Label.setText(newPercentHtml)
+
         # Set value to the progress bar
+        if value >= 100:
+            value = 1.00
         self.progressBarValue(value)
 
         # Close splash screen and open app
-        if counter > 100:
+        if counter >= 100:
             self.timer.stop()
-            self.close()
+            #self.close()
 
+        # Controls speed of the circular loading bar
+        # High numbers = faster, low numbers = slow
+        # Should change so it reflects the time to execute the simulations
         counter += 1
 
     # Progress bar Value
@@ -94,8 +109,12 @@ class ProgressCircle(QMainWindow):
         # The stop values range from 1.000 to 0.000
         progress = (100 - value) / 100.0
 
-        stop_value_1 = str(progress - 0.001)
-        stop_value_2 = str(progress)
+        if counter >= 100:
+            stop_value_1 = str(progress)
+            stop_value_2 = str(progress)
+        else :
+            stop_value_1 = str(progress - 0.001)
+            stop_value_2 = str(progress)
 
         # Setters
         # Sets values to the stylesheet

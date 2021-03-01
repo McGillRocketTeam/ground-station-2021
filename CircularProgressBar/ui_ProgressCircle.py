@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'ProgressCircleapOhQH.ui'
+## Form generated from reading UI file 'ProgressCircleicQhoV.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.14.1
 ##
@@ -73,7 +73,7 @@ class Ui_LoadingScreen(object):
         self.Percent_Label = QLabel(self.container)
         self.Percent_Label.setObjectName(u"Percent_Label")
         self.Percent_Label.setEnabled(True)
-        self.Percent_Label.setGeometry(QRect(40, 70, 200, 101))
+        self.Percent_Label.setGeometry(QRect(10, 80, 261, 101))
         font = QFont()
         font.setFamily(u"Impact")
         font.setPointSize(60)
@@ -89,9 +89,6 @@ class Ui_LoadingScreen(object):
         self.circularProgressBar.raise_()
         self.container.raise_()
         LoadingScreen.setCentralWidget(self.centralwidget)
-        self.statusbar = QStatusBar(LoadingScreen)
-        self.statusbar.setObjectName(u"statusbar")
-        LoadingScreen.setStatusBar(self.statusbar)
 
         self.retranslateUi(LoadingScreen)
 
@@ -100,6 +97,6 @@ class Ui_LoadingScreen(object):
 
     def retranslateUi(self, LoadingScreen):
         LoadingScreen.setWindowTitle(QCoreApplication.translate("LoadingScreen", u"MainWindow", None))
-        self.Percent_Label.setText(QCoreApplication.translate("LoadingScreen", u"<p><span style=\" font-size:68pt;\">0</span><span style=\" font-size:48pt; vertical-align:super;\">%</span></p>", None))
+        self.Percent_Label.setText(QCoreApplication.translate("LoadingScreen", u"<p><span style=\" font-size:45pt;\">0</span><span style=\" font-size:40pt; vertical-align:super;\">%</span></p>", None))
     # retranslateUi
 
