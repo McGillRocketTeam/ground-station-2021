@@ -50,24 +50,24 @@ public class NumbersController {
 		this.currentRSSILabel.setText(value);
 	}
 
-	public void updateNumDisplay(double[] data, EnumMap<DataIndex, Integer> DataFormat) {
+	public void updateNumDisplay(double[] data) {
 		//System.out.println(myDataList.get(i)[5]);
 		//set Peak Altitude 
-		if (data[DataFormat.get(DataIndex.ALTITUDE_INDEX)] > Double.parseDouble(peakAltitudeLabel.getText())) 
-			setPeakAltitudeLabel(String.valueOf(data[DataFormat.get(DataIndex.ALTITUDE_INDEX)]));
+		if (data[DataIndex.ALTITUDE_INDEX.getOrder()] > Double.parseDouble(peakAltitudeLabel.getText())) 
+			setPeakAltitudeLabel(String.valueOf(data[DataIndex.ALTITUDE_INDEX.getOrder()]));
 		//set Current Altitude 
-		setCurrentAltitudeLabel(String.valueOf(data[DataFormat.get(DataIndex.ALTITUDE_INDEX)]));
+		setCurrentAltitudeLabel(String.valueOf(data[DataIndex.ALTITUDE_INDEX.getOrder()]));
 		//set Peak Velocity 
-		if (data[DataFormat.get(DataIndex.VELOCITY_INDEX)]>Double.parseDouble(peakVelocityLabel.getText())) 
-			setPeakVelocityLabel(String.valueOf(data[DataFormat.get(DataIndex.VELOCITY_INDEX)]));
+		if (data[DataIndex.VELOCITY_INDEX.getOrder()]>Double.parseDouble(peakVelocityLabel.getText())) 
+			setPeakVelocityLabel(String.valueOf(data[DataIndex.VELOCITY_INDEX.getOrder()]));
 		//set Current Velocity 
-		setCurrentVelocityLabel(String.valueOf(data[DataFormat.get(DataIndex.VELOCITY_INDEX)]));
+		setCurrentVelocityLabel(String.valueOf(data[DataIndex.VELOCITY_INDEX.getOrder()]));
 		//set Peak Acceleration
-		if (data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]>Double.parseDouble(peakAccelerationLabel.getText())) 
-		setPeakAccelerationLabel(String.valueOf(data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]));
+		if (data[DataIndex.ACCELERATION_INDEX.getOrder()]>Double.parseDouble(peakAccelerationLabel.getText())) 
+		setPeakAccelerationLabel(String.valueOf(data[DataIndex.ACCELERATION_INDEX.getOrder()]));
 		//set Current Acceleration
-		setCurrentAccelerationLabel(String.valueOf(data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]));
+		setCurrentAccelerationLabel(String.valueOf(data[DataIndex.ACCELERATION_INDEX.getOrder()]));
 		//setCurrentRSSI
-		setCurrentRSSILabel(String.valueOf(data[DataFormat.get(DataIndex.RSSI_INDEX)]));
+		setCurrentRSSILabel(String.valueOf(data[DataIndex.RSSI_INDEX.getOrder()]));
 	}
 }

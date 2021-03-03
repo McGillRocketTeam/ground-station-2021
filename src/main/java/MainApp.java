@@ -31,7 +31,6 @@ import javafx.fxml.FXMLLoader;
 public class MainApp extends Application {
 
 	private final Mode mode = Mode.OLD;
-	private final EnumMap<DataIndex, Integer> DataFormat = new EnumMap<DataIndex, Integer>(DataIndex.class);
 	private ScheduledExecutorService scheduledExecutorService;
 
     @Override
@@ -55,7 +54,6 @@ public class MainApp extends Application {
 		Parser parser = new Parser(10);
 		ArrayList<String> myData = new ArrayList<String>();
 		ArrayList<double[]> myDataArrays = new ArrayList<double[]>();
-		setDataFormat();
 		switch (mode) {
 			case OLD:
 				try {
@@ -82,9 +80,9 @@ public class MainApp extends Application {
 
 				//	System.out.println(data[3]);
 					Date now = new Date();
-					mainAppController.mainAppAddGraphData(data, DataFormat);
+					mainAppController.mainAppAddGraphData(data);
 					mainAppController.mainAppAddRawData(data);
-					mainAppController.startTimer(data,DataFormat);
+					mainAppController.startTimer(data);
 
 				
 				});
@@ -110,13 +108,6 @@ public class MainApp extends Application {
 	public void stop() throws Exception{
 		super.stop();
 		scheduledExecutorService.shutdownNow();
-	}
-	private void setDataFormat() {
-		DataFormat.put(DataIndex.TIME_INDEX, 2);
-		DataFormat.put(DataIndex.ALTITUDE_INDEX, 3);
-		DataFormat.put(DataIndex.VELOCITY_INDEX, 4);
-		DataFormat.put(DataIndex.ACCELERATION_INDEX, 5);
-		DataFormat.put(DataIndex.RSSI_INDEX, 9);
 	}
 
 }

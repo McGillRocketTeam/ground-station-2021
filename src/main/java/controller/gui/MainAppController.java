@@ -13,9 +13,9 @@ public class MainAppController {
 	@FXML private GridPane numbers;
 	@FXML private NumbersController numbersController;
 	
-	public void startTimer(double[] data, EnumMap<DataIndex, Integer> DataFormat) {
+	public void startTimer(double[] data) {
 //		System.out.println(numbersController);
-		numbersController.updateNumDisplay(data, DataFormat);
+		numbersController.updateNumDisplay(data);
 	}
 	
 	@FXML private GridPane graph;
@@ -25,8 +25,8 @@ public class MainAppController {
         graphController.initializeGraphs();
 	}
 	
-	public void mainAppAddGraphData(double[] data, EnumMap<DataIndex, Integer> DataFormat) {
-		graphController.addGraphData(data, DataFormat);
+	public void mainAppAddGraphData(double[] data) {
+		graphController.addGraphData(data);
 	}
 	
 	@FXML private VBox map;

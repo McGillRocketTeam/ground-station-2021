@@ -209,12 +209,12 @@ public class GraphController {
 		
 	}
 	
-	public void addGraphData(double[] data, EnumMap<DataIndex, Integer> DataFormat) {
+	public void addGraphData(double[] data) {
 		
-		addAltitudeData(data[DataFormat.get(DataIndex.TIME_INDEX)], data[DataFormat.get(DataIndex.ALTITUDE_INDEX)]);
-		addVelocityData(data[DataFormat.get(DataIndex.TIME_INDEX)], data[DataFormat.get(DataIndex.VELOCITY_INDEX)]);
-		addAccelerationData(data[DataFormat.get(DataIndex.TIME_INDEX)], data[DataFormat.get(DataIndex.ACCELERATION_INDEX)]);
-		addRSSIData(data[DataFormat.get(DataIndex.TIME_INDEX)], data[DataFormat.get(DataIndex.RSSI_INDEX)]);
+		addAltitudeData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ALTITUDE_INDEX.getOrder()]);
+		addVelocityData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.VELOCITY_INDEX.getOrder()]);
+		addAccelerationData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCELERATION_INDEX.getOrder()]);
+		addRSSIData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.RSSI_INDEX.getOrder()]);
 	}
 	
 	private void addAltitudeData(Double x, Double y) {
