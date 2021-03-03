@@ -46,6 +46,7 @@ public class MainApp extends Application {
         MainAppController mainAppController = (MainAppController)fxmlLoader.getController();
         mainAppController.mainAppInitializeGraphs();
         mainAppController.mainAppInitializeMap();
+        mainAppController.mainAppIntitializeRawData();
         
    
         stage.setTitle("McGill Rocket Team Ground Station");
@@ -79,9 +80,10 @@ public class MainApp extends Application {
 					
 				Platform.runLater(()-> {
 
-					System.out.println(data[3]);
+				//	System.out.println(data[3]);
 					Date now = new Date();
 					mainAppController.mainAppAddGraphData(data, DataFormat);
+					mainAppController.mainAppAddRawData(data);
 					mainAppController.startTimer(data,DataFormat);
 
 				

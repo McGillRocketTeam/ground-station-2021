@@ -3,6 +3,8 @@ package controller.gui;
 import java.util.EnumMap;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -34,4 +36,14 @@ public class MainAppController {
 		mapController.initializeMap();
 	}
 	
+	@FXML private SplitPane rawData;
+	@FXML private RawDataController rawDataController;
+	
+	public void mainAppIntitializeRawData() throws Exception {
+		rawDataController.initializeRawDataController();
+	}
+
+	public void mainAppAddRawData(double[] data) {
+		rawDataController.addRawData(data);
+	}
 }
