@@ -51,6 +51,9 @@
 	import javafx.scene.input.ScrollEvent;
 	import javafx.fxml.FXMLLoader;
 
+	import javafx.scene.text.TextAlignment;
+	
+	
 	public class MapController {
 		
 		/* -=-=-=-=-=-=-=-=-=-=-=-INFO-=-=-=-=-=-=-=-=-=-=-=-
@@ -63,6 +66,14 @@
 		 * 
 		*/
 		
+		//	=== Create labels ===
+//        //	(Initially no data is entered)
+//        Label latlabel = new Label ("Lat: No data");
+//        Label lonlabel = new Label ("Lon: No data");
+        
+		Circle circle = new Circle();
+        Circle circle2 = new Circle();
+		
 		// THE STARTING SIZE OF THE IMAGE
 		private int image_width  = 2878	 	/10;
 		private int image_height = 1634		/10;
@@ -72,61 +83,50 @@
 		private int image_height2 = 1634 	/2;
 		
 		// THE CORNER LATITUDES AND LONGITUDES 
-		final double lower_lat = decimal_converter(33,10,17); // Top of the screen
-		final double upper_lat = decimal_converter(32,53,01); // Bottom of the screen
+		final double lower_lat = 33.1736; // Top of the screen
+		final double upper_lat = 32.8802; // Bottom of the screen
 		
-		final double lower_lon = decimal_converter(107,06,20); // Left of the screen
-		final double upper_lon = decimal_converter(106,48,50); // Right of the screen
-		
+		final double lower_lon = 107.2299; // Left of the screen
+		final double upper_lon = 106.7599; // Right of the screen
 		
 		//	CONVERTING LATS AND LONS TO DECIMALS
 	    public static double decimal_converter(double degrees, double minutes, double seconds) {
+	    	// ***ONLY USE THIS IF YOU WANT TO PASS IN THE FORM DEGREES, MINUTES, SECONDS.
+	    	// note: old data is not in this form
 	    	return degrees + minutes/60 + seconds/3600;
 	    }
 	    
 	    //	CONVERTING LON TO X VALUE
 	    public int find_x (double lon, int width) {
+//	    	System.out.println("x before conversion: "+lon);
 	    	int x = Math.abs((int)(((lon - lower_lon)/(upper_lon-lower_lon))*width));
-	    	System.out.println(x);
+//	    	System.out.println("x after conversion: "+x);
 	    	return x;
 	    }
 	    
 	    //	CONVERTING LAT TO Y VALUE
 	    public int find_y (double lat, int height) {
+//	    	System.out.println("y before conversion: "+lat);
 	    	int y = Math.abs((int)(((lat - lower_lat)/(upper_lat-lower_lat))*height));
-	    	System.out.println(y);
+//	    	System.out.println("y after conversion: "+y);
 	    	return y;
 	    }
-	    
 	    
 	    @FXML
 	    StackPane stackpane;
 	    
 	    @FXML
 	    StackPane stackpane2;
+	    
+	    @FXML
+	    Label latlabel;
 	   
+	    @FXML
+	    Label lonlabel;
 	    
 		public void initializeMap() throws Exception{
 			
-	    	double lat = decimal_converter(33 ,05,03);
-	    	double lon = decimal_converter(107,05,30);
-	        
-	        Circle circle = new Circle();
-	        Circle circle2 = new Circle();
-	        
-	        //	LOCATION OF CIRCLE
-	        //	Starts from center, so move it to the corner first with "-image_width", "-image_height"
-	        circle.setTranslateX(-image_width/2+find_x(lon,image_width));
-	        circle.setTranslateY(-image_height/2+find_y(lat,image_height));
-	        
-	        //	SIZE & COLOR OF CIRCLE
-	        circle.setRadius(5); 
-	        circle.setFill(Color.RED);
-	        
-	        circle2.setRadius(5); 
-	        circle2.setFill(Color.RED);
-	        
-	        
+	        // 	=== Get the image ===
 	        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 	    	InputStream stream = classloader.getResourceAsStream("GoogleEarthMap.JPG");
 	        Image image = new Image(stream);
@@ -135,6 +135,7 @@
 	        iv.setFitWidth(image_width);
 	        iv.setPreserveRatio(true);
 	        
+	        //	=== Create button and button activation ===
 	        Button button = new Button();
 	        
 	    	button.setText("Enlarge Map");
@@ -144,9 +145,6 @@
 	        		
 	        		e.consume();
 	        		
-	        		circle2.setTranslateX(-image_width2 /2 + find_x(lon,image_width2 ));
-	                circle2.setTranslateY(-image_height2/2 + find_y(lat,image_height2));
-	                
 	        		iv2.setFitWidth(image_width2);
 	        		iv2.setPreserveRatio(true);
 	        		
@@ -155,23 +153,57 @@
 	                secondaryLayout.getChildren().add(circle2);
 	                
 	                Scene secondScene = new Scene(secondaryLayout, image_width2,image_height2);
-	  
-	                 // New window (Stage)
+
 	                Stage newWindow = new Stage();
 	                newWindow.setTitle("Map");
 	                newWindow.setScene(secondScene);
-	                 
 	                newWindow.show();
-	                
 	            } 
 	        }; 
+	        
 	        button.setOnAction(event);
-
+	        
+	        //	==== Add to stackpanes to send to FXML file ====
 	        stackpane.getChildren().add(iv);
 	        stackpane.getChildren().add(circle);
 	        stackpane.setPadding(new Insets(20));
-	        
+	       
 	        stackpane2.getChildren().add(button);
 	        stackpane2.setPadding(new Insets(20));
+	        
+//	        stackpane3.getChildren().add(latlabel);
+//	        stackpane4.getChildren().add(lonlabel);
+		}
+		
+		
+		public void addMapData(double[] data) {
+			
+//			=== SIZE & COLOR OF CIRCLE ===
+			//  Integrated display
+	        circle.setRadius(5); 
+	        circle.setFill(Color.RED);
+			       
+			//	Enlarged display
+			circle2.setRadius(5); 
+			circle2.setFill(Color.RED);
+			
+			//	=== Get data ===
+			float x = Math.abs(Float.parseFloat(String.valueOf(data[DataIndex.LONGITUDE_INDEX.getOrder()])));
+			float y = Math.abs(Float.parseFloat(String.valueOf(data[DataIndex.LATITUDE_INDEX .getOrder()])));
+			
+			//	=== Apply data ===
+			//	Integrated Display
+			circle.setTranslateX(-image_width  / 2 + find_x(x,image_width ));
+			circle.setTranslateY(-image_height / 2 + find_y(y,image_height));
+			
+			//	Enlarged Display
+			circle2.setTranslateX(-image_width2  / 2 + find_x(x,image_width2 ));
+			circle2.setTranslateY(-image_height2 / 2 + find_y(y,image_height2));
+			
+			//	Create labels 
+			latlabel.setText("Lat: "+x);
+			lonlabel.setText("Lon: "+y);
+			latlabel.setTextAlignment(TextAlignment.CENTER);
+			lonlabel.setTextAlignment(TextAlignment.CENTER);
 		}
 	}

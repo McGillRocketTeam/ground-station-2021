@@ -42,7 +42,11 @@ public class MainAppController {
 	public void mainAppIntitializeRawData() throws Exception {
 		rawDataController.initializeRawDataController();
 	}
-
+	
+	public void mainAppAddMapData(double[] data) {
+		mapController.addMapData(data);
+	}
+	
 	public void mainAppAddRawData(double[] data) {
 		rawDataController.addRawData(data);
 	}
