@@ -30,7 +30,7 @@ class KWind:
     # Only works for num_clusters=2
     def get_centroids(self,df,draw_scatter=False,draw_cluster=False):
         # Transform direction using cosine function
-        df["cos_direction"]=np.cos(df["direction"]* np.pi/180)
+        df["cos_direction"]=100*np.cos(df["direction"]* np.pi/180)
         # Run Kmeans
         X = df[['cos_direction','velocity']].to_numpy()
         kmeans = KMeans(n_clusters=self.num_clusters).fit(X)
@@ -52,13 +52,38 @@ class KWind:
         res=[]
         for i in range(segment,max_alt+1,segment):
             res.append(df[(df.altitude>=(i-segment))  & (df.altitude<i)].clusters.mean())
-        
-            
+        return res
+    
+    def get_boundary(self,ls):
+        if ls[0]<=0.5:
+            for i in range(1,len(ls)):
+                if ls[i]>0.5:
+                    return i
+        else:
+            c=False
+            for i in range(1,len(ls)):
+                if ls[i]<=0.5:
+                    c=True
+                if c and ls[i]>0.5:
+                    return i
+        return 0
 
+    def get_average_boundary(self,last):
+        total=0
+        last=365
+        for i in range(1,last+1):
+            v=kwind.get_boundary(kwind.get_centroids(kwind.get_df(-i)))
+            total=total+v
+        return total/last*5000
 # Tests:
 kwind = KWind(num_clusters=2)
 #for i in range(1,8):
 #    kwind.draw(kwind.run_cluster(kwind.get_df(-i),3))
 #kwind.draw(kwind.run_cluster(kwind.get_df(-3)))
 #kwind.run_cluster(kwind.get_df(-3))
-kwind.get_centroids(kwind.get_df(-250),draw_cluster=True)
+#ls=kwind.get_centroids(kwind.get_df(-250),draw_scatter=True,draw_cluster=True)
+#print(ls)
+#print(kwind.get_boundary(ls))
+
+print(kwind.get_average_boundary(365))
+
