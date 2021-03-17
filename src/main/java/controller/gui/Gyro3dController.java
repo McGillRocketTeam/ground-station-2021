@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -13,7 +14,7 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.util.Duration;
 
-public class Gyro3DController {
+public class Gyro3dController {
 	final Group axisGroup = new Group();
     final PerspectiveCamera camera = new PerspectiveCamera(true);
 
@@ -24,12 +25,14 @@ public class Gyro3DController {
     private static final double CAMERA_FAR_CLIP = 10000.0;
     private static final double AXIS_LENGTH = 250.0;
     
-    public Scene initializeGyro() {
+    public SubScene initializeGyro() {
     	Box box = new Box(100, 20, 50);
     	SmartGroup group = new SmartGroup();
     	group.getChildren().add(box);
+    	buildAxes();
+    	group.getChildren().add(axisGroup);
     	buildCamera();
-        Scene scene = new Scene(group, 1024, 768, true);
+        SubScene scene = new SubScene(group, 400, 300, true, null);
         scene.setFill(Color.GREY);
     	
         scene.setCamera(camera);
@@ -65,7 +68,7 @@ public class Gyro3DController {
  
         axisGroup.getChildren().addAll(xAxis, yAxis, zAxis);
         axisGroup.setVisible(true);
-    //    root.getChildren().addAll(axisGroup);
+ //       root.getChildren().addAll(axisGroup);
     }
 	
 	class SmartGroup extends Group {
