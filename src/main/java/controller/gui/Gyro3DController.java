@@ -24,7 +24,7 @@ public class Gyro3DController {
     private static final double CAMERA_FAR_CLIP = 10000.0;
     private static final double AXIS_LENGTH = 250.0;
     
-    public void initializeGyro() {
+    public Scene initializeGyro() {
     	Box box = new Box(100, 20, 50);
     	SmartGroup group = new SmartGroup();
     	group.getChildren().add(box);
@@ -33,6 +33,7 @@ public class Gyro3DController {
         scene.setFill(Color.GREY);
     	
         scene.setCamera(camera);
+        return scene;
     }
     
 	private void buildCamera() {
