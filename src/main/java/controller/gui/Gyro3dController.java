@@ -15,7 +15,8 @@ import javafx.scene.transform.Transform;
 import javafx.util.Duration;
 
 public class Gyro3dController {
-	final Group axisGroup = new Group();
+	final SmartGroup axisGroup = new SmartGroup();
+	final SmartGroup rocketGroup = new SmartGroup();
     final PerspectiveCamera camera = new PerspectiveCamera(true);
 
     private static final double CAMERA_INITIAL_DISTANCE = -450;
@@ -27,14 +28,19 @@ public class Gyro3dController {
     
     public SubScene initializeGyro() {
     	Box box = new Box(100, 20, 50);
-    	SmartGroup group = new SmartGroup();
-    	group.getChildren().add(box);
-    	buildAxes();
-    	group.getChildren().add(axisGroup);
-    	buildCamera();
-        SubScene scene = new SubScene(group, 400, 300, true, null);
-        scene.setFill(Color.GREY);
+    	rocketGroup.getChildren().add(box);
     	
+        buildAxes();
+    	
+    	Group group = new Group();
+    	group.getChildren().add(axisGroup);
+    	group.getChildren().add(rocketGroup);
+    	
+    	buildCamera();
+    	
+        SubScene scene = new SubScene(group, 400, 300, true, null);
+        
+        scene.setFill(Color.GREY);
         scene.setCamera(camera);
         return scene;
     }
@@ -134,5 +140,10 @@ public class Gyro3dController {
 		        n.setRotate(Math.toDegrees(d));                    
 		    }
 		}
+	}
+
+	public void addGyroData(double[] data) {
+		rocketGroup.setRotateX(data[DataIndex.GYROX_INDEX.getOrder()]);
+		
 	}
 }

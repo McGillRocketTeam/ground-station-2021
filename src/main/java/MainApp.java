@@ -88,6 +88,7 @@ public class MainApp extends Application {
 					mainAppController.mainAppAddMapData(data);
 					mainAppController.mainAppAddRawData(data);
 					mainAppController.startTimer(data);
+					mainAppController.mainAppAddGyroData(data);
 
 				
 				});

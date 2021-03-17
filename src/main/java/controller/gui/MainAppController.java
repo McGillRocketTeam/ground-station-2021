@@ -57,6 +57,8 @@ public class MainAppController {
 	
 	public void mainAppInitializeGyro() throws Exception {
 		gyro3d.getChildren().add(gyro3dController.initializeGyro());
-		
+	}
+	public void mainAppAddGyroData(double[] data){
+		gyro3dController.addGyroData(data);
 	}
 }
