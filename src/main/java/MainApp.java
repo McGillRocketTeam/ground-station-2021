@@ -85,6 +85,7 @@ public class MainApp extends Application {
 				//	System.out.println(data[3]);
 					Date now = new Date();
 					mainAppController.mainAppAddGraphData(data);
+					mainAppController.mainAppAddMapData(data);
 					mainAppController.mainAppAddRawData(data);
 					mainAppController.startTimer(data);
 
@@ -98,7 +99,6 @@ public class MainApp extends Application {
 				break;
 		}
 
-	
         stage.setScene(mainApp);
         stage.show();
 
