@@ -7,6 +7,7 @@ public enum DataIndex {
 	ALTITUDE_INDEX(3),
 	VELOCITY_INDEX(4),
 	ACCELERATION_INDEX(5),
+	GYROX_INDEX(8),
 	RSSI_INDEX(9);
 	
 	private Integer order;

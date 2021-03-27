@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import controller.Parser;
 import controller.gui.DataIndex;
 import controller.gui.GraphController;
+import controller.gui.Gyro3dController;
 import controller.gui.MainAppController;
 import controller.gui.Mode;
 import javafx.application.Application;
@@ -23,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
@@ -45,8 +47,10 @@ public class MainApp extends Application {
         MainAppController mainAppController = (MainAppController)fxmlLoader.getController();
         mainAppController.mainAppInitializeGraphs();
         mainAppController.mainAppInitializeMap();
-        mainAppController.mainAppIntitializeRawData();
-        
+        mainAppController.mainAppIntitializeRawData();     
+        mainAppController.mainAppInitializeGyro();
+//        ((Pane)mainApp.getRoot()).getChildren().add(gyroController.initializeGyro().getRoot());
+
    
         stage.setTitle("McGill Rocket Team Ground Station");
         
@@ -84,6 +88,7 @@ public class MainApp extends Application {
 					mainAppController.mainAppAddMapData(data);
 					mainAppController.mainAppAddRawData(data);
 					mainAppController.startTimer(data);
+					mainAppController.mainAppAddGyroData(data);
 
 				
 				});

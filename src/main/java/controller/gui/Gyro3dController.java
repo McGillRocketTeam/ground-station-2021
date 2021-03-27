@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -13,8 +14,9 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.util.Duration;
 
-public class Gyro3DController {
-	final Group axisGroup = new Group();
+public class Gyro3dController {
+	final SmartGroup axisGroup = new SmartGroup();
+	final SmartGroup rocketGroup = new SmartGroup();
     final PerspectiveCamera camera = new PerspectiveCamera(true);
 
     private static final double CAMERA_INITIAL_DISTANCE = -450;
@@ -24,15 +26,23 @@ public class Gyro3DController {
     private static final double CAMERA_FAR_CLIP = 10000.0;
     private static final double AXIS_LENGTH = 250.0;
     
-    public void initializeGyro() {
+    public SubScene initializeGyro() {
     	Box box = new Box(100, 20, 50);
-    	SmartGroup group = new SmartGroup();
-    	group.getChildren().add(box);
-    	buildCamera();
-        Scene scene = new Scene(group, 1024, 768, true);
-        scene.setFill(Color.GREY);
+    	rocketGroup.getChildren().add(box);
     	
+        buildAxes();
+    	
+    	Group group = new Group();
+    	group.getChildren().add(axisGroup);
+    	group.getChildren().add(rocketGroup);
+    	
+    	buildCamera();
+    	
+        SubScene scene = new SubScene(group, 400, 300, true, null);
+        
+        scene.setFill(Color.GREY);
         scene.setCamera(camera);
+        return scene;
     }
     
 	private void buildCamera() {
@@ -64,7 +74,7 @@ public class Gyro3DController {
  
         axisGroup.getChildren().addAll(xAxis, yAxis, zAxis);
         axisGroup.setVisible(true);
-    //    root.getChildren().addAll(axisGroup);
+ //       root.getChildren().addAll(axisGroup);
     }
 	
 	class SmartGroup extends Group {
@@ -130,5 +140,10 @@ public class Gyro3DController {
 		        n.setRotate(Math.toDegrees(d));                    
 		    }
 		}
+	}
+
+	public void addGyroData(double[] data) {
+		rocketGroup.setRotateX(data[DataIndex.GYROX_INDEX.getOrder()]);
+		
 	}
 }

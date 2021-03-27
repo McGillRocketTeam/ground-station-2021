@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class MainAppController {
@@ -49,5 +50,15 @@ public class MainAppController {
 	
 	public void mainAppAddRawData(double[] data) {
 		rawDataController.addRawData(data);
+	}
+	
+	@FXML private VBox gyro3d;
+	@FXML private Gyro3dController gyro3dController;
+	
+	public void mainAppInitializeGyro() throws Exception {
+		gyro3d.getChildren().add(gyro3dController.initializeGyro());
+	}
+	public void mainAppAddGyroData(double[] data){
+		gyro3dController.addGyroData(data);
 	}
 }
