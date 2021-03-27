@@ -3,6 +3,7 @@ from sklearn.cluster import KMeans
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import datetime
 
 class KWind:
 
@@ -75,6 +76,40 @@ class KWind:
             v=kwind.get_boundary(kwind.get_centroids(kwind.get_df(-i)))
             total=total+v
         return total/last*5000
+
+    def get_avgweek_using_date(self,date):
+        initial_date=datetime.datetime.strptime("2019/10/25", '%Y/%m/%d')
+        n=(initial_date-datetime.datetime.strptime(date, '%Y/%m/%d')).days +3
+        total=0
+        for i in range(0,7):
+            v=kwind.get_boundary(kwind.get_centroids(kwind.get_df(-n-i)))
+            #print(kwind.get_df(-n-i))
+            total=total+v
+        avg=total/7*5000
+        upper=[]
+        lower=[]
+        for i in range(0,7):
+            # Get Dataframe
+            df=kwind.get_df(-n-i)
+            # Find closest index
+            split_index = int(df.iloc[(df['altitude']-avg).abs().argsort()[:1]].index.values[0])
+            df_lower,df_upper=df.iloc[:split_index, :], df.iloc[split_index:, :]
+            lower.append(df_lower)
+            upper.append(df_upper)
+        combination=[]
+        for i in range(0,7):
+            dfu=upper[i]
+            for j in range(0,7):
+                dfl=lower[j]
+                combination.append(pd.concat([dfl,dfu]))
+        return combination
+                
+
+            
+
+
+
+
 # Tests:
 kwind = KWind(num_clusters=2)
 #for i in range(1,8):
@@ -85,5 +120,5 @@ kwind = KWind(num_clusters=2)
 #print(ls)
 #print(kwind.get_boundary(ls))
 
-print(kwind.get_average_boundary(365))
-
+#print(kwind.get_average_boundary(365))
+print(kwind.get_avgweek_using_date("2018/12/30"))
