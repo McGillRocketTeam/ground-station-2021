@@ -17,6 +17,7 @@ repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+
 }
 javafx {
     version = "14"
@@ -27,6 +28,9 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    // Include jssc library for serial communication
+	implementation 'io.github.java-native:jssc:2.9.2'
+	compile 'org.slf4j:slf4j-nop:1.7.25' 	
 }
 
 mainClassName = 'MainApp'

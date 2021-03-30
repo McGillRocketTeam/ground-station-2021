@@ -25,12 +25,17 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import jssc.SerialPort;
+import jssc.SerialPortEvent;
+import jssc.SerialPortEventListener;
+import jssc.SerialPortException;
+import jssc.SerialPortList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
 public class MainApp extends Application {
 
-	private final Mode mode = Mode.OLD;
+	private final Mode mode = Mode.LIVE;
 	private final EnumMap<DataIndex, Integer> DataFormat = new EnumMap<DataIndex, Integer>(DataIndex.class);
 	private ScheduledExecutorService scheduledExecutorService;
 
@@ -55,6 +60,8 @@ public class MainApp extends Application {
 		ArrayList<String> myData = new ArrayList<String>();
 		ArrayList<double[]> myDataArrays = new ArrayList<double[]>();
 		setDataFormat();
+		
+		
 		switch (mode) {
 			case OLD:
 				try {
@@ -83,7 +90,6 @@ public class MainApp extends Application {
 					Date now = new Date();
 					mainAppController.mainAppAddGraphData(data, DataFormat);
 					mainAppController.startTimer(data,DataFormat);
-
 				
 				});
 				}, 0, 1000, TimeUnit.MILLISECONDS);
@@ -91,7 +97,96 @@ public class MainApp extends Application {
 			case SIMULATION:
 				break;
 			case LIVE:
-				break;
+				
+				class SerialPortReader implements SerialPortEventListener {
+					SerialPort serialPort;
+					StringBuffer inputBuffer = new StringBuffer();
+					
+					/**
+					 * 
+					 * @param serialPort
+					 */
+					
+					public SerialPortReader(SerialPort serialPort) {
+						this.serialPort = serialPort;
+						//this.inputBuffer = inputBuffer;
+					}
+					
+					/**
+					 * serialEvent used to read string input from Arduino and update GUI accordingly
+					 * 
+					 * @param SerialPortEvent event 
+					 */
+					public void serialEvent(SerialPortEvent event) {
+						// TODO Auto-generated method stub
+						if (event.isRXCHAR() && event.getEventValue() > 0) { 
+							try {	
+								
+								byte[] buffer = serialPort.readBytes();
+								if (buffer != null && buffer.length > 0) {
+									String s = new String(buffer, 0, buffer.length);
+									inputBuffer.append(s);
+									//System.out.println(inputBuffer.toString());
+									//check for line terminators 
+									if (inputBuffer.toString().contains("E\n")) {
+										//out = inputBuffer.toString();
+										//UPDATE GUI
+										try {
+											System.out.println(inputBuffer.toString());
+											double[] data = parser.parse(inputBuffer.toString());
+										//	System.out.println(data[3]);
+											mainAppController.startTimer(data,DataFormat);
+											System.out.println(inputBuffer.toString());
+											//System.out.println(inputBuffer.toString());
+											inputBuffer.setLength(0);
+										} catch (IllegalArgumentException e) {
+											e.printStackTrace();;
+										}
+
+										
+									} 
+								}
+						} catch (SerialPortException e) {
+							System.out.println("unable to read string input");
+						}
+						
+					}
+				  
+				}
+			}
+						
+						String[] ports = SerialPortList.getPortNames();
+						
+						if (ports.length == 0) {
+							System.out.println("no serial ports");
+						} else {
+							
+						for (String name : ports) {
+							System.out.println(name);
+						}
+						
+						SerialPort serialPort = new SerialPort(ports[0]);
+							
+							try {
+								serialPort.openPort();
+
+								serialPort.setParams(
+										SerialPort.BAUDRATE_9600,
+										SerialPort.DATABITS_8,
+										SerialPort.STOPBITS_1,
+										SerialPort.PARITY_NONE
+										);
+								
+								serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN);
+								serialPort.addEventListener(new SerialPortReader(serialPort));
+								//PortReader portReader = new PortReader();	
+								//serialPort.addEventListener(portReader, SerialPort.MASK_RXCHAR);
+								
+								
+							} catch (SerialPortException e) {
+								e.printStackTrace();
+							} 
+						};
 		}
 
 	
