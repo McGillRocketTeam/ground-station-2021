@@ -4,8 +4,9 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<GridPane minHeight="687.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.NumbersController">
+<GridPane minHeight="687.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.NumbersController">
    <rowConstraints>
       <RowConstraints minHeight="171.75" prefHeight="93.0" />
       <RowConstraints minHeight="171.75" prefHeight="93.0" />
@@ -26,10 +27,22 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Peak Altitude" />
-            <Label text="Current Altitude" GridPane.rowIndex="1" />
-            <Label fx:id="peakAltitudeLabel" text="0" GridPane.columnIndex="1" />
-            <Label fx:id="currentAltitudeLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Peak Altitude" wrapText="true">
+               <font>
+                  <Font name="FreeMono Bold" size="18.0" />
+               </font></Label>
+            <Label text="Current Altitude" wrapText="true" GridPane.rowIndex="1">
+               <font>
+                  <Font name="FreeMono Bold" size="18.0" />
+               </font></Label>
+            <Label fx:id="peakAltitudeLabel" text="0" GridPane.columnIndex="1">
+               <font>
+                  <Font name="FreeMono Bold" size="22.0" />
+               </font></Label>
+            <Label fx:id="currentAltitudeLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font name="FreeMono Bold" size="22.0" />
+               </font></Label>
         
          </children>
       </GridPane>
@@ -43,10 +56,22 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Peak Velocity" />
-            <Label text="Current Velocity" GridPane.rowIndex="1" />
-            <Label fx:id="peakVelocityLabel" text="0" GridPane.columnIndex="1" />
-            <Label fx:id="currentVelocityLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label prefWidth="131.0" text="Peak Velocity" wrapText="true">
+               <font>
+                  <Font name="FreeMono Bold" size="18.0" />
+               </font></Label>
+            <Label text="Current Velocity" wrapText="true" GridPane.rowIndex="1">
+               <font>
+                  <Font name="FreeMono Bold" size="18.0" />
+               </font></Label>
+            <Label fx:id="peakVelocityLabel" text="0" GridPane.columnIndex="1">
+               <font>
+                  <Font name="FreeMono Bold" size="22.0" />
+               </font></Label>
+            <Label fx:id="currentVelocityLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font name="FreeMono Bold" size="22.0" />
+               </font></Label>
          </children>
       </GridPane>
       <GridPane minHeight="171.75" GridPane.rowIndex="2">
@@ -59,10 +84,22 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Peak Acceleration" />
-            <Label text="Current Acceleration" GridPane.rowIndex="1" />
-            <Label fx:id="peakAccelerationLabel" text="0" GridPane.columnIndex="1" />
-            <Label fx:id="currentAccelerationLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Peak Acceleration" wrapText="true">
+               <font>
+                  <Font name="FreeMono Bold" size="18.0" />
+               </font></Label>
+            <Label text="Current Acceleration" wrapText="true" GridPane.rowIndex="1">
+               <font>
+                  <Font name="FreeMono Bold" size="18.0" />
+               </font></Label>
+            <Label fx:id="peakAccelerationLabel" text="0" GridPane.columnIndex="1">
+               <font>
+                  <Font name="FreeMono Bold" size="22.0" />
+               </font></Label>
+            <Label fx:id="currentAccelerationLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font name="FreeMono Bold" size="22.0" />
+               </font></Label>
          </children>
       </GridPane>
       <GridPane GridPane.rowIndex="3">
@@ -74,8 +111,14 @@
           <RowConstraints minHeight="155.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Current RSSI" />
-            <Label fx:id="currentRSSILabel" text="0" GridPane.columnIndex="1" />
+            <Label text="Current  RSSI" wrapText="true">
+               <font>
+                  <Font name="FreeMono Bold" size="18.0" />
+               </font></Label>
+            <Label fx:id="currentRSSILabel" text="0" GridPane.columnIndex="1">
+               <font>
+                  <Font name="FreeMono Bold" size="22.0" />
+               </font></Label>
          </children>
       </GridPane>
    </children>

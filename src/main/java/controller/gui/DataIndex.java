@@ -1,5 +1,16 @@
 package controller.gui;
 
+/**
+ * The Enum class that describes the ordering of data values in the received telemetry string.
+ * This ordering is used throughout the program.
+ * 
+ * Example: To find out where the index of the Time value will be in the telemetry string,
+ * 			use <code>DataIndex.TIME_INDEX.getOrder()</code>
+ *  
+ * @author jeremychow
+ *
+ */
+
 public enum DataIndex {
 	LATITUDE_INDEX(0),
 	LONGITUDE_INDEX(1),
