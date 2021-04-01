@@ -59,7 +59,13 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.Node;
 import javafx.event.EventHandler;
 
-
+/**
+ * The controller class for the graph section of the main page
+ * 
+ * @author Soomin Lee
+ * @author Jeremy Chow
+ *
+ */
 public class GraphController {
 	
 //	@FXML private GridPane numbers;
@@ -104,6 +110,10 @@ public class GraphController {
 	
 	XYChart.Series<Number, Number> RSSIData;
 	
+	/**
+	 *  Initializes all charts on the main page
+	 */
+	
 	public void initializeGraphs() {
         initializeAltitudeChart();
         initializeVelocityChart();
@@ -111,6 +121,9 @@ public class GraphController {
         initializeRSSIChart();
 	}
 	
+	/**
+	*	Initializes the altitude chart on the main page
+	*/
 	private void initializeAltitudeChart() {
 		
 		altitudeData = new XYChart.Series<>();
@@ -135,6 +148,10 @@ public class GraphController {
 		JFXChartUtil.addDoublePrimaryClickAutoRangeHandler(altitudeChart);
 
 	}
+	
+	/**
+	 * Initializes the velocity chart on the main page
+	 */
 	
 	private void initializeVelocityChart() {
 		velocityData = new XYChart.Series<>();
@@ -161,6 +178,10 @@ public class GraphController {
 		
 	}
 	
+	/**
+	 * Initializes the acceleration chart on the main page
+	 */
+	
 	private void initializeAccelerationChart() {
 		accelerationData = new XYChart.Series<>();
 		accelerationData.setName("accelerationData");
@@ -184,6 +205,10 @@ public class GraphController {
 		JFXChartUtil.addDoublePrimaryClickAutoRangeHandler(accelerationChart);
 		
 	}
+	
+	/**
+	 * Initializes the RSSI chart on the main page
+	 */
 	
 	private void initializeRSSIChart() {
 		RSSIData = new XYChart.Series<>();
@@ -209,6 +234,15 @@ public class GraphController {
 		
 	}
 	
+	/**
+	 * Adds the array of data values to the graphs.
+	 * The order and meaning of the values in <code>data</code> is determined by the DataIndex class
+	 * 
+	 * @param data the array of data values to be plotted
+	 * 
+	 * @see src.main.java.controller.gui.DataIndex.java DataIndex
+	 * 
+	 */
 	public void addGraphData(double[] data) {
 		
 		addAltitudeData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ALTITUDE_INDEX.getOrder()]);
@@ -217,11 +251,23 @@ public class GraphController {
 		addRSSIData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.RSSI_INDEX.getOrder()]);
 	}
 	
+	/**
+	 * Adds a data point to the altitude chart
+	 * @param x the time the data was measured in #TODO What units????
+	 * @param y the altitude that was measured in meters
+	 */
+	
 	private void addAltitudeData(Double x, Double y) {
 		altitudeData.getData().add(new XYChart.Data<>(x, y));
 		if (altitudeData.getData().size() > window_size)
 			altitudeData.getData().remove(0);
 	}
+	
+	/**
+	 * Adds a data point to the velocity chart
+	 * @param x the time the data was measured in #TODO What units????
+	 * @param y the velocity that was measured in meters/second
+	 */
 	
 	private void addVelocityData(Double x, Double y) {
 		velocityData.getData().add(new XYChart.Data<>(x, y));
@@ -229,11 +275,23 @@ public class GraphController {
 			velocityData.getData().remove(0);
 	}
 	
+	/**
+	 * Adds a data point to the acceleration chart
+	 * @param x the time the data was measured in #TODO What units????
+	 * @param y the acceleration that was measured in meters/second**2
+	 */
+	
 	private void addAccelerationData(Double x, Double y) {
 		accelerationData.getData().add(new XYChart.Data<>(x, y));
 		if (accelerationData.getData().size() > window_size)
 			accelerationData.getData().remove(0);
 	}
+	
+	/**
+	 * Adds a data point to the RSSI chart
+	 * @param x the time the data was measured in #TODO What units????
+	 * @param y the RSSI that was measured in decibels
+	 */
 	
 	private void addRSSIData(Double x, Double y) {
 		RSSIData.getData().add(new XYChart.Data<>(x, y));

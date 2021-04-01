@@ -4,7 +4,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<SplitPane dividerPositions="0.3060200668896321, 0.580267558528428, 0.8210702341137124" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.RawDataController">
+<SplitPane dividerPositions="0.306, 0.5803, 0.8211" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.RawDataController">
   <items>
       <TableView fx:id="tbAltData" prefHeight="398.0" prefWidth="165.0">
         <columns>

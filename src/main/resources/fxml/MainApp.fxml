@@ -6,10 +6,15 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -17,258 +22,279 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1280.0" stylesheets="@MainApp.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.MainAppController">
-   <tabs>
-      <Tab closable="false" text="Main Page">
-         <content>
-            <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="597.0">
-               <right>
-                  <VBox prefHeight="400.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
-               		<children>            		
-                    	<fx:include fx:id="map" source="Map.fxml" />     
-         				<fx:include fx:id="gyro3d" source="Gyro3D.fxml" /> 
-  
-                    </children>
-               </right>
-               <center>
-                  <GridPane BorderPane.alignment="CENTER">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="897.5999908447266" minWidth="10.0" prefWidth="819.1999725341797" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                   	 	<children>            		
-                    		<fx:include fx:id="graph" source="Graph.fxml" />     
-                    	</children>
-                  </GridPane>
-               </center>
-               <left>
-                  <GridPane minWidth="261.6000274658203" BorderPane.alignment="CENTER">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    	<children>            		
-                    		<fx:include fx:id="numbers" source="Numbers.fxml" />     
-                    	</children>
-                  </GridPane>
-               </left>
-            </BorderPane>
-         </content>
-      </Tab>
-      <Tab closable="false" text="Graphs">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <SplitPane dividerPositions="0.18779342723004694" prefHeight="689.6" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                           <children>
-                              <VBox prefHeight="688.0" prefWidth="237.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+<VBox stylesheets="@MainApp.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.MainAppController">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="Menu">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <ImageView fitHeight="120.0" fitWidth="238.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Logo_F_RW.png" />
+         </image>
+      </ImageView>
+      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1280.0">
+         <tabs>
+            <Tab closable="false" text="Main Page">
+               <content>
+                  <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="597.0">
+                     <right>
+                        <VBox prefHeight="400.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+                     		<children>            		
+                          	<fx:include fx:id="map" source="Map.fxml" /> 
+                          	<fx:include fx:id="gyro3d" source="Gyro3D.fxml" />     
+               		
+        
+                                                        </children>
+                     </right>
+                     <center>
+                        <GridPane BorderPane.alignment="CENTER">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="897.5999908447266" minWidth="10.0" prefWidth="819.1999725341797" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                         	 	<children>            		
+                          		<fx:include fx:id="graph" source="Graph.fxml" />     
+                          	</children>
+                        </GridPane>
+                     </center>
+                     <left>
+                        <GridPane minWidth="261.6000274658203" BorderPane.alignment="CENTER">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                          	<children>            		
+                          		<fx:include fx:id="numbers" source="Numbers.fxml" />     
+                          	</children>
+                        </GridPane>
+                     </left>
+                  </BorderPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Graphs">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.18779342723004694" prefHeight="689.6" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+
                                  <children>
-                                    <CheckBox mnemonicParsing="false" selected="true" text="Altitude Graph">
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
-                                       <VBox.margin>
-                                          <Insets left="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </CheckBox>
-                                    <CheckBox mnemonicParsing="false" selected="true" text="Velocity Graph">
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
-                                       <VBox.margin>
-                                          <Insets left="5.0" />
-                                       </VBox.margin>
-                                    </CheckBox>
-                                    <CheckBox mnemonicParsing="false" selected="true" text="Acceleration Graph">
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
-                                       <VBox.margin>
-                                          <Insets left="5.0" />
-                                       </VBox.margin>
-                                    </CheckBox>
-                                    <CheckBox mnemonicParsing="false" selected="true" text="Temperature Graph">
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
-                                       <VBox.margin>
-                                          <Insets left="5.0" />
-                                       </VBox.margin>
-                                    </CheckBox>
-                                    <CheckBox mnemonicParsing="false" selected="true" text="RSSI Graph">
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
-                                       <VBox.margin>
-                                          <Insets left="5.0" />
-                                       </VBox.margin>
-                                    </CheckBox>
-                                    <CheckBox mnemonicParsing="false" selected="true" text="Latitude Graph">
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
-                                       <VBox.margin>
-                                          <Insets left="5.0" />
-                                       </VBox.margin>
-                                    </CheckBox>
-                                    <CheckBox layoutX="10.0" layoutY="98.0" mnemonicParsing="false" selected="true" text="Longitude Graph">
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" />
-                                       </VBox.margin>
-                                    </CheckBox>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                           <children>
-                              <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <VBox prefHeight="688.0" prefWidth="1035.2">
+                                    <VBox prefHeight="688.0" prefWidth="237.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label text="Altitude Graph">
-                                             <VBox.margin>
-                                                <Insets />
-                                             </VBox.margin>
+                                          <CheckBox mnemonicParsing="false" selected="true" text="Altitude Graph">
                                              <padding>
-                                                <Insets left="20.0" top="20.0" />
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </padding>
-                                          </Label>
-                                          <LineChart minHeight="180.0">
-                                             <xAxis>
-                                                <CategoryAxis side="BOTTOM" />
-                                             </xAxis>
-                                             <yAxis>
-                                                <NumberAxis prefHeight="120.0" prefWidth="28.0" side="LEFT" />
-                                             </yAxis>
                                              <VBox.margin>
-                                                <Insets right="20.0" />
+                                                <Insets left="5.0" top="5.0" />
                                              </VBox.margin>
-                                          </LineChart>
-                                          <Label layoutX="10.0" layoutY="10.0" text="Velocity Graph">
+                                          </CheckBox>
+                                          <CheckBox mnemonicParsing="false" selected="true" text="Velocity Graph">
                                              <padding>
-                                                <Insets left="20.0" top="20.0" />
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </padding>
-                                          </Label>
-                                          <LineChart layoutX="10.0" layoutY="48.0" minHeight="180.0">
-                                             <xAxis>
-                                                <CategoryAxis side="BOTTOM" />
-                                             </xAxis>
-                                             <yAxis>
-                                                <NumberAxis prefHeight="120.0" prefWidth="28.0" side="LEFT" />
-                                             </yAxis>
                                              <VBox.margin>
-                                                <Insets right="20.0" />
+                                                <Insets left="5.0" />
                                              </VBox.margin>
-                                          </LineChart>
-                                          <Label layoutX="10.0" layoutY="196.0" text="Acceleration Graph">
+                                          </CheckBox>
+                                          <CheckBox mnemonicParsing="false" selected="true" text="Acceleration Graph">
                                              <padding>
-                                                <Insets left="20.0" top="20.0" />
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </padding>
-                                          </Label>
-                                          <LineChart layoutX="10.0" layoutY="233.0" minHeight="180.0">
-                                             <xAxis>
-                                                <CategoryAxis side="BOTTOM" />
-                                             </xAxis>
-                                             <yAxis>
-                                                <NumberAxis prefHeight="120.0" prefWidth="28.0" side="LEFT" />
-                                             </yAxis>
                                              <VBox.margin>
-                                                <Insets right="20.0" />
+                                                <Insets left="5.0" />
                                              </VBox.margin>
-                                          </LineChart>
-                                          <Label layoutX="10.0" layoutY="381.0" text="Temperature Graph">
+                                          </CheckBox>
+                                          <CheckBox mnemonicParsing="false" selected="true" text="Temperature Graph">
                                              <padding>
-                                                <Insets left="20.0" top="20.0" />
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </padding>
-                                          </Label>
-                                          <LineChart layoutX="10.0" layoutY="419.0" minHeight="180.0">
-                                             <xAxis>
-                                                <CategoryAxis side="BOTTOM" />
-                                             </xAxis>
-                                             <yAxis>
-                                                <NumberAxis prefHeight="120.0" prefWidth="28.0" side="LEFT" />
-                                             </yAxis>
                                              <VBox.margin>
-                                                <Insets right="20.0" />
+                                                <Insets left="5.0" />
                                              </VBox.margin>
-                                          </LineChart>
-                                          <Label layoutX="10.0" layoutY="526.0" text="RSSI Graph">
+                                          </CheckBox>
+                                          <CheckBox mnemonicParsing="false" selected="true" text="RSSI Graph">
                                              <padding>
-                                                <Insets left="20.0" top="20.0" />
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </padding>
-                                          </Label>
-                                          <LineChart layoutX="10.0" layoutY="564.0" minHeight="180.0">
-                                             <xAxis>
-                                                <CategoryAxis side="BOTTOM" />
-                                             </xAxis>
-                                             <yAxis>
-                                                <NumberAxis prefHeight="120.0" prefWidth="28.0" side="LEFT" />
-                                             </yAxis>
                                              <VBox.margin>
-                                                <Insets right="20.0" />
+                                                <Insets left="5.0" />
                                              </VBox.margin>
-                                          </LineChart>
-                                          <Label layoutX="10.0" layoutY="688.0" text="Latitude Graph">
+                                          </CheckBox>
+                                          <CheckBox mnemonicParsing="false" selected="true" text="Latitude Graph">
                                              <padding>
-                                                <Insets left="20.0" top="20.0" />
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </padding>
-                                          </Label>
-                                          <LineChart layoutX="10.0" layoutY="726.0" minHeight="180.0">
-                                             <xAxis>
-                                                <CategoryAxis side="BOTTOM" />
-                                             </xAxis>
-                                             <yAxis>
-                                                <NumberAxis prefHeight="120.0" prefWidth="28.0" side="LEFT" />
-                                             </yAxis>
                                              <VBox.margin>
-                                                <Insets right="20.0" />
+                                                <Insets left="5.0" />
                                              </VBox.margin>
-                                          </LineChart>
-                                          <Label layoutX="10.0" layoutY="858.0" text="Longitude Graph">
+                                          </CheckBox>
+                                          <CheckBox layoutX="10.0" layoutY="98.0" mnemonicParsing="false" selected="true" text="Longitude Graph">
                                              <padding>
-                                                <Insets left="20.0" top="20.0" />
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </padding>
-                                          </Label>
-                                          <LineChart layoutX="10.0" layoutY="896.0" minHeight="180.0">
-                                             <xAxis>
-                                                <CategoryAxis side="BOTTOM" />
-                                             </xAxis>
-                                             <yAxis>
-                                                <NumberAxis prefHeight="120.0" prefWidth="28.0" side="LEFT" />
-                                             </yAxis>
                                              <VBox.margin>
-                                                <Insets right="20.0" />
+                                                <Insets bottom="5.0" left="5.0" />
                                              </VBox.margin>
-                                          </LineChart>
+                                          </CheckBox>
                                        </children>
                                     </VBox>
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </AnchorPane>
-                    </items>
-                  </SplitPane>
-               </children>
-            </AnchorPane>
-         </content>
-      </Tab>
-      <Tab closable="false" text="Raw Data">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-          <children>
-            <fx:include fx:id="rawData" source="RawData.fxml" />     
-          </children>
-        </content>
-      </Tab>
-   </tabs>
-</TabPane>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <content>
+                                          <VBox prefHeight="688.0" prefWidth="1035.2">
+                                             <children>
+                                                <Label text="Altitude Graph">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                   <padding>
+                                                      <Insets left="20.0" top="20.0" />
+                                                   </padding>
+                                                </Label>
+                                                <LineChart minHeight="180.0">
+                                                   <xAxis>
+                                                      <CategoryAxis side="BOTTOM" />
+                                                   </xAxis>
+                                                   <yAxis>
+                                                      <NumberAxis prefHeight="120.0" prefWidth="28.0" side="LEFT" />
+                                                   </yAxis>
+                                                   <VBox.margin>
+                                                      <Insets right="20.0" />
+                                                   </VBox.margin>
+                                                </LineChart>
+                                                <Label layoutX="10.0" layoutY="10.0" text="Velocity Graph">
+                                                   <padding>
+                                                      <Insets left="20.0" top="20.0" />
+                                                   </padding>
+                                                </Label>
+                                                <LineChart layoutX="10.0" layoutY="48.0" minHeight="180.0">
+                                                   <xAxis>
+                                                      <CategoryAxis side="BOTTOM" />
+                                                   </xAxis>
+                                                   <yAxis>
+                                                      <NumberAxis prefHeight="120.0" prefWidth="28.0" side="LEFT" />
+                                                   </yAxis>
+                                                   <VBox.margin>
+                                                      <Insets right="20.0" />
+                                                   </VBox.margin>
+                                                </LineChart>
+                                                <Label layoutX="10.0" layoutY="196.0" text="Acceleration Graph">
+                                                   <padding>
+                                                      <Insets left="20.0" top="20.0" />
+                                                   </padding>
+                                                </Label>
+                                                <LineChart layoutX="10.0" layoutY="233.0" minHeight="180.0">
+                                                   <xAxis>
+                                                      <CategoryAxis side="BOTTOM" />
+                                                   </xAxis>
+                                                   <yAxis>
+                                                      <NumberAxis prefHeight="120.0" prefWidth="28.0" side="LEFT" />
+                                                   </yAxis>
+                                                   <VBox.margin>
+                                                      <Insets right="20.0" />
+                                                   </VBox.margin>
+                                                </LineChart>
+                                                <Label layoutX="10.0" layoutY="381.0" text="Temperature Graph">
+                                                   <padding>
+                                                      <Insets left="20.0" top="20.0" />
+                                                   </padding>
+                                                </Label>
+                                                <LineChart layoutX="10.0" layoutY="419.0" minHeight="180.0">
+                                                   <xAxis>
+                                                      <CategoryAxis side="BOTTOM" />
+                                                   </xAxis>
+                                                   <yAxis>
+                                                      <NumberAxis prefHeight="120.0" prefWidth="28.0" side="LEFT" />
+                                                   </yAxis>
+                                                   <VBox.margin>
+                                                      <Insets right="20.0" />
+                                                   </VBox.margin>
+                                                </LineChart>
+                                                <Label layoutX="10.0" layoutY="526.0" text="RSSI Graph">
+                                                   <padding>
+                                                      <Insets left="20.0" top="20.0" />
+                                                   </padding>
+                                                </Label>
+                                                <LineChart layoutX="10.0" layoutY="564.0" minHeight="180.0">
+                                                   <xAxis>
+                                                      <CategoryAxis side="BOTTOM" />
+                                                   </xAxis>
+                                                   <yAxis>
+                                                      <NumberAxis prefHeight="120.0" prefWidth="28.0" side="LEFT" />
+                                                   </yAxis>
+                                                   <VBox.margin>
+                                                      <Insets right="20.0" />
+                                                   </VBox.margin>
+                                                </LineChart>
+                                                <Label layoutX="10.0" layoutY="688.0" text="Latitude Graph">
+                                                   <padding>
+                                                      <Insets left="20.0" top="20.0" />
+                                                   </padding>
+                                                </Label>
+                                                <LineChart layoutX="10.0" layoutY="726.0" minHeight="180.0">
+                                                   <xAxis>
+                                                      <CategoryAxis side="BOTTOM" />
+                                                   </xAxis>
+                                                   <yAxis>
+                                                      <NumberAxis prefHeight="120.0" prefWidth="28.0" side="LEFT" />
+                                                   </yAxis>
+                                                   <VBox.margin>
+                                                      <Insets right="20.0" />
+                                                   </VBox.margin>
+                                                </LineChart>
+                                                <Label layoutX="10.0" layoutY="858.0" text="Longitude Graph">
+                                                   <padding>
+                                                      <Insets left="20.0" top="20.0" />
+                                                   </padding>
+                                                </Label>
+                                                <LineChart layoutX="10.0" layoutY="896.0" minHeight="180.0">
+                                                   <xAxis>
+                                                      <CategoryAxis side="BOTTOM" />
+                                                   </xAxis>
+                                                   <yAxis>
+                                                      <NumberAxis prefHeight="120.0" prefWidth="28.0" side="LEFT" />
+                                                   </yAxis>
+                                                   <VBox.margin>
+                                                      <Insets right="20.0" />
+                                                   </VBox.margin>
+                                                </LineChart>
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </ScrollPane>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Raw Data">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" />
+                <children>
+                  <fx:include fx:id="rawData" source="RawData.fxml" />     
+                </children>
+              </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </children>
+</VBox>
