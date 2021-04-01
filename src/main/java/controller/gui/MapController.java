@@ -88,12 +88,12 @@
 		*/
 			
 		// THE STARTING SIZE OF THE IMAGE (INDEPENDANTLY CUSTOMIZABLE)
-		private int image_width  = 2878	 	/10;
-		private int image_height = 1634		/10;
+		private int image_width  = 2878	 /10;
+		private int image_height = 1634	 /10;
 		
 		// THE ENLARGED SIZE OF THE IMAGE (INDEPENDANTLY CUSTOMIZABLE)
-		private int image_width_extended  = 2878 	/2;
-		private int image_height_extended = 1634 	/2;
+		private int image_width_extended  = 2878 /2;
+		private int image_height_extended = 1634 /2;
 		
 		// THE CORNER LATITUDES AND LONGITUDES (MUST BE CHANGED WITH EVERY NEW IMAGE)
 		final double lower_lat = 33.1736; // Top of the screen
