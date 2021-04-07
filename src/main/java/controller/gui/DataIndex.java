@@ -21,12 +21,24 @@ public enum DataIndex {
 	GYROX_INDEX(8),
 	RSSI_INDEX(9);
 	
+	/** 
+	 * The index with which the specified value will be found in the telemetry string
+	 */
 	private Integer order;
 
+	/**
+	 * Private constructor for creating new data value to be expected in telemetry string
+	 * @param order The index with which the specified value will be found in the telemetry string
+	 */
 	private DataIndex(final Integer order) {
 		this.order = order;
 	}
 	
+	
+	/**
+	 * Getter for telemetry data index
+	 * @return the index with which the specified value will be found in the telemetry string
+	 */
 	public Integer getOrder() {
 		return order;
 	}

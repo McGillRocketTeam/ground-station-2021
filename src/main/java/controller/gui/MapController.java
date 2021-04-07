@@ -66,25 +66,28 @@
 	 * If one chooses to change image size, do so by changing the image_width, image_height, image_width_expanded, image_height_expanded
 	 * parameters in the MapController class. <p>
 	 * 
+	 * 
+	 * To change image: 
+	 * If one chooses to make use of a different image, it must be oriented with north facing the top of the screen. 
+	 * The upper and lower latitudes and longitudes must also be edited in the MapController class. <p>
+	 * 
+	 * Note the following: 
+	 * 	lower_lat = top of the screen
+	 * 	upper_lat = bottom of the screen
+	 * 	lower_lon = left of the screen
+	 * 	upper_lon = right of the screen <p>
+	 * 
+	 * To change image size(s):
+	 * If one chooses to change image size, do so by changing the image_width, image_height, image_width_expanded, image_height_expanded
+	 * parameters in the MapController class.
+	 * 
 	 * @author Samuel Valentine
 	 */
 	
 	public class MapController {
 		
 		/**
-		 * To change image: 
-		 * If one chooses to make use of a different image, it must be oriented with north facing the top of the screen. 
-		 * The upper and lower latitudes and longitudes must also be edited in the MapController class. <p>
-		 * 
-		 * Note the following: 
-		 * 	lower_lat = top of the screen
-		 * 	upper_lat = bottom of the screen
-		 * 	lower_lon = left of the screen
-		 * 	upper_lon = right of the screen <p>
-		 * 
-		 * To change image size(s):
-		 * If one chooses to change image size, do so by changing the image_width, image_height, image_width_expanded, image_height_expanded
-		 * parameters in the MapController class.
+
 		*/
 			
 		// THE STARTING SIZE OF THE IMAGE (INDEPENDANTLY CUSTOMIZABLE)
@@ -105,34 +108,35 @@
 		Circle circle = new Circle();
         Circle circle_extended = new Circle();
         
-		
+    	/**
+    	 * Converts latitudes and longitudes from the form [Degrees, Minutes, Seconds] to decimal values 
+    	 * that can be used in the circle-plotting algorithm.
+    	 * If latitudes and longitudes are already in this form (like old data), then this transformation is unnecessary
+    	 */
+        
 	    public static double decimal_converter(double degrees, double minutes, double seconds) {
 	    	
-	    	/**
-	    	 * Converts latitudes and longitudes from the form [Degrees, Minutes, Seconds] to decimal values 
-	    	 * that can be used in the circle-plotting algorithm.
-	    	 * If latitudes and longitudes are already in this form (like old data), then this transformation is unnecessary
-	    	 */
+
 	    	
 	    	return degrees + minutes/60 + seconds/3600;
 	    }
 	    
-	    
+    	/**
+    	 * Takes the longitude value and scales it proportionally to the width of the image on which the circle
+    	 * portraying the rocket's location will be displayed.
+    	 */
 	    public int find_x (double lon, int width) {
-	    	/**
-	    	 * Takes the longitude value and scales it proportionally to the width of the image on which the circle
-	    	 * portraying the rocket's location will be displayed.
-	    	 */
+
 	    	 
 	    	return Math.abs((int)(((lon - lower_lon)/(upper_lon-lower_lon))*width));
 	    }
 	    
-	    
+    	/**
+    	 * Takes the latitude value and scales it proportionally to the height of the image on which the circle
+    	 * portraying the rocket's location will be displayed.
+    	 */
 	    public int find_y (double lat, int height) {
-	    	/**
-	    	 * Takes the latitude value and scales it proportionally to the height of the image on which the circle
-	    	 * portraying the rocket's location will be displayed.
-	    	 */
+
 	    	return Math.abs((int)(((lat - lower_lat)/(upper_lat-lower_lat))*height));
 	    }
 	    
@@ -149,12 +153,14 @@
 	    @FXML
 	    Label lonlabel;
 	    
+	    
+		/**
+		 * Initializes all settings for both integrated and extended map displays. <p>
+		 * Initializes button and creates event handler. <p>
+		 */
 		public void initializeMap() throws Exception{
 			
-			/**
-			 * Initializes all settings for both integrated and extended map displays. <p>
-			 * Initializes button and creates event handler. <p>
-			 */
+
 			
 	        // 	=== Get the image ===
 	        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -202,12 +208,12 @@
 	        stackpane2.setPadding(new Insets(20));
 		}
 		
-		
+		/**
+		 * Updates integrated and extended maps using passed data, one index at a time.
+		 */
 		public void addMapData(double[] data) {
 			
-			/**
-			 * Updates integrated and extended maps using passed data, one index at a time.
-			 */
+
 			
 			//	=== SIZE & COLOR OF CIRCLE ===
 			//  Integrated display

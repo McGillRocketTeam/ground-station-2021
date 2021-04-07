@@ -19,6 +19,7 @@ public class Gyro3dController {
 	final SmartGroup rocketGroup = new SmartGroup();
     final PerspectiveCamera camera = new PerspectiveCamera(true);
 
+    
     private static final double CAMERA_INITIAL_DISTANCE = -450;
     private static final double CAMERA_INITIAL_X_ANGLE = 0;
     private static final double CAMERA_INITIAL_Y_ANGLE = 0;
@@ -26,6 +27,11 @@ public class Gyro3dController {
     private static final double CAMERA_FAR_CLIP = 10000.0;
     private static final double AXIS_LENGTH = 250.0;
     
+    
+    /**
+     * Initialize the Gyro scene. Adds the 3D models to the scene as well as builds the 3D camera.
+     * @return the subscene to be added to the main window
+     */
     public SubScene initializeGyro() {
     	Box box = new Box(100, 20, 50);
     	rocketGroup.getChildren().add(box);
@@ -45,12 +51,19 @@ public class Gyro3dController {
         return scene;
     }
     
+    /**
+     * Builds the 3D camera used in the scene
+     */
 	private void buildCamera() {
 
         camera.setNearClip(CAMERA_NEAR_CLIP);
         camera.setFarClip(CAMERA_FAR_CLIP);
         camera.setTranslateZ(CAMERA_INITIAL_DISTANCE);
     }
+	
+	/** 
+	 * Builds the 3D model of the x, y, and z axes
+	 */
 	private void buildAxes() {
         final PhongMaterial redMaterial = new PhongMaterial();
         redMaterial.setDiffuseColor(Color.DARKRED);
@@ -77,6 +90,12 @@ public class Gyro3dController {
  //       root.getChildren().addAll(axisGroup);
     }
 	
+	/**
+	 * Inner class used to apply attributes to a 3D object so that it can be rotated easily
+	 * 
+	 * @author Jeremy Chow
+	 *
+	 */
 	class SmartGroup extends Group {
 		Rotate r;
 		Transform t = new Rotate();
@@ -121,6 +140,14 @@ public class Gyro3dController {
 		 * alf is roll, bet is pitch and gam is yaw.
 		 * https://stackoverflow.com/questions/30145414/rotate-a-3d-object-on-3-axis-in-javafx-properly
 		 */
+		
+		/**
+		 *  Math for converting pitch yaw and roll to usable coordinates for rotation. ** Untested **
+		 * @param n
+		 * @param alf
+		 * @param bet
+		 * @param gam
+		 */
 		private void matrixRotateNode(Node n, double alf, double bet, double gam){
 		    double A11=Math.cos(alf)*Math.cos(gam);
 		    double A12=Math.cos(bet)*Math.sin(alf)+Math.cos(alf)*Math.sin(bet)*Math.sin(gam);
@@ -142,6 +169,10 @@ public class Gyro3dController {
 		}
 	}
 
+	/**
+	 * Rotate the the rocket model given the gyroscopic telemetry data
+	 * @param data
+	 */
 	public void addGyroData(double[] data) {
 		rocketGroup.setRotateX(data[DataIndex.GYROX_INDEX.getOrder()]);
 		

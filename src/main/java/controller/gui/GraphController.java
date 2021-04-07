@@ -62,6 +62,12 @@ import javafx.event.EventHandler;
 /**
  * The controller class for the graph section of the main page
  * 
+ *  ---------------INFO------------------
+ *  
+ * Drag/scroll to zoom
+ * 
+ * Double click to reset to auto-zoom
+ * 
  * @author Soomin Lee
  * @author Jeremy Chow
  *
@@ -77,13 +83,6 @@ public class GraphController {
 //	}
 	
 	
-	/* ---------------INFO------------------
-	 *
-	 * Drag/scroll to zoom
-	 * 
-	 * Double click to reset to auto-zoom
-	 * 
-	 */
 	
 
 	

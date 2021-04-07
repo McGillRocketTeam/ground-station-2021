@@ -13,7 +13,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-
+/**
+ * Controller responsible for managing functionality on the raw data tab of the GUI
+ * TableViews contain TableColumns which contain ObservableLists of DataPoints
+ *
+ * @author Jeremy Chow
+ *
+ */
 public class RawDataController{ // implements initializable?
 	@FXML 
 	private TableView<DataPoint> tbAltData;
@@ -55,20 +61,45 @@ public class RawDataController{ // implements initializable?
     private ObservableList<DataPoint> rssiDataPoints = FXCollections.observableArrayList(
     	    );
     
+    /**
+     * Add altitude data point to raw data
+     * @param data1 time
+     * @param data2 altitude
+     */
     public void addAltDataPoint(Double data1, Double data2) {
     	altDataPoints.add(new DataPoint(data1,data2));
     }
+    
+    /**
+     * Add velocity data point to raw data
+     * @param data1 time
+     * @param data2 velocity
+     */
     public void addVelDataPoint(double data1, Double data2) {
     	velDataPoints.add(new DataPoint(data1,data2));
     }
+    
+    /**
+     * Add acceleration data point to raw data
+     * @param data1 time
+     * @param data2 acceleration
+     */
     public void addAccelDataPoint(double data1, Double data2) {
     	accelDataPoints.add(new DataPoint(data1,data2));
     }
+    /**
+     * Add rssi data point to raw data
+     * @param data1 time
+     * @param data2 dbi
+     */
     public void addRssiDataPoint(double data1, Double data2) {
     	rssiDataPoints.add(new DataPoint(data1,data2));
     }
     
-    // Method that just adds all rawdata in a batch instead of having to call addDataPoint individually
+    /**
+     *  Method that just adds all rawdata in a batch instead of having to call addDataPoint individually
+     * @param data Array format of telemetry string
+     */
 	public void addRawData(double[] data) {
 		addAltDataPoint(data[DataIndex.TIME_INDEX.getOrder()],data[DataIndex.ALTITUDE_INDEX.getOrder()]);
 		addVelDataPoint(data[DataIndex.TIME_INDEX.getOrder()],data[DataIndex.VELOCITY_INDEX.getOrder()]);
@@ -87,6 +118,11 @@ public class RawDataController{ // implements initializable?
 //        //add your data to the table here.
 //        tbData.setItems(dataPoints);
 //    }
+	
+	/**
+	 * Initialize the raw data controller by setting up the tableviews required for the raw data tab
+	 * Will initialize all tables with empty lists as values.
+	 */
     public void initializeRawDataController() {
         //make sure the property value factory should be exactly same as the name from model class
         altTime.setCellValueFactory(new PropertyValueFactory<>("time"));
