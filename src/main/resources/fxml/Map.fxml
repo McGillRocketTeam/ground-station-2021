@@ -17,11 +17,16 @@
 	<children>
 <!-- 		<VBox prefHeight = "400.0" prefWidth = "74">
 			<children> -->
-            <Label fx:id="latlabel"/>
-            <Label fx:id="lonlabel"/>
-				<StackPane fx:id="stackpane"/>
-				<StackPane fx:id="stackpane2"/>
-<!-- 			</children>
+            
+				<StackPane fx:id="mapPane"/>
+				
+				<StackPane fx:id="lonPane"/>
+
+				<StackPane fx:id="latPane"/>
+
+				<StackPane fx:id="buttonPane"/>
+
+			<!-- 			</children>
 		</VBox> -->
 	</children>
 </VBox>
