@@ -142,16 +142,16 @@
 	    
 	    
 	    @FXML
-	    StackPane stackpane;
+	    StackPane mapPane;
 	    
 	    @FXML
-	    StackPane stackpane2;
+	    StackPane latPane;
 	    
 	    @FXML
-	    Label latlabel;
-	   
+	    StackPane lonPane;
+	    
 	    @FXML
-	    Label lonlabel;
+	    StackPane buttonPane;
 	    
 	    
 		/**
@@ -200,12 +200,17 @@
 	        button.setOnAction(event);
 	        
 	        //	==== Add to stackpanes to send to FXML file ====
-	        stackpane.getChildren().add(iv);
-	        stackpane.getChildren().add(circle);
-	        stackpane.setPadding(new Insets(20));
+	        mapPane.getChildren().add(iv);
+	        mapPane.getChildren().add(circle);
+	        mapPane.setPadding(new Insets(20));
 	       
-	        stackpane2.getChildren().add(button);
-	        stackpane2.setPadding(new Insets(20));
+	        Label latlabel = new Label();
+	        Label lonlabel = new Label();
+	        latPane.getChildren().add(latlabel);
+	        lonPane.getChildren().add(lonlabel);
+	        
+	        buttonPane.getChildren().add(button);
+//	        buttonPane.setPadding(new Insets(20));
 		}
 		
 		/**
@@ -213,7 +218,7 @@
 		 */
 		public void addMapData(double[] data) {
 			
-
+			
 			
 			//	=== SIZE & COLOR OF CIRCLE ===
 			//  Integrated display
@@ -238,9 +243,13 @@
 			circle_extended.setTranslateY(-image_height_extended / 2 + find_y(y,image_height_extended));
 			
 			//	Create labels 
-			latlabel.setText("Lat: "+x);
-			lonlabel.setText("Lon: "+y);
+			Label latlabel = new Label("Lat: "+x);
+	        Label lonlabel = new Label("Lon: "+y);
 			latlabel.setTextAlignment(TextAlignment.CENTER);
 			lonlabel.setTextAlignment(TextAlignment.CENTER);
+			latPane.getChildren().clear();
+			lonPane.getChildren().clear();
+			latPane.getChildren().add(latlabel);
+			lonPane.getChildren().add(lonlabel);
 		}
 	}
