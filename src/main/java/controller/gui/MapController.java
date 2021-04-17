@@ -99,10 +99,18 @@
 		private int image_height_extended = 1634 /2;
 		
 		// THE CORNER LATITUDES AND LONGITUDES (MUST BE CHANGED WITH EVERY NEW IMAGE)
-		final double lower_lat = 33.1736; // Top of the screen
-		final double upper_lat = 32.8802; // Bottom of the screen
-		final double lower_lon = 107.2299; // Left of the screen
-		final double upper_lon = 106.7599; // Right of the screen
+		
+		// McGill's coordinates
+		final double lower_lat = decimal_converter(45,30,30); // Top of the screen
+		final double upper_lat = decimal_converter(45,30,10); // Bottom of the screen
+		final double lower_lon = decimal_converter(73,35,04); // Left of the screen
+		final double upper_lon = decimal_converter(73,34,16); // Right of the screen
+		
+		// New Mexico Spaceport America's coordinates
+//		final double lower_lat = 33.1736; // Top of the screen
+//		final double upper_lat = 32.8802; // Bottom of the screen
+//		final double lower_lon = 107.2299; // Left of the screen
+//		final double upper_lon = 106.7599; // Right of the screen
 		
 		// Necessary initializations (DON'T TOUCH)
 		Circle circle = new Circle();
@@ -164,7 +172,13 @@
 			
 	        // 	=== Get the image ===
 	        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-	    	InputStream stream = classloader.getResourceAsStream("GoogleEarthMap.JPG");
+	        
+//	        Mcgill map:
+	    	InputStream stream = classloader.getResourceAsStream("Mcgill.JPG");
+	    	
+//	    	New Mexico map:
+//	    	InputStream stream = classloader.getResourceAsStream("GoogleEarthMap.JPG");
+	    	
 	        Image image = new Image(stream);
 	        ImageView iv = new ImageView(image);
 	        ImageView iv2 = new ImageView(image);
@@ -219,7 +233,6 @@
 		public void addMapData(double[] data) {
 			
 			
-			
 			//	=== SIZE & COLOR OF CIRCLE ===
 			//  Integrated display
 	        circle.setRadius(5); 
@@ -228,6 +241,10 @@
 			//	Enlarged display
 			circle_extended.setRadius(5); 
 			circle_extended.setFill(Color.RED);
+			
+			//	Testing McGill map with coordinates in range (at about the center)
+//			double y = decimal_converter(45,30,20);
+//			double x = decimal_converter(73,34,40);
 			
 			//	=== Get data ===
 			float x = Math.abs(Float.parseFloat(String.valueOf(data[DataIndex.LONGITUDE_INDEX.getOrder()])));
