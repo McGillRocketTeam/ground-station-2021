@@ -100,11 +100,17 @@
 		
 		// THE CORNER LATITUDES AND LONGITUDES (MUST BE CHANGED WITH EVERY NEW IMAGE)
 		
+		// Rutherford Park's coordinates
+		final double lower_lat = decimal_converter(45,30,23); // Top of the screen
+		final double upper_lat = decimal_converter(45,30,18); // Bottom of the screen
+		final double lower_lon = decimal_converter(73,34,54); // Left of the screen
+		final double upper_lon = decimal_converter(73,34,41); // Right of the screen
+		
 		// McGill's coordinates
-		final double lower_lat = decimal_converter(45,30,30); // Top of the screen
-		final double upper_lat = decimal_converter(45,30,10); // Bottom of the screen
-		final double lower_lon = decimal_converter(73,35,04); // Left of the screen
-		final double upper_lon = decimal_converter(73,34,16); // Right of the screen
+//		final double lower_lat = decimal_converter(45,30,30); // Top of the screen
+//		final double upper_lat = decimal_converter(45,30,10); // Bottom of the screen
+//		final double lower_lon = decimal_converter(73,35,04); // Left of the screen
+//		final double upper_lon = decimal_converter(73,34,16); // Right of the screen
 		
 		// New Mexico Spaceport America's coordinates
 //		final double lower_lat = 33.1736; // Top of the screen
@@ -173,8 +179,12 @@
 	        // 	=== Get the image ===
 	        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 	        
+	        
+//	        Rutherford Park map:
+	    	InputStream stream = classloader.getResourceAsStream("Rutherford Park.JPG");
+	        
 //	        Mcgill map:
-	    	InputStream stream = classloader.getResourceAsStream("Mcgill.JPG");
+//	    	InputStream stream = classloader.getResourceAsStream("Mcgill.JPG");
 	    	
 //	    	New Mexico map:
 //	    	InputStream stream = classloader.getResourceAsStream("GoogleEarthMap.JPG");
@@ -241,6 +251,10 @@
 			//	Enlarged display
 			circle_extended.setRadius(5); 
 			circle_extended.setFill(Color.RED);
+			
+			//	Testing Rutherford Park map with coordinates in range (at about the center)
+//			double y = decimal_converter(45,30,20);
+//			double x = decimal_converter(73,34,47);
 			
 			//	Testing McGill map with coordinates in range (at about the center)
 //			double y = decimal_converter(45,30,20);
