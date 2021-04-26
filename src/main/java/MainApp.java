@@ -55,13 +55,13 @@ public class MainApp extends Application {
         stage.setTitle("McGill Rocket Team Ground Station");
         
         
-		Parser parser = new Parser(10);
+		Parser parser = new Parser(11);
 		ArrayList<String> myData = new ArrayList<String>();
 		ArrayList<double[]> myDataArrays = new ArrayList<double[]>();
 		switch (mode) {
 			case OLD:
 				try {
-					myData = (ArrayList<String>) Parser.storeData("src/main/resources/Data_last_year.txt");
+					myData = (ArrayList<String>) Parser.storeData("src/main/resources/zheng1.txt");
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -71,6 +71,7 @@ public class MainApp extends Application {
 						myDataArrays.add(parser.parse((str)));
 					} catch (IllegalArgumentException e) {
 						System.out.println("Bad line");
+						System.out.println(e.toString());
 					}
 				}
 				

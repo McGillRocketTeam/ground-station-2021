@@ -243,7 +243,6 @@ public class GraphController {
 	 * 
 	 */
 	public void addGraphData(double[] data) {
-		
 		addAltitudeData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ALTITUDE_INDEX.getOrder()]);
 		addVelocityData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.VELOCITY_INDEX.getOrder()]);
 		addAccelerationData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCELERATION_INDEX.getOrder()]);

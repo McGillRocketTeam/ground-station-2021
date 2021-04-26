@@ -12,14 +12,14 @@ package controller.gui;
  */
 
 public enum DataIndex {
-	LATITUDE_INDEX(0),
-	LONGITUDE_INDEX(1),
-	TIME_INDEX(2),
-	ALTITUDE_INDEX(3),
-	VELOCITY_INDEX(4),
+	LATITUDE_INDEX(8),
+	LONGITUDE_INDEX(9),
+	TIME_INDEX(10),
+	ALTITUDE_INDEX(7),
+	VELOCITY_INDEX(3),
 	ACCELERATION_INDEX(5),
-	GYROX_INDEX(8),
-	RSSI_INDEX(9);
+	GYROX_INDEX(0),
+	RSSI_INDEX(0);
 	
 	/** 
 	 * The index with which the specified value will be found in the telemetry string
