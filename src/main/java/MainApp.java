@@ -70,8 +70,10 @@ public class MainApp extends Application {
 					try {
 						myDataArrays.add(parser.parse((str)));
 					} catch (IllegalArgumentException e) {
-						System.out.println("Bad line");
+						System.out.println("Invalid message. Message was thrown out.");
 						System.out.println(e.toString());
+					} catch (NullPointerException e) {
+						System.out.println("Why you passing null to the parser");
 					}
 				}
 				
