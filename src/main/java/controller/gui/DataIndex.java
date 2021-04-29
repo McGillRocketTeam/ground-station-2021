@@ -14,7 +14,7 @@ package controller.gui;
 public enum DataIndex {
 	LATITUDE_INDEX(8),
 	LONGITUDE_INDEX(9),
-	TIME_INDEX(10),
+	TIME_INDEX(11),
 	ALTITUDE_INDEX(7),
 	VELOCITY_INDEX(3),
 	ACCELERATION_INDEX(5),

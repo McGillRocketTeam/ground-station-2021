@@ -30,7 +30,7 @@ import javafx.stage.Stage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
-public class MainApp extends Application {
+public class LiteMainApp extends Application {
 
 	private final Mode mode = Mode.OLD;
 	private ScheduledExecutorService scheduledExecutorService;
@@ -39,20 +39,8 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
     	
     	
-    	
-        Label l = new Label("McGill Rocket Team Ground Station");
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
-        Parent root = fxmlLoader.load();
-        Scene mainApp = new Scene(root, 1024,768);
-        MainAppController mainAppController = (MainAppController)fxmlLoader.getController();
-        mainAppController.mainAppInitializeGraphs();
-        mainAppController.mainAppInitializeMap();
-        mainAppController.mainAppIntitializeRawData();     
-        mainAppController.mainAppInitializeGyro();
-//        ((Pane)mainApp.getRoot()).getChildren().add(gyroController.initializeGyro().getRoot());
 
    
-        stage.setTitle("McGill Rocket Team Ground Station");
         
         
 		Parser parser = new Parser(12);
@@ -61,39 +49,23 @@ public class MainApp extends Application {
 		switch (mode) {
 			case OLD:
 				try {
-					myData = (ArrayList<String>) Parser.storeData("src/main/resources/zheng2.txt");
-				} catch (FileNotFoundException e) {
+					myData = (ArrayList<String>) Parser.storeData("src/main/resources/jenni1.txt");
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				for (String str: myData) {
 					try {
-						myDataArrays.add(parser.parse((str)));
+						myDataArrays.add(parser.parseFC((str)));
 					} catch (IllegalArgumentException e) {
 						System.out.println("Bad line");
 						System.out.println(e.toString());
 					}
 				}
+				for (String s: myData) {
+					System.out.println(s);
+				}
 				
-				scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-				Iterator<double[]> dataItr = myDataArrays.iterator();
-				
-				scheduledExecutorService.scheduleAtFixedRate(() -> {
-					double[] data = dataItr.next();
-					
-				Platform.runLater(()-> {
-
-				//	System.out.println(data[3]);
-					Date now = new Date();
-					mainAppController.mainAppAddGraphData(data);
-					mainAppController.mainAppAddMapData(data);
-					mainAppController.mainAppAddRawData(data);
-					mainAppController.startTimer(data);
-					mainAppController.mainAppAddGyroData(data);
-
-				
-				});
-				}, 0, 1000, TimeUnit.MILLISECONDS);
 				
 			case SIMULATION:
 				break;
@@ -101,8 +73,6 @@ public class MainApp extends Application {
 				break;
 		}
 
-        stage.setScene(mainApp);
-        stage.show();
 
     }
 

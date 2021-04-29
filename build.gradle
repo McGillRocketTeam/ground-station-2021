@@ -30,5 +30,14 @@ dependencies {
     implementation 'org.gillius:jfxutils:1.0'
 }
 
+task runlite(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  jvmArgs = ['--module-path', classpath.asPath, 
+               '--add-modules', 'javafx.controls' ]
+
+  main = 'LiteMainApp'
+
+}
+
 mainClassName = 'MainApp'
 
