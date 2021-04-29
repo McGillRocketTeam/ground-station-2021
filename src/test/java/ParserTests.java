@@ -199,6 +199,7 @@ public class ParserTests {
     	});
     	System.out.println("Test with empty data passed");
     }
+    
 	/*
 	 * Currently don't have hex values in our telemetry messages.
 	 */
