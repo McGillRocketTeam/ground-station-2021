@@ -77,7 +77,8 @@ public class Parser {
         
         Arrays.fill(out, EMPTY_ARRAY);
 //         Check if first and last characters are S and E respectively
-        if (sIn.isEmpty() || (sIn.charAt(0) != 's' && sIn.charAt(sIn.length()-1) != 'e'))
+    	if (sIn.isEmpty()) throw new IllegalArgumentException("Input string is empty");
+    	else if (sIn.charAt(0) != 's' && sIn.charAt(sIn.length()-1) != 'e')
             throw new IllegalArgumentException("First and Last characters are not s and e");
         else if (sIn.charAt(0) != 's') throw new IllegalArgumentException("First Character in input String is not s");
         else if (sIn.charAt(sIn.length()-1) != 'e') throw new IllegalArgumentException("Last Character in input string is not e");
@@ -168,7 +169,8 @@ public class Parser {
     	double[] out = new double[this.numberOfValues];
 //      Arrays.fill(out, EMPTY_ARRAY);
       // Check if first and last characters are S and E respectively
-        if (sIn.isEmpty() || (sIn.charAt(0) != 'S' && sIn.charAt(sIn.length()) != 'E' && sIn.charAt(sIn.length()-1) != ','))
+    	if (sIn.isEmpty() || sIn.length() <= 2) throw new IllegalArgumentException("Input string is empty or size 1 or size 2");
+    	else if (sIn.charAt(0) != 'S' && sIn.charAt(sIn.length() - 1) != 'E' && sIn.charAt(sIn.length()-2) != ',')
             throw new IllegalArgumentException("First and Last characters are not S and E");
         else if (sIn.charAt(0) != 'S') throw new IllegalArgumentException("First Character in input String is not S");
         else if (sIn.charAt(sIn.length()-1) != 'E') throw new IllegalArgumentException("Last Character in input string is not E");
