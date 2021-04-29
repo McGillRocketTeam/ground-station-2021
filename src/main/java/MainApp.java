@@ -13,6 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import controller.Parser;
+import controller.datastorage.DataStorage;
 import controller.gui.DataIndex;
 import controller.gui.GraphController;
 import controller.gui.Gyro3dController;
@@ -38,7 +39,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
     	
-    	
+    	DataStorage.makeFolders();
     	
         Label l = new Label("McGill Rocket Team Ground Station");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));

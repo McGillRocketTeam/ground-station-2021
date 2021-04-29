@@ -34,10 +34,12 @@ public class DataStorage {
 	private static boolean PRINTEXIST = false; // if true, program prints message indicating if folders already exist
 	public static final int TelemetryLength = 10; // length of array (or string) for CSV GPS data to be written
 	public static final int GPSLength = 6; // length of array (or string) for CSV telemetry data to be written
-
+	
+	// file location of project
+	public static final String PROJECT_ROOT = System.getProperty("user.dir") + "/";
 	// file locations of folders
-	public static final String[] DATA_TYPE = { "../storage/", "../storage/telemetry/", "../storage/gps/",
-			"../storage/raw_telemetry/", "../storage/raw_gps/", "../storage/antenna_angles/", "../storage/serial/" };
+	public static final String[] DATA_TYPE = { "storage/", "storage/telemetry/", "storage/gps/",
+			"storage/raw_telemetry/", "storage/raw_gps/", "storage/antenna_angles/", "storage/serial/" };
 
 	// header rows of CSV files and TXT files
 	public static final String TELEMETRY_HEADER = "Current Time, Latitude, Longitude, Time, Altitude, "
@@ -107,13 +109,13 @@ public class DataStorage {
 	 * 
 	 */
 	public static void makeFolders() {
-		File storage = new File(DATA_TYPE[STORAGE]);
-		File telemetry = new File(DATA_TYPE[TELEMETRY]);
-		File gps = new File(DATA_TYPE[GPS]);
-		File raw_telemetry = new File(DATA_TYPE[RAW_TELEMETRY]);
-		File raw_gps = new File(DATA_TYPE[RAW_GPS]);
-		File antenna_angles = new File(DATA_TYPE[ANTENNA_ANGLES]);
-		File serial = new File(DATA_TYPE[SERIAL]);
+		File storage = new File(PROJECT_ROOT+DATA_TYPE[STORAGE]);
+		File telemetry = new File(PROJECT_ROOT+DATA_TYPE[TELEMETRY]);
+		File gps = new File(PROJECT_ROOT+DATA_TYPE[GPS]);
+		File raw_telemetry = new File(PROJECT_ROOT+DATA_TYPE[RAW_TELEMETRY]);
+		File raw_gps = new File(PROJECT_ROOT+DATA_TYPE[RAW_GPS]);
+		File antenna_angles = new File(PROJECT_ROOT+DATA_TYPE[ANTENNA_ANGLES]);
+		File serial = new File(PROJECT_ROOT+DATA_TYPE[SERIAL]);
 
 		make1Dir(storage);
 		make1Dir(telemetry);

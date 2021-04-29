@@ -62,7 +62,7 @@ public class LiteMainApp extends Application {
 						System.out.println("Invalid message. Message was thrown out.");
 						System.out.println(e.toString());
 					} catch (NullPointerException e) {
-						System.out.println("Why you passing null to the parser");
+						System.out.println("Why you passing null to the parser dude");
 					}
 				}
 				for (String s: myData) {
