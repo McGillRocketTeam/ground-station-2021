@@ -74,6 +74,7 @@ public class Parser {
 	
     public double[] parse(String sIn) throws IllegalArgumentException {
         double[] out = new double[this.numberOfValues];
+        
         Arrays.fill(out, EMPTY_ARRAY);
 //         Check if first and last characters are S and E respectively
         if (sIn.isEmpty() || (sIn.charAt(0) != 's' && sIn.charAt(sIn.length()-1) != 'e'))
@@ -84,6 +85,7 @@ public class Parser {
         //Remove s at start and e at end characters
         
 
+
         String subStr = sIn.substring(1, sIn.length()-1);
 
         //Split new string and convert to double
@@ -91,17 +93,31 @@ public class Parser {
         if (splitStr.length != this.numberOfValues) throw new IllegalArgumentException("Incorrect number of values: found:" + splitStr.length + " expected:" + this.numberOfValues);
         for (int i = 0; i < splitStr.length; i++) {
             if (i == this.hexLocation) {
-                try {
-                    out[i] = Integer.parseInt(splitStr[i], 16);
-                }
-                catch (Exception e) {
-                    throw new InvalidParameterException(
-                            "String: \"" + out[i] + " \" at index:"
-                            + i + " cannot be converted from hexidecimal string to integer \n"
-                            + "Message from original exception follows:\n"
-                            + e.getMessage()
-                    );
-                }
+            	if (this.containsHex) {
+	                try {
+	                    out[i] = Integer.parseInt(splitStr[i], 16);
+	                }
+	                catch (Exception e) {
+	                    throw new InvalidParameterException(
+	                            "String: \"" + out[i] + " \" at index:"
+	                            + i + " cannot be converted from hexidecimal string to integer \n"
+	                            + "Message from original exception follows:\n"
+	                            + e.getMessage()
+	                    );
+	                }
+            	} else {
+            		try {
+	                    out[i] = Integer.parseInt(splitStr[i], 10);
+	                }
+	                catch (Exception e) {
+	                    throw new InvalidParameterException(
+	                            "String: \"" + out[i] + " \" at index:"
+	                            + i + " cannot be converted from integer to integer \n"
+	                            + "Message from original exception follows:\n"
+	                            + e.getMessage()
+	                    );
+	                }
+            	}
             }
             else {
 
