@@ -12,7 +12,6 @@ import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date; // getting current date
 
-import org.junit.jupiter.api.Test;
 
 import controller.Parser; // used in Main to test methods
 
@@ -33,31 +32,31 @@ import controller.Parser; // used in Main to test methods
 //@SuppressWarnings("unused")
 public class DataStorage {
 	private static boolean PRINTEXIST = false; // if true, program prints message indicating if folders already exist
-	static final int TelemetryLength = 10; // length of array (or string) for CSV GPS data to be written
-	static final int GPSLength = 6; // length of array (or string) for CSV telemetry data to be written
+	public static final int TelemetryLength = 10; // length of array (or string) for CSV GPS data to be written
+	public static final int GPSLength = 6; // length of array (or string) for CSV telemetry data to be written
 
 	// file locations of folders
-	static final String[] DATA_TYPE = { "../storage/", "../storage/telemetry/", "../storage/gps/",
+	public static final String[] DATA_TYPE = { "../storage/", "../storage/telemetry/", "../storage/gps/",
 			"../storage/raw_telemetry/", "../storage/raw_gps/", "../storage/antenna_angles/", "../storage/serial/" };
 
 	// header rows of CSV files and TXT files
-	static final String TELEMETRY_HEADER = "Current Time, Latitude, Longitude, Time, Altitude, "
+	public static final String TELEMETRY_HEADER = "Current Time, Latitude, Longitude, Time, Altitude, "
 			+ "Velocity, Satelites, Acceleration, Temperature, GyroX\n";
-	static final String GPS_HEADER = "Current Time, Latitude, Longitude, Time, GPS_Altitude, GPS_Speed, Number of Satelites\n";
-	static final String RAW_HEADER = "Raw Data:\n____________________\n";
+	public static final String GPS_HEADER = "Current Time, Latitude, Longitude, Time, GPS_Altitude, GPS_Speed, Number of Satelites\n";
+	public static final String RAW_HEADER = "Raw Data:\n____________________\n";
 
 	// array of filenames to be used
-	static final String[] DATA_FILENAME = { "", "_data_telemetry.csv", "_data_gps.csv", "_raw_data.txt",
+	public static final String[] DATA_FILENAME = { "", "_data_telemetry.csv", "_data_gps.csv", "_raw_data.txt",
 			"_raw_data.txt", "_antenna_angles.txt", "" };
 	
 	// different data types to be written
-	static final int STORAGE = 0;
-	static final int TELEMETRY = 1;
-	static final int GPS = 2;
-	static final int RAW_TELEMETRY = 3;
-	static final int RAW_GPS = 4;
-	static final int ANTENNA_ANGLES = 5;
-	static final int SERIAL = 6;
+	public static final int STORAGE = 0;
+	public static final int TELEMETRY = 1;
+	public static final int GPS = 2;
+	public static final int RAW_TELEMETRY = 3;
+	public static final int RAW_GPS = 4;
+	public static final int ANTENNA_ANGLES = 5;
+	public static final int SERIAL = 6;
 	
 	public static void setPRINTEXIST(boolean state) {
 		DataStorage.PRINTEXIST = state;
@@ -107,7 +106,7 @@ public class DataStorage {
 	 * If the folders already exist, then nothing happens.<p>s
 	 * 
 	 */
-	protected static void makeFolders() {
+	public static void makeFolders() {
 		File storage = new File(DATA_TYPE[STORAGE]);
 		File telemetry = new File(DATA_TYPE[TELEMETRY]);
 		File gps = new File(DATA_TYPE[GPS]);
@@ -176,7 +175,7 @@ public class DataStorage {
 	// https://stackoverflow.com/questions/30073980/java-writing-strings-to-a-csv-file
 	// answer by Prashant Ghimire
 	
-	static void createHeader(String[] formattedDates, int dataType) throws Exception {
+	public static void createHeader(String[] formattedDates, int dataType) throws Exception {
 		if (dataType != STORAGE && dataType != SERIAL) {
 			try (PrintWriter writer = new PrintWriter(
 					new File(DATA_TYPE[dataType] + formattedDates[0] + DATA_FILENAME[dataType]))) {
@@ -220,7 +219,7 @@ public class DataStorage {
 	 * @return success - <code>boolean</code> Flag indicating whether the save
 	 *         operation failed at any point
 	 */
-	static boolean saveDataCSV(String[] formattedDates, int dataType, String fileTime, double[] data) {
+	public static boolean saveDataCSV(String[] formattedDates, int dataType, String fileTime, double[] data) {
 		boolean success = true; // flag for whether data gets written or not
 		if (dataType == TELEMETRY || dataType == GPS) {
 			try (FileWriter file = new FileWriter(DATA_TYPE[dataType] + fileTime + DATA_FILENAME[dataType], true)) {
@@ -273,7 +272,7 @@ public class DataStorage {
 	 * @param data           - <code>String</code> Data to be saved
 	 * 
 	 */
-	static void saveDataRaw(String[] formattedDates, int dataType, String fileTime, String data) {
+	public static void saveDataRaw(String[] formattedDates, int dataType, String fileTime, String data) {
 
 		if (dataType == RAW_TELEMETRY || dataType == RAW_GPS || dataType == ANTENNA_ANGLES) {
 			try (FileWriter file = new FileWriter(DATA_TYPE[dataType] + fileTime + DATA_FILENAME[dataType], true)) {
@@ -299,7 +298,7 @@ public class DataStorage {
 	 *         written to the CSV
 	 * @throws Exception - for any errors related to files that do not exist
 	 */
-	static String readLine(String filePath) throws Exception {
+	public static String readLine(String filePath) throws Exception {
 		BufferedReader read = new BufferedReader(
 				new InputStreamReader(new FileInputStream(new File(filePath)), Charset.forName("UTF-8")));
 		try {
@@ -321,47 +320,47 @@ public class DataStorage {
 	 * @throws Exception 
 	 */
 
-	public static void main(String[] args) {
-		
-		final Parser telem_parsing = new Parser(TelemetryLength);
-		final tests TestingObj = new tests();
-		
-		String[] formattedDates = {"AB-CD-E--A-B-C", "AC-DE-FJ-ABC"};
-		TestingObj.testMakeFoldersWhenNoExist();
-		
-		try {
-			TestingObj.testWriteTelemetryHeaderCSV();
-			TestingObj.testWriteGPSHeaderCSV();
-			TestingObj.testWriteTelemetryHeaderRaw();
-			TestingObj.testWriteGPSHeaderRaw();
-			TestingObj.testWriteAntennaAnglesHeaderRaw();
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.println("caught exception :P");
-			System.out.println(e.getMessage());
-		}
-		
-		for (int i = 0; i < 1; i++) {
-			TestingObj.testSaveTelemetryCSV();
-			TestingObj.testSaveGPSCSV();
-			TestingObj.testSaveTelemetryRaw();
-			TestingObj.testSaveGPSRaw();
-			TestingObj.testSaveAntennaAnglesRaw();
-		}
-		
-		String telem_raw = "";
-		try {
-			telem_raw = readLine("../test_1.txt");
-			for (int i=0; i<10;i++) 
-				saveDataRaw(formattedDates, RAW_TELEMETRY, formattedDates[0], telem_raw);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-//		double[] telem_Out = telem_parsing.parse(telem_raw);
+//	public static void main(String[] args) {
 //		
-//		System.out.println(saveDataCSV(dateFormats(), SERIAL, dateFormats()[1], telem_Out));
-//		System.out.println(saveDataCSV(dateFormats(), STORAGE, dateFormats()[1], telem_Out));
-		System.out.println("program terminated");
-	}
+//		final Parser telem_parsing = new Parser(TelemetryLength);
+//		final tests TestingObj = new tests();
+//		
+//		String[] formattedDates = {"AB-CD-E--A-B-C", "AC-DE-FJ-ABC"};
+//		TestingObj.testMakeFoldersWhenNoExist();
+//		
+//		try {
+//			TestingObj.testWriteTelemetryHeaderCSV();
+//			TestingObj.testWriteGPSHeaderCSV();
+//			TestingObj.testWriteTelemetryHeaderRaw();
+//			TestingObj.testWriteGPSHeaderRaw();
+//			TestingObj.testWriteAntennaAnglesHeaderRaw();
+//		} catch (Exception e) {
+//			//e.printStackTrace();
+//			System.out.println("caught exception :P");
+//			System.out.println(e.getMessage());
+//		}
+//		
+//		for (int i = 0; i < 1; i++) {
+//			TestingObj.testSaveTelemetryCSV();
+//			TestingObj.testSaveGPSCSV();
+//			TestingObj.testSaveTelemetryRaw();
+//			TestingObj.testSaveGPSRaw();
+//			TestingObj.testSaveAntennaAnglesRaw();
+//		}
+//		
+//		String telem_raw = "";
+//		try {
+//			telem_raw = readLine("../test_1.txt");
+//			for (int i=0; i<10;i++) 
+//				saveDataRaw(formattedDates, RAW_TELEMETRY, formattedDates[0], telem_raw);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+////		double[] telem_Out = telem_parsing.parse(telem_raw);
+////		
+////		System.out.println(saveDataCSV(dateFormats(), SERIAL, dateFormats()[1], telem_Out));
+////		System.out.println(saveDataCSV(dateFormats(), STORAGE, dateFormats()[1], telem_Out));
+//		System.out.println("program terminated");
+//	}
 }

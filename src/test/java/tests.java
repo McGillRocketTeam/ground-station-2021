@@ -1,4 +1,4 @@
-package controller.datastorage;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,6 +6,8 @@ import java.io.FileReader;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import controller.datastorage.DataStorage;
 
 public class tests {
 	// date formats for files used for testing
