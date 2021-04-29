@@ -2,6 +2,7 @@
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,8 +59,10 @@ public class LiteMainApp extends Application {
 					try {
 						myDataArrays.add(parser.parseFC((str)));
 					} catch (IllegalArgumentException e) {
-						System.out.println("Bad line");
+						System.out.println("Invalid message. Message was thrown out.");
 						System.out.println(e.toString());
+					} catch (NullPointerException e) {
+						System.out.println("Why you passing null to the parser");
 					}
 				}
 				for (String s: myData) {
