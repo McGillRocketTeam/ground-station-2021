@@ -7,9 +7,11 @@ import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.Cylinder;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.util.Duration;
@@ -33,8 +35,11 @@ public class Gyro3dController {
      * @return the subscene to be added to the main window
      */
     public SubScene initializeGyro() {
-    	Box box = new Box(100, 20, 50);
-    	rocketGroup.getChildren().add(box);
+    	Cylinder rocket = new Cylinder(20, 100);
+    	PhongMaterial rocketMaterial = new PhongMaterial();
+    	rocketMaterial.setSelfIlluminationMap(new Image ("Logo_F_RW.png"));
+    	rocket.setMaterial(rocketMaterial);
+    	rocketGroup.getChildren().add(rocket);
     	
         buildAxes();
     	
