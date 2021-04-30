@@ -40,7 +40,8 @@
       </AnchorPane>
       <AnchorPane layoutX="224.0" layoutY="9.0" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
          <children>
-            <Label layoutX="14.0" layoutY="5.0" text="Velocity Graph">
+            <Label layoutX="14.0" layoutY="5.0" text="Acceleration in X Graph">
+            <!-- <Label layoutX="14.0" layoutY="5.0" text="Velocity Graph"> -->
                <padding>
                   <Insets left="20.0" />
                </padding>
@@ -57,7 +58,8 @@
       </AnchorPane>
       <AnchorPane layoutX="272.0" layoutY="181.0" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
          <children>
-            <Label layoutX="14.0" layoutY="5.0" text="Acceleration Graph">
+            <Label layoutX="14.0" layoutY="5.0" text="Acceleration in Y Graph">
+            <!-- <Label layoutX="14.0" layoutY="5.0" text="Acceleration Graph"> -->
                <padding>
                   <Insets left="20.0" />
                </padding>
@@ -74,7 +76,8 @@
       </AnchorPane>
       <AnchorPane layoutX="10.0" layoutY="9.0" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
          <children>
-            <Label layoutX="14.0" layoutY="5.0" text="RSSI Graph">
+            <!-- <Label layoutX="14.0" layoutY="5.0" text="RSSI Graph"> -->
+            <Label layoutX="14.0" layoutY="5.0" text="Acceleration in Z Graph">
                <padding>
                   <Insets left="20.0" />
                </padding>

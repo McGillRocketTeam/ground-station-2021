@@ -56,11 +56,13 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label prefWidth="131.0" text="Peak Velocity" wrapText="true">
+            <!-- <Label prefWidth="131.0" text="Peak Velocity" wrapText="true"> -->
+            <Label prefWidth="131.0" text="Peak X Accel." wrapText="true">
                <font>
                   <Font name="FreeMono Bold" size="18.0" />
                </font></Label>
-            <Label text="Current Velocity" wrapText="true" GridPane.rowIndex="1">
+            <!-- <Label text="Current Velocity" wrapText="true" GridPane.rowIndex="1"> -->
+            <Label text="Current X Accel." wrapText="true" GridPane.rowIndex="1">
                <font>
                   <Font name="FreeMono Bold" size="18.0" />
                </font></Label>
@@ -84,11 +86,13 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Peak Acceleration" wrapText="true">
+            <!-- <Label text="Peak Acceleration" wrapText="true"> -->
+            <Label text="Peak Z Accel." wrapText="true">
                <font>
                   <Font name="FreeMono Bold" size="18.0" />
                </font></Label>
-            <Label text="Current Acceleration" wrapText="true" GridPane.rowIndex="1">
+            <!-- <Label text="Current Acceleration" wrapText="true" GridPane.rowIndex="1"> -->
+            <Label text="Current Z Accel." wrapText="true" GridPane.rowIndex="1">
                <font>
                   <Font name="FreeMono Bold" size="18.0" />
                </font></Label>
