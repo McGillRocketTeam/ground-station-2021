@@ -50,6 +50,7 @@ public class MainApp extends Application {
 	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
 	
 	private final Mode mode = Mode.LIVE;
+	private int SERIAL_PORT_NUMBER = 4;
 
 	private ScheduledExecutorService scheduledExecutorService;
 	private SerialPort comPort;
@@ -129,7 +130,14 @@ public class MainApp extends Application {
 
 			
 			Queue<String> q = new ConcurrentLinkedQueue<String>();
-			comPort = SerialPort.getCommPorts()[1];
+			SerialPort[] t = SerialPort.getCommPorts();
+			for (SerialPort x : t ) {
+				System.out.println(x.getPortDescription());
+			}
+
+			System.out.println(SerialPort.getCommPorts());
+			System.out.println(SerialPort.getCommPorts().length);
+			comPort = SerialPort.getCommPorts()[SERIAL_PORT_NUMBER];
 			comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
 
 			try {

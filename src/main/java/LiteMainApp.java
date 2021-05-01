@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Queue;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -44,6 +46,7 @@ import javafx.fxml.FXMLLoader;
 public class LiteMainApp extends Application {
 
 	private final Mode mode = Mode.LIVE;
+	private int SERIAL_PORT_NUMBER = 4;
 	private ScheduledExecutorService scheduledExecutorService;
 	
 	private SerialPort comPort;
@@ -53,20 +56,20 @@ public class LiteMainApp extends Application {
     public void start(Stage stage) throws Exception {
     	
     	
-    	Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-    		if(mode == mode.OLD) scheduledExecutorService.shutdownNow();
-    		else if (mode == mode.LIVE) {
-    			MainApp.createRawDataFiles("storage/raw_fc/");
-    			MainApp.createParsedDataFiles("storage/fc/");
-    			try {
-					comPort.getInputStream().close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-    			comPort.closePort();
-    		}
-    	}));
+//    	Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+//    		if(mode == mode.OLD) scheduledExecutorService.shutdownNow();
+//    		else if (mode == mode.LIVE) {
+//    			MainApp.createRawDataFiles("storage/raw_fc/");
+//    			MainApp.createParsedDataFiles("storage/fc/");
+//    			try {
+//					comPort.getInputStream().close();
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//    			comPort.closePort();
+//    		}
+//    	}));
    
     	DataStorage.makeFolders();
         
@@ -100,7 +103,7 @@ public class LiteMainApp extends Application {
 				break;
 			case LIVE:
 				Queue<String> q = new ConcurrentLinkedQueue<String>();
-				comPort = SerialPort.getCommPorts()[1];
+				comPort = SerialPort.getCommPorts()[SERIAL_PORT_NUMBER];
 				comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
 
 				try {
@@ -137,8 +140,9 @@ public class LiteMainApp extends Application {
 						if(!q.isEmpty()) {
 							String stringData = q.remove();
 						try {
-
-							double[] data = parser.parse(stringData);
+							System.out.println("?");
+							double[] data = parser.parseFC(stringData);
+							System.out.println("!");
 							System.out.println(stringData);
 							
 							if(data != null) {
@@ -153,12 +157,38 @@ public class LiteMainApp extends Application {
 							System.out.println("Invalid message. Message was thrown out.");
 						} catch (NullPointerException e) {
 							System.out.println("Why you passing null to the parser");
-						} finally {
+						} catch (Exception e) {
+							System.out.println(e.getMessage());
+						}
+						
+						finally {
 							rawDataConcatBuffer.append(stringData + "\n");
 						}
 					}
 					}
 				});
+		        Scanner scanner = new Scanner(System.in);
+		        try {
+		            while (true) {
+		                System.out.println("Please input a line");
+		                String line = scanner.nextLine();
+					    if(line.equals("exit")) {
+			    			MainApp.createRawDataFiles("storage/raw_fc/");
+			    			MainApp.createParsedDataFiles("storage/fc/");
+			    			try {
+								comPort.getInputStream().close();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+			    			comPort.closePort();
+					    }
+		            }
+		        } catch(IllegalStateException | NoSuchElementException e) {
+		            // System.in has been closed
+		            System.out.println("System.in was closed; exiting");
+		        }
+				
 
 
 		}

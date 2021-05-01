@@ -152,7 +152,7 @@ public class Parser {
         return out;
     }
     
-    public double[] parseFC(String sIn) {
+    public double[] parseFC(String sIn) throws IllegalArgumentException{
     	
     	// Format:
     	//	S,ACCx,ACCy,ACCz,MAGx,MAGy,MAGz,PRESSURE,LAT,LONG,HOUR,MIN,SEC,SUBSEC,E\n
