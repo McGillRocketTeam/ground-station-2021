@@ -1,8 +1,10 @@
 package controller.gui;
 
 import java.util.ArrayList;
+
 import java.util.EnumMap;
 
+//import controller.serial.SerialComm;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -10,6 +12,9 @@ import javafx.scene.control.Label;
 import javafx.util.Duration;
 
 public class NumbersController {
+	
+	//SerialComm serialComm = new SerialComm();
+	ArrayList<String> read;
 	
 	@FXML
 	public Label peakAltitudeLabel;
@@ -50,7 +55,9 @@ public class NumbersController {
 		this.currentRSSILabel.setText(value);
 	}
 
+
 	public void updateNumDisplay(double[] data) {
+
 		//System.out.println(myDataList.get(i)[5]);
 		//set Peak Altitude 
 		if (data[DataIndex.ALTITUDE_INDEX.getOrder()] > Double.parseDouble(peakAltitudeLabel.getText())) 
