@@ -102,43 +102,31 @@ public class Gyro3dController {
 	 *
 	 */
 	class SmartGroup extends Group {
-		Rotate r;
 		Transform t = new Rotate();
-		RotateTransition rXTransition = new RotateTransition(Duration.millis(100),this);
-		RotateTransition rYTransition = new RotateTransition(Duration.millis(100),this);
-		void rotateByX(double ang) {
-			r = new Rotate(ang, Rotate.X_AXIS);
-			t = t.createConcatenation(r);
-			this.getTransforms().clear();
-			this.getTransforms().addAll(t);
-		}
-
-		void rotateByY(double ang) {
-			r = new Rotate(ang, Rotate.Y_AXIS);
-			t = t.createConcatenation(r);
-			this.getTransforms().clear();
-			this.getTransforms().addAll(t);
-		}
+		Rotate rx = new Rotate(0, new Point3D(1,0,0));
+		Rotate ry = new Rotate(0, new Point3D(0,1,0));
+		Rotate rz = new Rotate(0, new Point3D(0,0,1));
 		
-		void setRotateX(double ang) {
-			t = new Rotate(ang, new Point3D(1,0,0));
-			this.getTransforms().add(t);
+		void setRotateX(double ang) {;
+			rx.setAngle(ang);
+			this.getTransforms().add(rx);
 
 		}
 		void setRotateY(double ang) {
-			t = new Rotate(ang, new Point3D(0,1,0));
-			this.getTransforms().add(t);
+			ry.setAngle(ang);
+			this.getTransforms().add(ry);
 		}
-		void setRotateXAnimated(double ang) {
-			rXTransition.setToAngle(ang);
-			rXTransition.setAxis(new Point3D(10,50,0));
-			rXTransition.play();
+		void setRotateZ(double ang) {
+			rz.setAngle(ang);
+			this.getTransforms().add(rz);
 		}
-		void setRotateYAnimated(double ang) {
-			rYTransition.setToAngle(ang);
-			rYTransition.setAxis(new Point3D(10,50,0));
-			rYTransition.play();
+		void rotate(double x, double y, double z) {
+
+			setRotateX(x);
+			setRotateY(y);
+			setRotateZ(z);
 		}
+		
 		
 		/*
 		 * pitch (around its X axis), yaw (around its Y axis) and roll (around its Z axis),
@@ -179,7 +167,10 @@ public class Gyro3dController {
 	 * @param data
 	 */
 	public void addGyroData(double[] data) {
-		rocketGroup.setRotateX(data[DataIndex.GYROX_INDEX.getOrder()]);
-		
+//		rocketGroup.setRotateX(data[DataIndex.PITCH_INDEX.getOrder()]);
+//		rocketGroup.setRotateY(data[DataIndex.ROLL_INDEX.getOrder()]);
+//		rocketGroup.setRotateZ(data[DataIndex.ROLL_INDEX.getOrder()]);
+		rocketGroup.rotate(data[DataIndex.PITCH_INDEX.getOrder()],data[DataIndex.ROLL_INDEX.getOrder()],data[DataIndex.YAW_INDEX.getOrder()]);
+		//rocketGroup.rotate(45,45,45);
 	}
 }
