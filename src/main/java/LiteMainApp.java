@@ -1,17 +1,25 @@
 
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.Iterator;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+
+import com.fazecast.jSerialComm.SerialPort;
+import com.fazecast.jSerialComm.SerialPortDataListener;
+import com.fazecast.jSerialComm.SerialPortEvent;
 
 import controller.Parser;
 import controller.gui.DataIndex;
@@ -33,8 +41,9 @@ import javafx.fxml.FXMLLoader;
 
 public class LiteMainApp extends Application {
 
-	private final Mode mode = Mode.OLD;
+	private final Mode mode = Mode.LIVE;
 	private ScheduledExecutorService scheduledExecutorService;
+	private SerialPort comPort;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -73,10 +82,51 @@ public class LiteMainApp extends Application {
 			case SIMULATION:
 				break;
 			case LIVE:
-				break;
+				Queue<String> q = new ConcurrentLinkedQueue<String>();
+				comPort = SerialPort.getCommPorts()[1];
+				comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
+
+				try {
+					System.out.println("Port open: " + comPort.openPort());
+					comPort.setComPortParameters(9600,8,1,0);
+					comPort.addDataListener(new SerialPortDataListener() {
+
+						public int getListeningEvents() {
+							return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
+						}
+
+						public void serialEvent(SerialPortEvent event) {
+							try {
+								BufferedReader buffer = new BufferedReader(
+										new InputStreamReader(comPort.getInputStream()));
+								//											System.out.println(buffer.readLine());
+								String s = buffer.readLine();
+								//					System.out.println(s);
+							//	System.out.println(comPort.bytesAvailable());
+								q.add(s);
+								//System.out.println(buffer.readLine()); //test connection
+								//double[] data = parser.parse(buffer.readLine());
+								//	mainAppController.startTimer(data, DataFormat); //update GUI
+								//	in.close();
+								
+
+							} catch (IOException ex) {
+								ex.printStackTrace();
+							}
+						}
+					});
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				while(true) {
+					Thread.sleep(200);
+					if(!q.isEmpty()) {
+						System.out.println(q.remove());
+					}
+				}
+
+
 		}
-
-
     }
 
     public static void main(String[] args) {
@@ -87,6 +137,8 @@ public class LiteMainApp extends Application {
 	public void stop() throws Exception{
 		super.stop();
 		scheduledExecutorService.shutdownNow();
+		comPort.getInputStream().close();
+		comPort.closePort();
 	}
 
 }

@@ -14,6 +14,8 @@ import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.SynchronousQueue;
@@ -46,8 +48,7 @@ import javafx.fxml.FXMLLoader;
 public class MainApp extends Application {
 
 
-	private final Mode mode = Mode.OLD;
-	private final EnumMap<DataIndex, Integer> DataFormat = new EnumMap<DataIndex, Integer>(DataIndex.class);
+	private final Mode mode = Mode.LIVE;
 
 	private ScheduledExecutorService scheduledExecutorService;
 	private SerialPort comPort;
@@ -59,7 +60,7 @@ public class MainApp extends Application {
 		DataStorage.makeFolders();
 
 
-		Queue<String> q = new ConcurrentLinkedQueue<String>();
+
 
 		Label l = new Label("McGill Rocket Team Ground Station");
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
@@ -124,13 +125,13 @@ public class MainApp extends Application {
 		case SIMULATION:
 			break;
 		case LIVE:
-
+			
+			Queue<String> q = new ConcurrentLinkedQueue<String>();
 			comPort = SerialPort.getCommPorts()[1];
-			comPort.closePort();
 			comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
 
 			try {
-				System.out.println(comPort.openPort());
+				System.out.println("Port open: " + comPort.openPort());
 				comPort.setComPortParameters(9600,8,1,0);
 				comPort.addDataListener(new SerialPortDataListener() {
 
@@ -145,12 +146,14 @@ public class MainApp extends Application {
 							//											System.out.println(buffer.readLine());
 							String s = buffer.readLine();
 							//					System.out.println(s);
-							System.out.println(comPort.bytesAvailable());
+						//	System.out.println(comPort.bytesAvailable());
 							q.add(s);
 							//System.out.println(buffer.readLine()); //test connection
 							//double[] data = parser.parse(buffer.readLine());
 							//	mainAppController.startTimer(data, DataFormat); //update GUI
 							//	in.close();
+							
+
 						} catch (IOException ex) {
 							ex.printStackTrace();
 						}
@@ -160,14 +163,34 @@ public class MainApp extends Application {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			System.out.println("leaving");
-			while(true) {
-				Thread.sleep(50);
-				System.out.println("DATA");
-				if(!q.isEmpty()) {
-					System.out.println(q.remove());
+			ExecutorService ex = Executors.newCachedThreadPool();
+			ex.execute(() -> {
+				while(true) {
+					if(!q.isEmpty()) {
+					try {
+						double[] data = parser.parse(q.remove());
+						Platform.runLater(()-> {
+
+							//	System.out.println(data[3]);
+
+							mainAppController.mainAppAddGraphData(data);
+							mainAppController.mainAppAddMapData(data);
+							mainAppController.mainAppAddRawData(data);
+							mainAppController.startTimer(data);
+							mainAppController.mainAppAddGyroData(data);
+
+
+						});
+
+					} catch (IllegalArgumentException e) {
+						System.out.println("Invalid message. Message was thrown out.");
+						System.out.println(e.toString());
+					} catch (NullPointerException e) {
+						System.out.println("Why you passing null to the parser");
+					}
 				}
-			}
+				}
+			});
 
 
 
@@ -186,6 +209,8 @@ public class MainApp extends Application {
 	public void stop() throws Exception{
 		super.stop();
 		scheduledExecutorService.shutdownNow();
+		comPort.getInputStream().close();
+		comPort.closePort();
 	}
 
 }

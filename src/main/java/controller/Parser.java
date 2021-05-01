@@ -127,10 +127,8 @@ public class Parser {
             		
             		// Time value
             		if(i == DataIndex.TIME_INDEX.getOrder()) {
-            			System.out.println(splitStr[i]);
             			String[] time = splitStr[i].split(":");
             			out[i] = (Double.parseDouble(time[0])*3600 + Double.parseDouble(time[1])*60 + Double.parseDouble(time[2]));
-            			System.out.println(out[i]);
             		}
             		else {
                 		out[i] = Double.parseDouble(splitStr[i]);
