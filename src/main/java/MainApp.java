@@ -1,12 +1,12 @@
 
 
 import java.io.BufferedReader;
-
-
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,8 +46,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
 public class MainApp extends Application {
-
-
+	static StringBuffer rawDataConcatBuffer = new StringBuffer();
+	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
+	
 	private final Mode mode = Mode.LIVE;
 
 	private ScheduledExecutorService scheduledExecutorService;
@@ -125,6 +126,7 @@ public class MainApp extends Application {
 		case SIMULATION:
 			break;
 		case LIVE:
+
 			
 			Queue<String> q = new ConcurrentLinkedQueue<String>();
 			comPort = SerialPort.getCommPorts()[1];
@@ -167,27 +169,43 @@ public class MainApp extends Application {
 			ex.execute(() -> {
 				while(true) {
 					if(!q.isEmpty()) {
+						String stringData = q.remove();
 					try {
-						double[] data = parser.parse(q.remove());
-						Platform.runLater(()-> {
 
-							//	System.out.println(data[3]);
+						double[] data = parser.parse(stringData);
+						System.out.println(stringData);
+						
+						if(data != null) {
+							parsedDataConcatBuffer.append(stringData + "\n");
+							//pw.println(stringData + "\n");
+							Platform.runLater(()-> {
 
-							mainAppController.mainAppAddGraphData(data);
-							mainAppController.mainAppAddMapData(data);
-							mainAppController.mainAppAddRawData(data);
-							mainAppController.startTimer(data);
-							mainAppController.mainAppAddGyroData(data);
+								//	System.out.println(data[3]);
+
+								mainAppController.mainAppAddGraphData(data);
+								mainAppController.mainAppAddMapData(data);
+								mainAppController.mainAppAddRawData(data);
+								mainAppController.startTimer(data);
+								mainAppController.mainAppAddGyroData(data);
 
 
-						});
+							});
+						}
+
+						
+
+
 
 					} catch (IllegalArgumentException e) {
 						System.out.println("Invalid message. Message was thrown out.");
-						System.out.println(e.toString());
 					} catch (NullPointerException e) {
 						System.out.println("Why you passing null to the parser");
+					} finally {
+						rawDataConcatBuffer.append(stringData + "\n");
 					}
+//					finally {
+//						pw.close();
+//					}
 				}
 				}
 			});
@@ -200,6 +218,25 @@ public class MainApp extends Application {
 		stage.show();
 
 	}
+	
+	public static void createRawDataFiles(String path) {
+
+		try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data_telemetry.txt"))){
+			writer.write(rawDataConcatBuffer.toString());
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	public static void createParsedDataFiles(String path) {
+
+		try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data_telemetry.txt"))){
+			writer.write(parsedDataConcatBuffer.toString());
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 
 	public static void main(String[] args) {
 		launch();
@@ -208,9 +245,14 @@ public class MainApp extends Application {
 	@Override
 	public void stop() throws Exception{
 		super.stop();
-		scheduledExecutorService.shutdownNow();
-		comPort.getInputStream().close();
-		comPort.closePort();
+		if(mode == mode.OLD) scheduledExecutorService.shutdownNow();
+		else if (mode == mode.LIVE) {
+			createRawDataFiles("storage/raw_telemetry/");
+			createParsedDataFiles("storage/telemetry/");
+			comPort.getInputStream().close();
+			comPort.closePort();
+		}
+
 	}
 
 }

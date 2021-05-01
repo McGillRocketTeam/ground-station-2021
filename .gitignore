@@ -1,6 +1,6 @@
 /bin/bash: r: command not found
 .gradle
-
+storage/
 # Ignore Gradle build output directory
 build
 /bin/

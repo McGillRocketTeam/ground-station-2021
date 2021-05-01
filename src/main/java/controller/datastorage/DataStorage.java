@@ -116,6 +116,8 @@ public class DataStorage {
 		File raw_gps = new File(PROJECT_ROOT+DATA_TYPE[RAW_GPS]);
 		File antenna_angles = new File(PROJECT_ROOT+DATA_TYPE[ANTENNA_ANGLES]);
 		File serial = new File(PROJECT_ROOT+DATA_TYPE[SERIAL]);
+		File raw_fc = new File(PROJECT_ROOT + "storage/raw_fc/");
+		File fc = new File(PROJECT_ROOT + "storage/fc/");
 
 		make1Dir(storage);
 		make1Dir(telemetry);
@@ -124,6 +126,8 @@ public class DataStorage {
 		make1Dir(raw_gps);
 		make1Dir(antenna_angles);
 		make1Dir(serial);
+		make1Dir(raw_fc);
+		make1Dir(fc);
 
 		// for testing:
 		if (PRINTEXIST)
@@ -147,7 +151,7 @@ public class DataStorage {
 	 * @return formatted - <code>String[]</code> String array containing the
 	 *         formatted dates.
 	 */
-	protected static String[] dateFormats() {
+	public static String[] dateFormats() {
 		String[] formatted = new String[2];
 		Date date = new Date(); // current date and time
 		

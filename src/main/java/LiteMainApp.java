@@ -12,6 +12,7 @@ import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
@@ -22,6 +23,7 @@ import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 
 import controller.Parser;
+import controller.datastorage.DataStorage;
 import controller.gui.DataIndex;
 import controller.gui.GraphController;
 import controller.gui.Gyro3dController;
@@ -43,15 +45,30 @@ public class LiteMainApp extends Application {
 
 	private final Mode mode = Mode.LIVE;
 	private ScheduledExecutorService scheduledExecutorService;
+	
 	private SerialPort comPort;
-
+	StringBuffer rawDataConcatBuffer = new StringBuffer();
+	StringBuffer parsedDataConcatBuffer = new StringBuffer();
     @Override
     public void start(Stage stage) throws Exception {
     	
     	
-
+    	Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+    		if(mode == mode.OLD) scheduledExecutorService.shutdownNow();
+    		else if (mode == mode.LIVE) {
+    			MainApp.createRawDataFiles("storage/raw_fc/");
+    			MainApp.createParsedDataFiles("storage/fc/");
+    			try {
+					comPort.getInputStream().close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			comPort.closePort();
+    		}
+    	}));
    
-        
+    	DataStorage.makeFolders();
         
 		Parser parser = new Parser(12);
 		ArrayList<String> myData = new ArrayList<String>();
@@ -99,15 +116,11 @@ public class LiteMainApp extends Application {
 							try {
 								BufferedReader buffer = new BufferedReader(
 										new InputStreamReader(comPort.getInputStream()));
-								//											System.out.println(buffer.readLine());
+
 								String s = buffer.readLine();
-								//					System.out.println(s);
-							//	System.out.println(comPort.bytesAvailable());
+
 								q.add(s);
-								//System.out.println(buffer.readLine()); //test connection
-								//double[] data = parser.parse(buffer.readLine());
-								//	mainAppController.startTimer(data, DataFormat); //update GUI
-								//	in.close();
+
 								
 
 							} catch (IOException ex) {
@@ -118,12 +131,34 @@ public class LiteMainApp extends Application {
 				}catch (Exception e) {
 					e.printStackTrace();
 				}
-				while(true) {
-					Thread.sleep(200);
-					if(!q.isEmpty()) {
-						System.out.println(q.remove());
+				ExecutorService ex = Executors.newCachedThreadPool();
+				ex.execute(() -> {
+					while(true) {
+						if(!q.isEmpty()) {
+							String stringData = q.remove();
+						try {
+
+							double[] data = parser.parse(stringData);
+							System.out.println(stringData);
+							
+							if(data != null) {
+								parsedDataConcatBuffer.append(stringData + "\n");
+							}
+
+							
+
+
+
+						} catch (IllegalArgumentException e) {
+							System.out.println("Invalid message. Message was thrown out.");
+						} catch (NullPointerException e) {
+							System.out.println("Why you passing null to the parser");
+						} finally {
+							rawDataConcatBuffer.append(stringData + "\n");
+						}
 					}
-				}
+					}
+				});
 
 
 		}
@@ -135,10 +170,7 @@ public class LiteMainApp extends Application {
     
 	@Override
 	public void stop() throws Exception{
-		super.stop();
-		scheduledExecutorService.shutdownNow();
-		comPort.getInputStream().close();
-		comPort.closePort();
+
 	}
 
 }
