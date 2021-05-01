@@ -12,8 +12,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.Iterator;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -42,12 +45,13 @@ public class MainApp extends Application {
 	private final Mode mode = Mode.LIVE;
 	private final EnumMap<DataIndex, Integer> DataFormat = new EnumMap<DataIndex, Integer>(DataIndex.class);
 	private ScheduledExecutorService scheduledExecutorService;
+	private SerialPort comPort;
 
     @Override
     public void start(Stage stage) throws Exception {
     	
     	
-    	
+    	Queue<String> q = new ConcurrentLinkedQueue<String>();
         Label l = new Label("McGill Rocket Team Ground Station");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
         Parent root = fxmlLoader.load();
@@ -101,12 +105,13 @@ public class MainApp extends Application {
 			case SIMULATION:
 				break;
 			case LIVE:
-				
-						SerialPort comPort = SerialPort.getCommPorts()[0];
 						
-
+						comPort = SerialPort.getCommPorts()[1];
+						comPort.closePort();
+						comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
+						
 							try {
-								comPort.openPort();
+								System.out.println(comPort.openPort());
 								comPort.setComPortParameters(9600,8,1,0);
 								comPort.addDataListener(new SerialPortDataListener() {
 									
@@ -118,8 +123,13 @@ public class MainApp extends Application {
 										try {
 											BufferedReader buffer = new BufferedReader(
 													new InputStreamReader(comPort.getInputStream()));
-											System.out.println(buffer.readLine()); //test connection
-										//	double[] data = parser.parse(buffer.readLine());
+//											System.out.println(buffer.readLine());
+											String s = buffer.readLine();
+						//					System.out.println(s);
+											System.out.println(comPort.bytesAvailable());
+											q.add(s);
+											//System.out.println(buffer.readLine()); //test connection
+											//double[] data = parser.parse(buffer.readLine());
 										//	mainAppController.startTimer(data, DataFormat); //update GUI
 										//	in.close();
 										} catch (IOException ex) {
@@ -131,7 +141,14 @@ public class MainApp extends Application {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+							System.out.println("leaving");
+							while(true) {
+								Thread.sleep(50);
+								System.out.println("DATA");
+								if(!q.isEmpty()) {
+									System.out.println(q.remove());
+								}
+							}
 								
 								
 							

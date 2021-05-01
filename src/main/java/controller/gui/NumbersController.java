@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import java.util.EnumMap;
 
-import controller.serial.SerialComm;
+//import controller.serial.SerialComm;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -13,7 +13,7 @@ import javafx.util.Duration;
 
 public class NumbersController {
 	
-	SerialComm serialComm = new SerialComm();
+	//SerialComm serialComm = new SerialComm();
 	ArrayList<String> read;
 	
 	@FXML
