@@ -102,8 +102,12 @@ public class RawDataController{ // implements initializable?
      */
 	public void addRawData(double[] data) {
 		addAltDataPoint(data[DataIndex.TIME_INDEX.getOrder()],data[DataIndex.ALTITUDE_INDEX.getOrder()]);
-		addVelDataPoint(data[DataIndex.TIME_INDEX.getOrder()],data[DataIndex.VELOCITY_INDEX.getOrder()]);
-		addAccelDataPoint(data[DataIndex.TIME_INDEX.getOrder()],data[DataIndex.ACCELERATION_INDEX.getOrder()]);
+		
+		addVelDataPoint(data[DataIndex.TIME_INDEX.getOrder()],data[DataIndex.ACCEL_X_INDEX.getOrder()]);
+//		addVelDataPoint(data[DataIndex.TIME_INDEX.getOrder()],data[DataIndex.VELOCITY_INDEX.getOrder()]);
+		
+		addAccelDataPoint(data[DataIndex.TIME_INDEX.getOrder()],data[DataIndex.ACCEL_Y_INDEX.getOrder()]);
+		
 		addRssiDataPoint(data[DataIndex.TIME_INDEX.getOrder()],data[DataIndex.RSSI_INDEX.getOrder()]);
 	}
     
