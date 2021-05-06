@@ -50,7 +50,7 @@ public class MainApp extends Application {
 	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
 	
 	private final Mode mode = Mode.LIVE;
-	private int SERIAL_PORT_NUMBER = 4;
+	private int SERIAL_PORT_NUMBER = 6;
 
 	private ScheduledExecutorService scheduledExecutorService;
 	private SerialPort comPort;
@@ -131,14 +131,19 @@ public class MainApp extends Application {
 			
 			Queue<String> q = new ConcurrentLinkedQueue<String>();
 			SerialPort[] t = SerialPort.getCommPorts();
+			
 			for (SerialPort x : t ) {
 				System.out.println(x.getPortDescription());
 			}
 
 			System.out.println(SerialPort.getCommPorts());
 			System.out.println(SerialPort.getCommPorts().length);
-			comPort = SerialPort.getCommPorts()[SERIAL_PORT_NUMBER];
+		//	comPort = SerialPort.getCommPorts()[SERIAL_PORT_NUMBER];
+			//comPort = SerialPort.getCommPort("/dev/tty.usbserial-1420");
+			comPort = SerialPort.getCommPort("/dev/tty.usbmodem80877301");
+			//comPort = SerialPort.getCommPort("/dev/tty.usbserial-1420");
 			comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
+
 
 			try {
 				System.out.println("Port open: " + comPort.openPort());
@@ -154,7 +159,9 @@ public class MainApp extends Application {
 							BufferedReader buffer = new BufferedReader(
 									new InputStreamReader(comPort.getInputStream()));
 							//											System.out.println(buffer.readLine());
+						//	System.out.println(comPort.bytesAvailable());
 							String s = buffer.readLine();
+						//	System.out.println(buffer.read());
 							//					System.out.println(s);
 						//	System.out.println(comPort.bytesAvailable());
 							q.add(s);
@@ -176,12 +183,19 @@ public class MainApp extends Application {
 			ExecutorService ex = Executors.newCachedThreadPool();
 			ex.execute(() -> {
 				while(true) {
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
 					if(!q.isEmpty()) {
 						String stringData = q.remove();
 					try {
-
-						double[] data = parser.parse(stringData);
 						System.out.println(stringData);
+						double[] data = parser.parse(stringData);
+
 						
 						if(data != null) {
 							parsedDataConcatBuffer.append(stringData + "\n");

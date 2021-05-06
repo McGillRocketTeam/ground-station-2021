@@ -73,7 +73,7 @@ public class LiteMainApp extends Application {
    
     	DataStorage.makeFolders();
         
-		Parser parser = new Parser(12);
+		Parser parser = new Parser(13);
 		ArrayList<String> myData = new ArrayList<String>();
 		ArrayList<double[]> myDataArrays = new ArrayList<double[]>();
 		switch (mode) {
@@ -103,7 +103,8 @@ public class LiteMainApp extends Application {
 				break;
 			case LIVE:
 				Queue<String> q = new ConcurrentLinkedQueue<String>();
-				comPort = SerialPort.getCommPorts()[SERIAL_PORT_NUMBER];
+				//comPort = SerialPort.getCommPorts()[SERIAL_PORT_NUMBER];
+				comPort = SerialPort.getCommPort("/dev/tty.usbmodem80877301");
 				comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
 
 				try {
@@ -137,13 +138,22 @@ public class LiteMainApp extends Application {
 				ExecutorService ex = Executors.newCachedThreadPool();
 				ex.execute(() -> {
 					while(true) {
+						try {
+							Thread.sleep(200);
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						if (!comPort.isOpen()) {
+							comPort.openPort();
+						}
 						if(!q.isEmpty()) {
 							String stringData = q.remove();
 						try {
-							System.out.println("?");
-							double[] data = parser.parseFC(stringData);
-							System.out.println("!");
 							System.out.println(stringData);
+							double[] data = parser.parseFC(stringData);
+
+
 							
 							if(data != null) {
 								parsedDataConcatBuffer.append(stringData + "\n");
