@@ -50,6 +50,8 @@ public class MainApp extends Application {
 	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
 	
 	private final Mode mode = Mode.LIVE;
+	private final boolean flightComputer = true;
+	private final int NUMBER_OF_PARAMETERS = 12;
 	private int SERIAL_PORT_NUMBER = 6;
 
 	private ScheduledExecutorService scheduledExecutorService;
@@ -79,7 +81,7 @@ public class MainApp extends Application {
 		stage.setTitle("McGill Rocket Team Ground Station");
 
 
-		Parser parser = new Parser(12);
+		Parser parser = new Parser(NUMBER_OF_PARAMETERS);
 		ArrayList<String> myData = new ArrayList<String>();
 		ArrayList<double[]> myDataArrays = new ArrayList<double[]>();
 
@@ -194,7 +196,12 @@ public class MainApp extends Application {
 						String stringData = q.remove();
 					try {
 						System.out.println(stringData);
-						double[] data = parser.parse(stringData);
+						double[] data;
+						if (!flightComputer) {
+							data = parser.parse(stringData);
+						} else {
+							data = parser.parseFC(stringData);
+						}
 
 						
 						if(data != null) {
@@ -243,7 +250,7 @@ public class MainApp extends Application {
 	
 	public static void createRawDataFiles(String path) {
 
-		try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data_telemetry.txt"))){
+		try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data.txt"))){
 			writer.write(rawDataConcatBuffer.toString());
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
@@ -252,7 +259,7 @@ public class MainApp extends Application {
 	}
 	public static void createParsedDataFiles(String path) {
 
-		try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data_telemetry.txt"))){
+		try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data.txt"))){
 			writer.write(parsedDataConcatBuffer.toString());
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
@@ -269,8 +276,14 @@ public class MainApp extends Application {
 		super.stop();
 		if(mode == mode.OLD) scheduledExecutorService.shutdownNow();
 		else if (mode == mode.LIVE) {
-			createRawDataFiles("storage/raw_telemetry/");
-			createParsedDataFiles("storage/telemetry/");
+			if(flightComputer) {
+				createRawDataFiles("storage/raw_telemetry/");
+				createParsedDataFiles("storage/telemetry/");
+			} else {
+    			createRawDataFiles("storage/raw_fc/");
+    			createParsedDataFiles("storage/fc/");
+			}
+
 			comPort.getInputStream().close();
 			comPort.closePort();
 		}
