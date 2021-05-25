@@ -48,11 +48,12 @@ import javafx.fxml.FXMLLoader;
 public class MainApp extends Application {
 	static StringBuffer rawDataConcatBuffer = new StringBuffer();
 	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
-	
+
 	private final Mode mode = Mode.LIVE;
-	private final boolean flightComputer = true;
-	private final int NUMBER_OF_PARAMETERS = 12;
+	public final boolean flightComputer = true;
+	private final int NUMBER_OF_PARAMETERS = 14;
 	private int SERIAL_PORT_NUMBER = 6;
+	private final String COM_PORT_DESC = "/dev/tty.usbmodem80877301";
 
 	private ScheduledExecutorService scheduledExecutorService;
 	private SerialPort comPort;
@@ -130,19 +131,19 @@ public class MainApp extends Application {
 			break;
 		case LIVE:
 
-			
+
 			Queue<String> q = new ConcurrentLinkedQueue<String>();
 			SerialPort[] t = SerialPort.getCommPorts();
-			
+
 			for (SerialPort x : t ) {
 				System.out.println(x.getPortDescription());
 			}
 
 			System.out.println(SerialPort.getCommPorts());
 			System.out.println(SerialPort.getCommPorts().length);
-		//	comPort = SerialPort.getCommPorts()[SERIAL_PORT_NUMBER];
+			//	comPort = SerialPort.getCommPorts()[SERIAL_PORT_NUMBER];
 			//comPort = SerialPort.getCommPort("/dev/tty.usbserial-1420");
-			comPort = SerialPort.getCommPort("/dev/tty.usbmodem80877301");
+			comPort = SerialPort.getCommPort(COM_PORT_DESC);
 			//comPort = SerialPort.getCommPort("/dev/tty.usbserial-1420");
 			comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
 
@@ -161,17 +162,17 @@ public class MainApp extends Application {
 							BufferedReader buffer = new BufferedReader(
 									new InputStreamReader(comPort.getInputStream()));
 							//											System.out.println(buffer.readLine());
-						//	System.out.println(comPort.bytesAvailable());
+							//	System.out.println(comPort.bytesAvailable());
 							String s = buffer.readLine();
-						//	System.out.println(buffer.read());
+							//	System.out.println(buffer.read());
 							//					System.out.println(s);
-						//	System.out.println(comPort.bytesAvailable());
+							//	System.out.println(comPort.bytesAvailable());
 							q.add(s);
 							//System.out.println(buffer.readLine()); //test connection
 							//double[] data = parser.parse(buffer.readLine());
 							//	mainAppController.startTimer(data, DataFormat); //update GUI
 							//	in.close();
-							
+
 
 						} catch (IOException ex) {
 							ex.printStackTrace();
@@ -194,48 +195,52 @@ public class MainApp extends Application {
 
 					if(!q.isEmpty()) {
 						String stringData = q.remove();
-					try {
-						System.out.println(stringData);
-						double[] data;
-						if (!flightComputer) {
-							data = parser.parse(stringData);
-						} else {
-							data = parser.parseFC(stringData);
+						try {
+							System.out.println(stringData);
+							double[] data;
+							if (!flightComputer) {
+								data = parser.parse(stringData);
+							} else {
+								data = parser.parseFC(stringData);
+								data[DataIndex.TIME_INDEX.getOrder()] = data[DataIndex.TIME_INDEX.getOrder()]*3600 + data[DataIndex.TIME_INDEX.getOrder()+1]*60 + data[DataIndex.TIME_INDEX.getOrder()+2];
+							}
+
+
+							if(data != null) {
+								parsedDataConcatBuffer.append(stringData + "\n");
+								//pw.println(stringData + "\n");
+								if(data[0] != -10000) {
+	
+									Platform.runLater(()-> {
+										
+										//	System.out.println(data[3]);
+
+										mainAppController.mainAppAddGraphData(data);
+										mainAppController.mainAppAddMapData(data);
+										mainAppController.mainAppAddRawData(data);
+										mainAppController.startTimer(data);
+										mainAppController.mainAppAddGyroData(data);
+
+
+									});
+								}
+							}
+
+
+
+
+
+						} catch (IllegalArgumentException e) {
+							System.out.println("Invalid message. Message was thrown out.");
+						} catch (NullPointerException e) {
+							System.out.println("Why you passing null to the parser");
+						} finally {
+							rawDataConcatBuffer.append(stringData + "\n");
 						}
-
-						
-						if(data != null) {
-							parsedDataConcatBuffer.append(stringData + "\n");
-							//pw.println(stringData + "\n");
-							Platform.runLater(()-> {
-
-								//	System.out.println(data[3]);
-
-								mainAppController.mainAppAddGraphData(data);
-								mainAppController.mainAppAddMapData(data);
-								mainAppController.mainAppAddRawData(data);
-								mainAppController.startTimer(data);
-								mainAppController.mainAppAddGyroData(data);
-
-
-							});
-						}
-
-						
-
-
-
-					} catch (IllegalArgumentException e) {
-						System.out.println("Invalid message. Message was thrown out.");
-					} catch (NullPointerException e) {
-						System.out.println("Why you passing null to the parser");
-					} finally {
-						rawDataConcatBuffer.append(stringData + "\n");
+						//					finally {
+						//						pw.close();
+						//					}
 					}
-//					finally {
-//						pw.close();
-//					}
-				}
 				}
 			});
 
@@ -247,7 +252,7 @@ public class MainApp extends Application {
 		stage.show();
 
 	}
-	
+
 	public static void createRawDataFiles(String path) {
 
 		try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data.txt"))){
@@ -276,12 +281,12 @@ public class MainApp extends Application {
 		super.stop();
 		if(mode == mode.OLD) scheduledExecutorService.shutdownNow();
 		else if (mode == mode.LIVE) {
-			if(flightComputer) {
+			if(!flightComputer) {
 				createRawDataFiles("storage/raw_telemetry/");
 				createParsedDataFiles("storage/telemetry/");
 			} else {
-    			createRawDataFiles("storage/raw_fc/");
-    			createParsedDataFiles("storage/fc/");
+				createRawDataFiles("storage/raw_fc/");
+				createParsedDataFiles("storage/fc/");
 			}
 
 			comPort.getInputStream().close();
