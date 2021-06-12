@@ -100,11 +100,18 @@
 		
 		// THE CORNER LATITUDES AND LONGITUDES (MUST BE CHANGED WITH EVERY NEW IMAGE)
 		
+		// Ile de Boucherville National Park coordinates
+		
+		final double lower_lat = decimal_converter(45,36,21); // Top of the screen
+		final double upper_lat = decimal_converter(45,34,33); // Bottom of the screen
+		final double lower_lon = decimal_converter(73,30,42); // Left of the screen
+		final double upper_lon = decimal_converter(73,25,40); // Right of the screen
+		
 		// Rutherford Park's coordinates
-		final double lower_lat = decimal_converter(45,30,23); // Top of the screen
-		final double upper_lat = decimal_converter(45,30,18); // Bottom of the screen
-		final double lower_lon = decimal_converter(73,34,54); // Left of the screen
-		final double upper_lon = decimal_converter(73,34,41); // Right of the screen
+//		final double lower_lat = decimal_converter(45,30,23); // Top of the screen
+//		final double upper_lat = decimal_converter(45,30,18); // Bottom of the screen
+//		final double lower_lon = decimal_converter(73,34,54); // Left of the screen
+//		final double upper_lon = decimal_converter(73,34,41); // Right of the screen
 		
 		// McGill's coordinates
 //		final double lower_lat = decimal_converter(45,30,30); // Top of the screen
@@ -181,7 +188,7 @@
 	        
 	        
 //	        Rutherford Park map:
-	    	InputStream stream = classloader.getResourceAsStream("Rutherford Park.JPG");
+	    	InputStream stream = classloader.getResourceAsStream("boucherville.png");
 	        
 //	        Mcgill map:
 //	    	InputStream stream = classloader.getResourceAsStream("Mcgill.JPG");
