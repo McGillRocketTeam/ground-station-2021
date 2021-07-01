@@ -1,0 +1,1818 @@
+Setup Complete
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 23
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 34
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 45
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 56
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 67
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 78
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 89
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 100
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 111
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 122
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 133
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 144
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 155
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 166
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 177
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 188
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 199
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 210
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 221
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 232
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 243
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 254
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 265
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 276
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 287
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 298
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 309
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 320
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 331
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 342
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 353
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 364
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 375
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 386
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 397
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 408
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 419
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 430
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 441
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 452
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 463
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 474
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 485
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 496
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 507
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 518
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 529
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 540
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 551
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 562
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 573
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 584
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+Number of Packets: 595
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
+IRQ Status: 10110
+-----  Read Data ------
+-127.00
