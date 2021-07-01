@@ -49,7 +49,7 @@ public class MainApp extends Application {
 	static StringBuffer rawDataConcatBuffer = new StringBuffer();
 	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
 
-	private final Mode mode = Mode.OLD;
+	private final Mode mode = Mode.LIVE;
 	public final boolean flightComputer = true;
 	private final int NUMBER_OF_PARAMETERS = 14;
 	private int SERIAL_PORT_NUMBER = 6;
