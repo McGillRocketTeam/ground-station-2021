@@ -45,7 +45,7 @@ import javafx.fxml.FXMLLoader;
 
 public class LiteMainApp extends Application {
 
-	private final Mode mode = Mode.LIVE;
+	private final Mode mode = Mode.OLD;
 	private int SERIAL_PORT_NUMBER = 4;
 	private ScheduledExecutorService scheduledExecutorService;
 	

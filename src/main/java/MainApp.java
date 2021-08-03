@@ -49,9 +49,9 @@ public class MainApp extends Application {
 	static StringBuffer rawDataConcatBuffer = new StringBuffer();
 	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
 
-	private final Mode mode = Mode.LIVE;
+	private final Mode mode = Mode.OLD;
 	public final boolean flightComputer = true;
-	private final int NUMBER_OF_PARAMETERS = 14;
+	private final int NUMBER_OF_PARAMETERS = 12;
 	private int SERIAL_PORT_NUMBER = 6;
 	private final String COM_PORT_DESC = "/dev/tty.usbmodem80877301";
 
@@ -68,185 +68,186 @@ public class MainApp extends Application {
 
 
 		Label l = new Label("McGill Rocket Team Ground Station");
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml_21_22/Scene.fxml"));
+	//	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
 		Parent root = fxmlLoader.load();
-		Scene mainApp = new Scene(root, 1024,768);
-		MainAppController mainAppController = (MainAppController)fxmlLoader.getController();
-		mainAppController.mainAppInitializeGraphs();
-		mainAppController.mainAppInitializeMap();
-		mainAppController.mainAppIntitializeRawData();     
-		mainAppController.mainAppInitializeGyro();
-		//        ((Pane)mainApp.getRoot()).getChildren().add(gyroController.initializeGyro().getRoot());
-
-
-		stage.setTitle("McGill Rocket Team Ground Station");
-
-
-		Parser parser = new Parser(NUMBER_OF_PARAMETERS);
-		ArrayList<String> myData = new ArrayList<String>();
-		ArrayList<double[]> myDataArrays = new ArrayList<double[]>();
-
-		switch (mode) {
-		case OLD:
-			try {
-				myData = (ArrayList<String>) Parser.storeData("src/main/resources/zheng2.txt");
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			for (String str: myData) {
-				try {
-					myDataArrays.add(parser.parse((str)));
-				} catch (IllegalArgumentException e) {
-					System.out.println("Invalid message. Message was thrown out.");
-					System.out.println(e.toString());
-				} catch (NullPointerException e) {
-					System.out.println("Why you passing null to the parser");
-				}
-			}
-
-			scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-			Iterator<double[]> dataItr = myDataArrays.iterator();
-
-			scheduledExecutorService.scheduleAtFixedRate(() -> {
-				double[] data = dataItr.next();
-
-				Platform.runLater(()-> {
-
-					//	System.out.println(data[3]);
-					Date now = new Date();
-
-					mainAppController.mainAppAddGraphData(data);
-					mainAppController.mainAppAddMapData(data);
-					mainAppController.mainAppAddRawData(data);
-					mainAppController.startTimer(data);
-					mainAppController.mainAppAddGyroData(data);
-
-
-
-				});
-			}, 0, 1000, TimeUnit.MILLISECONDS);
-
-		case SIMULATION:
-			break;
-		case LIVE:
-
-
-			Queue<String> q = new ConcurrentLinkedQueue<String>();
-			SerialPort[] t = SerialPort.getCommPorts();
-
-			for (SerialPort x : t ) {
-				System.out.println(x.getPortDescription());
-			}
-
-			System.out.println(SerialPort.getCommPorts());
-			System.out.println(SerialPort.getCommPorts().length);
-			//	comPort = SerialPort.getCommPorts()[SERIAL_PORT_NUMBER];
-			//comPort = SerialPort.getCommPort("/dev/tty.usbserial-1420");
-			comPort = SerialPort.getCommPort(COM_PORT_DESC);
-			//comPort = SerialPort.getCommPort("/dev/tty.usbserial-1420");
-			comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
-
-
-			try {
-				System.out.println("Port open: " + comPort.openPort());
-				comPort.setComPortParameters(9600,8,1,0);
-				comPort.addDataListener(new SerialPortDataListener() {
-
-					public int getListeningEvents() {
-						return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
-					}
-
-					public void serialEvent(SerialPortEvent event) {
-						try {
-							BufferedReader buffer = new BufferedReader(
-									new InputStreamReader(comPort.getInputStream()));
-							//											System.out.println(buffer.readLine());
-							//	System.out.println(comPort.bytesAvailable());
-							String s = buffer.readLine();
-							//	System.out.println(buffer.read());
-							//					System.out.println(s);
-							//	System.out.println(comPort.bytesAvailable());
-							q.add(s);
-							//System.out.println(buffer.readLine()); //test connection
-							//double[] data = parser.parse(buffer.readLine());
-							//	mainAppController.startTimer(data, DataFormat); //update GUI
-							//	in.close();
-
-
-						} catch (IOException ex) {
-							ex.printStackTrace();
-						}
-					}
-				});
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			ExecutorService ex = Executors.newCachedThreadPool();
-			ex.execute(() -> {
-				while(true) {
-					try {
-						Thread.sleep(200);
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-					if(!q.isEmpty()) {
-						String stringData = q.remove();
-						try {
-							System.out.println(stringData);
-							double[] data;
-							if (!flightComputer) {
-								data = parser.parse(stringData);
-							} else {
-								data = parser.parseFC(stringData);
-								data[DataIndex.TIME_INDEX.getOrder()] = data[DataIndex.TIME_INDEX.getOrder()]*3600 + data[DataIndex.TIME_INDEX.getOrder()+1]*60 + data[DataIndex.TIME_INDEX.getOrder()+2];
-							}
-
-
-							if(data != null) {
-								parsedDataConcatBuffer.append(stringData + "\n");
-								//pw.println(stringData + "\n");
-								if(data[0] != -10000) {
-	
-									Platform.runLater(()-> {
-										
-										//	System.out.println(data[3]);
-
-										mainAppController.mainAppAddGraphData(data);
-										mainAppController.mainAppAddMapData(data);
-										mainAppController.mainAppAddRawData(data);
-										mainAppController.startTimer(data);
-										mainAppController.mainAppAddGyroData(data);
-
-
-									});
-								}
-							}
-
-
-
-
-
-						} catch (IllegalArgumentException e) {
-							System.out.println("Invalid message. Message was thrown out.");
-						} catch (NullPointerException e) {
-							System.out.println("Why you passing null to the parser");
-						} finally {
-							rawDataConcatBuffer.append(stringData + "\n");
-						}
-						//					finally {
-						//						pw.close();
-						//					}
-					}
-				}
-			});
-
-
-
-		}
+		Scene mainApp = new Scene(root, 1000,700);
+//		MainAppController mainAppController = (MainAppController)fxmlLoader.getController();
+//		mainAppController.mainAppInitializeGraphs();
+//		mainAppController.mainAppInitializeMap();
+//		mainAppController.mainAppIntitializeRawData();     
+//		mainAppController.mainAppInitializeGyro();
+//		//        ((Pane)mainApp.getRoot()).getChildren().add(gyroController.initializeGyro().getRoot());
+//
+//
+//		stage.setTitle("McGill Rocket Team Ground Station");
+//
+//
+//		Parser parser = new Parser(NUMBER_OF_PARAMETERS);
+//		ArrayList<String> myData = new ArrayList<String>();
+//		ArrayList<double[]> myDataArrays = new ArrayList<double[]>();
+//
+//		switch (mode) {
+//		case OLD:
+//			try {
+//				myData = (ArrayList<String>) Parser.storeData("src/main/resources/zheng2.txt");
+//			} catch (FileNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			for (String str: myData) {
+//				try {
+//					myDataArrays.add(parser.parse((str)));
+//				} catch (IllegalArgumentException e) {
+//					System.out.println("Invalid message. Message was thrown out.");
+//					System.out.println(e.toString());
+//				} catch (NullPointerException e) {
+//					System.out.println("Why you passing null to the parser");
+//				}
+//			}
+//
+//			scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+//			Iterator<double[]> dataItr = myDataArrays.iterator();
+//
+//			scheduledExecutorService.scheduleAtFixedRate(() -> {
+//				double[] data = dataItr.next();
+//
+//				Platform.runLater(()-> {
+//
+//					//	System.out.println(data[3]);
+//					Date now = new Date();
+//
+//					mainAppController.mainAppAddGraphData(data);
+//					mainAppController.mainAppAddMapData(data);
+//					mainAppController.mainAppAddRawData(data);
+//					mainAppController.startTimer(data);
+//					mainAppController.mainAppAddGyroData(data);
+//
+//
+//
+//				});
+//			}, 0, 1000, TimeUnit.MILLISECONDS);
+//
+//		case SIMULATION:
+//			break;
+//		case LIVE:
+//
+//
+//			Queue<String> q = new ConcurrentLinkedQueue<String>();
+//			SerialPort[] t = SerialPort.getCommPorts();
+//
+//			for (SerialPort x : t ) {
+//				System.out.println(x.getPortDescription());
+//			}
+//
+//			System.out.println(SerialPort.getCommPorts());
+//			System.out.println(SerialPort.getCommPorts().length);
+//			//	comPort = SerialPort.getCommPorts()[SERIAL_PORT_NUMBER];
+//			//comPort = SerialPort.getCommPort("/dev/tty.usbserial-1420");
+//			comPort = SerialPort.getCommPort(COM_PORT_DESC);
+//			//comPort = SerialPort.getCommPort("/dev/tty.usbserial-1420");
+//			comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
+//
+//
+//			try {
+//				System.out.println("Port open: " + comPort.openPort());
+//				comPort.setComPortParameters(9600,8,1,0);
+//				comPort.addDataListener(new SerialPortDataListener() {
+//
+//					public int getListeningEvents() {
+//						return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
+//					}
+//
+//					public void serialEvent(SerialPortEvent event) {
+//						try {
+//							BufferedReader buffer = new BufferedReader(
+//									new InputStreamReader(comPort.getInputStream()));
+//							//											System.out.println(buffer.readLine());
+//							//	System.out.println(comPort.bytesAvailable());
+//							String s = buffer.readLine();
+//							//	System.out.println(buffer.read());
+//							//					System.out.println(s);
+//							//	System.out.println(comPort.bytesAvailable());
+//							q.add(s);
+//							//System.out.println(buffer.readLine()); //test connection
+//							//double[] data = parser.parse(buffer.readLine());
+//							//	mainAppController.startTimer(data, DataFormat); //update GUI
+//							//	in.close();
+//
+//
+//						} catch (IOException ex) {
+//							ex.printStackTrace();
+//						}
+//					}
+//				});
+//
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			ExecutorService ex = Executors.newCachedThreadPool();
+//			ex.execute(() -> {
+//				while(true) {
+//					try {
+//						Thread.sleep(200);
+//					} catch (InterruptedException e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					}
+//
+//					if(!q.isEmpty()) {
+//						String stringData = q.remove();
+//						try {
+//							System.out.println(stringData);
+//							double[] data;
+//							if (!flightComputer) {
+//								data = parser.parse(stringData);
+//							} else {
+//								data = parser.parseFC(stringData);
+//								data[DataIndex.TIME_INDEX.getOrder()] = data[DataIndex.TIME_INDEX.getOrder()]*3600 + data[DataIndex.TIME_INDEX.getOrder()+1]*60 + data[DataIndex.TIME_INDEX.getOrder()+2];
+//							}
+//
+//
+//							if(data != null) {
+//								parsedDataConcatBuffer.append(stringData + "\n");
+//								//pw.println(stringData + "\n");
+//								if(data[0] != -10000) {
+//	
+//									Platform.runLater(()-> {
+//										
+//										//	System.out.println(data[3]);
+//
+//										mainAppController.mainAppAddGraphData(data);
+//										mainAppController.mainAppAddMapData(data);
+//										mainAppController.mainAppAddRawData(data);
+//										mainAppController.startTimer(data);
+//										mainAppController.mainAppAddGyroData(data);
+//
+//
+//									});
+//								}
+//							}
+//
+//
+//
+//
+//
+//						} catch (IllegalArgumentException e) {
+//							System.out.println("Invalid message. Message was thrown out.");
+//						} catch (NullPointerException e) {
+//							System.out.println("Why you passing null to the parser");
+//						} finally {
+//							rawDataConcatBuffer.append(stringData + "\n");
+//						}
+//						//					finally {
+//						//						pw.close();
+//						//					}
+//					}
+//				}
+//			});
+//
+//
+//
+//		}
 
 		stage.setScene(mainApp);
 		stage.show();

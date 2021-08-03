@@ -2,6 +2,7 @@ package controller.gui;
 
 import java.util.ArrayList;
 
+
 import java.util.EnumMap;
 
 //import controller.serial.SerialComm;
@@ -11,6 +12,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
 
+/**
+ * 
+ * Controller class for number display on GUI. Responsible for displaying and 
+ * updating numerical values received from either FC or telemetry 
+ * 
+ * @author miiyuf
+ *
+ */
 public class NumbersController {
 	
 	//SerialComm serialComm = new SerialComm();

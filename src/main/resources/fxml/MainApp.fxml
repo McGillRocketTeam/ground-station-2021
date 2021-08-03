@@ -22,8 +22,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox stylesheets="@MainApp.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.MainAppController">
+<VBox minWidth="1280.0" stylesheets="@MainApp.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.MainAppController">
    <children>
       <MenuBar>
         <menus>
@@ -34,7 +33,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ImageView fitHeight="120.0" fitWidth="238.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="92.0" fitWidth="237.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Logo_F_RW.png" />
          </image>
@@ -56,7 +55,7 @@
                      <center>
                         <GridPane BorderPane.alignment="CENTER">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="897.5999908447266" minWidth="10.0" prefWidth="819.1999725341797" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="819.1999725341797" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
