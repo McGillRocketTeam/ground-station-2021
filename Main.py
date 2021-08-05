@@ -10,6 +10,8 @@ import pandas as pd
 from MCS import MCGenerator
 from launch_run import Launch
 from RocketProperties import RocketProperties
+from mpl_toolkits import mplot3d
+import matplotlib.pyplot as plt
 
 #This is the new Monte Carlo
 def perturbWind(wind_data, sigma_direction, sigma_velocity, num_launches_u):
@@ -64,13 +66,36 @@ def main(num_launches):
     rocketProperties = RocketProperties()
 
     landing_location = []
+
     for simNumber in range(num_launches):
         sim = Launch(zenith_angle_perturbed[1], azimuth_angle_perturbed[1], x[simNumber], rocketProperties, 32.9925986,
                      -106.9744309)
-        lat, lon = sim.run_launch()
+        lat, lon, positions = sim.run_launch()
         landing_location.append([lat, lon])
 
-    save_file = True  # If you want to save a csv file of the coordinates
+        # Graph the latitude vs longitude vs time
+        positions = np.array(positions)
+        latData = positions[:, 0]
+        lonData = positions[:, 1]
+        timeData = positions[:, 2]
+
+        graph = plt.axes(projection='3d')
+        graph.plot3D(timeData, latData, lonData, 'red')
+        
+        graph.set_title("Simulation " + str(simNumber + 1))
+        graph.set_xlabel("Time")
+        graph.set_ylabel("Latitude")
+        graph.set_zlabel("Longitude")
+
+        #plt.savefig("simulation" + str(simNumber + 1) + "CoordinateGraph.png")
+        #plt.show()
+
+        # print(latData)
+        # print(lonData)
+        # print(zData)
+
+
+    save_file = False  # If you want to save a csv file of the coordinates
     #save_converted_positions = False  # Save the converted position in a text file
 
     #if save_converted_positions:
@@ -79,7 +104,7 @@ def main(num_launches):
         np.savetxt("validation_compare_with_Blanche.csv", landing_location, delimiter=",")
         print("FIN CSV READY")
 
-
+    #print(positions[0])
 
 
 
