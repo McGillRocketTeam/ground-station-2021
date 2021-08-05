@@ -137,26 +137,30 @@ class Launch:
     def run_launch(self):
         simulationNumber = 1
         # Initialise positions and velocities
+        converted_positions = []
         positions = []
-        x, y, z = self.apogee * np.sin(self.launch_azimuth_angle), \
-                  self.apogee * np.cos(self.launch_azimuth_angle), self.apogee
         velocities = []
-        v_x, v_y, v_z = self.velocity_off_rail_mag * np.sin(self.launch_zenith_angle) * np.sin(
-            self.launch_azimuth_angle), \
+
+        # x, y, z = self.apogee * np.sin(self.launch_azimuth_angle), \
+        #           self.apogee * np.cos(self.launch_azimuth_angle), self.apogee
+
+        # x, y, z = self.apogee * np.tan(self.launch_zenith_angle) * np.sin(self.launch_azimuth_angle), \
+        #             self.apogee * np.cos(self.launch_azimuth_angle), self.apogee
+
+        x, y, z = self.apogee * np.tan(self.launch_zenith_angle) * np.sin(self.launch_azimuth_angle), \
+                         self.apogee * np.cos(self.launch_azimuth_angle), self.apogee
+
+        v_x, v_y, v_z = self.velocity_off_rail_mag * np.sin(self.launch_zenith_angle) * np.sin(self.launch_azimuth_angle), \
                         self.velocity_off_rail_mag * np.sin(self.launch_zenith_angle) * np.sin(
-                            self.launch_azimuth_angle), \
+                        self.launch_azimuth_angle), \
                         0
 
         # Now set up the main iteration loop
         loops = 0
         max_loops = int(1e6)
         t = 0
-
+        dt = 0
         while z > 0 and loops < max_loops:
-            loops = loops + 1
-            dt = self.time_step
-            t = t + dt
-
             fx, fy = self.calculate_force_xy(z)
             fz = self.calculate_force_z(z, v_z)
 
@@ -180,26 +184,23 @@ class Launch:
             velocities.append((v_x, v_y, v_z, t))
 
             # Record the positions in lat, long coordinates to compare with Blanche data in a txt file
-            # converted_positions = []
-            # converted_position_lat = self.launch_latitude + (y / (2.0 * math.pi * self.earth_radius)) * 360.0
-            # converted_position_lon = self.launch_longitude + (
-            #             x / (2.0 * math.pi * self.earth_radius * math.cos(math.radians(self.launch_latitude)))) * 360.0
-            #
-            # converted_positions.append((converted_position_lat, converted_position_lon))
+            converted_position_lat = self.launch_latitude + (x / (2.0 * math.pi * self.earth_radius)) * 360.0
+            converted_position_lon = self.launch_longitude + (
+                        y / (2.0 * math.pi * self.earth_radius * math.cos(math.radians(self.launch_latitude)))) * 360.0
+
+            converted_positions.append([converted_position_lat, converted_position_lon, t])
             # print("Converted positions: ", converted_positions)
+            print(converted_position_lat, converted_position_lon, t)
 
-            # Could also record the pressure, temperature at each time step and compare with Blanche data
-            # to see how accurate our simulator is
-        #
-        # save_converted_positions = False
-        # if save_converted_positions:
-        #     np.savetxt("position_coordinates" + str(simulationNumber) + ".csv", converted_positions, delimiter=", ")
+            dt = self.time_step
+            t = t + dt
+            loops = loops + 1
 
-        new_latitude = self.launch_latitude + (y / (2.0 * math.pi * self.earth_radius)) * 360.0
-        new_longitude = self.launch_longitude + (x / (2.0 * math.pi * self.earth_radius * math.cos(math.radians(self.launch_latitude)))) * 360.0
+        new_latitude = self.launch_latitude + (x / (2.0 * math.pi * self.earth_radius)) * 360.0
+        new_longitude = self.launch_longitude + (y / (2.0 * math.pi * self.earth_radius * math.cos(math.radians(self.launch_latitude)))) * 360.0
         # print("lat = ", new_latitude)
         # print("long = ", new_longitude)
-        return new_latitude, new_longitude
+        return new_latitude, new_longitude, converted_positions
 
 
 
