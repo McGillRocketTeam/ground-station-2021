@@ -22,7 +22,7 @@ def perturbWind(wind_data, sigma_direction, sigma_velocity, num_launches_u):
             wind_data_perturbed[index_2][1][index] = np.random.normal(
                 wind_data['direction'][index], sigma_direction, 1) # direction
             wind_data_perturbed[index_2][2][index] = np.random.normal(
-                wind_data['velocity'][index], sigma_velocity, 1) # direction
+                wind_data['velocity'][index], sigma_velocity, 1) # velocity
             index_2 += 1
         index += 1
         #wind_data[num+launches][altitude/direction/velocity][index]
@@ -54,7 +54,8 @@ def main(num_launches):
     inputa_n = np.array([1, 0.1])
     mcs = MCGenerator()
 
-    wind = mcs.MCS(inputa_n, w_al, inputw_n, num_cycles=1)
+    #wind = mcs.MCS(inputa_n, w_al, inputw_n, num_cycles=1)
+
     w_class = wind_code.Wind()
     wind = w_class.get_wind_dataframe()
 
@@ -62,19 +63,24 @@ def main(num_launches):
 
     rocketProperties = RocketProperties()
 
-    coordinates = []
+    landing_location = []
     for simNumber in range(num_launches):
         sim = Launch(zenith_angle_perturbed[1], azimuth_angle_perturbed[1], x[simNumber], rocketProperties, 32.9925986,
                      -106.9744309)
         lat, lon = sim.run_launch()
-        coordinates.append([lat, lon])
+        landing_location.append([lat, lon])
 
     save_file = True  # If you want to save a csv file of the coordinates
+    #save_converted_positions = False  # Save the converted position in a text file
 
-    if save_file == True:
-        np.savetxt("coordinates3.csv", coordinates, delimiter=",")
+    #if save_converted_positions:
+
+    if save_file:
+        np.savetxt("validation_compare_with_Blanche.csv", landing_location, delimiter=",")
         print("FIN CSV READY")
 
 
-# if __name__ == '__main__':
-#     main()
+
+
+
+
