@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="916.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="916.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.SceneController">
   <tabs>
     <Tab text="Main">
       <content>
@@ -23,7 +23,7 @@
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                        <children>
                                           <Label layoutX="92.0" layoutY="72.0" text="MRT LOGO" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="92.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="72.0" />
-                                          <Button layoutX="64.0" layoutY="99.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Launch Page" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="99.0" />
+                                          <Button fx:id="launchButton" layoutX="64.0" layoutY="99.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Launch Page" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="99.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane prefHeight="500.0" prefWidth="200.0" VBox.vgrow="ALWAYS">

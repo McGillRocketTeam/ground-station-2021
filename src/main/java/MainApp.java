@@ -33,11 +33,15 @@ import controller.gui.GraphController;
 import controller.gui.Gyro3dController;
 import controller.gui.MainAppController;
 import controller.gui.Mode;
+import controller.gui.SceneController;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -50,28 +54,31 @@ public class MainApp extends Application {
 	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
 
 	private final Mode mode = Mode.OLD;
-	public final boolean flightComputer = true;
+	public final boolean flightComputer = false;
 	private final int NUMBER_OF_PARAMETERS = 12;
 	private int SERIAL_PORT_NUMBER = 6;
-	private final String COM_PORT_DESC = "/dev/tty.usbmodem80877301";
-
+	private final String COM_PORT_DESC = "/dev/tty.usbmodem11101";
+	
+	@FXML Button launchButton;
 	private ScheduledExecutorService scheduledExecutorService;
 	private SerialPort comPort;
 
 	@Override
 	public void start(Stage stage) throws Exception {
+	//	Button launchButton = this.launchButton;
 
-
-		DataStorage.makeFolders();
-
-
-
+//		DataStorage.makeFolders();
+//
 
 		Label l = new Label("McGill Rocket Team Ground Station");
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml_21_22/Scene.fxml"));
 	//	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
 		Parent root = fxmlLoader.load();
 		Scene mainApp = new Scene(root, 1000,700);
+		
+		SceneController sceneController = (SceneController)fxmlLoader.getController();
+		sceneController.initializeScene();
+		
 //		MainAppController mainAppController = (MainAppController)fxmlLoader.getController();
 //		mainAppController.mainAppInitializeGraphs();
 //		mainAppController.mainAppInitializeMap();
@@ -244,9 +251,9 @@ public class MainApp extends Application {
 //					}
 //				}
 //			});
-//
-//
-//
+
+
+
 //		}
 
 		stage.setScene(mainApp);

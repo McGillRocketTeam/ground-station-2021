@@ -31,7 +31,7 @@ import controller.Parser; // used in Main to test methods
 
 //@SuppressWarnings("unused")
 public class DataStorage {
-	private static boolean PRINTEXIST = false; // if true, program prints message indicating if folders already exist
+	private static boolean PRINTEXIST = true; // if true, program prints message indicating if folders already exist
 	public static final int TelemetryLength = 10; // length of array (or string) for CSV GPS data to be written
 	public static final int GPSLength = 6; // length of array (or string) for CSV telemetry data to be written
 	
