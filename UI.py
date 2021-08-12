@@ -1,5 +1,4 @@
 import tkinter as tk
-import googlemaps
 from Main import main
 
 # Method for setting the number of simulations and launching the Main.py file

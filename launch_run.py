@@ -139,12 +139,6 @@ class Launch:
         positions = []
         velocities = []
 
-        # x, y, z = self.apogee * np.sin(self.launch_azimuth_angle), \
-        #           self.apogee * np.cos(self.launch_azimuth_angle), self.apogee
-
-        # x, y, z = self.apogee * np.tan(self.launch_zenith_angle) * np.sin(self.launch_azimuth_angle), \
-        #             self.apogee * np.cos(self.launch_azimuth_angle), self.apogee
-
         x, y, z = self.apogee * np.tan(self.launch_zenith_angle) * np.sin(self.launch_azimuth_angle), \
                          self.apogee * np.cos(self.launch_azimuth_angle), self.apogee
 
@@ -181,25 +175,15 @@ class Launch:
             positions.append((x, y, z, t))
             velocities.append((v_x, v_y, v_z, t))
 
-            # print(positions[-1])
-
             # Record the positions in lat, long coordinates to compare with Blanche data in a txt file
             converted_position_lat, converted_position_lon = self.conversion_coordinates(x,y)
-            converted_positions.append([converted_position_lat, converted_position_lon, t])
+            converted_positions.append([converted_position_lat, converted_position_lon, z, t])
             # print("Converted positions: ", converted_positions)
             # print(converted_position_lat, converted_position_lon, t)
 
             dt = self.time_step
             t = t + dt
             loops = loops + 1
-
-        position = np.array(positions)
-
-        # graph = plt.axes(projection='3d')
-        # graph.plot(position[:, 0], position[:, 1],'red')
-        plt.plot(position[:, 3], position[:, 2], 'red')
-        plt.show()
-
 
         new_latitude, new_longitude = self.conversion_coordinates(x, y)
         # print("lat = ", new_latitude)

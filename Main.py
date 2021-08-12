@@ -72,41 +72,41 @@ def main(num_launches):
         lat, lon, positions = sim.run_launch()
         landing_location.append([lat, lon])
 
-        # Graph the latitude vs longitude vs time
+        # ------------------------------------------TESTING START----------------------------------------------------- #
+
+        # GRAPH THE SIMULATED LATITUDE VS SIMULATED LONGITUDE VS TIME OF EACH SIMULATION #
         positions = np.array(positions)
         latData = positions[:, 0]
         lonData = positions[:, 1]
-        timeData = positions[:, 2]
+        altData = positions[:, 2]
+        timeData = positions[:, 3]
 
-        # graph = plt.axes(projection='3d')
-        # graph.plot3D(timeData, latData, lonData, 'red')
+        graph = plt.axes(projection='3d')
+        graph.plot3D(timeData, latData, lonData, 'red')
         
-        # graph.set_title("Simulation " + str(simNumber + 1) + " Lat vs Lon vs Time")
-        # graph.set_xlabel("Time")
-        # graph.set_ylabel("Latitude")
-        # graph.set_zlabel("Longitude")
-        plt.plot(latData, lonData)
-        # plt.set_title("Simulation " + str(simNumber + 1) + " Lat vs Lon")
-        #plt.set_xlabel("Time")
-        #plt.set_ylabel("Latitude")
-
-
-        # plt.savefig("simulation" + str(simNumber + 1) + "CoordinateGraph.png")
+        graph.set_title("Simulation " + str(simNumber + 1) + " Lat vs Lon vs Time")
+        graph.set_xlabel("Time")
+        graph.set_ylabel("Latitude")
+        graph.set_zlabel("Longitude")
+        graph.set_title("Simulation " + str(simNumber + 1) + " Lat vs Lon vs Time")
+        graph.set_xlabel("Time")
+        graph.set_ylabel("Latitude")
+        # plt.savefig("simulation" + str(simNumber + 1) + "LatVsLonVsTimeGraph.png")
         plt.show()
 
-        # print(latData)
-        # print(lonData)
-        # print(zData)
+        # GRAPH THE SIMULATED LATITUDE VS SIMULATED LONGITUDE OF EACH SIMULATION #
+        plt.plot(latData, lonData)
+        plt.title('Simulation ' + str(simNumber + 1) + ' Lat vs Lon')
+        # plt.savefig("simulation" + str(simNumber + 1) + "LatVsLonGraph.png)
+        plt.show()
 
-    save_file = False  # If you want to save a csv file of the coordinates
-    if save_file:
-        np.savetxt("validation_compare_with_Blanche.csv", landing_location, delimiter=",")
-        print("FIN CSV READY")
+        # GRAPH THE SIMULATED ALTITUDE VS TIME OF EACH SIMULATION #
+        plt.plot(timeData, altData, 'red')
+        plt.title('Simulation ' + str(simNumber + 1) + ' Altitude vs Time')
+        # plt.savefig('simulation' + str(simNumber + 1) + 'AltitudevsTimeGraph.png)
+        plt.show()
 
-
-    # graph showing lat vs lon vs time from Blanche data set
-
-    # For CHARLES: Convert the Blanche data from lat, lon to x,y coordinates
+    # GRAPH THE REAL DATA OF BLANCHE LATITUDE VS LONGITUDE VS TIME #
 
     with open('BlancheLat.txt', 'r') as f:
         blancheLat = f.readlines()
@@ -136,20 +136,24 @@ def main(num_launches):
     blancheGraph.set_xlabel("Time")
     blancheGraph.set_ylabel("Latitude")
     blancheGraph.set_zlabel("Longitude")
-
     # plt.savefig("BlancheLatVsLonVsTimeGraph.png")
     plt.show()
 
-    # graph showing simulation landing location and Blanche landing location
+    # GRAPH THE ACTUAL LANDING LOCATION VS THE SIMULATED LANDING LOCATION #
     blancheLandingLocation = [32.945004, -106.89997]
-
     landing_location = np.array(landing_location)
     plt.plot(landing_location[:, 0], landing_location[:, 1], 'o', color='red', label='Simulated Landing Location')
     plt.plot(blancheLandingLocation[0], blancheLandingLocation[1], 'o', color='black', label='Blanche Landing Location')
     plt.legend()
-
     # plt.savefig("SimulatedVsBlancheLandingLocation.png")
     plt.show()
+
+    # ----------------------------------------------TESTING END------------------------------------------------------- #
+
+    save_file = False  # If you want to save a csv file of the coordinates
+    if save_file:
+        np.savetxt("validation_compare_with_Blanche.csv", landing_location, delimiter=",")
+        print("FIN CSV READY")
 
 
 
