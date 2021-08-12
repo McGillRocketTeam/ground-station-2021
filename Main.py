@@ -97,12 +97,16 @@ def main(num_launches):
         # GRAPH THE SIMULATED LATITUDE VS SIMULATED LONGITUDE OF EACH SIMULATION #
         plt.plot(latData, lonData)
         plt.title('Simulation ' + str(simNumber + 1) + ' Lat vs Lon')
+        plt.xlabel('Latitude')
+        plt.ylabel('Longitude')
         # plt.savefig("simulation" + str(simNumber + 1) + "LatVsLonGraph.png)
         plt.show()
 
         # GRAPH THE SIMULATED ALTITUDE VS TIME OF EACH SIMULATION #
         plt.plot(timeData, altData, 'red')
         plt.title('Simulation ' + str(simNumber + 1) + ' Altitude vs Time')
+        plt.xlabel('Altitude')
+        plt.ylabel('Time')
         # plt.savefig('simulation' + str(simNumber + 1) + 'AltitudevsTimeGraph.png)
         plt.show()
 
@@ -144,6 +148,8 @@ def main(num_launches):
     landing_location = np.array(landing_location)
     plt.plot(landing_location[:, 0], landing_location[:, 1], 'o', color='red', label='Simulated Landing Location')
     plt.plot(blancheLandingLocation[0], blancheLandingLocation[1], 'o', color='black', label='Blanche Landing Location')
+    plt.xlabel('Latitude')
+    plt.ylabel('Longitude')
     plt.legend()
     # plt.savefig("SimulatedVsBlancheLandingLocation.png")
     plt.show()
