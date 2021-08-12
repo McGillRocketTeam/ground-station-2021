@@ -2,14 +2,10 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Arc?>
-<?import javafx.scene.text.Text?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Arc fill="DODGERBLUE" layoutX="229.0" layoutY="166.0" length="270.0" radiusX="100.0" radiusY="100.0" startAngle="45.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" AnchorPane.bottomAnchor="134.0" AnchorPane.leftAnchor="129.0" AnchorPane.rightAnchor="300.28932189941406" AnchorPane.topAnchor="66.0" />
-      <Text layoutX="362.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AAAAAAAAA (DYNAMIC MAP)" AnchorPane.bottomAnchor="217.0" AnchorPane.leftAnchor="362.0" AnchorPane.rightAnchor="163.67529296875" AnchorPane.topAnchor="166.0" />
-      <Label layoutX="270.0" layoutY="312.0" text="Lat Long Values" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="270.0" AnchorPane.rightAnchor="242.5" AnchorPane.topAnchor="312.0" />
+      <Label layoutX="256.0" layoutY="312.0" text="Lat Long Values" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="256.0" AnchorPane.rightAnchor="256.5" AnchorPane.topAnchor="312.0" />
+      <Label alignment="CENTER" layoutX="257.0" layoutY="192.0" text="DYNAMIC MAP" />
    </children>
 </AnchorPane>
