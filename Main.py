@@ -54,7 +54,7 @@ def main(num_launches):
     w_al = np.array([80, 60, 40, 20, 0])
     inputw_n = np.array([4, 1, 7, 1])
     inputa_n = np.array([1, 0.1])
-    mcs = MCGenerator()
+    #mcs = MCGenerator()
 
     #wind = mcs.MCS(inputa_n, w_al, inputw_n, num_cycles=1)
 
@@ -68,8 +68,7 @@ def main(num_launches):
     landing_location = []
 
     for simNumber in range(num_launches):
-        sim = Launch(zenith_angle_perturbed[1], azimuth_angle_perturbed[1], x[simNumber], rocketProperties, 32.9925986,
-                     -106.9744309)
+        sim = Launch(zenith_angle_perturbed[1], azimuth_angle_perturbed[1], x[simNumber], rocketProperties)
         lat, lon, positions = sim.run_launch()
         landing_location.append([lat, lon])
 
@@ -79,13 +78,18 @@ def main(num_launches):
         lonData = positions[:, 1]
         timeData = positions[:, 2]
 
-        graph = plt.axes(projection='3d')
-        graph.plot3D(timeData, latData, lonData, 'red')
+        # graph = plt.axes(projection='3d')
+        # graph.plot3D(timeData, latData, lonData, 'red')
         
-        graph.set_title("Simulation " + str(simNumber + 1) + " Lat vs Lon vs Time")
-        graph.set_xlabel("Time")
-        graph.set_ylabel("Latitude")
-        graph.set_zlabel("Longitude")
+        # graph.set_title("Simulation " + str(simNumber + 1) + " Lat vs Lon vs Time")
+        # graph.set_xlabel("Time")
+        # graph.set_ylabel("Latitude")
+        # graph.set_zlabel("Longitude")
+        plt.plot(latData, lonData)
+        # plt.set_title("Simulation " + str(simNumber + 1) + " Lat vs Lon")
+        #plt.set_xlabel("Time")
+        #plt.set_ylabel("Latitude")
+
 
         # plt.savefig("simulation" + str(simNumber + 1) + "CoordinateGraph.png")
         plt.show()
@@ -101,6 +105,8 @@ def main(num_launches):
 
 
     # graph showing lat vs lon vs time from Blanche data set
+
+    # For CHARLES: Convert the Blanche data from lat, lon to x,y coordinates
 
     with open('BlancheLat.txt', 'r') as f:
         blancheLat = f.readlines()
@@ -138,8 +144,8 @@ def main(num_launches):
     blancheLandingLocation = [32.945004, -106.89997]
 
     landing_location = np.array(landing_location)
-    plt.plot(landing_location[:, 0], landing_location[:, 1], '0', color='black', label='Simulated Landing Location')
-    plt.plot(blancheLandingLocation[0], blancheLandingLocation[1], '0', color='black', label='Blanche Landing Location')
+    plt.plot(landing_location[:, 0], landing_location[:, 1], 'o', color='red', label='Simulated Landing Location')
+    plt.plot(blancheLandingLocation[0], blancheLandingLocation[1], 'o', color='black', label='Blanche Landing Location')
     plt.legend()
 
     # plt.savefig("SimulatedVsBlancheLandingLocation.png")

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import math
-
+import matplotlib.pyplot as plt
 
 class Launch:
     air_ideal_gas_constant = 287.05  # J/K*kg
@@ -14,10 +14,13 @@ class Launch:
     launch_latitude = 32.9925986  # AS
     launch_longitude = -106.9744309  # AS
 
-    def __init__(self, launch_zenith_angle, launch_azimith_angle, wind_array, rocket_properties, launch_latitude,
-                 launch_longitude):
+    def __init__(self, launch_zenith_angle, launch_azimuth_angle, wind_array, rocket_properties):
+
+        # NB, unsure about the names 'zenith' and 'azimuth'; if inconsistent, azimuth == phi in the physics convention
+        # for spherical coordinates and zenith is == theta. See wikipedia.
+
         self.launch_zenith_angle = launch_zenith_angle
-        self.launch_azimuth_angle = launch_azimith_angle
+        self.launch_azimuth_angle = launch_azimuth_angle    # Measured CCW from NORTH
         self.wind_array = wind_array
 
         # Extract properties from encapsulating RocketProperties Class
@@ -41,13 +44,10 @@ class Launch:
 
         self.apogee = rocket_properties.apogee
 
-        self.launch_latitude = launch_latitude
-        self.launch_longitude = launch_longitude
-
     def conversion_coordinates(self, x, y):
-        new_latitude = self.launch_latitude + (y / (2.0 * math.pi * self.earth_radius)) * 360.0
+        new_latitude = self.launch_latitude + (x / (2.0 * math.pi * self.earth_radius)) * 360.0
         new_longitude = self.launch_longitude + (
-                    x / (2.0 * math.pi * self.earth_radius * math.cos(self.launch_latitude_rad))) * 360.0
+                    y / (2.0 * math.pi * self.earth_radius * math.cos(math.radians(self.launch_latitude)))) * 360.0
         return new_latitude, new_longitude
 
     def calculute_vertical_drag_coeff(self, altitude):
@@ -76,11 +76,11 @@ class Launch:
 
     def calculate_pressure(self, altitude):  # Pa
         if altitude < 11000:
-            return self.kPa_to_Pa * 101.29 * ((self.calculate_temperature(altitude) + 273.1) / 288.08) ** 5.256
+            return self.kPa_to_Pa * 101.29 * (self.calculate_temperature(altitude) / 288.08) ** 5.256
         elif altitude < 25000:
             return self.kPa_to_Pa * 22.65 * np.exp(1.73 - 0.000157 * altitude)
         else:
-            return self.kPa_to_Pa * 2.488 * ((self.calculate_temperature(altitude) + 273.1) / 216.6) ** -11.388
+            return self.kPa_to_Pa * 2.488 * (self.calculate_temperature(altitude) / 216.6) ** -11.388
 
     def calculate_density(self, altitude):  # kg/m3
         return self.calculate_pressure(altitude) / (self.air_ideal_gas_constant * self.calculate_temperature(altitude))
@@ -88,7 +88,7 @@ class Launch:
     def calculate_descent_rate(self, altitude):  # m/s
         Cd = self.calculate_vertical_drag_coeff(altitude)
         if Cd != 0:
-            return np.sqrt(2 * self.rocket_mass * self.gravity_cosntant / (self.calculate_density(altitude) * Cd))
+            return np.sqrt(2 * self.rocket_mass * self.gravity_constant / (self.calculate_density(altitude) * Cd))
         else:
             return np.sqrt(2 * self.gravity_constant * (self.apogee - altitude))
 
@@ -107,13 +107,11 @@ class Launch:
         Cd = self.calculate_transverse_drag_coeff(altitude)
         wind_vel = self.calculate_wind_speed(altitude)
         rho = self.calculate_density(altitude)
-        A = self.calculate_transverse_cx_area(altitude)
-        return Cd * rho * (wind_vel[0] ** 2) / 2, Cd * rho * (wind_vel[1] ** 2) / 2
+        A = self.calculate_transverse_cx_area()
+        return A * Cd * rho * (wind_vel[0] ** 2) / 2, A * Cd * rho * (wind_vel[1] ** 2) / 2
 
-    def calculate_transverse_cx_area(self, altitude):
-        # Dummy function for now FIX THIS LATER!!!!!!!!!!!!!
-
-        return 1
+    def calculate_transverse_cx_area(self):
+        return 0.27043539461
 
     def calculate_force_z(self, altitude, vel):
         Cd = self.calculute_vertical_drag_coeff(altitude)
@@ -127,12 +125,12 @@ class Launch:
         return net_force
 
     def get_cx_area(self, altitude):
-        if altitude < self.main_deploy_altitude & self.main_deploys_bool:
+        if altitude < self.main_deploy_altitude and self.main_deploys_bool:
             return self.main_cx_area
-        elif altitude < self.drogue_deploy_altitude & self.drogue_deploys_bool:
+        elif altitude < self.drogue_deploy_altitude and self.drogue_deploys_bool:
             return self.drogue_cx_area
         else:
-            return self.drogue_cx_area
+            return self.rocket_cx_area
 
     def run_launch(self):
         simulationNumber = 1
@@ -183,21 +181,27 @@ class Launch:
             positions.append((x, y, z, t))
             velocities.append((v_x, v_y, v_z, t))
 
-            # Record the positions in lat, long coordinates to compare with Blanche data in a txt file
-            converted_position_lat = self.launch_latitude + (x / (2.0 * math.pi * self.earth_radius)) * 360.0
-            converted_position_lon = self.launch_longitude + (
-                        y / (2.0 * math.pi * self.earth_radius * math.cos(math.radians(self.launch_latitude)))) * 360.0
+            # print(positions[-1])
 
+            # Record the positions in lat, long coordinates to compare with Blanche data in a txt file
+            converted_position_lat, converted_position_lon = self.conversion_coordinates(x,y)
             converted_positions.append([converted_position_lat, converted_position_lon, t])
             # print("Converted positions: ", converted_positions)
-            print(converted_position_lat, converted_position_lon, t)
+            # print(converted_position_lat, converted_position_lon, t)
 
             dt = self.time_step
             t = t + dt
             loops = loops + 1
 
-        new_latitude = self.launch_latitude + (x / (2.0 * math.pi * self.earth_radius)) * 360.0
-        new_longitude = self.launch_longitude + (y / (2.0 * math.pi * self.earth_radius * math.cos(math.radians(self.launch_latitude)))) * 360.0
+        position = np.array(positions)
+
+        # graph = plt.axes(projection='3d')
+        # graph.plot(position[:, 0], position[:, 1],'red')
+        plt.plot(position[:, 3], position[:, 2], 'red')
+        plt.show()
+
+
+        new_latitude, new_longitude = self.conversion_coordinates(x, y)
         # print("lat = ", new_latitude)
         # print("long = ", new_longitude)
         return new_latitude, new_longitude, converted_positions
