@@ -1,11 +1,10 @@
 package controller.gui;
 
-import javafx.animation.RotateTransition;
+import controller.gui.Gyro3dController.SmartGroup;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -14,9 +13,8 @@ import javafx.scene.shape.Box;
 import javafx.scene.shape.Cylinder;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
-import javafx.util.Duration;
 
-public class Gyro3dController {
+public class RocketModelController {
 	final SmartGroup axisGroup = new SmartGroup();
 	final SmartGroup rocketGroup = new SmartGroup();
     final PerspectiveCamera camera = new PerspectiveCamera(true);
@@ -49,7 +47,7 @@ public class Gyro3dController {
     	
     	buildCamera();
     	
-        SubScene scene = new SubScene(group, 200, 200, true, null);
+        SubScene scene = new SubScene(group, 400, 300, true, null);
         
         scene.setFill(Color.GREY);
         scene.setCamera(camera);

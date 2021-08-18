@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class SceneController {
@@ -31,6 +32,25 @@ public class SceneController {
 	public void startTimer(double[] data) {
 //		System.out.println(numbersController);
 		numbertableController.updateNumberDisplay(data);
+	}
+	
+	@FXML private AnchorPane rocketmodel;
+	@FXML private RocketModelController rocketmodelController;
+	
+	/**
+	 * Method to initialize the 3D Gyroscope view of the application
+	 * @throws Exception
+	 */
+	public void sceneInitializeGyro() throws Exception {
+		rocketmodel.getChildren().add(rocketmodelController.initializeGyro());
+	}
+	
+	/**
+	 * Method to add data to the 3D Gyroscope view of the application
+	 * @param data
+	 */
+	public void sceneAddGyroData(double[] data){
+		rocketmodelController.addGyroData(data);
 	}
 	
 	

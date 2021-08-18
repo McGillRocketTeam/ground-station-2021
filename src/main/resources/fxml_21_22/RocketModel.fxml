@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.RocketModelController">
    <children>
       <Label layoutX="69.0" layoutY="83.0" text="3D MODEL" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="68.5" AnchorPane.topAnchor="83.0" />
    </children>

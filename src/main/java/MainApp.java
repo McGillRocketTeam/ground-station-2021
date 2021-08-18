@@ -78,6 +78,7 @@ public class MainApp extends Application {
 		
 		SceneController sceneController = (SceneController)fxmlLoader.getController();
 		sceneController.initializeScene();
+		sceneController.sceneInitializeGyro();
 		
 //		MainAppController mainAppController = (MainAppController)fxmlLoader.getController();
 //		mainAppController.mainAppInitializeGraphs();
@@ -130,6 +131,7 @@ public class MainApp extends Application {
 //					mainAppController.mainAppAddMapData(data);
 //					mainAppController.mainAppAddRawData(data);
 					sceneController.startTimer(data);
+					sceneController.sceneAddGyroData(data);
 //					mainAppController.mainAppAddGyroData(data);
 //
 //
