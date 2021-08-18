@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="281.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="281.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.NumbertableController">
    <children>
       <GridPane gridLinesVisible="true" layoutX="218.0" layoutY="121.0" prefHeight="455.0" prefWidth="299.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -25,14 +25,14 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Altitude" textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Peak Altitude" textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="peakAltitudeValue" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
                      <font>
-                        <Font size="60.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
                </children>
@@ -44,121 +44,121 @@
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="currentAltitudeValue" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
                      <font>
-                        <Font size="60.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Altitude" textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Peak X Accel." textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="peakXAccelValue" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
                      <font>
-                        <Font size="60.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Altitude" textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current X Accel." textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="currentXAccelValue" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
                      <font>
-                        <Font size="60.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Altitude" textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Peak Y Accel." textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="peakYAccelValue" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
                      <font>
-                        <Font size="60.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Altitude" textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Y Accel." textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="currentYAccelValue" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
                      <font>
-                        <Font size="60.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Altitude" textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Peak Z Accel." textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="peakZAccelValue" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
                      <font>
-                        <Font size="60.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Altitude" textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Z Accel." textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="currentZAccelValue" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
                      <font>
-                        <Font size="60.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Altitude" textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current RSSI" textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="currentRSSIvalue" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
                      <font>
-                        <Font size="60.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Altitude" textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Velocity" textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="currentVelocityValue" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
                      <font>
-                        <Font size="60.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
                </children>

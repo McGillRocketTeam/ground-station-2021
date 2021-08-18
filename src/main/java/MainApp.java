@@ -55,7 +55,7 @@ public class MainApp extends Application {
 
 	private final Mode mode = Mode.OLD;
 	public final boolean flightComputer = false;
-	private final int NUMBER_OF_PARAMETERS = 12;
+	private final int NUMBER_OF_PARAMETERS = 13;
 	private int SERIAL_PORT_NUMBER = 6;
 	private final String COM_PORT_DESC = "/dev/tty.usbmodem11101";
 	
@@ -90,53 +90,55 @@ public class MainApp extends Application {
 //		stage.setTitle("McGill Rocket Team Ground Station");
 //
 //
-//		Parser parser = new Parser(NUMBER_OF_PARAMETERS);
-//		ArrayList<String> myData = new ArrayList<String>();
-//		ArrayList<double[]> myDataArrays = new ArrayList<double[]>();
-//
-//		switch (mode) {
-//		case OLD:
-//			try {
-//				myData = (ArrayList<String>) Parser.storeData("src/main/resources/zheng2.txt");
-//			} catch (FileNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			for (String str: myData) {
-//				try {
-//					myDataArrays.add(parser.parse((str)));
-//				} catch (IllegalArgumentException e) {
-//					System.out.println("Invalid message. Message was thrown out.");
-//					System.out.println(e.toString());
-//				} catch (NullPointerException e) {
-//					System.out.println("Why you passing null to the parser");
-//				}
-//			}
-//
-//			scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-//			Iterator<double[]> dataItr = myDataArrays.iterator();
-//
-//			scheduledExecutorService.scheduleAtFixedRate(() -> {
-//				double[] data = dataItr.next();
-//
-//				Platform.runLater(()-> {
-//
-//					//	System.out.println(data[3]);
-//					Date now = new Date();
+		Parser parser = new Parser(NUMBER_OF_PARAMETERS);
+		ArrayList<String> myData = new ArrayList<String>();
+		ArrayList<double[]> myDataArrays = new ArrayList<double[]>();
+
+		switch (mode) {
+		case OLD:
+			try {
+				myData = (ArrayList<String>) Parser.storeData("storage/raw_fc/2021-05-08--12-54-16_data.txt");
+				System.out.println("found file");
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			for (String str: myData) {
+				try {
+					System.out.println(str);
+					myDataArrays.add(parser.parseFC((str)));
+				} catch (IllegalArgumentException e) {
+					System.out.println("Invalid message. Message was thrown out.");
+					System.out.println(e.toString());
+				} catch (NullPointerException e) {
+					System.out.println("Why you passing null to the parser");
+				}
+			}
+
+			scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+			Iterator<double[]> dataItr = myDataArrays.iterator();
+
+			scheduledExecutorService.scheduleAtFixedRate(() -> {
+				double[] data = dataItr.next();
+
+				Platform.runLater(()-> {
+
+					//	System.out.println(data[3]);
+					Date now = new Date();
 //
 //					mainAppController.mainAppAddGraphData(data);
 //					mainAppController.mainAppAddMapData(data);
 //					mainAppController.mainAppAddRawData(data);
-//					mainAppController.startTimer(data);
+					sceneController.startTimer(data);
 //					mainAppController.mainAppAddGyroData(data);
 //
 //
 //
-//				});
-//			}, 0, 1000, TimeUnit.MILLISECONDS);
+				});
+			}, 0, 1000, TimeUnit.MILLISECONDS);
 //
-//		case SIMULATION:
-//			break;
+		case SIMULATION:
+			break;
 //		case LIVE:
 //
 //
@@ -254,7 +256,7 @@ public class MainApp extends Application {
 
 
 
-//		}
+		}
 
 		stage.setScene(mainApp);
 		stage.show();

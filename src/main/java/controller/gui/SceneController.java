@@ -14,12 +14,26 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class SceneController {
 
 	//initialize variables
+	@FXML private AnchorPane numbertable;
+	@FXML private NumbertableController numbertableController;
+	
+	/**
+	 * Start the asynchronous timer for updating the numbers display when running old data that is read in its entirety
+	 * @param data
+	 */
+	public void startTimer(double[] data) {
+//		System.out.println(numbersController);
+		numbertableController.updateNumberDisplay(data);
+	}
+	
+	
 	@FXML Button launchButton;
 	
 	public void initializeScene() throws Exception {
