@@ -99,7 +99,7 @@ public class MainApp extends Application {
 		switch (mode) {
 		case OLD:
 			try {
-				myData = (ArrayList<String>) Parser.storeData("storage/raw_fc/2021-05-08--12-54-16_data.txt");
+				myData = (ArrayList<String>) Parser.storeData("storage/raw_fc/test_data_21.txt");
 				System.out.println("found file");
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
