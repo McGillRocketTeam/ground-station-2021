@@ -79,6 +79,7 @@ public class MainApp extends Application {
 		SceneController sceneController = (SceneController)fxmlLoader.getController();
 		sceneController.initializeScene();
 		sceneController.sceneInitializeGyro();
+		sceneController.sceneInitializeGraphs();
 		
 //		MainAppController mainAppController = (MainAppController)fxmlLoader.getController();
 //		mainAppController.mainAppInitializeGraphs();
@@ -106,7 +107,7 @@ public class MainApp extends Application {
 			}
 			for (String str: myData) {
 				try {
-					System.out.println(str);
+				//	System.out.println(str);
 					myDataArrays.add(parser.parseFC((str)));
 				} catch (IllegalArgumentException e) {
 					System.out.println("Invalid message. Message was thrown out.");
@@ -130,6 +131,7 @@ public class MainApp extends Application {
 //					mainAppController.mainAppAddGraphData(data);
 //					mainAppController.mainAppAddMapData(data);
 //					mainAppController.mainAppAddRawData(data);
+					sceneController.sceneAddGraphData(data);
 					sceneController.startTimer(data);
 					sceneController.sceneAddGyroData(data);
 //					mainAppController.mainAppAddGyroData(data);
@@ -141,120 +143,123 @@ public class MainApp extends Application {
 //
 		case SIMULATION:
 			break;
-//		case LIVE:
-//
-//
-//			Queue<String> q = new ConcurrentLinkedQueue<String>();
-//			SerialPort[] t = SerialPort.getCommPorts();
-//
-//			for (SerialPort x : t ) {
-//				System.out.println(x.getPortDescription());
-//			}
-//
-//			System.out.println(SerialPort.getCommPorts());
-//			System.out.println(SerialPort.getCommPorts().length);
-//			//	comPort = SerialPort.getCommPorts()[SERIAL_PORT_NUMBER];
-//			//comPort = SerialPort.getCommPort("/dev/tty.usbserial-1420");
-//			comPort = SerialPort.getCommPort(COM_PORT_DESC);
-//			//comPort = SerialPort.getCommPort("/dev/tty.usbserial-1420");
-//			comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
-//
-//
-//			try {
-//				System.out.println("Port open: " + comPort.openPort());
-//				comPort.setComPortParameters(9600,8,1,0);
-//				comPort.addDataListener(new SerialPortDataListener() {
-//
-//					public int getListeningEvents() {
-//						return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
-//					}
-//
-//					public void serialEvent(SerialPortEvent event) {
-//						try {
-//							BufferedReader buffer = new BufferedReader(
-//									new InputStreamReader(comPort.getInputStream()));
-//							//											System.out.println(buffer.readLine());
-//							//	System.out.println(comPort.bytesAvailable());
-//							String s = buffer.readLine();
-//							//	System.out.println(buffer.read());
-//							//					System.out.println(s);
-//							//	System.out.println(comPort.bytesAvailable());
-//							q.add(s);
-//							//System.out.println(buffer.readLine()); //test connection
-//							//double[] data = parser.parse(buffer.readLine());
-//							//	mainAppController.startTimer(data, DataFormat); //update GUI
-//							//	in.close();
-//
-//
-//						} catch (IOException ex) {
-//							ex.printStackTrace();
-//						}
-//					}
-//				});
-//
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			ExecutorService ex = Executors.newCachedThreadPool();
-//			ex.execute(() -> {
-//				while(true) {
-//					try {
-//						Thread.sleep(200);
-//					} catch (InterruptedException e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					}
-//
-//					if(!q.isEmpty()) {
-//						String stringData = q.remove();
-//						try {
-//							System.out.println(stringData);
-//							double[] data;
-//							if (!flightComputer) {
-//								data = parser.parse(stringData);
-//							} else {
-//								data = parser.parseFC(stringData);
-//								data[DataIndex.TIME_INDEX.getOrder()] = data[DataIndex.TIME_INDEX.getOrder()]*3600 + data[DataIndex.TIME_INDEX.getOrder()+1]*60 + data[DataIndex.TIME_INDEX.getOrder()+2];
-//							}
-//
-//
-//							if(data != null) {
-//								parsedDataConcatBuffer.append(stringData + "\n");
-//								//pw.println(stringData + "\n");
-//								if(data[0] != -10000) {
-//	
-//									Platform.runLater(()-> {
-//										
-//										//	System.out.println(data[3]);
+		case LIVE:
+
+
+			Queue<String> q = new ConcurrentLinkedQueue<String>();
+			SerialPort[] t = SerialPort.getCommPorts();
+
+			for (SerialPort x : t ) {
+				System.out.println(x.getPortDescription());
+			}
+
+			System.out.println(SerialPort.getCommPorts());
+			System.out.println(SerialPort.getCommPorts().length);
+			//	comPort = SerialPort.getCommPorts()[SERIAL_PORT_NUMBER];
+			//comPort = SerialPort.getCommPort("/dev/tty.usbserial-1420");
+			comPort = SerialPort.getCommPort(COM_PORT_DESC);
+			//comPort = SerialPort.getCommPort("/dev/tty.usbserial-1420");
+			comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
+
+
+			try {
+				System.out.println("Port open: " + comPort.openPort());
+				comPort.setComPortParameters(9600,8,1,0);
+				comPort.addDataListener(new SerialPortDataListener() {
+
+					public int getListeningEvents() {
+						return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
+					}
+
+					public void serialEvent(SerialPortEvent event) {
+						try {
+							BufferedReader buffer = new BufferedReader(
+									new InputStreamReader(comPort.getInputStream()));
+							//											System.out.println(buffer.readLine());
+							//	System.out.println(comPort.bytesAvailable());
+							String s = buffer.readLine();
+							//	System.out.println(buffer.read());
+							//					System.out.println(s);
+							//	System.out.println(comPort.bytesAvailable());
+							q.add(s);
+							//System.out.println(buffer.readLine()); //test connection
+							//double[] data = parser.parse(buffer.readLine());
+							//	mainAppController.startTimer(data, DataFormat); //update GUI
+							//	in.close();
+
+
+						} catch (IOException ex) {
+							ex.printStackTrace();
+						}
+					}
+				});
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			ExecutorService ex = Executors.newCachedThreadPool();
+			ex.execute(() -> {
+				while(true) {
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					if(!q.isEmpty()) {
+						String stringData = q.remove();
+						try {
+							System.out.println(stringData);
+							double[] data;
+							if (!flightComputer) {
+								data = parser.parse(stringData);
+							} else {
+								data = parser.parseFC(stringData);
+								data[DataIndex.TIME_INDEX.getOrder()] = data[DataIndex.TIME_INDEX.getOrder()]*3600 + data[DataIndex.TIME_INDEX.getOrder()+1]*60 + data[DataIndex.TIME_INDEX.getOrder()+2];
+							}
+
+
+							if(data != null) {
+								parsedDataConcatBuffer.append(stringData + "\n");
+								//pw.println(stringData + "\n");
+								if(data[0] != -10000) {
+	
+									Platform.runLater(()-> {
+										
+										//	System.out.println(data[3]);
 //
 //										mainAppController.mainAppAddGraphData(data);
+										sceneController.sceneAddGraphData(data);
+										sceneController.sceneAddGyroData(data);
+										sceneController.startTimer(data);
 //										mainAppController.mainAppAddMapData(data);
 //										mainAppController.mainAppAddRawData(data);
 //										mainAppController.startTimer(data);
 //										mainAppController.mainAppAddGyroData(data);
-//
-//
-//									});
-//								}
-//							}
-//
-//
-//
-//
-//
-//						} catch (IllegalArgumentException e) {
-//							System.out.println("Invalid message. Message was thrown out.");
-//						} catch (NullPointerException e) {
-//							System.out.println("Why you passing null to the parser");
-//						} finally {
-//							rawDataConcatBuffer.append(stringData + "\n");
-//						}
-//						//					finally {
-//						//						pw.close();
-//						//					}
-//					}
-//				}
-//			});
+
+
+									});
+								}
+							}
+
+
+
+
+
+						} catch (IllegalArgumentException e) {
+							System.out.println("Invalid message. Message was thrown out.");
+						} catch (NullPointerException e) {
+							System.out.println("Why you passing null to the parser");
+						} finally {
+							rawDataConcatBuffer.append(stringData + "\n");
+						}
+						//					finally {
+						//						pw.close();
+						//					}
+					}
+				}
+			});
 
 
 
