@@ -47,7 +47,7 @@ public class RocketModelController {
     	
     	buildCamera();
     	
-        SubScene scene = new SubScene(group, 400, 300, true, null);
+        SubScene scene = new SubScene(group, 200, 200, true, null);
         
         scene.setFill(Color.GREY);
         scene.setCamera(camera);
