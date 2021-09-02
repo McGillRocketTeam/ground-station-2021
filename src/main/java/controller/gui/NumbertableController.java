@@ -5,6 +5,15 @@ import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
+/**
+ * 
+ * Controller class for number display on GUI. Responsible for displaying and 
+ * updating numerical values received from the AV Bay. 
+ * 
+ * @author miiyuf
+ *
+ */
+
 public class NumbertableController {
 	//SerialComm serialComm = new SerialComm();
 	ArrayList<String> read;
@@ -63,7 +72,10 @@ public class NumbertableController {
 		this.currentVelocityValue.setText(value);
 	}
 	
-
+/**
+ * updateNumberDisplay method updates number table display on GUI 
+ * @param data to display on the GUI 
+ */
 
 	public void updateNumberDisplay(double[] data) {
 

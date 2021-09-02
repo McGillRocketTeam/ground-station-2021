@@ -49,6 +49,19 @@ import javafx.stage.Stage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
+/**
+ * MainApp is used to create and present the main Scene as a GUI. The class loads the GUI from an fxml file, 
+ * and presents it to the user. Features within the GUI can be accessed and controlled through the 
+ * SceneController instance. 
+ *
+ * Depending on whether it is an old, live or simulated case, MainApp will run different blocks of code. 
+ * 
+ * If the case is OLD, the GUI will display past rocket data. 
+ * If the case is LIVE, the GUI will display live data read though the serial port. 
+ * 
+ * Once thread execution stops, MainApp will call data storage methods to store live data. (If old data was used, it is not stored)
+ * 
+ */
 public class MainApp extends Application {
 	static StringBuffer rawDataConcatBuffer = new StringBuffer();
 	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
@@ -269,7 +282,10 @@ public class MainApp extends Application {
 		stage.show();
 
 	}
-
+/**
+ * createRawDataFiles method saves the raw live data to specified path
+ * @param path to which raw live data is saved
+ */
 	public static void createRawDataFiles(String path) {
 
 		try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data.txt"))){
@@ -279,6 +295,11 @@ public class MainApp extends Application {
 			e1.printStackTrace();
 		}
 	}
+	
+/**
+ * createParsedDataFiles saves parsed live data to specified path
+ * @param path to which parsed data is saved
+ */
 	public static void createParsedDataFiles(String path) {
 
 		try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data.txt"))){

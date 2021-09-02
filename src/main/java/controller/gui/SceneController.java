@@ -19,6 +19,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * SceneController is the controller class for the main GUI scene. It contains methods that control different part of the scene.
+ * Once instantiated in MainApp, we can then control all functionalities in the GUI through this one class. 
+ *  
+ */
+
+
 public class SceneController {
 
 	//	=== Number Table ===
@@ -83,6 +90,10 @@ public class SceneController {
 	
 	@FXML Button launchButton;
 	
+	/**
+	 * Creates a new Scene, the Launch Page. Launch Page becomes visible once the "Launch Page" button is clicked. 
+	 * @throws Exception
+	 */
 	public void initializeScene() throws Exception {
 		
 		

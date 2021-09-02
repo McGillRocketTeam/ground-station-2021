@@ -14,6 +14,13 @@ import javafx.scene.shape.Cylinder;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 
+/**
+ * 
+ * Controller class for rocket model display on GUI. Responsible for initializing and controlling the display. 
+ * 
+ * @author jeremychow
+ *
+ */
 public class RocketModelController {
 	final SmartGroup axisGroup = new SmartGroup();
 	final SmartGroup rocketGroup = new SmartGroup();
