@@ -17,7 +17,6 @@ $ git checkout dynamic-map
 ```
 $ git add .
 ```
-(note that git add . will add ALL modifications but NOT deletions to the staging area. You can use git add -A if you want to add ALL changes, INLUDING deletions. There are other commands for adding specific files as well. Any specific git commands can be found by a quick google search)
   
 3. save your changes to the local repository
 ```
