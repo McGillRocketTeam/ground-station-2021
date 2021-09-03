@@ -15,6 +15,7 @@
 
 
 import sys
+import subprocess
 import platform
 from PySide2 import QtCore, QtGui, QtWidgets
 from PySide2.QtCore import (QCoreApplication, QPropertyAnimation, QDate, QDateTime, QMetaObject, QObject, QPoint, QRect,
@@ -73,9 +74,10 @@ class ProgressCircle(QMainWindow):
         <p><span style=" font-size:68pt;"> {VALUE} </span><span style=" font-size:48pt; vertical-align:super;">%</span></p>
         """
 
-        percentage = "%.1f" % (value)
-
-        newPercentHtml = percent_html.replace("{VALUE}", str(percentage))
+        ready_html = """
+                <html><head/><body><p><span style=" font-size:48pt;">READY</span></p></body></html>
+                """
+        newPercentHtml = percent_html.replace("{VALUE}", str(int(value)))
         self.ui.Percent_Label.setText(newPercentHtml)
 
         # Set value to the progress bar
@@ -84,9 +86,12 @@ class ProgressCircle(QMainWindow):
         self.progressBarValue(value)
 
         # Close splash screen and open app
-        if counter >= 100:
+        if counter > 100:
+            self.ui.Percent_Label.setText(ready_html)
             self.timer.stop()
             #self.close()
+            # Calls the bat file of the QGIS application
+            # subprocess.call([r'C:\OSGeo4W64\bin\qgis.bat'])
 
         # Controls speed of the circular loading bar
         # High numbers = faster, low numbers = slow

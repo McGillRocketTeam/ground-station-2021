@@ -79,7 +79,7 @@ def main(num_launches):
 
     plotSimulatedGraphs = False     # If you want to plot different lat vs lon or lat vs lon vs time graph
     plotBlancheGraphs = True        # If you want to compare simulated and Blanche graph for testing
-    save_file = True                # If you want to save a csv file of the coordinates
+    save_file = False                # If you want to save a csv file of the coordinates
 
     for simNumber in range(num_launches):
         sim = Launch(zenith_angle_perturbed[1], azimuth_angle_perturbed[1], x[simNumber], rocketProperties)
@@ -128,6 +128,8 @@ def main(num_launches):
         plt.grid()
         if plotSimulatedGraphs:
             plt.show()
+
+    print("---%s seconds ---" % (time.time() - start_time))
 
     # GRAPH THE REAL DATA OF BLANCHE LATITUDE VS LONGITUDE VS TIME #
 
@@ -193,7 +195,7 @@ def main(num_launches):
         np.savetxt("validation_compare_with_Blanche2.csv", landing_location, delimiter=",")
         print("FIN CSV READY")
 
-    print("---%s seconds ---" % (time.time() - start_time))
+
 
 
 
