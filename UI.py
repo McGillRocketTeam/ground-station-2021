@@ -9,7 +9,7 @@ def launchButtonClick():
     else:
         print("Calling Main.py ")
         main(int(entry.get()))
-        inter = int(entry.get())
+        
 
 
 # Beginning of the root object

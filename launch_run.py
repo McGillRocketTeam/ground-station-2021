@@ -76,11 +76,15 @@ class Launch:
 
     def calculate_pressure(self, altitude):  # Pa
         if altitude < 11000:
-            return self.kPa_to_Pa * 101.29 * (self.calculate_temperature(altitude) / 288.08) ** 5.256
+            return self.kPa_to_Pa * 101.29 * (self.calculate_temperature(altitude) / 288.08) ** 5.256   # Temperature was already in Kelvin
+            # return self.kPa_to_Pa * 101.29 * ((self.calculate_temperature(altitude) +  273.15)/ 288.08) ** 5.256
+
         elif altitude < 25000:
             return self.kPa_to_Pa * 22.65 * np.exp(1.73 - 0.000157 * altitude)
         else:
-            return self.kPa_to_Pa * 2.488 * (self.calculate_temperature(altitude) / 216.6) ** -11.388
+            return self.kPa_to_Pa * 2.488 * (self.calculate_temperature(altitude) / 216.6) ** -11.388   # Temperature was already in Kelvin
+            # return self.kPa_to_Pa * 2.488 * ((self.calculate_temperature(altitude) + 273.15) / 216.6) ** -11.388
+
 
     def calculate_density(self, altitude):  # kg/m3
         return self.calculate_pressure(altitude) / (self.air_ideal_gas_constant * self.calculate_temperature(altitude))
@@ -111,7 +115,8 @@ class Launch:
         return A * Cd * rho * (wind_vel[0] ** 2) / 2, A * Cd * rho * (wind_vel[1] ** 2) / 2
 
     def calculate_transverse_cx_area(self):
-        return 0.27043539461
+        return 0.27043539461  # was return 1 before
+        # return 1
 
     def calculate_force_z(self, altitude, vel):
         Cd = self.calculute_vertical_drag_coeff(altitude)
@@ -125,15 +130,15 @@ class Launch:
         return net_force
 
     def get_cx_area(self, altitude):
-        if altitude < self.main_deploy_altitude and self.main_deploys_bool:
+        if altitude < self.main_deploy_altitude and self.main_deploys_bool:         # was & self.main_deploys_bool
             return self.main_cx_area
-        elif altitude < self.drogue_deploy_altitude and self.drogue_deploys_bool:
+        elif altitude < self.drogue_deploy_altitude and self.drogue_deploys_bool:   # was & self.drogue_deploys_bool
             return self.drogue_cx_area
         else:
-            return self.rocket_cx_area
+            return self.rocket_cx_area # Was drogue_cx_area before
+            # return self.drogue_cx_area # Was drogue_cx_area before
 
     def run_launch(self):
-        simulationNumber = 1
         # Initialise positions and velocities
         converted_positions = []
         positions = []
