@@ -13,6 +13,7 @@ from RocketProperties import RocketProperties
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 import time
+import shutil
 
 #This is the new Monte Carlo
 def perturbWind(wind_data, sigma_direction, sigma_velocity, num_launches_u):
@@ -78,8 +79,8 @@ def main(num_launches):
     landing_location = []
 
     plotSimulatedGraphs = False     # If you want to plot different lat vs lon or lat vs lon vs time graph
-    plotBlancheGraphs = True        # If you want to compare simulated and Blanche graph for testing
-    save_file = False                # If you want to save a csv file of the coordinates
+    plotBlancheGraphs = False        # If you want to compare simulated and Blanche graph for testing
+    save_file = True                # If you want to save a csv file of the coordinates
 
     for simNumber in range(num_launches):
         sim = Launch(zenith_angle_perturbed[1], azimuth_angle_perturbed[1], x[simNumber], rocketProperties)
@@ -134,15 +135,15 @@ def main(num_launches):
     # GRAPH THE REAL DATA OF BLANCHE LATITUDE VS LONGITUDE VS TIME #
 
     if plotBlancheGraphs:
-        with open('BlancheLat.txt', 'r') as f:
+        with open('\Blanche_Validation\Blanche_data\BlancheLat.txt', 'r') as f:
             blancheLat = f.readlines()
         blancheLat = [x.strip() for x in blancheLat]
 
-        with open('BlancheLon.txt', 'r') as f:
+        with open('\Blanche_Validation\Blanche_data\BlancheLon.txt', 'r') as f:
             blancheLon = f.readlines()
         blancheLon = [x.strip() for x in blancheLon]
 
-        with open('BlancheTime.txt', 'r') as f:
+        with open('\Blanche_Validation\Blanche_data\BlancheTime.txt', 'r') as f:
             blancheTime = f.readlines()
         blancheTime = [x.strip() for x in blancheTime]
 
@@ -192,9 +193,9 @@ def main(num_launches):
 # --------------------------------------------------TESTING START----------------------------------------------------- #
 
     if save_file:
-        np.savetxt("validation_compare_with_Blanche2.csv", landing_location, delimiter=",")
+        textFileName = 'simulatedLandingLocations'
+        np.savetxt('simulatedLandingLocations.csv', landing_location, header='Latitude, Longitude', delimiter=",")
         print("FIN CSV READY")
-
 
 
 
