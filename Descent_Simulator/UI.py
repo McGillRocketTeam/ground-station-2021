@@ -1,6 +1,7 @@
 import tkinter as tk
 from Main import main
 
+
 # Method for setting the number of simulations and launching the Main.py file
 def launchButtonClick():
     # Calls Main.py
@@ -10,9 +11,9 @@ def launchButtonClick():
         print("Calling Main.py ")
         main(int(entry.get()))
 
+
 # Beginning of the root object
 root = tk.Tk()
-
 
 HEIGHT = 500
 WIDTH = 700
@@ -23,7 +24,6 @@ root.title('Rocket Team UI')
 canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH)
 canvas.pack()
 
-
 # Background Design
 frame = tk.Frame(root, bg='#363738')   # Dark Blue 05324F  | Grey 2F3842 | Grey Fitting MRT Logo 363738 | Space 011121
 frame.place(relwidth=1, relheight=1)
@@ -32,7 +32,6 @@ frame.place(relwidth=1, relheight=1)
 title = tk.Label(frame, text="McGill Rocket Team Simulator", anchor="center", background="#363738", foreground= "#B81A14")
 title.config(font=("Impact", 40))
 title.pack()
-
 
 # Enter simulations number Label
 simLabel = tk.Label(frame, text='Number of Simulations', background="#363738", foreground="black", anchor="center")
@@ -48,8 +47,6 @@ entry.pack()
 launchButton = tk.Button(frame, text='LAUNCH', background='#363738', foreground="#B81A14", command=launchButtonClick, relief='groove')
 launchButton.config(font=("Impact", 20))
 launchButton.place(relx=0.425, rely=0.3)
-
-
 
 root.mainloop()
 
