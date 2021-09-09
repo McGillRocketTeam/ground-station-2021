@@ -44,13 +44,19 @@ class Launch:
 
         self.apogee = rocket_properties.apogee
 
+    def new_conversion_coordinates(self, x, y, z):
+        radius = math.sqrt(x**2 + y**2 + z**2)
+        new_latitude = math.asin(y/radius) + self.launch_latitude
+        new_longitude = math.atan2(x, z) + self.launch_longitude
+        return new_latitude, new_longitude
+
     def conversion_coordinates(self, x, y):
         new_latitude = self.launch_latitude + (x / (2.0 * math.pi * self.earth_radius)) * 360.0
         new_longitude = self.launch_longitude + (
                     y / (2.0 * math.pi * self.earth_radius * math.cos(math.radians(self.launch_latitude)))) * 360.0
         return new_latitude, new_longitude
 
-    def calculute_vertical_drag_coeff(self, altitude):
+    def calculate_vertical_drag_coeff(self, altitude):
         if altitude > self.drogue_deploy_altitude:
             return 0
         elif altitude > self.main_deploy_altitude and self.drogue_deploys_bool == True:
@@ -119,7 +125,7 @@ class Launch:
         # return 1
 
     def calculate_force_z(self, altitude, vel):
-        Cd = self.calculute_vertical_drag_coeff(altitude)
+        Cd = self.calculate_vertical_drag_coeff(altitude)
         rho = self.calculate_density(altitude)
         m = self.rocket_mass
         g = self.gravity_constant
@@ -181,16 +187,20 @@ class Launch:
             velocities.append((v_x, v_y, v_z, t))
 
             # Record the positions in lat, long coordinates to compare with Blanche data in a txt file
-            converted_position_lat, converted_position_lon = self.conversion_coordinates(x,y)
-            converted_positions.append([converted_position_lat, converted_position_lon, z, t])
+            # converted_position_lat, converted_position_lon = self.conversion_coordinates(x,y)
+            # converted_positions.append([converted_position_lat, converted_position_lon, z, t])
             # print("Converted positions: ", converted_positions)
             # print(converted_position_lat, converted_position_lon, t)
+
+            converted_position_lat, converted_position_lon = self.new_conversion_coordinates(x, y, z)
+            converted_positions.append([converted_position_lat, converted_position_lon, z, t])
 
             dt = self.time_step
             t = t + dt
             loops = loops + 1
 
-        new_latitude, new_longitude = self.conversion_coordinates(x, y)
+        # new_latitude, new_longitude = self.conversion_coordinates(x, y)
+        new_latitude, new_longitude = self.new_conversion_coordinates(x, y, z)
         # print("lat = ", new_latitude)
         # print("long = ", new_longitude)
         return new_latitude, new_longitude, converted_positions
