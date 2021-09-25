@@ -76,12 +76,12 @@ def main(num_launches):
     # Array to store the landing locations outputed by the for loop below
     landing_location = []
 
-    plotSimulatedGraphs = True     # If you want to plot different lat vs lon or lat vs lon vs time graph
+    plotSimulatedGraphs = False     # If you want to plot different lat vs lon or lat vs lon vs time graph
     plotBlancheGraphs = True        # If you want to compare simulated and Blanche graph for testing
     save_file = False              # If you want to save a csv file of the coordinates
 
     for simNumber in range(num_launches):
-        sim = Launch(zenith_angle_perturbed[1], azimuth_angle_perturbed[1], x[simNumber], rocketProperties)
+        sim = Launch(zenith_angle_perturbed[0], azimuth_angle_perturbed[0], x[simNumber], rocketProperties)
         lat, lon, positions = sim.run_launch()
         landing_location.append([lat, lon])
 

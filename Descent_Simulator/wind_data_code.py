@@ -148,5 +148,5 @@ class Wind():
 # # print(x[0][::-1])
 # # df = pd.DataFrame(lst, columns=['altitude', 'direction', 'velocity'])
 # d = wd.get_wind_dataframe()
-# print('a')
+# print(d)
 
