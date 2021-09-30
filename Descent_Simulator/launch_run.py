@@ -44,16 +44,28 @@ class Launch:
 
         self.apogee = rocket_properties.apogee
 
+    # For the 3D Section + spherical coordinates reference system (physics)
+    #     # + XY plane with z pointing out for wind data reference system
     def new_conversion_coordinates(self, x, y, z):
         radius = math.sqrt(x**2 + y**2 + z**2)
-        new_latitude = math.asin(y/radius) + self.launch_latitude
-        new_longitude = math.atan2(x, z) + self.launch_longitude
+        new_latitude = math.acos(x/radius) + self.launch_latitude
+        new_longitude = math.atan2(y, z) + self.launch_longitude
         return new_latitude, new_longitude
 
+    # For the Geographic Coordinates Section + spherical coordinates reference system (physics)
+    # + XY plane with z pointing out for wind data reference system
+    def new_conversion_coordinates2(self, x, y, z):
+        radius = math.sqrt(x**2 + y**2 + z**2)
+        new_latitude = math.asin(x/radius) + self.launch_latitude
+        new_longitude = math.atan2(y, z) + self.launch_longitude
+        return new_latitude, new_longitude
+
+    # Hand made conversion coordinates + spherical coordinates reference system (physics)
+    #     # + XY plane with z pointing out for wind data reference system
     def conversion_coordinates(self, x, y):
-        new_latitude = self.launch_latitude + (x / (2.0 * math.pi * self.earth_radius)) * 360.0
+        new_latitude = self.launch_latitude + (y / (2.0 * math.pi * self.earth_radius)) * 360.0
         new_longitude = self.launch_longitude + (
-                    y / (2.0 * math.pi * self.earth_radius * math.cos(math.radians(self.launch_latitude)))) * 360.0
+                    x / (2.0 * math.pi * self.earth_radius * math.cos(math.radians(self.launch_latitude)))) * 360.0
         return new_latitude, new_longitude
 
     def calculate_vertical_drag_coeff(self, altitude):
@@ -110,8 +122,7 @@ class Launch:
         dirn_rad = dirn_deg * self.deg_to_rad
 
         # Assuming x-direction is North and Y is East
-
-        return [vel * np.cos(dirn_rad), vel * np.sin(dirn_rad)]
+        return [vel * np.sin(dirn_rad), vel * np.cos(dirn_rad)]
 
     def calculate_force_xy(self, altitude):
         Cd = self.calculate_transverse_drag_coeff(altitude)
@@ -150,8 +161,23 @@ class Launch:
         positions = []
         velocities = []
 
-        x, y, z = self.apogee * np.tan(self.launch_zenith_angle) * np.sin(self.launch_azimuth_angle), \
-                         self.apogee * np.cos(self.launch_azimuth_angle), self.apogee
+        # This was here before
+        # x, y, z = self.apogee * np.tan(self.launch_zenith_angle) * np.sin(self.launch_azimuth_angle), \
+        #                  self.apogee * np.cos(self.launch_azimuth_angle), self.apogee
+
+        # Following the website 3D section: https://vvvv.org/blog/polar-spherical-and-geographic-coordinates
+        # x, y, z = self.apogee * np.tan((self.launch_zenith_angle)) * np.cos(self.launch_azimuth_angle), \
+        #                  self.apogee * np.tan((self.launch_zenith_angle)) * np.sin(self.launch_azimuth_angle), \
+        #                  self.apogee
+
+        # Following the website Geographic Coordinates section: https://vvvv.org/blog/polar-spherical-and-geographic-coordinates
+        x, y, z = self.apogee * np.arctan((self.launch_zenith_angle - 90)) * np.cos(self.launch_azimuth_angle), \
+                  self.apogee * np.arctan((self.launch_zenith_angle - 90)) * np.sin(self.launch_azimuth_angle), \
+                  self.apogee
+
+        # Swapping Z and X such that the simulation system follows the wind data system.
+        # x, y, z = self.apogee * np.tan(self.launch_zenith_angle) * np.sin(self.launch_azimuth_angle), \
+        #                       self.apogee * np.cos(self.launch_azimuth_angle), self.apogee
 
         v_x, v_y, v_z = self.velocity_off_rail_mag * np.sin(self.launch_zenith_angle) * np.sin(self.launch_azimuth_angle), \
                         self.velocity_off_rail_mag * np.sin(self.launch_zenith_angle) * np.sin(
@@ -186,21 +212,29 @@ class Launch:
             positions.append((x, y, z, t))
             velocities.append((v_x, v_y, v_z, t))
 
+            dt = self.time_step
+            t = t + dt
+            loops = loops + 1
+
             # Record the positions in lat, long coordinates to compare with Blanche data in a txt file
             # converted_position_lat, converted_position_lon = self.conversion_coordinates(x,y)
             # converted_positions.append([converted_position_lat, converted_position_lon, z, t])
             # print("Converted positions: ", converted_positions)
             # print(converted_position_lat, converted_position_lon, t)
 
-            converted_position_lat, converted_position_lon = self.new_conversion_coordinates(x, y, z)
+            # converted_position_lat, converted_position_lon = self.new_conversion_coordinates2(x, y, z)
+            # converted_positions.append([converted_position_lat, converted_position_lon, z, t])
+
+            converted_position_lat, converted_position_lon = self.conversion_coordinates(x, y)
             converted_positions.append([converted_position_lat, converted_position_lon, z, t])
 
             dt = self.time_step
             t = t + dt
             loops = loops + 1
 
-        # new_latitude, new_longitude = self.conversion_coordinates(x, y)
-        new_latitude, new_longitude = self.new_conversion_coordinates(x, y, z)
+        new_latitude, new_longitude = self.conversion_coordinates(x, y)
+        # new_latitude, new_longitude = self.new_conversion_coordinates2(x, y, z)
+
         # print("lat = ", new_latitude)
         # print("long = ", new_longitude)
         return new_latitude, new_longitude, converted_positions

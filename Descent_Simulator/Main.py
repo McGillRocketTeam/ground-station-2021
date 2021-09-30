@@ -36,11 +36,11 @@ def perturbWind(wind_data, sigma_direction, sigma_velocity, num_launches_u):
 def main(num_launches):
     start_time = time.time()
     print("Running {} simulations".format(num_launches))
-    launch_zenith_angle_in = 0  # from normal to rocket
+    launch_zenith_angle_in = 4  # from normal to rocket
     sigma_zenith_angle = 0
     zenith_angle_perturbed = np.random.normal(launch_zenith_angle_in, sigma_zenith_angle, num_launches)
 
-    launch_azimuth_angle_in = 0  # from north to rocket
+    launch_azimuth_angle_in = 90   # from north to rocket
     sigma_azimuth_angle = 0
     azimuth_angle_perturbed = np.random.normal(launch_azimuth_angle_in, sigma_azimuth_angle, num_launches)
 
