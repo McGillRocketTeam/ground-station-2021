@@ -23,7 +23,7 @@ class Wind():
 		begin_date = yesterday.strftime("%Y %m %d")
 		print(begin_date)
 
-		fl = open("./USM00072364_data.txt", "r")
+		fl = open("./../sample_data/wind_data/USM00072364_data.txt", "r")
 
 		fl = fl.readlines()
 		date = begin_date+" 12"
