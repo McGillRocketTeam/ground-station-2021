@@ -4,11 +4,16 @@ Created on Sun Nov 10 14:13:52 2019
 
 @author: sunge
 """
-import wind_data_code as wind_code
+import sys
+sys.path.append("./../")
+sys.path.append("./../../")
+
+#from simulator.wind.wind_data_code import Wind as wind_code
+import simulator.wind.wind_data_code as wind_code
 import numpy as np
 import pandas as pd
-from launch_run import Launch
-from RocketProperties import RocketProperties
+from .launch_run import Launch
+from utils.rocket_properties import RocketProperties
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 import time
@@ -133,15 +138,15 @@ def main(num_launches):
     # GRAPH THE REAL DATA OF BLANCHE LATITUDE VS LONGITUDE VS TIME #
 
     if plotBlancheGraphs:
-        with open('Blanche_Validation\Blanche_data\BlancheLat.txt', 'r') as f:
+        with open('./../sample_data/blanche_validation/blanche_data/BlancheLat.txt', 'r') as f:
             blancheLat = f.readlines()
         blancheLat = [x.strip() for x in blancheLat]
 
-        with open('Blanche_Validation\Blanche_data\BlancheLon.txt', 'r') as f:
+        with open('./../sample_data/blanche_validation/blanche_data\BlancheLon.txt', 'r') as f:
             blancheLon = f.readlines()
         blancheLon = [x.strip() for x in blancheLon]
 
-        with open('Blanche_Validation\Blanche_data\BlancheTime.txt', 'r') as f:
+        with open('./../sample_data/blanche_validation/blanche_data\BlancheTime.txt', 'r') as f:
             blancheTime = f.readlines()
         blancheTime = [x.strip() for x in blancheTime]
 

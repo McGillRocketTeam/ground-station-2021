@@ -1,6 +1,9 @@
-import tkinter as tk
-from Main import main
+import sys
+sys.path.append("./..")
 
+import tkinter as tk
+from simulator.main.main import main
+#import simulator.main.main as sim
 
 # Method for setting the number of simulations and launching the Main.py file
 def launchButtonClick():
