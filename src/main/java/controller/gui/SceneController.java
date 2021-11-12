@@ -65,17 +65,19 @@ public class SceneController {
 		rocketmodelController.addGyroData(data);
 	}
 	
-	//	=== Acceleration Graphs ===
+	//	=== Acceleration & Altitude Graphs ===
 	
 	//initialize variables
 	@FXML private AnchorPane accelerationgraphs;
 	@FXML private AccelerationGraphsController accelerationgraphsController;
+	@FXML private AltitudeGraphController altitudegraphController;
 	
 	/**
 	 * Initialize the graphs
 	 */
 	public void sceneInitializeGraphs() {
 		accelerationgraphsController.initializeGraphs();
+		altitudegraphController.initializeAltitudeGraph();
 	}
 	
 	/**
@@ -84,6 +86,7 @@ public class SceneController {
 	 */
 	public void sceneAddGraphData(double[] data) {
 		accelerationgraphsController.addGraphData(data);
+		altitudegraphController.addAltitudeGraphData(data);
 	}
 	
 	//	=== Launch Page ===

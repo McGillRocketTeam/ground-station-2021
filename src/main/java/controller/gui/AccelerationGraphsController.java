@@ -266,8 +266,8 @@ public class AccelerationGraphsController {
 	
 	private void addAccelerationXData(Double x, Double y) {
 		accelerationXData.getData().add(new XYChart.Data<>(x, y));
-		if (accelerationXData.getData().size() > window_size)
-			accelerationXData.getData().remove(0);
+//		if (accelerationXData.getData().size() > window_size)
+//			accelerationXData.getData().remove(0);
 	}
 	
 	/**
@@ -278,8 +278,8 @@ public class AccelerationGraphsController {
 	
 	private void addAccelerationYData(Double x, Double y) {
 		accelerationYData.getData().add(new XYChart.Data<>(x, y));
-		if (accelerationYData.getData().size() > window_size)
-			accelerationYData.getData().remove(0);
+//		if (accelerationYData.getData().size() > window_size)
+//			accelerationYData.getData().remove(0);
 	}
 	
 	/**
@@ -290,8 +290,8 @@ public class AccelerationGraphsController {
 	
 	private void addAccelerationZData(Double x, Double y) {
 		accelerationZData.getData().add(new XYChart.Data<>(x, y));
-		if (accelerationZData.getData().size() > window_size)
-			accelerationZData.getData().remove(0);
+//		if (accelerationZData.getData().size() > window_size)
+//			accelerationZData.getData().remove(0);
 	}
 	
 
