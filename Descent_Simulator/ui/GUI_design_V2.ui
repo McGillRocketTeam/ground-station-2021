@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1001</width>
-    <height>850</height>
+    <height>769</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,7 +37,7 @@
    <widget class="QLabel" name="mrtLabel">
     <property name="geometry">
      <rect>
-      <x>155</x>
+      <x>260</x>
       <y>-30</y>
       <width>690</width>
       <height>150</height>
@@ -918,7 +918,7 @@ color: #FFFFFF</string>
     <property name="geometry">
      <rect>
       <x>720</x>
-      <y>630</y>
+      <y>600</y>
       <width>201</width>
       <height>91</height>
      </rect>

@@ -76,7 +76,12 @@ def main(num_launches):
     x = perturbWind(wind, 1, 2, num_launches)
 
     # Instantiating rocket properties to be used in the launch run method
-    rocketProperties = RocketProperties()
+    rocketProperties = RocketProperties(self, mainDeployAltitude, expectedApogee, speedOffRail, rocketCSA,
+                 drogueParachuteCSA, mainParachuteCSA, drogueVerticalCD,
+                 mainVerticalCD, drogueDeployAltitude,
+                 drogueTransverseCD, mainTransverseCD,
+                 rocketMass)
+
 
     # Array to store the landing locations outputed by the for loop below
     landing_location = []
