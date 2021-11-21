@@ -107,10 +107,31 @@ public class ParserTests {
      */
     
 
+//    @Test
+//    public void testValidTelemetryMessageFC() {
+//    	String test = "S,0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,E";
+//    	Parser testP = new Parser(12);
+//    	double[] data =  testP.parseFC(test);
+//    	Assertions.assertEquals(0.85, data[0]);
+//    	Assertions.assertEquals(-128.71, data[1]);
+//    	Assertions.assertEquals(1004.91, data[2]);
+//    	Assertions.assertEquals(140.0, data[3]);
+//    	Assertions.assertEquals(-490.0, data[4]);
+//    	Assertions.assertEquals(70.0, data[5]);
+//    	Assertions.assertEquals(1005.24, data[6]);
+//    	Assertions.assertEquals(45.4583817, data[7]);
+//    	Assertions.assertEquals(-73.4328384, data[8]);
+//    	Assertions.assertEquals(0, data[9]);
+//    	Assertions.assertEquals(4, data[10]);
+//    	Assertions.assertEquals(50, data[11]);
+//    	
+//    }
+    
+    //test with state, change other tests to 13 and add state?
     @Test
-    public void testValidTelemetryMessageFC() {
-    	String test = "S,0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,E";
-    	Parser testP = new Parser(12);
+    public void testValidTelemetryMessageFCWithState() {
+    	String test = "S,0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,E";
+    	Parser testP = new Parser(13);
     	double[] data =  testP.parseFC(test);
     	Assertions.assertEquals(0.85, data[0]);
     	Assertions.assertEquals(-128.71, data[1]);
@@ -124,15 +145,26 @@ public class ParserTests {
     	Assertions.assertEquals(0, data[9]);
     	Assertions.assertEquals(4, data[10]);
     	Assertions.assertEquals(50, data[11]);
-    	
+    	Assertions.assertEquals(3, data[12]);
+    	Assertions.assertEquals(2, data[13]);
+    }
+    
+    @Test
+    public void testIncorrectStateLength() {
+    	String test = "";
+    	Parser testP = new Parser(13);
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> {
+    		testP.parseFC(test);
+    	});
+    	System.out.println("Test with wrong state length passed");
     }
     
     @Test
     public void testStartAndEndCharsFC() {
-        String test_1 = "S,0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,";
-        String test_2 = ",0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,E";
-        String test_3 = ",0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,";
-        String test_4 = "S0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,";
+        String test_1 = "S,0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,";
+        String test_2 = ",0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,E";
+        String test_3 = ",0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,";
+        String test_4 = "S0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,";
         Parser testP = new Parser(12);
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             testP.parseFC(test_1);
@@ -163,7 +195,7 @@ public class ParserTests {
     
     @Test
     public void testNotDoublesInDataFC() {
-    	String test = "S,A,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,E";
+    	String test = "S,A,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,E";
     	Parser testP = new Parser(12);
     	Assertions.assertThrows(InvalidParameterException.class, () -> {
     		testP.parseFC(test);
@@ -173,7 +205,7 @@ public class ParserTests {
     
     @Test
     public void testNewlineInDataFC() {
-    	String test = "S,0.85,-128.71\n,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,E";
+    	String test = "S,0.85,-128.71\n,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,E";
     	Parser testP = new Parser(12);
     	double[] data = testP.parseFC(test);
     	Assertions.assertEquals(-128.71, data[1]);
@@ -182,7 +214,7 @@ public class ParserTests {
     
     @Test
     public void testEmptyParameterInDataFC() {
-    	String test = "S,0.85,,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,E";
+    	String test = "S,0.85,,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,E";
     	Parser testP = new Parser(12);
     	Assertions.assertThrows(InvalidParameterException.class, () -> {
     		testP.parseFC(test);

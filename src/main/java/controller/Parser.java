@@ -163,8 +163,9 @@ public class Parser {
 		 * S,ACCx,ACCy,ACCz,MAGx,MAGy,MAGz,PRESSURE,LAT,LONG,HOUR,MIN,SEC,E
 		 * S,0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,E
 		 */
-
-		double[] out = new double[this.numberOfValues];
+		
+		//+1 for launch ad e-match state
+		double[] out = new double[this.numberOfValues+1];
 		Arrays.fill(out, EMPTY_ARRAY);
 		// Check if first and last characters are S and E respectively
 		if (sIn.isEmpty() || sIn.length() <= 2) throw new IllegalArgumentException("Input string is empty or size 1 or size 2");
@@ -210,6 +211,10 @@ public class Parser {
 		//Split new string and convert to double
 		String[] splitStr = subStr.split(",");
 		if (splitStr.length != this.numberOfValues) throw new IllegalArgumentException("Incorrect number of values: found:" + splitStr.length + " expected:" + this.numberOfValues);
+		
+		//check if byte
+		if (splitStr[splitStr.length-1].length()!=8) throw new IllegalArgumentException("STATE should be one byte");
+			
 		for (int i = 0; i < splitStr.length; i++) {
 			if (i == this.hexLocation) {
 				try {
@@ -219,6 +224,23 @@ public class Parser {
 					throw new InvalidParameterException(
 							"String: \"" + out[i] + " \" at index:"
 									+ i + " cannot be converted from hexidecimal string to integer \n"
+									+ "Message from original exception follows:\n"
+									+ e.getMessage()
+							);
+				}
+			}
+			
+			//for the state byte -2 or -1
+			else if (i == splitStr.length-1) {
+				try {
+					//last element in array+1
+					out[i] = Integer.parseInt(splitStr[i].substring(0, 4), 2);
+					out[i+1] = Integer.parseInt(splitStr[i].substring(4), 2);
+				}
+				catch (Exception e) {
+					throw new InvalidParameterException(
+							"String: \"" + out[i] + " \" at index:"
+									+ i + " cannot be converted from byte string to integer \n"
 									+ "Message from original exception follows:\n"
 									+ e.getMessage()
 							);
@@ -245,4 +267,15 @@ public class Parser {
 
 		return out;
 	}
+	
+//	public static void main(String[] args) {
+//		//System.out.println(Integer.parseInt("0011", 2));
+//		String test = "S,0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,E";
+//    	Parser testP = new Parser(13);
+//    	double[] data =  testP.parseFC(test);
+//    	for (int i=0; i<data.length; i++) {
+//    		System.out.println(data[i]);
+//    	}
+//        
+//    }
 }
