@@ -126,8 +126,11 @@ public class Parser {
 					// throws number format exception if string is invalid
 
 					// Time value
-					if(i == DataIndex.TIME_INDEX.getOrder()) {
-						String[] time = splitStr[i].split(":");
+					//if(i == DataIndex.TIME_INDEX.getOrder()) {
+					
+					//is this ok?
+					if(i == out.length-1) {
+					String[] time = splitStr[i].split(":");
 						out[i] = (Double.parseDouble(time[0])*3600 + Double.parseDouble(time[1])*60 + Double.parseDouble(time[2]));
 					}
 					else {
@@ -142,6 +145,7 @@ public class Parser {
 									+ i + " cannot be converted to a Double \n Message from original exception follows:\n"
 									+ e.getMessage()
 							);
+					//e.printStackTrace();
 				}
 
 
@@ -270,9 +274,9 @@ public class Parser {
 	
 //	public static void main(String[] args) {
 //		//System.out.println(Integer.parseInt("0011", 2));
-//		String test = "S,0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,E";
-//    	Parser testP = new Parser(13);
-//    	double[] data =  testP.parseFC(test);
+//		String test = "s-004.38;-003.69;0000.00;-00.72;000.58;009.41;022.31;101237.30;00107.73;454469476;-736939739;20:04:29e";
+//    	Parser testP = new Parser(12);
+//    	double[] data =  testP.parse(test);
 //    	for (int i=0; i<data.length; i++) {
 //    		System.out.println(data[i]);
 //    	}
