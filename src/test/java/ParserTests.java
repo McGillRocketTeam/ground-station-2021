@@ -165,7 +165,7 @@ public class ParserTests {
         String test_2 = ",0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,E";
         String test_3 = ",0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,";
         String test_4 = "S0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,";
-        Parser testP = new Parser(12);
+        Parser testP = new Parser(13);
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             testP.parseFC(test_1);
         });
@@ -196,7 +196,7 @@ public class ParserTests {
     @Test
     public void testNotDoublesInDataFC() {
     	String test = "S,A,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,E";
-    	Parser testP = new Parser(12);
+    	Parser testP = new Parser(13);
     	Assertions.assertThrows(InvalidParameterException.class, () -> {
     		testP.parseFC(test);
     	});
@@ -206,7 +206,7 @@ public class ParserTests {
     @Test
     public void testNewlineInDataFC() {
     	String test = "S,0.85,-128.71\n,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,E";
-    	Parser testP = new Parser(12);
+    	Parser testP = new Parser(13);
     	double[] data = testP.parseFC(test);
     	Assertions.assertEquals(-128.71, data[1]);
     	System.out.println("Test with new line in data passed");
@@ -215,7 +215,7 @@ public class ParserTests {
     @Test
     public void testEmptyParameterInDataFC() {
     	String test = "S,0.85,,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,00110010,E";
-    	Parser testP = new Parser(12);
+    	Parser testP = new Parser(13);
     	Assertions.assertThrows(InvalidParameterException.class, () -> {
     		testP.parseFC(test);
     	});
@@ -225,7 +225,7 @@ public class ParserTests {
     @Test
     public void testEmptyDataFC() {
     	String test = "";
-    	Parser testP = new Parser(12);
+    	Parser testP = new Parser(13);
     	Assertions.assertThrows(IllegalArgumentException.class, () -> {
     		testP.parseFC(test);
     	});
