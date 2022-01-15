@@ -112,7 +112,7 @@ public class MainApp extends Application {
 		switch (mode) {
 		case OLD:
 			try {
-				myData = (ArrayList<String>) Parser.storeData("storage/raw_fc/test_data_21.txt");
+				myData = (ArrayList<String>) Parser.storeData("test_data/gs_strings_alt_in_gps_w_time.txt");
 				System.out.println("found file");
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
