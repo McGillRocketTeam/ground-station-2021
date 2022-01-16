@@ -68,7 +68,7 @@ public class MainApp extends Application {
 
 	private final Mode mode = Mode.OLD;
 	public final boolean flightComputer = false;
-	private final int NUMBER_OF_PARAMETERS = 13;
+	private final int NUMBER_OF_PARAMETERS = 14;
 	private int SERIAL_PORT_NUMBER = 6;
 	private final String COM_PORT_DESC = "/dev/tty.usbmodem11101";
 	
@@ -112,7 +112,7 @@ public class MainApp extends Application {
 		switch (mode) {
 		case OLD:
 			try {
-				myData = (ArrayList<String>) Parser.storeData("test_data/gs_strings_alt_in_gps_w_time.txt");
+				myData = (ArrayList<String>) Parser.storeData("test_data/2020-10-10-serial-2378-flight-0021_av_only.csv");
 				System.out.println("found file");
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
