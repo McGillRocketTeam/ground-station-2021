@@ -61,7 +61,7 @@ public class Parser {
 
 	/**
 	 *
-	 * @param sIn the telemetry string to be parsed
+	 * @param sIn the telemetry string to be parsed (telemetry 2021)
 	 * Data format:
 	 * 					12 values. 13 if temperature is included (the example string has 12 but format has 13 so double check)
 	 *                  s-004.38;-003.69;0000.00;-00.72;000.58;009.41;022.31;101237.30;00107.73;454469476;-736939739;20:04:29e
@@ -126,8 +126,11 @@ public class Parser {
 					// throws number format exception if string is invalid
 
 					// Time value
-					if(i == DataIndex.TIME_INDEX.getOrder()) {
-						String[] time = splitStr[i].split(":");
+					//if(i == DataIndex.TIME_INDEX.getOrder()) {
+					
+					//is this ok?
+					if(i == out.length-1) {
+					String[] time = splitStr[i].split(":");
 						out[i] = (Double.parseDouble(time[0])*3600 + Double.parseDouble(time[1])*60 + Double.parseDouble(time[2]));
 					}
 					else {
@@ -142,6 +145,7 @@ public class Parser {
 									+ i + " cannot be converted to a Double \n Message from original exception follows:\n"
 									+ e.getMessage()
 							);
+					//e.printStackTrace();
 				}
 
 
@@ -155,15 +159,25 @@ public class Parser {
 	public double[] parseFC(String sIn) throws IllegalArgumentException{
 
 		// Format:
+		//old:
 		//	S,ACCx,ACCy,ACCz,MAGx,MAGy,MAGz,PRESSURE,LAT,LONG,HOUR,MIN,SEC,SUBSEC,E\n
 		//	S,3.2, 3.2, 3.2, 3.2, 3.2, 3.2, 4.2,    ,3.7,3.7, 2,   2,  2,  2,     E
-
-
 		/*
 		 * S,ACCx,ACCy,ACCz,MAGx,MAGy,MAGz,PRESSURE,LAT,LONG,HOUR,MIN,SEC,E
 		 * S,0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,E
 		 */
+		//new:
+		// S,ACCx,ACCy,ACCz,GYROx,GYROy,GYROz,PRESSURE,LAT,LONG,HOUR,MIN,SEC,STATE,CONT,E
+		//numbberOfValue: 14
+		
+		int state=12;
+		int stateLRange=0;
+		int stateURange=4;
+		int cont=13;
+		int contLRange=0;
+		int contURange=3;
 
+		
 		double[] out = new double[this.numberOfValues];
 		Arrays.fill(out, EMPTY_ARRAY);
 		// Check if first and last characters are S and E respectively
@@ -210,6 +224,8 @@ public class Parser {
 		//Split new string and convert to double
 		String[] splitStr = subStr.split(",");
 		if (splitStr.length != this.numberOfValues) throw new IllegalArgumentException("Incorrect number of values: found:" + splitStr.length + " expected:" + this.numberOfValues);
+		
+			
 		for (int i = 0; i < splitStr.length; i++) {
 			if (i == this.hexLocation) {
 				try {
@@ -224,6 +240,49 @@ public class Parser {
 							);
 				}
 			}
+			
+			//for the STATE
+			else if (i == state) {
+				int stateValue;
+				try {
+					stateValue=Integer.parseInt(splitStr[i]);
+				}
+				catch (Exception e) {
+					throw new InvalidParameterException(
+							"String: \"" + out[i] + " \" at index:"
+									+ i + " cannot be converted to an int \n Message from original exception follows:\n"
+									+ e.getMessage()
+							);
+				}
+				if (stateValue>=stateLRange && stateValue<=stateURange) {
+					out[i] = stateValue;
+				}
+				else {
+					throw new IllegalArgumentException("STATE should be between " + stateLRange + " and " + stateURange);
+				}
+			}
+			//for the CONT
+			
+			else if (i == cont) {
+				int contValue;
+				try {
+					contValue=Integer.parseInt(splitStr[i]);
+				}
+				catch (Exception e) {
+					throw new InvalidParameterException(
+							"String: \"" + out[i] + " \" at index:"
+									+ i + " cannot be converted to an int \n Message from original exception follows:\n"
+									+ e.getMessage()
+							);
+				}
+				if (contValue>=contLRange && contValue<=contURange) {
+					out[i] = contValue;
+				}
+				else {
+					throw new IllegalArgumentException("CONT should be between " + contLRange + " and " + contURange);
+				}
+			}
+			
 			else {
 				try {
 					// throws number format exception if string is invalid
@@ -245,4 +304,124 @@ public class Parser {
 
 		return out;
 	}
+	
+	public double[] parsePropulsion(String sIn) throws IllegalArgumentException {
+		
+		// Format:
+		// P,PRESSURE,TEMPERATURE,VALVE_STATUS,E
+		boolean throwErrors=true;
+		
+		int pressureLocation = 0;
+		double pressureLRange = 0;
+		//double pressureURange = 750;
+		double pressureURange = 760;
+		int temperatureLocation = 1;
+		double temperatureLRange = 0;
+		//double temperatureURange = 25;
+		double temperatureURange = 30;
+		int valveStatusLocation = 2;
+		double[] out = new double[this.numberOfValues];
+		Arrays.fill(out, EMPTY_ARRAY);
+		// Check if first and last characters are S and E respectively
+		if (sIn.isEmpty() || sIn.length() <= 2) throw new IllegalArgumentException("Input string is empty or size 1 or size 2");
+		else if (sIn.charAt(0) != 'P' && sIn.charAt(sIn.length() - 1) != 'E' && sIn.charAt(sIn.length()-2) != ',')
+			throw new IllegalArgumentException("First and Last characters are not S and E");
+		else if (sIn.charAt(0) != 'P') throw new IllegalArgumentException("First Character in input String is not P");
+		else if (sIn.charAt(sIn.length()-1) != 'E') throw new IllegalArgumentException("Last Character in input string is not E");
+		else if (sIn.charAt(sIn.length()-2) != ',') throw new IllegalArgumentException("Last Character in input string is not ,");
+		//Remove S at start and , + E characters
+		String subStr = sIn.substring(2, sIn.length()-2);
+
+		//Split new string and convert to double
+		String[] splitStr = subStr.split(",");
+		if (splitStr.length != this.numberOfValues) throw new IllegalArgumentException("Incorrect number of values: found:" + splitStr.length + " expected:" + this.numberOfValues);
+		
+		for (int i = 0; i < splitStr.length; i++) {
+			
+			
+			if (i == pressureLocation) {
+				double pressure;
+				try {
+					pressure=Double.parseDouble(splitStr[i]);
+				}
+				catch (Exception e) {
+					throw new InvalidParameterException(
+							"String: \"" + out[i] + " \" at index:"
+									+ i + " cannot be converted to a double \n Message from original exception follows:\n"
+									+ e.getMessage()
+							);
+				}
+//				if (throwErrors && pressure>=pressureLRange && pressure<=pressureURange) {
+//					out[i] = pressure;
+//				}
+//				else {
+//					throw new IllegalArgumentException("PRESSURE should be between " + pressureLRange + " and " + pressureURange);
+//				}
+			}
+			
+			else if (i == temperatureLocation) {
+				double temperature;
+				try {
+					temperature=Double.parseDouble(splitStr[i]);
+				}
+				catch (Exception e) {
+					throw new InvalidParameterException(
+							"String: \"" + out[i] + " \" at index:"
+									+ i + " cannot be converted to a double \n Message from original exception follows:\n"
+									+ e.getMessage()
+							);
+				}
+//				if (throwErrors && temperature>=temperatureLRange && temperature<=temperatureURange) {
+//					out[i] = temperature;
+//				}
+//				else {
+//					throw new IllegalArgumentException("TEMPERATURE should be between " + pressureLRange + " and " + pressureURange);
+//				}
+			}
+			
+			else if (i == valveStatusLocation) {
+				int valveStatus;
+				try {
+					valveStatus=Integer.parseInt(splitStr[i]);
+				}
+				catch (Exception e) {
+					throw new InvalidParameterException(
+							"String: \"" + out[i] + " \" at index:"
+									+ i + " cannot be converted to an int \n Message from original exception follows:\n"
+									+ e.getMessage()
+							);
+				}
+				if (throwErrors && (valveStatus==0 || valveStatus==1)) {
+					out[i] = valveStatus;
+				}
+				else {
+					throw new IllegalArgumentException("VALVE_STATUS should be either 1 or 0");
+				}
+			}
+			
+		}
+		
+		return out;
+		
+		
+	}
+	
+//	public static void main(String[] args) {
+//		//System.out.println(Integer.parseInt("0011", 2));
+////		String test = "S,9.99,-0.45,-0.31,-0.15,-0.02,0.05,96754.01,37.1677142,-97.7362292,00,00,00,2,3,E";
+////    	Parser testP = new Parser(14);
+////    	double[] data =  testP.parseFC(test);
+////    	for (int i=0; i<data.length; i++) {
+////    		System.out.println(data[i]);
+////    	}
+//		
+//		String test = "P,750.65,25.65,0,E";
+//    	Parser testP = new Parser(3);
+//    	double[] data =  testP.parsePropulsion(test);
+//    	for (int i=0; i<data.length; i++) {
+//    		System.out.println(data[i]);
+//    	}
+//    	
+//        
+//    }
 }
