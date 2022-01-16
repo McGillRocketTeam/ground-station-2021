@@ -31,7 +31,7 @@ public class AltitudeGraphController {
 	final int window_size = 20;
 	ScheduledExecutorService scheduledExecutorService;
 	
-	private final double LOCAL_PRESSURE = 1013.25;
+	private final double LOCAL_PRESSURE = 96754;
 	
 	@FXML
 	private LineChart<Number, Number> altitudeChart;
@@ -74,6 +74,12 @@ public class AltitudeGraphController {
 
 	}
 
+	// Temporary variables for graph display (x)
+	private double previous_second = 0.0;
+	private double current_second = 0.0;
+	private double sampling_rate = 0.01;
+	private int num_current_second = 0;
+
 	/**
 	 * Adds a data point to the altitude chart
 	 * 
@@ -81,8 +87,19 @@ public class AltitudeGraphController {
 	 * @param y the altitude that was measured in meters
 	 */
 	private void addAltitudeData(Double x, Double y) {
-		altitudeData.getData().add(new XYChart.Data<>(x, getAltitude(y)));
+		current_second = x;
 		
+		if (previous_second != current_second) {
+			num_current_second = 0;
+		} else {
+			num_current_second += 1;
+		}
+		
+		previous_second = current_second;
+
+		altitudeData.getData()
+				.add(new XYChart.Data<>(current_second + num_current_second * sampling_rate, getAltitude(y)));
+
 		if (!isPlotFullHistory) {
 
 			// Remove previous plot from graph
@@ -90,20 +107,20 @@ public class AltitudeGraphController {
 				altitudeData.getData().remove(0);
 		}
 	}
-
+	
 	/**
 	 * Setter for button boolean
 	 */
-	public void setisPlotFullHistory() {
+	public void setIsPlotFullHistory() {
 		isPlotFullHistory = true;
 	}
-	
+
 	/**
 	 * convert pressure to altitude
 	 * 
 	 */
 	private double getAltitude(double pressure) {
-		double altitude = 145442.1609 * (1.0 - Math.pow(pressure/LOCAL_PRESSURE, 0.190266436));
+		double altitude = 145442.1609 * (1.0 - Math.pow(pressure / LOCAL_PRESSURE, 0.190266436));
 		return altitude;
 	}
 }

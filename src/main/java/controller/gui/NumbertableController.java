@@ -110,7 +110,7 @@ public class NumbertableController {
 		setCurrentZAccelValue(String.valueOf(data[DataIndex.ACCEL_Z_INDEX.getOrder()]));
 		
 		//setCurrentRSSI
-		setCurrentRSSIValue(String.valueOf(data[DataIndex.RSSI_INDEX.getOrder()]));
+//		setCurrentRSSIValue(String.valueOf(data[DataIndex.RSSI_INDEX.getOrder()]));
 		
 		
 		//set Current Velocity 

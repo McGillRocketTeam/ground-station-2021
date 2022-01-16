@@ -106,7 +106,7 @@ public class SceneController {
 
 		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
-				altitudegraphController.setisPlotFullHistory(); // toggle button
+				altitudegraphController.setIsPlotFullHistory(); // toggle button
 			}
 		};
 

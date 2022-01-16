@@ -44,9 +44,9 @@ public enum DataIndex {
 	
 //	RSSI_INDEX(0),
 	
-//	PITCH_INDEX(4),
-//	ROLL_INDEX(5),
-//	YAW_INDEX(6),
+	PITCH_INDEX(3),
+	ROLL_INDEX(4),
+	YAW_INDEX(5),
 	ACCEL_X_INDEX(0),
 	ACCEL_Y_INDEX(1),
 	ACCEL_Z_INDEX(2),
