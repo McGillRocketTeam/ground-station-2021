@@ -8,6 +8,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.Group;
@@ -60,6 +61,8 @@ import javafx.event.EventHandler;
 
 public class AltitudeGraphController {
 	
+	public boolean isPlotFullHistory = false;
+	
 	final int window_size = 20;
 	ScheduledExecutorService scheduledExecutorService;
 	
@@ -67,6 +70,9 @@ public class AltitudeGraphController {
 	private LineChart<Number, Number> altitudeChart;
 	
 	XYChart.Series<Number, Number> altitudeData;
+	
+//	@FXML
+//	Button launchAltitudeGraph;
 	
 	public void initializeAltitudeGraph() {
 		initializeAltitudeChart();
@@ -100,9 +106,15 @@ public class AltitudeGraphController {
 
 	}
 	
+	
 	public void addAltitudeGraphData(double[] data) {
+//		EventHandler <ActionEvent> event = new EventHandler <ActionEvent> () {
+//        	public void handle(ActionEvent e) {
 		addAltitudeData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ALTITUDE_INDEX.getOrder()]);
-	}
+//        	}
+//		};
+//		launchAltitudeGraph.setOnAction(event);
+    }
 	
 	/**
 	 * Adds a data point to the altitude chart
@@ -111,8 +123,17 @@ public class AltitudeGraphController {
 	 */
 	
 	private void addAltitudeData(Double x, Double y) {
-		altitudeData.getData().add(new XYChart.Data<>(x, y));
-//		if (altitudeData.getData().size() > window_size)
-//			altitudeData.getData().remove(0);
-	}
+//		EventHandler <ActionEvent> event = new EventHandler <ActionEvent> () {
+//        	public void handle(ActionEvent e) {
+        		altitudeData.getData().add(new XYChart.Data<>(x, y));
+        if (!isPlotFullHistory) {
+
+			if (altitudeData.getData().size() > window_size)
+				altitudeData.getData().remove(0);
+	        	}
+//			};
+        }
+//		launchAltitudeGraph.setOnAction(event);
+        
+//	}
 }

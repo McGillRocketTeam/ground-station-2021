@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -71,6 +72,7 @@ public class SceneController {
 	@FXML private AnchorPane accelerationgraphs;
 	@FXML private AccelerationGraphsController accelerationgraphsController;
 	@FXML private AltitudeGraphController altitudegraphController;
+	@FXML private ToggleButton launchAltitudeGraph;
 	
 	/**
 	 * Initialize the graphs
@@ -86,7 +88,16 @@ public class SceneController {
 	 */
 	public void sceneAddGraphData(double[] data) {
 		accelerationgraphsController.addGraphData(data);
-		altitudegraphController.addAltitudeGraphData(data);
+		altitudegraphController.addAltitudeGraphData(data); // add points
+		
+		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e) {
+				altitudegraphController.isPlotFullHistory = true; // toggle
+
+				//altitudegraphController.addAltitudeGraphData(data);
+			}
+		};
+		launchAltitudeGraph.setOnAction(event);
 	}
 	
 	//	=== Launch Page ===
