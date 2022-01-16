@@ -61,7 +61,7 @@ public class Parser {
 
 	/**
 	 *
-	 * @param sIn the telemetry string to be parsed
+	 * @param sIn the telemetry string to be parsed (telemetry 2021)
 	 * Data format:
 	 * 					12 values. 13 if temperature is included (the example string has 12 but format has 13 so double check)
 	 *                  s-004.38;-003.69;0000.00;-00.72;000.58;009.41;022.31;101237.30;00107.73;454469476;-736939739;20:04:29e
