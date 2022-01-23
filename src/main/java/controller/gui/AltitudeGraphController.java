@@ -26,7 +26,7 @@ import javafx.scene.Node;
 
 public class AltitudeGraphController {
 
-	public boolean isPlotFullHistory = false;
+	private boolean isAltitudePlotFullHistory = false;
 
 	final int window_size = 20;
 	ScheduledExecutorService scheduledExecutorService;
@@ -100,7 +100,7 @@ public class AltitudeGraphController {
 		altitudeData.getData()
 				.add(new XYChart.Data<>(current_second + num_current_second * sampling_rate, getAltitude(y)));
 
-		if (!isPlotFullHistory) {
+		if (!isAltitudePlotFullHistory) {
 
 			// Remove previous plot from graph
 			if (altitudeData.getData().size() > window_size)
@@ -111,8 +111,8 @@ public class AltitudeGraphController {
 	/**
 	 * Setter for button boolean
 	 */
-	public void setIsPlotFullHistory() {
-		isPlotFullHistory = true;
+	public void setAltitudePlotFullHistory() {
+		isAltitudePlotFullHistory = true;
 	}
 
 	/**

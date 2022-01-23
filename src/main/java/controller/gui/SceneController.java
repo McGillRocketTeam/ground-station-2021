@@ -105,8 +105,11 @@ public class SceneController {
 		altitudegraphController.addAltitudeGraphData(data); // add points
 
 		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+			// Toggle Button controlling graph plotting
 			public void handle(ActionEvent e) {
-				altitudegraphController.setIsPlotFullHistory(); // toggle button
+				altitudegraphController.setAltitudePlotFullHistory();
+				accelerationgraphsController.setAccelerationPlotFullHistory();
+				
 			}
 		};
 
