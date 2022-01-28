@@ -207,15 +207,20 @@ public class AccelerationGraphsController {
 	 */
 	public void addGraphData(double[] data) {
 //		addAltitudeData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ALTITUDE_INDEX.getOrder()]);
+		
+		double x_val = data[DataIndex.TIME_INDEX.getOrder()]*60 + data[DataIndex.TIME_INDEX.getOrder()+1] + data[DataIndex.TIME_INDEX.getOrder()+2]/100.0;
 
 //		addVelocityData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.VELOCITY_INDEX.getOrder()]);
-		addAccelerationXData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_X_INDEX.getOrder()]);
+//		addAccelerationXData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_X_INDEX.getOrder()]);
+		addAccelerationXData(x_val, data[DataIndex.ACCEL_X_INDEX.getOrder()]);
 		
 //		addAccelerationData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCELERATION_INDEX.getOrder()]);
-		addAccelerationYData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_Y_INDEX.getOrder()]);
+//		addAccelerationYData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_Y_INDEX.getOrder()]);
+		addAccelerationYData(x_val, data[DataIndex.ACCEL_Y_INDEX.getOrder()]);
 		
 //		addRSSIData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.RSSI_INDEX.getOrder()]);
-		addAccelerationZData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_Z_INDEX.getOrder()]);
+//		addAccelerationZData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_Z_INDEX.getOrder()]);
+		addAccelerationZData(x_val, data[DataIndex.ACCEL_Z_INDEX.getOrder()]);
 	}
 	
 	/**

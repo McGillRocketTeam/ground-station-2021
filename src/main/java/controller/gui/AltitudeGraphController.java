@@ -26,7 +26,7 @@ import javafx.scene.Node;
 
 public class AltitudeGraphController {
 
-	private boolean isAltitudePlotFullHistory = true;
+	private boolean isAltitudePlotFullHistory = false;
 
 	final int window_size = 20;
 	ScheduledExecutorService scheduledExecutorService;

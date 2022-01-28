@@ -153,7 +153,7 @@ public class MainApp extends Application {
 //
 //
 				});
-			}, 0, 10, TimeUnit.MILLISECONDS);
+			}, 0, 50, TimeUnit.MILLISECONDS);
 //
 		case SIMULATION:
 			break;
