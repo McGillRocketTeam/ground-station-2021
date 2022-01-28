@@ -31,8 +31,6 @@ public class AltitudeGraphController {
 	final int window_size = 20;
 	ScheduledExecutorService scheduledExecutorService;
 	
-	private final double LOCAL_PRESSURE = 96754;
-	
 	@FXML
 	private LineChart<Number, Number> altitudeChart;
 
@@ -84,8 +82,9 @@ public class AltitudeGraphController {
 	 */
 	private void addAltitudeData(Double x, Double y) {
 
-		altitudeData.getData()
-			.add(new XYChart.Data<>(x, getAltitude(y)));
+//		altitudeData.getData()
+//			.add(new XYChart.Data<>(x, getAltitude(y)));
+		altitudeData.getData().add(new XYChart.Data<>(x, y));
 
 		if (!isAltitudePlotFullHistory) {
 
@@ -102,13 +101,5 @@ public class AltitudeGraphController {
 		isAltitudePlotFullHistory = true;
 	}
 
-	/**
-	 * convert pressure to altitude
-	 * 
-	 */
-	private double getAltitude(double pressure) {
-		double altitude = 145442.1609 * (1.0 - Math.pow(pressure / LOCAL_PRESSURE, 0.190266436));
-		return altitude;
-	}
 }
 

@@ -15,6 +15,7 @@ public class Parser {
 	private boolean containsHex;
 	private int hexLocation;
 	private final double EMPTY_ARRAY = 0;
+	private final double LOCAL_PRESSURE = 96754; // pressure conversion to altitude
 
 	/**
 	 *
@@ -276,6 +277,22 @@ public class Parser {
 				}
 			}
 			
+			// convert pressure to altitude because we want alt
+			else if (i == DataIndex.PRESSURE_INDEX.getOrder()) {
+				double pressure = 0;
+				try {
+					pressure = Double.parseDouble(splitStr[i]);
+					out[i] = getAltitude(pressure);
+				}
+				catch (Exception e) {
+					throw new InvalidParameterException(
+							"String: \"" + out[i] + " \" at index:"
+									+ i + " cannot be converted to an int \n Message from original exception follows:\n"
+									+ e.getMessage()
+							);
+				}
+			}
+			
 			else {
 				try {
 					// throws number format exception if string is invalid
@@ -393,6 +410,15 @@ public class Parser {
 		return out;
 		
 		
+	}
+	
+	/**
+	 * convert pressure to altitude
+	 * 
+	 */
+	private double getAltitude(double pressure) {
+		double altitude = 145442.1609 * (1.0 - Math.pow(pressure / LOCAL_PRESSURE, 0.190266436));
+		return altitude;
 	}
 	
 //	public static void main(String[] args) {
