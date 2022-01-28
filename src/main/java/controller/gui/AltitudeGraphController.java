@@ -26,7 +26,7 @@ import javafx.scene.Node;
 
 public class AltitudeGraphController {
 
-	private boolean isAltitudePlotFullHistory = false;
+	private boolean isAltitudePlotFullHistory = true;
 
 	final int window_size = 20;
 	ScheduledExecutorService scheduledExecutorService;
@@ -70,15 +70,11 @@ public class AltitudeGraphController {
 	}
 
 	public void addAltitudeGraphData(double[] data) {
-		addAltitudeData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ALTITUDE_INDEX.getOrder()]);
-
+		double x_val = data[DataIndex.TIME_INDEX.getOrder()]*60 + data[DataIndex.TIME_INDEX.getOrder()+1] + data[DataIndex.TIME_INDEX.getOrder()+2]/100.0;
+//		System.out.println(x_val);
+		
+		addAltitudeData(x_val, data[DataIndex.ALTITUDE_INDEX.getOrder()]);
 	}
-
-	// Temporary variables for graph display (x)
-	private double previous_second = 0.0;
-	private double current_second = 0.0;
-	private double sampling_rate = 0.01;
-	private int num_current_second = 0;
 
 	/**
 	 * Adds a data point to the altitude chart
@@ -87,18 +83,9 @@ public class AltitudeGraphController {
 	 * @param y the altitude that was measured in meters
 	 */
 	private void addAltitudeData(Double x, Double y) {
-		current_second = x;
-		
-		if (previous_second != current_second) {
-			num_current_second = 0;
-		} else {
-			num_current_second += 1;
-		}
-		
-		previous_second = current_second;
 
 		altitudeData.getData()
-				.add(new XYChart.Data<>(current_second + num_current_second * sampling_rate, getAltitude(y)));
+			.add(new XYChart.Data<>(x, getAltitude(y)));
 
 		if (!isAltitudePlotFullHistory) {
 

@@ -112,7 +112,8 @@ public class MainApp extends Application {
 		switch (mode) {
 		case OLD:
 			try {
-				myData = (ArrayList<String>) Parser.storeData("test_data/2020-10-10-serial-2378-flight-0021_av_only.csv");
+//				myData = (ArrayList<String>) Parser.storeData("test_data/2020-10-10-serial-2378-flight-0021_av_only.csv");
+				myData = (ArrayList<String>) Parser.storeData("test_data/2020-10-10-serial-2378-flight-0021_av_only_subsec.csv");
 				System.out.println("found file");
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -152,7 +153,7 @@ public class MainApp extends Application {
 //
 //
 				});
-			}, 0, 1000, TimeUnit.MILLISECONDS);
+			}, 0, 10, TimeUnit.MILLISECONDS);
 //
 		case SIMULATION:
 			break;
@@ -229,7 +230,7 @@ public class MainApp extends Application {
 								data = parser.parse(stringData);
 							} else {
 								data = parser.parseFC(stringData);
-								data[DataIndex.TIME_INDEX.getOrder()] = data[DataIndex.TIME_INDEX.getOrder()]*3600 + data[DataIndex.TIME_INDEX.getOrder()+1]*60 + data[DataIndex.TIME_INDEX.getOrder()+2];
+								data[DataIndex.TIME_INDEX.getOrder()] = data[DataIndex.TIME_INDEX.getOrder()]*60 + data[DataIndex.TIME_INDEX.getOrder()+1] + data[DataIndex.TIME_INDEX.getOrder()+2]/100.0;
 							}
 
 

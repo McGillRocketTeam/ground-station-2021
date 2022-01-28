@@ -36,7 +36,7 @@ public enum DataIndex {
 	 */
 	
 
-	TIME_INDEX(11),
+	TIME_INDEX(9),
 
 	GYROX_INDEX(3),
 	GYROY_INDEX(4),

@@ -84,9 +84,6 @@ public class Parser {
 		else if (sIn.charAt(sIn.length()-1) != 'e') throw new IllegalArgumentException("Last Character in input string is not e");
 
 		//Remove s at start and e at end characters
-
-
-
 		String subStr = sIn.substring(1, sIn.length()-1);
 
 		//Split new string and convert to double
@@ -168,7 +165,7 @@ public class Parser {
 		 */
 		//new:
 		// S,ACCx,ACCy,ACCz,GYROx,GYROy,GYROz,PRESSURE,LAT,LONG,HOUR,MIN,SEC,STATE,CONT,E
-		//numbberOfValue: 14
+		//numberOfValue: 14
 		
 		int state=12;
 		int stateLRange=0;
@@ -176,43 +173,40 @@ public class Parser {
 		int cont=13;
 		int contLRange=0;
 		int contURange=3;
-
 		
 		double[] out = new double[this.numberOfValues];
 		Arrays.fill(out, EMPTY_ARRAY);
 		// Check if first and last characters are S and E respectively
 		if (sIn.isEmpty() || sIn.length() <= 2) throw new IllegalArgumentException("Input string is empty or size 1 or size 2");
-		/*
-		 * Event Message
-		 */
+		
+		/* Special FC Event Message */
 		else if ((sIn.charAt(0) == 'J') && sIn.charAt(sIn.length()-1) == 'E' && sIn.charAt(sIn.length()-2) == ','){
 			
 			System.out.println("Event Message Received");
-			//Remove S at start and , + E characters
+			//Remove J at start and , + E characters
 			String subStr = sIn.substring(2, sIn.length()-2);
 
 			//Split new string and convert to double
 			String[] splitStr = subStr.split(",");
-			out[0] = -1000;
-//			for (int i = 1; i < splitStr.length + 1; i++){
-//
-//
-//				try {
-//					// throws number format exception if string is invalid
-//					out[i] = Double.parseDouble(splitStr[i]);
-//				}
-//				catch (Exception e) {
-//					throw new InvalidParameterException(
-//							"String: \"" + out[i] + " \" at index:"
-//									+ i + " cannot be converted to a Double \n Message from original exception follows:\n"
-//									+ e.getMessage()
-//							);
-//				}
-//			}
+			out[0] = -1000; // TODO: why is this here?
+			for (int i = 1; i < splitStr.length + 1; i++) {
+
+				try {
+					// throws number format exception if string is invalid
+					out[i] = Double.parseDouble(splitStr[i]);
+				}
+				catch (Exception e) {
+					throw new InvalidParameterException(
+							"String: \"" + out[i] + " \" at index:"
+									+ i + " cannot be converted to a Double \n Message from original exception follows:\n"
+									+ e.getMessage()
+							);
+				}
+			}
 			System.out.println("Returning event message");
 			return out;
-
 		}
+		
 		else if (sIn.charAt(0) != 'S' && sIn.charAt(sIn.length() - 1) != 'E' && sIn.charAt(sIn.length()-2) != ',')
 			throw new IllegalArgumentException("First and Last characters are not S and E");
 		else if (sIn.charAt(0) != 'S') throw new IllegalArgumentException("First Character in input String is not S");
@@ -223,8 +217,7 @@ public class Parser {
 
 		//Split new string and convert to double
 		String[] splitStr = subStr.split(",");
-		if (splitStr.length != this.numberOfValues) throw new IllegalArgumentException("Incorrect number of values: found:" + splitStr.length + " expected:" + this.numberOfValues);
-		
+		if (splitStr.length != this.numberOfValues) throw new IllegalArgumentException("Incorrect number of values: found: " + splitStr.length + " expected: " + this.numberOfValues);
 			
 		for (int i = 0; i < splitStr.length; i++) {
 			if (i == this.hexLocation) {
@@ -241,7 +234,7 @@ public class Parser {
 				}
 			}
 			
-			//for the STATE
+			// for the STATE
 			else if (i == state) {
 				int stateValue;
 				try {
@@ -261,8 +254,8 @@ public class Parser {
 					throw new IllegalArgumentException("STATE should be between " + stateLRange + " and " + stateURange);
 				}
 			}
-			//for the CONT
 			
+			// for the CONT
 			else if (i == cont) {
 				int contValue;
 				try {
@@ -296,9 +289,6 @@ public class Parser {
 							);
 				}
 			}
-
-
-
 		}
 
 		return out;
@@ -321,6 +311,7 @@ public class Parser {
 		int valveStatusLocation = 2;
 		double[] out = new double[this.numberOfValues];
 		Arrays.fill(out, EMPTY_ARRAY);
+
 		// Check if first and last characters are S and E respectively
 		if (sIn.isEmpty() || sIn.length() <= 2) throw new IllegalArgumentException("Input string is empty or size 1 or size 2");
 		else if (sIn.charAt(0) != 'P' && sIn.charAt(sIn.length() - 1) != 'E' && sIn.charAt(sIn.length()-2) != ',')
@@ -336,8 +327,7 @@ public class Parser {
 		if (splitStr.length != this.numberOfValues) throw new IllegalArgumentException("Incorrect number of values: found:" + splitStr.length + " expected:" + this.numberOfValues);
 		
 		for (int i = 0; i < splitStr.length; i++) {
-			
-			
+
 			if (i == pressureLocation) {
 				double pressure;
 				try {
