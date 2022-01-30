@@ -105,18 +105,15 @@ public class NumbertableController {
 		//set Peak X Acceleration
 		if (data[DataIndex.ACCEL_Z_INDEX.getOrder()] > Double.parseDouble(peakZAccelValue.getText())) 
 			setPeakZAccelValue(String.valueOf(data[DataIndex.ACCEL_Z_INDEX.getOrder()]));
-		
 		//set Current Z Acceleration
 		setCurrentZAccelValue(String.valueOf(data[DataIndex.ACCEL_Z_INDEX.getOrder()]));
-		
+
 		//setCurrentRSSI
 		setCurrentRSSIValue(String.valueOf(data[DataIndex.RSSI_INDEX.getOrder()]));
 		
-		
 		//set Current Velocity 
-//		setCurrentVelocityLabel(String.valueOf(data[DataIndex.VELOCITY_INDEX.getOrder()]));
-//		setCurrentVelocityLabel(String.valueOf(data[DataIndex.ACCEL_X_INDEX.getOrder()]));
-		
+		setCurrentVelocityValue("Which Index");
+
 		//set Peak Acceleration
 //		if (data[DataIndex.ACCELERATION_INDEX.getOrder()]>Double.parseDouble(peakAccelerationLabel.getText())) 
 //		setPeakAccelerationLabel(String.valueOf(data[DataIndex.ACCELERATION_INDEX.getOrder()]));
