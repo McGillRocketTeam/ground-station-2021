@@ -13,9 +13,22 @@ package controller.gui;
 
 public enum DataIndex {
 	
+
 	/*
 	 * Telemetry
 	 */
+	
+//	PRESSURE_INDEX(0),
+//	TEMP_INDEX(1),
+	VALVE_STATUS(2),
+//	TIME_INDEX(3),
+	
+	
+	
+	
+	
+	
+	
 //	TIME_INDEX(11),
 //	GYROX_INDEX(0),
 //	RSSI_INDEX(0),
@@ -47,8 +60,11 @@ public enum DataIndex {
 	ACCEL_X_INDEX(1),
 	ACCEL_Y_INDEX(2),
 	ACCEL_Z_INDEX(3),
-	TEMP_INDEX(6),
-	PRESSURE_INDEX(7),
+	
+	
+	TEMP_INDEX(2),
+	PRESSURE_INDEX(3),
+	
 	ALTITUDE_INDEX(7),
 	LATITUDE_INDEX(7),
 	LONGITUDE_INDEX(8);

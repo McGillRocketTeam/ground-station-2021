@@ -86,6 +86,63 @@ public class SceneController {
 		accelerationgraphsController.addGraphData(data);
 	}
 	
+	
+	
+	////////////////////////// GRAPHS //////////////////////////////
+	
+	@FXML private AnchorPane propulsionGraphs;
+	@FXML private PropulsionController propulsionGraphsController;
+	
+	
+	
+	public void sceneInitializePropulsionGraphs() {
+		propulsionGraphsController.initializePropulsionGraphs();
+	}
+	
+	public void sceneAddPropulsionGraphData(double[] data) {
+		propulsionGraphsController.addPropulsionGraphData(data);
+	}
+	
+	
+	
+	
+	////////////////////////// TABLE //////////////////////////////
+	
+	@FXML private AnchorPane propulsionNumberTable;
+	@FXML private PropulsionNumberTableController propulsionNumberTableController;
+
+	
+	
+	public void startPropulsionTimer(double data[]) {
+		propulsionNumberTableController.updateNumDisplay(data);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	////////////////////////////////////////////////////////
 	//	=== Launch Page ===
 	
 	@FXML Button launchButton;

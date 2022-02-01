@@ -95,5 +95,23 @@
                </children></AnchorPane>
       </content>
     </Tab>
+      <Tab text="Propulsion Integration">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane layoutX="51.0" layoutY="29.0" prefHeight="317.0" prefWidth="704.0">
+                  <children>
+                  	<fx:include fx:id="propulsionGraphs" source="PropulsionGraphs.fxml" />
+                  </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="228.0" layoutY="405.0" prefHeight="222.0" prefWidth="236.0">
+                     <children>
+                        <fx:include fx:id="propulsionNumberTable" source="PropulsionNumberTable.fxml" />
+                     </children>
+                  </AnchorPane>
+                  
+               </children></AnchorPane>
+        </content>
+      </Tab>
   </tabs>
 </TabPane>
