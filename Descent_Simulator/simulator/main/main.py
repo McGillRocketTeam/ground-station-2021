@@ -11,6 +11,7 @@ sys.path.append("./../../")
 #from simulator.wind.wind_data_code import Wind as wind_code
 import simulator.wind.wind_data_code as wind_code
 import numpy as np
+import numpy as np
 import pandas as pd
 from .launch_run import Launch
 from utils.rocket_properties import RocketProperties
@@ -38,7 +39,11 @@ def perturbWind(wind_data, sigma_direction, sigma_velocity, num_launches_u):
 #===================================Main=======================================
 #wind_data = pd.DataFrame(columns= ['altitude','direction','velocity']) #input wind data
 
-def main(num_launches):
+def main(num_launches, mainDeployAltitude, expectedApogee, speedOffRail, rocketCSA,
+                 drogueParachuteCSA, mainParachuteCSA, drogueVerticalCD,
+                 mainVerticalCD, drogueDeployAltitude,
+                 drogueTransverseCD, mainTransverseCD,
+                 rocketMass, windDataFile):
     start_time = time.time()
     print("Running {} simulations".format(num_launches))
     launch_zenith_angle_in = 4  # from normal to rocket
@@ -69,14 +74,14 @@ def main(num_launches):
     # wind = mcs.MCS(inputa_n, w_al, inputw_n, num_cycles=1)
 
     # Wind data from USM00072364_data.txt file
-    w_class = wind_code.Wind()
+    w_class = wind_code.Wind(windDataFile)
     wind = w_class.get_wind_dataframe()
 
     # This is the new Monte carlo, adding variance to the wind data to provide a wide range of landing locations
     x = perturbWind(wind, 1, 2, num_launches)
 
     # Instantiating rocket properties to be used in the launch run method
-    rocketProperties = RocketProperties(self, mainDeployAltitude, expectedApogee, speedOffRail, rocketCSA,
+    rocketProperties = RocketProperties(mainDeployAltitude, expectedApogee, speedOffRail, rocketCSA,
                  drogueParachuteCSA, mainParachuteCSA, drogueVerticalCD,
                  mainVerticalCD, drogueDeployAltitude,
                  drogueTransverseCD, mainTransverseCD,
@@ -143,15 +148,15 @@ def main(num_launches):
     # GRAPH THE REAL DATA OF BLANCHE LATITUDE VS LONGITUDE VS TIME #
 
     if plotBlancheGraphs:
-        with open('./../sample_data/blanche_validation/blanche_data/BlancheLat.txt', 'r') as f:
+        with open('././sample_data/blanche_validation/blanche_data/BlancheLat.txt', 'r') as f:
             blancheLat = f.readlines()
         blancheLat = [x.strip() for x in blancheLat]
 
-        with open('./../sample_data/blanche_validation/blanche_data\BlancheLon.txt', 'r') as f:
+        with open('././sample_data/blanche_validation/blanche_data/BlancheLon.txt', 'r') as f:
             blancheLon = f.readlines()
         blancheLon = [x.strip() for x in blancheLon]
 
-        with open('./../sample_data/blanche_validation/blanche_data\BlancheTime.txt', 'r') as f:
+        with open('././sample_data/blanche_validation/blanche_data/BlancheTime.txt', 'r') as f:
             blancheTime = f.readlines()
         blancheTime = [x.strip() for x in blancheTime]
 

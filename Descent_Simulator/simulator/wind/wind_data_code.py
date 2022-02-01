@@ -12,7 +12,8 @@ class Wind():
 
 	station_name = '#USM00072364'
 
-	def __init__(self):
+	def __init__(self, windDataFile):
+		self.windDataFile=windDataFile
 		#Use the datetime package to get time
 		now = datetime.datetime.utcnow() #Get time right now in utc time
 		hour_ago = datetime.datetime.utcnow()-datetime.timedelta(hours=5) #Get time one hour ago in utc time
@@ -23,8 +24,7 @@ class Wind():
 		begin_date = yesterday.strftime("%Y %m %d")
 		print(begin_date)
 
-		fl = open("./../sample_data/wind_data/USM00072364_data.txt", "r")
-
+		fl = open(windDataFile, "r")
 		fl = fl.readlines()
 		date = begin_date+" 12"
 		i = 0
