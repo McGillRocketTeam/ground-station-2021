@@ -32,10 +32,14 @@ public enum DataIndex {
 //	LONGITUDE_INDEX(10);
 	
 	/*
+	 * propulsion integration, TODO: fix properly later
+	 */
+	TEMP_INDEX(2),
+	VALVE_STATUS(2),
+	
+	/*
 	 * Flight Computer
 	 */
-	
-
 	TIME_INDEX(9),
 
 	GYROX_INDEX(3),
@@ -50,7 +54,6 @@ public enum DataIndex {
 	ACCEL_X_INDEX(0),
 	ACCEL_Y_INDEX(1),
 	ACCEL_Z_INDEX(2),
-//	TEMP_INDEX(6),s
 	PRESSURE_INDEX(6),
 	ALTITUDE_INDEX(6),
 	LATITUDE_INDEX(7),

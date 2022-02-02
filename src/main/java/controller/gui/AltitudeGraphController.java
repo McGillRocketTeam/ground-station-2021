@@ -27,7 +27,7 @@ import javafx.scene.Node;
 public class AltitudeGraphController {
 
 	private boolean isAltitudePlotFullHistory = false;
-
+	
 	final int window_size = 20;
 	ScheduledExecutorService scheduledExecutorService;
 	
@@ -84,13 +84,31 @@ public class AltitudeGraphController {
 
 //		altitudeData.getData()
 //			.add(new XYChart.Data<>(x, getAltitude(y)));
-		altitudeData.getData().add(new XYChart.Data<>(x, y));
+		boolean is_error = false;
+		double last_plotted_altitude = 0.0;
+		double difference = 0.0;
+		
+		boolean is_debug = true; // make true to plot all points
+		
+		try {
+			last_plotted_altitude = (double) altitudeData.getData().get(altitudeData.getData().size() - 1).getYValue();
+			difference = y - last_plotted_altitude;
+		}
+		catch(IndexOutOfBoundsException e) {
+			last_plotted_altitude = 0;
+			is_error = true;
+		}
+		
+		if (Math.abs(difference) > 1000 || is_error || (y < 500 && difference < 0) || is_debug) {
+			altitudeData.getData().add(new XYChart.Data<>(x, y));
+		}
 
 		if (!isAltitudePlotFullHistory) {
 
 			// Remove previous plot from graph
 			if (altitudeData.getData().size() > window_size)
 				altitudeData.getData().remove(0);
+			
 		}
 	}
 	

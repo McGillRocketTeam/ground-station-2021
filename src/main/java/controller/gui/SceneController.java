@@ -109,7 +109,7 @@ public class SceneController {
 			public void handle(ActionEvent e) {
 				altitudegraphController.setAltitudePlotFullHistory();
 				accelerationgraphsController.setAccelerationPlotFullHistory();
-				
+				propulsionGraphsController.setPropulsionPlotFullHistory();
 			}
 		};
 

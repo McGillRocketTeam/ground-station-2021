@@ -315,6 +315,9 @@ public class Parser {
 		
 		// Format:
 		// P,PRESSURE,TEMPERATURE,VALVE_STATUS,E
+		
+//		System.out.println("Parser in: str = " + sIn);
+		
 		boolean throwErrors=true;
 		
 		int pressureLocation = 0;
@@ -329,18 +332,19 @@ public class Parser {
 		double[] out = new double[this.numberOfValues];
 		Arrays.fill(out, EMPTY_ARRAY);
 
-		// Check if first and last characters are S and E respectively
+		// Check if first and last characters are P and E respectively
 		if (sIn.isEmpty() || sIn.length() <= 2) throw new IllegalArgumentException("Input string is empty or size 1 or size 2");
 		else if (sIn.charAt(0) != 'P' && sIn.charAt(sIn.length() - 1) != 'E' && sIn.charAt(sIn.length()-2) != ',')
 			throw new IllegalArgumentException("First and Last characters are not S and E");
 		else if (sIn.charAt(0) != 'P') throw new IllegalArgumentException("First Character in input String is not P");
 		else if (sIn.charAt(sIn.length()-1) != 'E') throw new IllegalArgumentException("Last Character in input string is not E");
 		else if (sIn.charAt(sIn.length()-2) != ',') throw new IllegalArgumentException("Last Character in input string is not ,");
-		//Remove S at start and , + E characters
+		//Remove P at start and , + E characters
 		String subStr = sIn.substring(2, sIn.length()-2);
 
 		//Split new string and convert to double
 		String[] splitStr = subStr.split(",");
+		
 		if (splitStr.length != this.numberOfValues) throw new IllegalArgumentException("Incorrect number of values: found:" + splitStr.length + " expected:" + this.numberOfValues);
 		
 		for (int i = 0; i < splitStr.length; i++) {
@@ -357,12 +361,12 @@ public class Parser {
 									+ e.getMessage()
 							);
 				}
-//				if (throwErrors && pressure>=pressureLRange && pressure<=pressureURange) {
-//					out[i] = pressure;
-//				}
-//				else {
-//					throw new IllegalArgumentException("PRESSURE should be between " + pressureLRange + " and " + pressureURange);
-//				}
+				if (throwErrors && pressure>=pressureLRange && pressure<=pressureURange) {
+					out[i] = pressure;
+				}
+				else {
+					throw new IllegalArgumentException("PRESSURE should be between " + pressureLRange + " and " + pressureURange);
+				}
 			}
 			
 			else if (i == temperatureLocation) {
@@ -377,12 +381,12 @@ public class Parser {
 									+ e.getMessage()
 							);
 				}
-//				if (throwErrors && temperature>=temperatureLRange && temperature<=temperatureURange) {
-//					out[i] = temperature;
-//				}
-//				else {
-//					throw new IllegalArgumentException("TEMPERATURE should be between " + pressureLRange + " and " + pressureURange);
-//				}
+				if (throwErrors && temperature>=temperatureLRange && temperature<=temperatureURange) {
+					out[i] = temperature;
+				}
+				else {
+					throw new IllegalArgumentException("TEMPERATURE should be between " + pressureLRange + " and " + pressureURange);
+				}
 			}
 			
 			else if (i == valveStatusLocation) {
@@ -405,7 +409,28 @@ public class Parser {
 				}
 			}
 			
+			// time
+			else {
+				double converted;
+				try {
+					converted = Double.parseDouble(splitStr[i]);
+				}
+				catch (Exception e) {
+					throw new InvalidParameterException(
+							"String: \"" + out[i] + " \" at index:"
+									+ i + " cannot be converted to an int \n Message from original exception follows:\n"
+									+ e.getMessage()
+							);
+				}
+				out[i] = converted;
+			}
+			
 		}
+		
+		// debug -- print the array
+//		System.out.print("ParserProp out: ");
+//		for (int i = 0; i < out.length; i++) System.out.print(out[i] + " ");
+//		System.out.println(""); // newline
 		
 		return out;
 		
