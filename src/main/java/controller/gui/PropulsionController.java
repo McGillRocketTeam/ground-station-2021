@@ -93,6 +93,15 @@ public class PropulsionController {
 	
 	XYChart.Series<Number, Number> temperatureData;
 	
+	private boolean isPlotFullHistory = false;
+	
+	/**
+	 * Setter for button boolean
+	 */
+	public void setPropulsionPlotFullHistory() {
+		isPlotFullHistory = true;
+	}
+	
 	
 	
 	/**
@@ -179,8 +188,19 @@ public class PropulsionController {
 	 */
 	public void addPropulsionGraphData(double[] data) {
 
-		addPressureData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.PRESSURE_INDEX.getOrder()]);
-		addTemperatureData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.TEMP_INDEX.getOrder()]);
+		int pressure_index = 0, temp_index = 1, time_index = 3;
+
+		System.out.print("addPropGraphIn: ");
+		for (int i = 0; i < data.length; i++) System.out.print(data[i] + " ");
+		System.out.println(""); // newline
+		
+		double x_val = data[time_index]*60 + data[time_index+1] + data[time_index+2]/100.0;
+		System.out.printf("addPropGraphData: time = %f, pressure = %f, temp = %f\n", x_val, data[pressure_index], data[temp_index]);
+		
+//		addPressureData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.PRESSURE_INDEX.getOrder()]);
+//		addTemperatureData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.TEMP_INDEX.getOrder()]);
+		addPressureData(x_val, data[pressure_index]);
+		addTemperatureData(x_val, data[temp_index]);
 		
 	}
 	
@@ -198,7 +218,7 @@ public class PropulsionController {
 	private void addTemperatureData(Double x, Double y) {
 //		temperatureData.getData().add(new XYChart.Data<>(x, y));
 		temperatureData.getData().add(new XYChart.Data<>(x, (int) Math.round(y)));
-		if (temperatureData.getData().size() > window_size)
+		if (temperatureData.getData().size() > window_size && !isPlotFullHistory)
 			temperatureData.getData().remove(0);
 	}
 	
@@ -215,7 +235,7 @@ public class PropulsionController {
 	private void addPressureData(Double x, Double y) {
 //		pressureData.getData().add(new XYChart.Data<>(x,y));
 		pressureData.getData().add(new XYChart.Data<>(x,(int) Math.round(y)));
-		if (pressureData.getData().size() > window_size)
+		if (pressureData.getData().size() > window_size && !isPlotFullHistory)
 			pressureData.getData().remove(0);
 	}
 

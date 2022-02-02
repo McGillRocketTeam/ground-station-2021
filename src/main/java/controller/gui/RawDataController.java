@@ -108,7 +108,7 @@ public class RawDataController{ // implements initializable?
 		
 		addAccelDataPoint(data[DataIndex.TIME_INDEX.getOrder()],data[DataIndex.ACCEL_Y_INDEX.getOrder()]);
 		
-		addRssiDataPoint(data[DataIndex.TIME_INDEX.getOrder()],data[DataIndex.RSSI_INDEX.getOrder()]);
+//		addRssiDataPoint(data[DataIndex.TIME_INDEX.getOrder()],data[DataIndex.RSSI_INDEX.getOrder()]);
 	}
     
 
