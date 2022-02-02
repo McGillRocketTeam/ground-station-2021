@@ -78,45 +78,47 @@ public class NumbertableController {
  */
 
 	public void updateNumberDisplay(double[] data) {
-
+		// *** ROUND ALL TO TWO DECIMAL PLACES *** using the String.format(...) method
+		
 		//System.out.println(myDataList.get(i)[5]);
 		
 		//set Peak Altitude 
 		if (data[DataIndex.ALTITUDE_INDEX.getOrder()] > Double.parseDouble(peakAltitudeValue.getText())) 
-			setPeakAltitudeValue(String.valueOf(data[DataIndex.ALTITUDE_INDEX.getOrder()]));
+			setPeakAltitudeValue(String.format("%.2f", data[DataIndex.ALTITUDE_INDEX.getOrder()]));
 		
 		//set Current Altitude 
-		setCurrentAltitudeValue(String.valueOf(data[DataIndex.ALTITUDE_INDEX.getOrder()]));
+		setCurrentAltitudeValue(String.format("%.2f", data[DataIndex.ALTITUDE_INDEX.getOrder()]));
 		
 		//set Peak X Acceleration
 		if (data[DataIndex.ACCEL_X_INDEX.getOrder()] > Double.parseDouble(peakXAccelValue.getText())) 
-			setPeakXAccelValue(String.valueOf(data[DataIndex.ACCEL_X_INDEX.getOrder()]));
+			setPeakXAccelValue(String.format("%.2f", data[DataIndex.ACCEL_X_INDEX.getOrder()]));
 		
 		//set Current X Acceleration
-		setCurrentXAccelValue(String.valueOf(data[DataIndex.ACCEL_X_INDEX.getOrder()]));
+		setCurrentXAccelValue(String.format("%.2f", data[DataIndex.ACCEL_X_INDEX.getOrder()]));
 		
 		//set Peak Y Acceleration
 		if (data[DataIndex.ACCEL_Y_INDEX.getOrder()] > Double.parseDouble(peakYAccelValue.getText())) 
-			setPeakYAccelValue(String.valueOf(data[DataIndex.ACCEL_Y_INDEX.getOrder()]));
+			setPeakYAccelValue(String.format("%.2f", data[DataIndex.ACCEL_Y_INDEX.getOrder()]));
 		
 		//set Current Y Acceleration
-		setCurrentYAccelValue(String.valueOf(data[DataIndex.ACCEL_Y_INDEX.getOrder()]));
+		setCurrentYAccelValue(String.format("%.2f", data[DataIndex.ACCEL_Y_INDEX.getOrder()]));
 		
-		//set Peak X Acceleration
+		//set Peak Z Acceleration
 		if (data[DataIndex.ACCEL_Z_INDEX.getOrder()] > Double.parseDouble(peakZAccelValue.getText())) 
-			setPeakZAccelValue(String.valueOf(data[DataIndex.ACCEL_Z_INDEX.getOrder()]));
-		//set Current Z Acceleration
-		setCurrentZAccelValue(String.valueOf(data[DataIndex.ACCEL_Z_INDEX.getOrder()]));
-
-		//setCurrentRSSI
-		setCurrentRSSIValue(String.valueOf(data[DataIndex.RSSI_INDEX.getOrder()]));
+			setPeakZAccelValue(String.format("%.2f", data[DataIndex.ACCEL_Z_INDEX.getOrder()]));
 		
-		//set Current Velocity 
+		//set Current Z Acceleration
+		setCurrentZAccelValue(String.format("%.2f", data[DataIndex.ACCEL_Z_INDEX.getOrder()]));
+		
+		//setCurrentRSSI
+//		setCurrentRSSIValue(String.format("%.2f", data[DataIndex.RSSI_INDEX.getOrder()]));
+		
+		//set Current Velocity (TODO: fix or remove velocity)
 		setCurrentVelocityValue("Which Index");
 
 		//set Peak Acceleration
 //		if (data[DataIndex.ACCELERATION_INDEX.getOrder()]>Double.parseDouble(peakAccelerationLabel.getText())) 
-//		setPeakAccelerationLabel(String.valueOf(data[DataIndex.ACCELERATION_INDEX.getOrder()]));
+//		setPeakAccelerationLabel(String.format("%.2f", data[DataIndex.ACCELERATION_INDEX.getOrder()]));
 
 		
 

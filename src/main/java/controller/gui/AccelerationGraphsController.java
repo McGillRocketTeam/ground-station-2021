@@ -75,7 +75,7 @@ import javafx.event.EventHandler;
 public class AccelerationGraphsController {
 	
 	
-
+	private boolean isAccelerationPlotFullHistory = false;
 	
 	final int window_size = 20;
 	ScheduledExecutorService scheduledExecutorService;
@@ -110,34 +110,6 @@ public class AccelerationGraphsController {
         initializeAccelerationYChart();
         initializeAccelerationZChart();
 	}
-	
-	/**
-	*	Initializes the altitude chart on the main page
-	*/
-//	private void initializeAltitudeChart() {
-//		
-//		altitudeData = new XYChart.Series<>();
-//		altitudeData.setName("altitudeData");
-//		altitudeChart.getData().add(altitudeData);
-//		
-//		NumberAxis yAxis = (NumberAxis) altitudeChart.getYAxis();
-//		yAxis.setForceZeroInRange(false);
-//		
-//		NumberAxis xAxis = (NumberAxis) altitudeChart.getXAxis();
-//		xAxis.setForceZeroInRange(false);
-//		
-//		JFXChartUtil.setupZooming(altitudeChart, new EventHandler<MouseEvent>() {
-//			@Override
-//			public void handle( MouseEvent mouseEvent ) {
-//				if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
-//				     mouseEvent.isShortcutDown() )
-//					mouseEvent.consume();
-//			}
-//		} );
-//		
-//		JFXChartUtil.addDoublePrimaryClickAutoRangeHandler(altitudeChart);
-//
-//	}
 	
 	/**
 	 * Initializes the velocity chart on the main page
@@ -216,7 +188,7 @@ public class AccelerationGraphsController {
 			public void handle( MouseEvent mouseEvent ) {
 				if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
 				     mouseEvent.isShortcutDown() )
-					mouseEvent.consume();
+					 mouseEvent.consume();
 			}
 		} );
 		
@@ -235,28 +207,21 @@ public class AccelerationGraphsController {
 	 */
 	public void addGraphData(double[] data) {
 //		addAltitudeData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ALTITUDE_INDEX.getOrder()]);
+		
+		double x_val = data[DataIndex.TIME_INDEX.getOrder()]*60 + data[DataIndex.TIME_INDEX.getOrder()+1] + data[DataIndex.TIME_INDEX.getOrder()+2]/100.0;
 
 //		addVelocityData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.VELOCITY_INDEX.getOrder()]);
-		addAccelerationXData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_X_INDEX.getOrder()]);
+//		addAccelerationXData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_X_INDEX.getOrder()]);
+		addAccelerationXData(x_val, data[DataIndex.ACCEL_X_INDEX.getOrder()]);
 		
 //		addAccelerationData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCELERATION_INDEX.getOrder()]);
-		addAccelerationYData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_Y_INDEX.getOrder()]);
+//		addAccelerationYData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_Y_INDEX.getOrder()]);
+		addAccelerationYData(x_val, data[DataIndex.ACCEL_Y_INDEX.getOrder()]);
 		
 //		addRSSIData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.RSSI_INDEX.getOrder()]);
-		addAccelerationZData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_Z_INDEX.getOrder()]);
+//		addAccelerationZData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_Z_INDEX.getOrder()]);
+		addAccelerationZData(x_val, data[DataIndex.ACCEL_Z_INDEX.getOrder()]);
 	}
-	
-	/**
-	 * Adds a data point to the altitude chart
-	 * @param x the time the data was measured in #TODO What units????
-	 * @param y the altitude that was measured in meters
-	 */
-	
-//	private void addAltitudeData(Double x, Double y) {
-//		altitudeData.getData().add(new XYChart.Data<>(x, y));
-//		if (altitudeData.getData().size() > window_size)
-//			altitudeData.getData().remove(0);
-//	}
 	
 	/**
 	 * Adds a data point to the velocity chart
@@ -266,8 +231,11 @@ public class AccelerationGraphsController {
 	
 	private void addAccelerationXData(Double x, Double y) {
 		accelerationXData.getData().add(new XYChart.Data<>(x, y));
-		if (accelerationXData.getData().size() > window_size)
-			accelerationXData.getData().remove(0);
+		
+		if (!isAccelerationPlotFullHistory) {
+			if (accelerationXData.getData().size() > window_size)
+				accelerationXData.getData().remove(0);
+		}
 	}
 	
 	/**
@@ -278,8 +246,11 @@ public class AccelerationGraphsController {
 	
 	private void addAccelerationYData(Double x, Double y) {
 		accelerationYData.getData().add(new XYChart.Data<>(x, y));
-		if (accelerationYData.getData().size() > window_size)
-			accelerationYData.getData().remove(0);
+		
+		if (!isAccelerationPlotFullHistory) {
+			if (accelerationYData.getData().size() > window_size)
+				accelerationYData.getData().remove(0);
+		}
 	}
 	
 	/**
@@ -290,8 +261,18 @@ public class AccelerationGraphsController {
 	
 	private void addAccelerationZData(Double x, Double y) {
 		accelerationZData.getData().add(new XYChart.Data<>(x, y));
-		if (accelerationZData.getData().size() > window_size)
-			accelerationZData.getData().remove(0);
+
+		if (!isAccelerationPlotFullHistory) {
+			if (accelerationZData.getData().size() > window_size)
+				accelerationZData.getData().remove(0);
+		}
+	}
+	
+	/**
+	 * Setter for button boolean
+	 */
+	public void setAccelerationPlotFullHistory() {
+		isAccelerationPlotFullHistory = true;
 	}
 	
 

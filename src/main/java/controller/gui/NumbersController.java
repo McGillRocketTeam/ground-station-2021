@@ -96,6 +96,6 @@ public class NumbersController {
 		setCurrentAccelerationLabel(String.valueOf(data[DataIndex.ACCEL_Y_INDEX.getOrder()]));
 		
 		//setCurrentRSSI
-		setCurrentRSSILabel(String.valueOf(data[DataIndex.RSSI_INDEX.getOrder()]));
+//		setCurrentRSSILabel(String.valueOf(data[DataIndex.RSSI_INDEX.getOrder()]));
 	}
 }
