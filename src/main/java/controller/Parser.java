@@ -11,11 +11,15 @@ import java.util.Scanner;
 import controller.gui.DataIndex;
 
 public class Parser {
+	private boolean showRangeError = false;
 	private int numberOfValues;
 	private boolean containsHex;
 	private int hexLocation;
 	private final double EMPTY_ARRAY = 0;
 
+	//show error if state are not in range
+	public void setRangeError(boolean showRangeError){this.showRangeError = showRangeError;}
+	
 	/**
 	 *
 	 * @param numberOfValues
@@ -61,7 +65,7 @@ public class Parser {
 
 	/**
 	 *
-	 * @param sIn the telemetry string to be parsed (telemetry 2021)
+	 * @param sIn the telemetry string to be parsed
 	 * Data format:
 	 * 					12 values. 13 if temperature is included (the example string has 12 but format has 13 so double check)
 	 *                  s-004.38;-003.69;0000.00;-00.72;000.58;009.41;022.31;101237.30;00107.73;454469476;-736939739;20:04:29e
@@ -159,25 +163,18 @@ public class Parser {
 	public double[] parseFC(String sIn) throws IllegalArgumentException{
 
 		// Format:
-		//old:
-		//	S,ACCx,ACCy,ACCz,MAGx,MAGy,MAGz,PRESSURE,LAT,LONG,HOUR,MIN,SEC,SUBSEC,E\n
-		//	S,3.2, 3.2, 3.2, 3.2, 3.2, 3.2, 4.2,    ,3.7,3.7, 2,   2,  2,  2,     E
-		/*
-		 * S,ACCx,ACCy,ACCz,MAGx,MAGy,MAGz,PRESSURE,LAT,LONG,HOUR,MIN,SEC,E
-		 * S,0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,E
-		 */
 		//new:
-		// S,ACCx,ACCy,ACCz,GYROx,GYROy,GYROz,PRESSURE,LAT,LONG,HOUR,MIN,SEC,STATE,CONT,E
+		// S,ACCx,ACCy,ACCz,GYROx,GYROy,GYROz,PRESSURE,LAT,LONG,MIN,SEC,SUBSEC,STATE,CONT,E
 		//numbberOfValue: 14
 		
+		//use ones in DataIndex
 		int state=12;
 		int stateLRange=0;
 		int stateURange=4;
 		int cont=13;
 		int contLRange=0;
 		int contURange=3;
-
-		
+			
 		double[] out = new double[this.numberOfValues];
 		Arrays.fill(out, EMPTY_ARRAY);
 		// Check if first and last characters are S and E respectively
@@ -185,34 +182,34 @@ public class Parser {
 		/*
 		 * Event Message
 		 */
-		else if ((sIn.charAt(0) == 'J') && sIn.charAt(sIn.length()-1) == 'E' && sIn.charAt(sIn.length()-2) == ','){
-			
-			System.out.println("Event Message Received");
-			//Remove S at start and , + E characters
-			String subStr = sIn.substring(2, sIn.length()-2);
-
-			//Split new string and convert to double
-			String[] splitStr = subStr.split(",");
-			out[0] = -1000;
-//			for (int i = 1; i < splitStr.length + 1; i++){
+//		else if ((sIn.charAt(0) == 'J') && sIn.charAt(sIn.length()-1) == 'E' && sIn.charAt(sIn.length()-2) == ','){
+//			
+//			System.out.println("Event Message Received");
+//			//Remove S at start and , + E characters
+//			String subStr = sIn.substring(2, sIn.length()-2);
 //
+//			//Split new string and convert to double
+//			String[] splitStr = subStr.split(",");
+//			out[0] = -1000;
+////			for (int i = 1; i < splitStr.length + 1; i++){
+////
+////
+////				try {
+////					// throws number format exception if string is invalid
+////					out[i] = Double.parseDouble(splitStr[i]);
+////				}
+////				catch (Exception e) {
+////					throw new InvalidParameterException(
+////							"String: \"" + out[i] + " \" at index:"
+////									+ i + " cannot be converted to a Double \n Message from original exception follows:\n"
+////									+ e.getMessage()
+////							);
+////				}
+////			}
+//			System.out.println("Returning event message");
+//			return out;
 //
-//				try {
-//					// throws number format exception if string is invalid
-//					out[i] = Double.parseDouble(splitStr[i]);
-//				}
-//				catch (Exception e) {
-//					throw new InvalidParameterException(
-//							"String: \"" + out[i] + " \" at index:"
-//									+ i + " cannot be converted to a Double \n Message from original exception follows:\n"
-//									+ e.getMessage()
-//							);
-//				}
-//			}
-			System.out.println("Returning event message");
-			return out;
-
-		}
+//		}
 		else if (sIn.charAt(0) != 'S' && sIn.charAt(sIn.length() - 1) != 'E' && sIn.charAt(sIn.length()-2) != ',')
 			throw new IllegalArgumentException("First and Last characters are not S and E");
 		else if (sIn.charAt(0) != 'S') throw new IllegalArgumentException("First Character in input String is not S");
@@ -254,7 +251,7 @@ public class Parser {
 									+ e.getMessage()
 							);
 				}
-				if (stateValue>=stateLRange && stateValue<=stateURange) {
+				if ((stateValue>=stateLRange && stateValue<=stateURange) || !showRangeError) {
 					out[i] = stateValue;
 				}
 				else {
@@ -275,7 +272,7 @@ public class Parser {
 									+ e.getMessage()
 							);
 				}
-				if (contValue>=contLRange && contValue<=contURange) {
+				if ((contValue>=contLRange && contValue<=contURange)  || !showRangeError) {
 					out[i] = contValue;
 				}
 				else {
@@ -308,24 +305,19 @@ public class Parser {
 	public double[] parsePropulsion(String sIn) throws IllegalArgumentException {
 		
 		// Format:
-		// P,PRESSURE,TEMPERATURE,VALVE_STATUS,E
-		boolean throwErrors=true;
+		// P,PRESSURE,TEMPERATURE,VALVE_STATUS,MIN,SEC,SUBSEC,E
 		
+		//use ones in DataIndex
 		int pressureLocation = 0;
-		double pressureLRange = 0;
-		//double pressureURange = 750;
-		double pressureURange = 760;
 		int temperatureLocation = 1;
-		double temperatureLRange = 0;
-		//double temperatureURange = 25;
-		double temperatureURange = 30;
 		int valveStatusLocation = 2;
+		
 		double[] out = new double[this.numberOfValues];
 		Arrays.fill(out, EMPTY_ARRAY);
-		// Check if first and last characters are S and E respectively
+		// Check if first and last characters are P and E respectively
 		if (sIn.isEmpty() || sIn.length() <= 2) throw new IllegalArgumentException("Input string is empty or size 1 or size 2");
 		else if (sIn.charAt(0) != 'P' && sIn.charAt(sIn.length() - 1) != 'E' && sIn.charAt(sIn.length()-2) != ',')
-			throw new IllegalArgumentException("First and Last characters are not S and E");
+			throw new IllegalArgumentException("First and Last characters are not P and E");
 		else if (sIn.charAt(0) != 'P') throw new IllegalArgumentException("First Character in input String is not P");
 		else if (sIn.charAt(sIn.length()-1) != 'E') throw new IllegalArgumentException("Last Character in input string is not E");
 		else if (sIn.charAt(sIn.length()-2) != ',') throw new IllegalArgumentException("Last Character in input string is not ,");
@@ -340,9 +332,8 @@ public class Parser {
 			
 			
 			if (i == pressureLocation) {
-				double pressure;
 				try {
-					pressure=Double.parseDouble(splitStr[i]);
+					out[i] = Double.parseDouble(splitStr[i]);
 				}
 				catch (Exception e) {
 					throw new InvalidParameterException(
@@ -351,18 +342,11 @@ public class Parser {
 									+ e.getMessage()
 							);
 				}
-//				if (throwErrors && pressure>=pressureLRange && pressure<=pressureURange) {
-//					out[i] = pressure;
-//				}
-//				else {
-//					throw new IllegalArgumentException("PRESSURE should be between " + pressureLRange + " and " + pressureURange);
-//				}
 			}
 			
 			else if (i == temperatureLocation) {
-				double temperature;
 				try {
-					temperature=Double.parseDouble(splitStr[i]);
+					out[i] = Double.parseDouble(splitStr[i]);
 				}
 				catch (Exception e) {
 					throw new InvalidParameterException(
@@ -371,18 +355,11 @@ public class Parser {
 									+ e.getMessage()
 							);
 				}
-//				if (throwErrors && temperature>=temperatureLRange && temperature<=temperatureURange) {
-//					out[i] = temperature;
-//				}
-//				else {
-//					throw new IllegalArgumentException("TEMPERATURE should be between " + pressureLRange + " and " + pressureURange);
-//				}
 			}
 			
 			else if (i == valveStatusLocation) {
-				int valveStatus;
 				try {
-					valveStatus=Integer.parseInt(splitStr[i]);
+					out[i] = Integer.parseInt(splitStr[i]);
 				}
 				catch (Exception e) {
 					throw new InvalidParameterException(
@@ -391,13 +368,22 @@ public class Parser {
 									+ e.getMessage()
 							);
 				}
-				if (throwErrors && (valveStatus==0 || valveStatus==1)) {
-					out[i] = valveStatus;
+			}
+			
+			else {
+				try {
+					// throws number format exception if string is invalid
+					out[i] = Double.parseDouble(splitStr[i]);
 				}
-				else {
-					throw new IllegalArgumentException("VALVE_STATUS should be either 1 or 0");
+				catch (Exception e) {
+					throw new InvalidParameterException(
+							"String: \"" + out[i] + " \" at index:"
+									+ i + " cannot be converted to a Double \n Message from original exception follows:\n"
+									+ e.getMessage()
+							);
 				}
 			}
+			
 			
 		}
 		
