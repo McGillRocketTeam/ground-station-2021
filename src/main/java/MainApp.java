@@ -66,12 +66,13 @@ public class MainApp extends Application {
 	static StringBuffer rawDataConcatBuffer = new StringBuffer();
 	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
 
-	private final Mode mode = Mode.OLD;
-	public final boolean flightComputer = false;
+	private final Mode mode = Mode.LIVE;
+	public final boolean flightComputer = true;
 	private final int NUMBER_OF_PARAMETERS_FC = 14;
 	private final int NUMBER_OF_PARAMETERS_PROP = 6;
 	private int SERIAL_PORT_NUMBER = 6;
-	private final String COM_PORT_DESC = "/dev/tty.usbmodem11101";
+//	private final String COM_PORT_DESC = "/dev/tty.usbmodem11101";
+	private final String COM_PORT_DESC = "COM16";
 	
 	@FXML Button launchButton;
 	private ScheduledExecutorService scheduledExecutorService;

@@ -358,12 +358,6 @@ public class Parser {
 									+ e.getMessage()
 							);
 				}
-				if (throwErrors && pressure>=pressureLRange && pressure<=pressureURange) {
-					out[i] = pressure;
-				}
-				else {
-					throw new IllegalArgumentException("PRESSURE should be between " + pressureLRange + " and " + pressureURange);
-				}
 			}
 			
 			else if (i == temperatureLocation) {
@@ -376,12 +370,6 @@ public class Parser {
 									+ i + " cannot be converted to a double \n Message from original exception follows:\n"
 									+ e.getMessage()
 							);
-				}
-				if (throwErrors && temperature>=temperatureLRange && temperature<=temperatureURange) {
-					out[i] = temperature;
-				}
-				else {
-					throw new IllegalArgumentException("TEMPERATURE should be between " + pressureLRange + " and " + pressureURange);
 				}
 			}
 			
@@ -418,7 +406,6 @@ public class Parser {
 									+ e.getMessage()
 							);
 				}
-				out[i] = converted;
 			}
 			
 		}

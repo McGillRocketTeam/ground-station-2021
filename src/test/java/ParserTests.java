@@ -111,13 +111,13 @@ public class ParserTests {
     	String test = "S,9.90,-0.39,-0.35,-0.19,-0.06,0.09,96754.00,37.1676836,-97.7361986,00,02,33,0,3,E";
     	Parser testP = new Parser(14);
     	double[] data =  testP.parseFC(test);
-    	Assertions.assertEquals(9.90, data[0]);
+    	Assertions.assertEquals(9.9, data[0]);
     	Assertions.assertEquals(-0.39, data[1]);
     	Assertions.assertEquals(-0.35, data[2]);
     	Assertions.assertEquals(-0.19, data[3]);
     	Assertions.assertEquals(-0.06, data[4]);
     	Assertions.assertEquals(0.09, data[5]);
-    	Assertions.assertEquals(96754.00, data[6]);
+//    	Assertions.assertEquals(96754.00, data[6]); // to be changed to be altitude instead of pressure
     	Assertions.assertEquals(37.1676836, data[7]);
     	Assertions.assertEquals(-97.7361986, data[8]);
     	Assertions.assertEquals(0, data[9]);
@@ -232,7 +232,7 @@ public class ParserTests {
     	Assertions.assertEquals(-0.19, data[3]);
     	Assertions.assertEquals(-0.06, data[4]);
     	Assertions.assertEquals(0.09, data[5]);
-    	Assertions.assertEquals(96754.00, data[6]);
+//    	Assertions.assertEquals(96754.00, data[6]); // to be changed to be altitude instead of pressure
     	Assertions.assertEquals(37.1676836, data[7]);
     	Assertions.assertEquals(-97.7361986, data[8]);
     	Assertions.assertEquals(0, data[9]);
@@ -264,7 +264,7 @@ public class ParserTests {
     	Assertions.assertEquals(-0.19, data[3]);
     	Assertions.assertEquals(-0.06, data[4]);
     	Assertions.assertEquals(0.09, data[5]);
-    	Assertions.assertEquals(96754.00, data[6]);
+//    	Assertions.assertEquals(96754.00, data[6]); // to be changed to be altitude instead of pressure
     	Assertions.assertEquals(37.1676836, data[7]);
     	Assertions.assertEquals(-97.7361986, data[8]);
     	Assertions.assertEquals(0, data[9]);
