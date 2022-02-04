@@ -391,23 +391,4 @@ public class Parser {
 		
 		
 	}
-	
-//	public static void main(String[] args) {
-//		//System.out.println(Integer.parseInt("0011", 2));
-////		String test = "S,9.99,-0.45,-0.31,-0.15,-0.02,0.05,96754.01,37.1677142,-97.7362292,00,00,00,2,3,E";
-////    	Parser testP = new Parser(14);
-////    	double[] data =  testP.parseFC(test);
-////    	for (int i=0; i<data.length; i++) {
-////    		System.out.println(data[i]);
-////    	}
-//		
-//		String test = "P,750.65,25.65,0,E";
-//    	Parser testP = new Parser(3);
-//    	double[] data =  testP.parsePropulsion(test);
-//    	for (int i=0; i<data.length; i++) {
-//    		System.out.println(data[i]);
-//    	}
-//    	
-//        
-//    }
 }
