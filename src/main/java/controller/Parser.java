@@ -11,12 +11,16 @@ import java.util.Scanner;
 import controller.gui.DataIndex;
 
 public class Parser {
+	private boolean showRangeError = false;
 	private int numberOfValues;
 	private boolean containsHex;
 	private int hexLocation;
 	private final double EMPTY_ARRAY = 0;
 	private final double LOCAL_PRESSURE = 96754; // pressure conversion to altitude
 
+	//show error if state are not in range
+	public void setRangeError(boolean showRangeError){this.showRangeError = showRangeError;}
+	
 	/**
 	 *
 	 * @param numberOfValues
@@ -157,17 +161,11 @@ public class Parser {
 	public double[] parseFC(String sIn) throws IllegalArgumentException{
 
 		// Format:
-		//old:
-		//	S,ACCx,ACCy,ACCz,MAGx,MAGy,MAGz,PRESSURE,LAT,LONG,HOUR,MIN,SEC,SUBSEC,E\n
-		//	S,3.2, 3.2, 3.2, 3.2, 3.2, 3.2, 4.2,    ,3.7,3.7, 2,   2,  2,  2,     E
-		/*
-		 * S,ACCx,ACCy,ACCz,MAGx,MAGy,MAGz,PRESSURE,LAT,LONG,HOUR,MIN,SEC,E
-		 * S,0.85,-128.71,1004.91,140.00,-490.00,70.00,1005.24,45.4583817,-73.4328384,00,04,50,E
-		 */
 		//new:
-		// S,ACCx,ACCy,ACCz,GYROx,GYROy,GYROz,PRESSURE,LAT,LONG,HOUR,MIN,SEC,STATE,CONT,E
-		//numberOfValue: 14
+		// S,ACCx,ACCy,ACCz,GYROx,GYROy,GYROz,PRESSURE,LAT,LONG,MIN,SEC,SUBSEC,STATE,CONT,E
+		//numbberOfValue: 14
 		
+		//use ones in DataIndex
 		int state=12;
 		int stateLRange=0;
 		int stateURange=4;
@@ -175,6 +173,7 @@ public class Parser {
 		int contLRange=0;
 		int contURange=3;
 		
+			
 		double[] out = new double[this.numberOfValues];
 		Arrays.fill(out, EMPTY_ARRAY);
 		// Check if first and last characters are S and E respectively
@@ -248,7 +247,7 @@ public class Parser {
 									+ e.getMessage()
 							);
 				}
-				if (stateValue>=stateLRange && stateValue<=stateURange) {
+				if ((stateValue>=stateLRange && stateValue<=stateURange) || !showRangeError) {
 					out[i] = stateValue;
 				}
 				else {
@@ -269,7 +268,7 @@ public class Parser {
 									+ e.getMessage()
 							);
 				}
-				if (contValue>=contLRange && contValue<=contURange) {
+				if ((contValue>=contLRange && contValue<=contURange)  || !showRangeError) {
 					out[i] = contValue;
 				}
 				else {
@@ -319,23 +318,22 @@ public class Parser {
 //		System.out.println("Parser in: str = " + sIn);
 		
 		boolean throwErrors=true;
+		// P,PRESSURE,TEMPERATURE,VALVE_STATUS,MIN,SEC,SUBSEC,E
 		
+		//use ones in DataIndex
 		int pressureLocation = 0;
-		double pressureLRange = 0;
-		//double pressureURange = 750;
-		double pressureURange = 760;
 		int temperatureLocation = 1;
-		double temperatureLRange = 0;
-		//double temperatureURange = 25;
-		double temperatureURange = 30;
 		int valveStatusLocation = 2;
+		int valveLRange=0;
+		int valveURange=1;
+		
 		double[] out = new double[this.numberOfValues];
 		Arrays.fill(out, EMPTY_ARRAY);
 
 		// Check if first and last characters are P and E respectively
 		if (sIn.isEmpty() || sIn.length() <= 2) throw new IllegalArgumentException("Input string is empty or size 1 or size 2");
 		else if (sIn.charAt(0) != 'P' && sIn.charAt(sIn.length() - 1) != 'E' && sIn.charAt(sIn.length()-2) != ',')
-			throw new IllegalArgumentException("First and Last characters are not S and E");
+			throw new IllegalArgumentException("First and Last characters are not P and E");
 		else if (sIn.charAt(0) != 'P') throw new IllegalArgumentException("First Character in input String is not P");
 		else if (sIn.charAt(sIn.length()-1) != 'E') throw new IllegalArgumentException("Last Character in input string is not E");
 		else if (sIn.charAt(sIn.length()-2) != ',') throw new IllegalArgumentException("Last Character in input string is not ,");
@@ -350,9 +348,8 @@ public class Parser {
 		for (int i = 0; i < splitStr.length; i++) {
 
 			if (i == pressureLocation) {
-				double pressure;
 				try {
-					pressure=Double.parseDouble(splitStr[i]);
+					out[i] = Double.parseDouble(splitStr[i]);
 				}
 				catch (Exception e) {
 					throw new InvalidParameterException(
@@ -370,9 +367,8 @@ public class Parser {
 			}
 			
 			else if (i == temperatureLocation) {
-				double temperature;
 				try {
-					temperature=Double.parseDouble(splitStr[i]);
+					out[i] = Double.parseDouble(splitStr[i]);
 				}
 				catch (Exception e) {
 					throw new InvalidParameterException(
@@ -389,6 +385,7 @@ public class Parser {
 				}
 			}
 			
+			//for the STATE
 			else if (i == valveStatusLocation) {
 				int valveStatus;
 				try {
@@ -401,19 +398,18 @@ public class Parser {
 									+ e.getMessage()
 							);
 				}
-				if (throwErrors && (valveStatus==0 || valveStatus==1)) {
+				if ((valveStatus>=valveLRange && valveStatus<=valveURange) || !showRangeError) {
 					out[i] = valveStatus;
 				}
 				else {
-					throw new IllegalArgumentException("VALVE_STATUS should be either 1 or 0");
+					throw new IllegalArgumentException("STATE should be between " + valveLRange + " and " + valveURange);
 				}
 			}
 			
-			// time
 			else {
-				double converted;
 				try {
-					converted = Double.parseDouble(splitStr[i]);
+					// throws number format exception if string is invalid
+					out[i] = Double.parseDouble(splitStr[i]);
 				}
 				catch (Exception e) {
 					throw new InvalidParameterException(
