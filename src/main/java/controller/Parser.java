@@ -311,6 +311,8 @@ public class Parser {
 		int pressureLocation = 0;
 		int temperatureLocation = 1;
 		int valveStatusLocation = 2;
+		int valveLRange=0;
+		int valveURange=1;
 		
 		double[] out = new double[this.numberOfValues];
 		Arrays.fill(out, EMPTY_ARRAY);
@@ -357,9 +359,11 @@ public class Parser {
 				}
 			}
 			
+			//for the STATE
 			else if (i == valveStatusLocation) {
+				int valveStatus;
 				try {
-					out[i] = Integer.parseInt(splitStr[i]);
+					valveStatus=Integer.parseInt(splitStr[i]);
 				}
 				catch (Exception e) {
 					throw new InvalidParameterException(
@@ -367,6 +371,12 @@ public class Parser {
 									+ i + " cannot be converted to an int \n Message from original exception follows:\n"
 									+ e.getMessage()
 							);
+				}
+				if ((valveStatus>=valveLRange && valveStatus<=valveURange) || !showRangeError) {
+					out[i] = valveStatus;
+				}
+				else {
+					throw new IllegalArgumentException("STATE should be between " + valveLRange + " and " + valveURange);
 				}
 			}
 			

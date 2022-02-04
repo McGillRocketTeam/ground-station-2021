@@ -210,6 +210,70 @@ public class ParserTests {
     	System.out.println("Test with empty data passed");
     }
     
+    @Test
+    public void testOutOfRangeStateWithWarning() {
+    	String test = "S,9.90,-0.39,-0.35,-0.19,-0.06,0.09,96754.00,37.1676836,-97.7361986,00,02,33,8,3,E";
+    	Parser testP = new Parser(14);
+    	testP.setRangeError(true);
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> {
+    		testP.parseFC(test);
+    	});
+    	System.out.println("Test with out of range value and warning passed");
+    }
+    
+    @Test
+    public void testOutOfRangeStateWithoutWarning() {
+    	String test = "S,9.90,-0.39,-0.35,-0.19,-0.06,0.09,96754.00,37.1676836,-97.7361986,00,02,33,8,3,E";
+    	Parser testP = new Parser(14);
+    	double[] data =  testP.parseFC(test);
+    	Assertions.assertEquals(9.90, data[0]);
+    	Assertions.assertEquals(-0.39, data[1]);
+    	Assertions.assertEquals(-0.35, data[2]);
+    	Assertions.assertEquals(-0.19, data[3]);
+    	Assertions.assertEquals(-0.06, data[4]);
+    	Assertions.assertEquals(0.09, data[5]);
+    	Assertions.assertEquals(96754.00, data[6]);
+    	Assertions.assertEquals(37.1676836, data[7]);
+    	Assertions.assertEquals(-97.7361986, data[8]);
+    	Assertions.assertEquals(0, data[9]);
+    	Assertions.assertEquals(2, data[10]);
+    	Assertions.assertEquals(33, data[11]);
+    	Assertions.assertEquals(8, data[12]);
+    	Assertions.assertEquals(3, data[13]);
+    }
+    
+    @Test
+    public void testOutOfRangeContWithWarning() {
+    	String test = "S,9.90,-0.39,-0.35,-0.19,-0.06,0.09,96754.00,37.1676836,-97.7361986,00,02,33,0,10,E";
+    	Parser testP = new Parser(14);
+    	testP.setRangeError(true);
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> {
+    		testP.parseFC(test);
+    	});
+    	System.out.println("Test with out of range value and warning passed");
+    }
+    
+    @Test
+    public void testOutOfRangeContWithoutWarning() {
+    	String test = "S,9.90,-0.39,-0.35,-0.19,-0.06,0.09,96754.00,37.1676836,-97.7361986,00,02,33,0,10,E";
+    	Parser testP = new Parser(14);
+    	double[] data =  testP.parseFC(test);
+    	Assertions.assertEquals(9.90, data[0]);
+    	Assertions.assertEquals(-0.39, data[1]);
+    	Assertions.assertEquals(-0.35, data[2]);
+    	Assertions.assertEquals(-0.19, data[3]);
+    	Assertions.assertEquals(-0.06, data[4]);
+    	Assertions.assertEquals(0.09, data[5]);
+    	Assertions.assertEquals(96754.00, data[6]);
+    	Assertions.assertEquals(37.1676836, data[7]);
+    	Assertions.assertEquals(-97.7361986, data[8]);
+    	Assertions.assertEquals(0, data[9]);
+    	Assertions.assertEquals(2, data[10]);
+    	Assertions.assertEquals(33, data[11]);
+    	Assertions.assertEquals(0, data[12]);
+    	Assertions.assertEquals(10, data[13]);
+    }
+    
     
     
     //test for propulsion
@@ -300,6 +364,29 @@ public class ParserTests {
     	System.out.println("Test with empty data passed");
     }
     
+    @Test
+    public void testOutOfRangeValveStatusWithWarning() {
+    	String test = "P,272.52,0.00,2,01,08,35,E";
+    	Parser testP = new Parser(6);
+    	testP.setRangeError(true);
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> {
+    		testP.parsePropulsion(test);
+    	});
+    	System.out.println("Test with out of range value and warning passed");
+    }
+    
+    @Test
+    public void testOutOfRangeValveStatusWithoutWarning() {
+    	String test = "P,272.52,0.00,2,01,08,35,E";
+    	Parser testP = new Parser(6);
+    	double[] data =  testP.parsePropulsion(test);
+    	Assertions.assertEquals(272.52, data[0]);
+    	Assertions.assertEquals(0, data[1]);
+    	Assertions.assertEquals(2, data[2]);
+    	Assertions.assertEquals(1, data[3]);
+    	Assertions.assertEquals(8, data[4]);
+    	Assertions.assertEquals(35, data[5]);
+    }
     
     
     
