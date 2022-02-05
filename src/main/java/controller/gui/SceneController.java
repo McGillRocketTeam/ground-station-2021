@@ -85,7 +85,7 @@ public class SceneController {
 	@FXML
 	private AltitudeGraphController altitudegraphController;
 	@FXML
-	private ToggleButton launchAltitudeGraph;
+	private ToggleButton fullHistory;
 
 	/**
 	 * Initialize the graphs
@@ -107,13 +107,19 @@ public class SceneController {
 		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
 			// Toggle Button controlling graph plotting
 			public void handle(ActionEvent e) {
-				altitudegraphController.setAltitudePlotFullHistory();
-				accelerationgraphsController.setAccelerationPlotFullHistory();
-				propulsionGraphsController.setPropulsionPlotFullHistory();
+				if (fullHistory.isSelected()) {
+					altitudegraphController.setAltitudePlotFullHistory();
+					accelerationgraphsController.setAccelerationPlotFullHistory();
+					propulsionGraphsController.setPropulsionPlotFullHistory();
+				} else {
+					altitudegraphController.deleteAltitudePoints();
+					accelerationgraphsController.deleteAccelerationPoints();
+					propulsionGraphsController.deletePropulsionPoints();
+				}
 			}
 		};
 
-		launchAltitudeGraph.setOnAction(event);
+		fullHistory.setOnAction(event);
 	}
 	
 	

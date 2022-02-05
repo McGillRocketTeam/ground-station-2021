@@ -102,6 +102,13 @@ public class PropulsionController {
 		isPlotFullHistory = true;
 	}
 	
+	/**
+	 * Setter for button boolean
+	 */
+	public void deletePropulsionPoints() {
+		isPlotFullHistory = false;
+	}
+	
 	
 	
 	/**
