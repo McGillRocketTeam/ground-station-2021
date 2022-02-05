@@ -269,12 +269,18 @@ public class AccelerationGraphsController {
 	}
 	
 	/**
-	 * Setter for button boolean
+	 * Setter for launchButton
 	 */
 	public void setAccelerationPlotFullHistory() {
 		isAccelerationPlotFullHistory = true;
 	}
 	
+	/**
+	 * Setter for resetButton
+	 */
+	public void deleteAccelerationPoints() {
+		isAccelerationPlotFullHistory = false;
+	}	
 
 }
 

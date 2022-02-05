@@ -23,8 +23,9 @@
                                  <children>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                        <children>
-                                          <Label layoutX="92.0" layoutY="72.0" text="MRT LOGO" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="92.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="72.0" />
-                                          <Button fx:id="launchButton" layoutX="64.0" layoutY="99.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Launch Page" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="99.0" />
+                                          <Label layoutX="109.0" layoutY="72.0" text="MRT LOGO" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="108.0" AnchorPane.topAnchor="72.0" />
+                                          <Button fx:id="launchButton" layoutX="80.0" layoutY="99.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Launch Page" textAlignment="CENTER" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="99.0" />
+                                          <ToggleButton fx:id="fullHistory" layoutX="102.0" layoutY="22.0" mnemonicParsing="false" text="Full History" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane prefHeight="500.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
@@ -45,7 +46,6 @@
                                     <AnchorPane prefHeight="178.0" prefWidth="635.0">
                                        <children>
                                        	  <fx:include fx:id="altitudegraph" source="AltitudeGraph.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                          <ToggleButton fx:id="launchAltitudeGraph" layoutX="53.0" layoutY="1.0" mnemonicParsing="false" text="Launch Graph" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane prefHeight="480.0" prefWidth="635.0" VBox.vgrow="ALWAYS">
