@@ -85,7 +85,7 @@ public class SceneController {
 	@FXML
 	private AltitudeGraphController altitudegraphController;
 	@FXML
-	private ToggleButton fullHistory;
+	private ToggleButton launchAltitudeGraph;
 
 	/**
 	 * Initialize the graphs
@@ -104,27 +104,79 @@ public class SceneController {
 		accelerationgraphsController.addGraphData(data);
 		altitudegraphController.addAltitudeGraphData(data); // add points
 
-		EventHandler<ActionEvent> launchEvent = new EventHandler<ActionEvent>() {
+		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
 			// Toggle Button controlling graph plotting
 			public void handle(ActionEvent e) {
-				if (fullHistory.isSelected()) {
 				altitudegraphController.setAltitudePlotFullHistory();
 				accelerationgraphsController.setAccelerationPlotFullHistory();
-				} else {
-				altitudegraphController.deleteAltitudePoints();
-				accelerationgraphsController.deleteAccelerationPoints();
-				}
+				propulsionGraphsController.setPropulsionPlotFullHistory();
 			}
 		};
 
-		fullHistory.setOnAction(launchEvent);
+		launchAltitudeGraph.setOnAction(event);
 	}
+	
+	
+	
+	////////////////////////// GRAPHS //////////////////////////////
+	
+	@FXML private AnchorPane propulsionGraphs;
+	@FXML private PropulsionController propulsionGraphsController;
+	
+	
+	
+	public void sceneInitializePropulsionGraphs() {
+		propulsionGraphsController.initializePropulsionGraphs();
+	}
+	
+	public void sceneAddPropulsionGraphData(double[] data) {
+		propulsionGraphsController.addPropulsionGraphData(data);
+	}
+	
+	
+	
+	
+	////////////////////////// TABLE //////////////////////////////
+	
+	@FXML private AnchorPane propulsionNumberTable;
+	@FXML private PropulsionNumberTableController propulsionNumberTableController;
 
-	// === Launch Page ===
-
-	@FXML
-	Button launchButton;
-
+	
+	
+	public void startPropulsionTimer(double data[]) {
+		propulsionNumberTableController.updateNumDisplay(data);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	////////////////////////////////////////////////////////
+	//	=== Launch Page ===
+	
+	@FXML Button launchButton;
+	
 	/**
 	 * Creates a new Scene, the Launch Page. Launch Page becomes visible once the
 	 * "Launch Page" button is clicked.

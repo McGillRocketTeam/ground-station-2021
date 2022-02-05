@@ -113,17 +113,11 @@ public class AltitudeGraphController {
 	}
 	
 	/**
-	 * Setter for launchButton 
+	 * Setter for button boolean
 	 */
 	public void setAltitudePlotFullHistory() {
 		isAltitudePlotFullHistory = true;
 	}
-	
-	/**
-	 * Setter for resetButton 
-	 */
-	public void deleteAltitudePoints() {
-		isAltitudePlotFullHistory = false;
-	}
+
 }
 
