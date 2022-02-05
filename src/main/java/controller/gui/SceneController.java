@@ -85,9 +85,7 @@ public class SceneController {
 	@FXML
 	private AltitudeGraphController altitudegraphController;
 	@FXML
-	private Button launchGraphs;
-	@FXML
-	private Button resetGraphs;
+	private ToggleButton fullHistory;
 
 	/**
 	 * Initialize the graphs
@@ -109,25 +107,17 @@ public class SceneController {
 		EventHandler<ActionEvent> launchEvent = new EventHandler<ActionEvent>() {
 			// Toggle Button controlling graph plotting
 			public void handle(ActionEvent e) {
+				if (fullHistory.isSelected()) {
 				altitudegraphController.setAltitudePlotFullHistory();
 				accelerationgraphsController.setAccelerationPlotFullHistory();
-				
+				} else {
+				altitudegraphController.deleteAltitudePoints();
+				accelerationgraphsController.deleteAccelerationPoints();
+				}
 			}
 		};
 
-		launchGraphs.setOnAction(launchEvent);
-		
-		EventHandler<ActionEvent> resetEvent = new EventHandler<ActionEvent>() {
-			
-			// Button resetting graph plotting
-			public void handle(ActionEvent e) {
-				altitudegraphController.deleteAltitudePlot();
-				accelerationgraphsController.deleteAccelerationPlot();
-				
-			}
-		};
-		
-		resetGraphs.setOnAction(resetEvent);
+		fullHistory.setOnAction(launchEvent);
 	}
 
 	// === Launch Page ===

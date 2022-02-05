@@ -104,7 +104,7 @@ public class AltitudeGraphController {
 	/**
 	 * Setter for resetButton 
 	 */
-	public void deleteAltitudePlot() {
+	public void deleteAltitudePoints() {
 		isAltitudePlotFullHistory = false;
 	}
 }
