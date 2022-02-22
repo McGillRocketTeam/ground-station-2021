@@ -146,22 +146,34 @@ public class SceneController {
 	
 	@FXML private AnchorPane propulsionNumberTable;
 	@FXML private PropulsionNumberTableController propulsionNumberTableController;
-
 	
 	
 	public void startPropulsionTimer(double data[]) {
 		propulsionNumberTableController.updateNumDisplay(data);
+	}	
+	
+	
+
+	
+	@FXML private Button launch;
+	
+	
+	
+	public void sceneInitializeLaunchButton() {
+
+		
+		launch.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+	
+				// TODO: sending data
+//				this.launchStatus = 1;
+				launch.setDisable(true);
+				
+			}
+		});
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

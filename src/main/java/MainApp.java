@@ -96,6 +96,8 @@ public class MainApp extends Application {
 		sceneController.sceneInitializeGyro();
 		sceneController.sceneInitializeGraphs();
 		sceneController.sceneInitializePropulsionGraphs();
+		sceneController.sceneInitializeLaunchButton();
+		
 		
 //		MainAppController mainAppController = (MainAppController)fxmlLoader.getController();
 //		mainAppController.mainAppInitializeGraphs();
@@ -162,6 +164,7 @@ public class MainApp extends Application {
 //					mainAppController.mainAppAddGyroData(data);
 					sceneController.startPropulsionTimer(dataProp);
 					sceneController.sceneAddPropulsionGraphData(dataProp);
+					
 //
 //
 //

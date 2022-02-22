@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="916.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.SceneController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="916.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.SceneController">
   <tabs>
     <Tab text="Main">
       <content>
@@ -106,9 +106,14 @@
                   	<fx:include fx:id="propulsionGraphs" source="PropulsionGraphs.fxml" />
                   </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="228.0" layoutY="405.0" prefHeight="222.0" prefWidth="236.0">
+                  <AnchorPane layoutX="228.0" layoutY="395.0" prefHeight="173.0" prefWidth="441.0">
                      <children>
                         <fx:include fx:id="propulsionNumberTable" source="PropulsionNumberTable.fxml" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="4.0" layoutY="593.0" prefHeight="54.0" prefWidth="917.0">
+                     <children>
+                        <Button fx:id="launch" layoutX="223.0" layoutY="-7.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="439.0" text="LAUNCH" />
                      </children>
                   </AnchorPane>
                   
