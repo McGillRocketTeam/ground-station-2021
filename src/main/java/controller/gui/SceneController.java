@@ -153,7 +153,13 @@ public class SceneController {
 	}	
 	
 	
-
+	
+//	Runnable launchStatus = 0;
+	
+//	
+//	public void setLaunchListener(Runnable launchStatus) {
+//		this.launchStatus = launchStatus;
+//	}
 	
 	@FXML private Button launch;
 	
@@ -193,48 +199,48 @@ public class SceneController {
 	////////////////////////////////////////////////////////
 	//	=== Launch Page ===
 	
-	@FXML Button launchButton;
-	
-	/**
-	 * Creates a new Scene, the Launch Page. Launch Page becomes visible once the
-	 * "Launch Page" button is clicked.
-	 * 
-	 * @throws Exception
-	 */
-	public void initializeScene() throws Exception {
-
-		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent e) {
-
-//        		e.consume();
-
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml_21_22/LaunchPage.fxml"));
-				// FXMLLoader fxmlLoader = new
-				// FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
-
-				try {
-					Parent launchRoot = fxmlLoader.load();
-					Scene launchScene = new Scene(launchRoot, 800, 600);
-
-					Stage newWindow = new Stage();
-					newWindow.setTitle("Launch");
-					newWindow.setScene(launchScene);
-					newWindow.show();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					System.out.println("oh no");
-				}
-
-//        		StackPane secondaryLayout = new StackPane();
-//                
-//                Scene secondScene = new Scene(secondaryLayout, 500,500);
-//                Stage newWindow = new Stage();
-//                newWindow.setTitle("Launch");
-//                newWindow.setScene(secondScene);
-//                newWindow.show();
-			}
-		};
-
-		launchButton.setOnAction(event);
-	}
+//	@FXML Button launchButton;
+//	
+//	/**
+//	 * Creates a new Scene, the Launch Page. Launch Page becomes visible once the
+//	 * "Launch Page" button is clicked.
+//	 * 
+//	 * @throws Exception
+//	 */
+//	public void initializeScene() throws Exception {
+//
+//		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+//			public void handle(ActionEvent e) {
+//
+////        		e.consume();
+//
+//				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml_21_22/LaunchPage.fxml"));
+//				// FXMLLoader fxmlLoader = new
+//				// FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
+//
+//				try {
+//					Parent launchRoot = fxmlLoader.load();
+//					Scene launchScene = new Scene(launchRoot, 800, 600);
+//
+//					Stage newWindow = new Stage();
+//					newWindow.setTitle("Launch");
+//					newWindow.setScene(launchScene);
+//					newWindow.show();
+//				} catch (IOException e1) {
+//					// TODO Auto-generated catch block
+//					System.out.println("oh no");
+//				}
+//
+////        		StackPane secondaryLayout = new StackPane();
+////                
+////                Scene secondScene = new Scene(secondaryLayout, 500,500);
+////                Stage newWindow = new Stage();
+////                newWindow.setTitle("Launch");
+////                newWindow.setScene(secondScene);
+////                newWindow.show();
+//			}
+//		};
+//
+//		launchButton.setOnAction(event);
+//	}
 }

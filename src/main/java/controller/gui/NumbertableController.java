@@ -29,6 +29,7 @@ public class NumbertableController {
 	public Label currentZAccelValue;
 	public Label currentRSSIValue;
 	public Label currentVelocityValue;
+	public Label state;
 	
 	@FXML
 	public void setPeakAltitudeValue(String value){
@@ -70,6 +71,10 @@ public class NumbertableController {
 	@FXML 
 	public void setCurrentVelocityValue(String value) {
 		this.currentVelocityValue.setText(value);
+	}
+	@FXML
+	public void setState(String value) {
+		this.state.setText(value);
 	}
 	
 /**
@@ -119,7 +124,17 @@ public class NumbertableController {
 		//set Peak Acceleration
 //		if (data[DataIndex.ACCELERATION_INDEX.getOrder()]>Double.parseDouble(peakAccelerationLabel.getText())) 
 //		setPeakAccelerationLabel(String.format("%.2f", data[DataIndex.ACCELERATION_INDEX.getOrder()]));
-
+		if (data[DataIndex.STATE_INDEX.getOrder()] == 0) {
+				setState("Pad");
+			} else if (data[DataIndex.STATE_INDEX.getOrder()] == 1) {
+				setState("Boost / Coast");
+			} else if (data[DataIndex.STATE_INDEX.getOrder()] == 2) {
+				setState("Drogue Descent");
+			} else if (data[DataIndex.STATE_INDEX.getOrder()] == 3) {
+				setState("Main Descent");
+			} else if (data[DataIndex.STATE_INDEX.getOrder()] == 4) {
+				setState("Landed");
+			}
 		
 
 	}

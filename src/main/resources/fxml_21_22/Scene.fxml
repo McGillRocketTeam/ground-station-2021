@@ -24,7 +24,7 @@
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                        <children>
                                           <Label layoutX="92.0" layoutY="72.0" text="MRT LOGO" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="92.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="72.0" />
-                                          <Button fx:id="launchButton" layoutX="64.0" layoutY="99.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Launch Page" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="99.0" />
+<!--                                           <Button fx:id="launchButton" layoutX="64.0" layoutY="99.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Launch Page" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="99.0" /> -->
                                           <ToggleButton fx:id="fullHistory" layoutX="86.0" layoutY="26.0" mnemonicParsing="false" text="Full History" />
                                        </children>
                                     </AnchorPane>
@@ -106,14 +106,14 @@
                   	<fx:include fx:id="propulsionGraphs" source="PropulsionGraphs.fxml" />
                   </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="228.0" layoutY="395.0" prefHeight="173.0" prefWidth="441.0">
+                  <AnchorPane layoutX="31.0" layoutY="393.0" prefHeight="173.0" prefWidth="441.0">
                      <children>
                         <fx:include fx:id="propulsionNumberTable" source="PropulsionNumberTable.fxml" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="4.0" layoutY="593.0" prefHeight="54.0" prefWidth="917.0">
                      <children>
-                        <Button fx:id="launch" layoutX="223.0" layoutY="-7.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="439.0" text="LAUNCH" />
+                        <Button fx:id="launch" layoutX="254.0" layoutY="-15.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="439.0" text="LAUNCH" />
                      </children>
                   </AnchorPane>
                   

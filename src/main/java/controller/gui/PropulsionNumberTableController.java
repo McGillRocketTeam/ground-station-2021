@@ -59,6 +59,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.Node;
 import javafx.event.EventHandler;
 
+import javafx.scene.paint.Color;
 /**
 
  *  ---------------INFO------------------
@@ -80,16 +81,38 @@ public class PropulsionNumberTableController {
 	public Label currentTempValue;
 	public Label currentPressureValue;
 	public Label valveStatus;
+
 	
 	
 	
 	@FXML 
 	public void setCurrentTempValue(String value) {
 		this.currentTempValue.setText(value);
+		
+		if (Integer.parseInt(value) <= 20) {
+			this.currentTempValue.setTextFill(Color.web("#d1b94d"));
+		} 
+		else if (Integer.parseInt(value) > 20 && Integer.parseInt(value) <= 25) {
+			this.currentTempValue.setTextFill(Color.web("#04b810"));
+		} 
+		else {
+			this.currentTempValue.setTextFill(Color.web("#ff0303"));
+		}
+		
 	}
 	@FXML 
 	public void setCurrentPressureValue(String value) {
 		this.currentPressureValue.setText(value);
+		
+		if (Integer.parseInt(value) <= 733) {
+			this.currentPressureValue.setTextFill(Color.web("#d1b94d"));
+		} 
+		else if (Integer.parseInt(value) > 733 && Integer.parseInt(value) <= 821) {
+			this.currentPressureValue.setTextFill(Color.web("#04b810"));
+		} 
+		else {
+			this.currentPressureValue.setTextFill(Color.web("#ff0303"));
+		}
 	}
 	
 	@FXML 
@@ -97,6 +120,7 @@ public class PropulsionNumberTableController {
 		this.valveStatus.setText(value);
 		
 	}
+	
 	
 	public void updateNumDisplay(double[] data) {
 
@@ -109,12 +133,15 @@ public class PropulsionNumberTableController {
 		setCurrentPressureValue(String.valueOf((int) Math.round(data[pressure_index])));
 
 		if (data[valve_status_index] > 0) {
-		setValveStatus("open");
+			setValveStatus("open");
 		} else {
 			setValveStatus("closed");
 		}
+		
 
 	}
+	
+	
 	
 	
 	

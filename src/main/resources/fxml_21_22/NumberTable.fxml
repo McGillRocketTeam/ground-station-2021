@@ -137,12 +137,12 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current RSSI" textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="State" textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label fx:id="currentRSSIValue" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="state" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
                      <font>
                         <Font size="19.0" />
                      </font>

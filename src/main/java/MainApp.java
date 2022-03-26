@@ -92,10 +92,11 @@ public class MainApp extends Application {
 		Scene mainApp = new Scene(root, 1000,700);
 		
 		SceneController sceneController = (SceneController)fxmlLoader.getController();
-		sceneController.initializeScene();
+//		sceneController.initializeScene();
 		sceneController.sceneInitializeGyro();
 		sceneController.sceneInitializeGraphs();
 		sceneController.sceneInitializePropulsionGraphs();
+//		sceneController.setLaunchListener((launchStatus) -> {});
 		sceneController.sceneInitializeLaunchButton();
 		
 		
