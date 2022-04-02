@@ -66,7 +66,7 @@ public class MainApp extends Application {
 	static StringBuffer rawDataConcatBuffer = new StringBuffer();
 	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
 
-	private final Mode mode = Mode.OLD;
+	private final Mode mode = Mode.LIVE;
 	public final boolean flightComputer = true;
 	private final int NUMBER_OF_PARAMETERS_FC = 14;
 	private final int NUMBER_OF_PARAMETERS_PROP = 6;
@@ -120,7 +120,7 @@ public class MainApp extends Application {
 			try {
 //				myData = (ArrayList<String>) Parser.storeData("test_data/2020-10-10-serial-2378-flight-0021_av_only.csv");
 //				myData = (ArrayList<String>) Parser.storeData("test_data/2020-10-10-serial-2378-flight-0021_av_only_subsec.csv");
-				myData = (ArrayList<String>) Parser.storeData("test_data/2020-10-10-serial-2378-flight-0021_combined_subsec.csv");
+				myData = (ArrayList<String>) Parser.storeData("oldd.csv");
 				System.out.println("found file");
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -340,13 +340,17 @@ public class MainApp extends Application {
  * @param path to which raw live data is saved
  */
 	public static void createRawDataFiles(String path) {
-
-		try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data.txt"))){
-			writer.write(rawDataConcatBuffer.toString());
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if(rawDataConcatBuffer.length() == 0) {
+			System.out.println("No raw data to save. Skipping data log creation.");
+		} else {
+			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data.txt"))){
+				writer.write(rawDataConcatBuffer.toString());
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
+
 	}
 	
 /**
@@ -354,13 +358,17 @@ public class MainApp extends Application {
  * @param path to which parsed data is saved
  */
 	public static void createParsedDataFiles(String path) {
-
-		try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data.txt"))){
-			writer.write(parsedDataConcatBuffer.toString());
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if(parsedDataConcatBuffer.length() == 0) {
+			System.out.println("No parsed data to save. Skipping data log creation.");
+		} else {
+			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data.txt"))){
+				writer.write(parsedDataConcatBuffer.toString());
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
+
 	}
 
 	public static void main(String[] args) {
