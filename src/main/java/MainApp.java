@@ -171,7 +171,6 @@ public class MainApp extends Application {
 
 
 			Queue<String> q = new ConcurrentLinkedQueue<String>();
-			Queue<String> qp = new ConcurrentLinkedQueue<String>(); // propulsion
 			SerialPort[] t = SerialPort.getCommPorts();
 
 			for (SerialPort x : t ) {
@@ -204,8 +203,7 @@ public class MainApp extends Application {
 							//	System.out.println(comPort.bytesAvailable());
 							String s = buffer.readLine();
 							
-							if (s.contains("S,") || s.contains("J,")) q.add(s); // fc or event message
-							if (s.contains("P,")) qp.add(s); // prop message
+							q.add(s);
 							
 							//	System.out.println(buffer.read());
 							//					System.out.println(s);
@@ -248,59 +246,15 @@ public class MainApp extends Application {
 								if(data[0] != -10000) {
 	
 									Platform.runLater(()-> {
-										
-										//	System.out.println(data[3]);
-//
-//										mainAppController.mainAppAddGraphData(data);
-										sceneController.sceneAddGraphData(data);
-										sceneController.sceneAddGyroData(data);
-										sceneController.startTimer(data);
-//										mainAppController.mainAppAddMapData(data);
-//										mainAppController.mainAppAddRawData(data);
-//										mainAppController.startTimer(data);
-//										mainAppController.mainAppAddGyroData(data);
-
-
-									});
-								}
-							}
-
-						} catch (IllegalArgumentException e) {
-							System.out.println("Invalid message. Message was thrown out.");
-						} catch (NullPointerException e) {
-							System.out.println("Why you passing null to the parser");
-						} finally {
-							rawDataConcatBuffer.append(stringData + "\n");
-						}
-						//					finally {
-						//						pw.close();
-						//					}
-					}
-					
-					if(!qp.isEmpty()) {
-						String stringData = qp.remove();
-						try {
-							System.out.println(stringData);
-							double[] data = parser.parse(stringData);
-
-							if(data != null) {
-								parsedDataConcatBuffer.append(stringData + "\n");
-								//pw.println(stringData + "\n");
-								if(data[0] != -10000) {
-	
-									Platform.runLater(()-> {
-										
-										//	System.out.println(data[3]);
-//
-//										mainAppController.mainAppAddGraphData(data);
-//										sceneController.sceneAddGraphData(data);
-//										sceneController.sceneAddGyroData(data);
-										sceneController.startPropulsionTimer(data);
-										sceneController.sceneAddPropulsionGraphData(data);
-//										mainAppController.mainAppAddMapData(data);
-//										mainAppController.mainAppAddRawData(data);
-//										mainAppController.startTimer(data);
-//										mainAppController.mainAppAddGyroData(data);
+										if(data.length == 14) { // get numbers from the class
+											sceneController.sceneAddGraphData(data);
+											sceneController.sceneAddGyroData(data);
+											sceneController.startTimer(data);
+										}
+										else if (data.length == 6) {
+											sceneController.startPropulsionTimer(data);
+											sceneController.sceneAddPropulsionGraphData(data);
+										}
 									});
 								}
 							}
