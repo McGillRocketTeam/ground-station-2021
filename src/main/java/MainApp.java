@@ -72,7 +72,7 @@ public class MainApp extends Application {
 	private final int NUMBER_OF_PARAMETERS_PROP = 6;
 	private int SERIAL_PORT_NUMBER = 6;
 //	private final String COM_PORT_DESC = "/dev/tty.usbmodem11101";
-	private final String COM_PORT_DESC = "COM16";
+	private final String COM_PORT_DESC = "COM5";
 	
 	@FXML Button launchButton;
 	private ScheduledExecutorService scheduledExecutorService;
@@ -108,8 +108,7 @@ public class MainApp extends Application {
 //		stage.setTitle("McGill Rocket Team Ground Station");
 //
 //
-		Parser parser_fc = new Parser(NUMBER_OF_PARAMETERS_FC);
-		Parser parser_prop = new Parser(NUMBER_OF_PARAMETERS_PROP);
+		Parser parser = new Parser();
 		
 		ArrayList<String> myData = new ArrayList<String>();
 		ArrayList<double[]> myDataArrays = new ArrayList<double[]>();
@@ -128,9 +127,7 @@ public class MainApp extends Application {
 			}
 			for (String str: myData) {
 				try {
-//					System.out.println("Single string: " + str); // debug
-					if (str.contains("S,") || str.contains("J,")) myDataArrays.add(parser_fc.parseFC((str)));
-					if (str.contains("P,")) myDataArraysProp.add(parser_prop.parsePropulsion(str));
+					myDataArraysProp.add(parser.parse(str));
 				} catch (IllegalArgumentException e) {
 					System.out.println("Invalid message. Message was thrown out.");
 					System.out.println(e.toString());
@@ -244,14 +241,7 @@ public class MainApp extends Application {
 						try {
 							System.out.println(stringData);
 							double[] data;
-							if (!flightComputer) {
-								data = parser_fc.parse(stringData);
-							} else {
-								data = parser_fc.parseFC(stringData);
-//								data[DataIndex.TIME_INDEX.getOrder()] = data[DataIndex.TIME_INDEX.getOrder()]*60 + data[DataIndex.TIME_INDEX.getOrder()+1] + data[DataIndex.TIME_INDEX.getOrder()+2]/100.0;
-							}
-
-
+							data = parser.parse(stringData);
 							if(data != null) {
 								parsedDataConcatBuffer.append(stringData + "\n");
 								//pw.println(stringData + "\n");
@@ -291,7 +281,7 @@ public class MainApp extends Application {
 						String stringData = qp.remove();
 						try {
 							System.out.println(stringData);
-							double[] data = parser_prop.parsePropulsion(stringData);
+							double[] data = parser.parse(stringData);
 
 							if(data != null) {
 								parsedDataConcatBuffer.append(stringData + "\n");

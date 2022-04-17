@@ -73,7 +73,7 @@ public class LiteMainApp extends Application {
    
     	DataStorage.makeFolders();
         
-		Parser parser = new Parser(13);
+		Parser parser = new Parser();
 		ArrayList<String> myData = new ArrayList<String>();
 		ArrayList<double[]> myDataArrays = new ArrayList<double[]>();
 		switch (mode) {
@@ -86,7 +86,7 @@ public class LiteMainApp extends Application {
 				}
 				for (String str: myData) {
 					try {
-						myDataArrays.add(parser.parseFC((str)));
+						myDataArrays.add(parser.parse(str));
 					} catch (IllegalArgumentException e) {
 						System.out.println("Invalid message. Message was thrown out.");
 						System.out.println(e.toString());
@@ -151,7 +151,7 @@ public class LiteMainApp extends Application {
 							String stringData = q.remove();
 						try {
 							System.out.println(stringData);
-							double[] data = parser.parseFC(stringData);
+							double[] data = parser.parse(stringData);
 
 
 							
