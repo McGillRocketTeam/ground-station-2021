@@ -74,6 +74,15 @@ import javafx.event.EventHandler;
  */
 public class AccelerationGraphsController {
 	
+	private final double ACC_X_YMIN = -2.0;
+	private final double ACC_X_YMAX = +2.0;
+	
+	private final double ACC_Y_YMIN = -2.0;
+	private final double ACC_Y_YMAX = +2.0;
+	
+	private final double ACC_Z_YMIN = -2.0; // TODO: change to +/- 12 G for competition
+	private final double ACC_Z_YMAX = +2.0;
+	
 	
 	private boolean isAccelerationPlotFullHistory = false;
 	
@@ -122,9 +131,13 @@ public class AccelerationGraphsController {
 		
 		NumberAxis yAxis = (NumberAxis) accelerationXChart.getYAxis();
 		yAxis.setForceZeroInRange(false);
+		yAxis.setAutoRanging(false);
+		yAxis.setLowerBound(ACC_X_YMIN);
+		yAxis.setUpperBound(ACC_X_YMAX);
 		
 		NumberAxis xAxis = (NumberAxis) accelerationXChart.getXAxis();
 		xAxis.setForceZeroInRange(false);
+		xAxis.setTickLabelsVisible(false);
 		
 		JFXChartUtil.setupZooming(accelerationXChart, new EventHandler<MouseEvent>() {
 			@Override
@@ -151,9 +164,13 @@ public class AccelerationGraphsController {
 		
 		NumberAxis yAxis = (NumberAxis) accelerationYChart.getYAxis();
 		yAxis.setForceZeroInRange(false);
+		yAxis.setAutoRanging(false);
+		yAxis.setLowerBound(ACC_Y_YMIN);
+		yAxis.setUpperBound(ACC_Y_YMAX);
 		
 		NumberAxis xAxis = (NumberAxis) accelerationYChart.getXAxis();
 		xAxis.setForceZeroInRange(false);
+		xAxis.setTickLabelsVisible(false);
 		
 		JFXChartUtil.setupZooming(accelerationYChart, new EventHandler<MouseEvent>() {
 			@Override
@@ -179,9 +196,13 @@ public class AccelerationGraphsController {
 		
 		NumberAxis yAxis = (NumberAxis) accelerationZChart.getYAxis();
 		yAxis.setForceZeroInRange(false);
+		yAxis.setAutoRanging(false);
+		yAxis.setLowerBound(ACC_Z_YMIN);
+		yAxis.setUpperBound(ACC_Z_YMAX);
 		
 		NumberAxis xAxis = (NumberAxis) accelerationZChart.getXAxis();
 		xAxis.setForceZeroInRange(false);
+		xAxis.setTickLabelsVisible(false);
 		
 		JFXChartUtil.setupZooming(accelerationZChart, new EventHandler<MouseEvent>() {
 			@Override
@@ -207,20 +228,20 @@ public class AccelerationGraphsController {
 	 */
 	public void addGraphData(double[] data) {
 //		addAltitudeData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ALTITUDE_INDEX.getOrder()]);
-		
-		double x_val = data[DataIndex.TIME_INDEX.getOrder()]*60 + data[DataIndex.TIME_INDEX.getOrder()+1] + data[DataIndex.TIME_INDEX.getOrder()+2]/100.0;
+		double subseconds = (255.0 - data[DataIndex.TIME_INDEX.getOrder() + 2]) / (256.0);
+		double x_val = data[DataIndex.TIME_INDEX.getOrder()]*60 + data[DataIndex.TIME_INDEX.getOrder()+1] + subseconds;
 
 //		addVelocityData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.VELOCITY_INDEX.getOrder()]);
 //		addAccelerationXData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_X_INDEX.getOrder()]);
-		addAccelerationXData(x_val, data[DataIndex.ACCEL_X_INDEX.getOrder()]);
+		addAccelerationXData(x_val, data[DataIndex.ACCEL_X_INDEX.getOrder()]/1000.0);
 		
 //		addAccelerationData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCELERATION_INDEX.getOrder()]);
 //		addAccelerationYData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_Y_INDEX.getOrder()]);
-		addAccelerationYData(x_val, data[DataIndex.ACCEL_Y_INDEX.getOrder()]);
+		addAccelerationYData(x_val, data[DataIndex.ACCEL_Y_INDEX.getOrder()]/1000.0);
 		
 //		addRSSIData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.RSSI_INDEX.getOrder()]);
 //		addAccelerationZData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_Z_INDEX.getOrder()]);
-		addAccelerationZData(x_val, data[DataIndex.ACCEL_Z_INDEX.getOrder()]);
+		addAccelerationZData(x_val, data[DataIndex.ACCEL_Z_INDEX.getOrder()]/1000.0);
 	}
 	
 	/**
@@ -230,6 +251,14 @@ public class AccelerationGraphsController {
 	 */
 	
 	private void addAccelerationXData(Double x, Double y) {
+		int length = accelerationXData.getData().size();
+		if (length > 0) {
+			double prev_x = accelerationXData.getData().get(length - 1).getXValue().doubleValue();
+			if (prev_x > x || x > prev_x + 1) {	// new tick should not much further than previous tick
+				return;
+			}
+		}
+		
 		accelerationXData.getData().add(new XYChart.Data<>(x, y));
 		
 		if (!isAccelerationPlotFullHistory) {
@@ -245,6 +274,14 @@ public class AccelerationGraphsController {
 	 */
 	
 	private void addAccelerationYData(Double x, Double y) {
+		int length = accelerationXData.getData().size();
+		if (length > 0) {
+			double prev_x = accelerationXData.getData().get(length - 1).getXValue().doubleValue();
+			if (prev_x > x || x > prev_x + 1) {	// new tick should not much further than previous tick
+				return;
+			}
+		}
+		
 		accelerationYData.getData().add(new XYChart.Data<>(x, y));
 		
 		if (!isAccelerationPlotFullHistory) {
@@ -260,6 +297,14 @@ public class AccelerationGraphsController {
 	 */
 	
 	private void addAccelerationZData(Double x, Double y) {
+		int length = accelerationXData.getData().size();
+		if (length > 0) {
+			double prev_x = accelerationXData.getData().get(length - 1).getXValue().doubleValue();
+			if (prev_x > x || x > prev_x + 1) {	// new tick should not much further than previous tick
+				return;
+			}
+		}
+		
 		accelerationZData.getData().add(new XYChart.Data<>(x, y));
 
 		if (!isAccelerationPlotFullHistory) {

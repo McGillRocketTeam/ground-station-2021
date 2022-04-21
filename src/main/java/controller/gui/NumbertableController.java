@@ -2,6 +2,7 @@ package controller.gui;
 
 import java.util.ArrayList;
 
+import controller.Parser;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -88,11 +89,11 @@ public class NumbertableController {
 		//System.out.println(myDataList.get(i)[5]);
 		
 		//set Peak Altitude 
-		if (data[DataIndex.ALTITUDE_INDEX.getOrder()] > Double.parseDouble(peakAltitudeValue.getText())) 
-			setPeakAltitudeValue(String.format("%.2f", data[DataIndex.ALTITUDE_INDEX.getOrder()]));
+		if (data[DataIndex.ALTITUDE_INDEX.getOrder()] - Parser.getAltGround() > Double.parseDouble(peakAltitudeValue.getText())) 
+			setPeakAltitudeValue(String.format("%.2f", data[DataIndex.ALTITUDE_INDEX.getOrder()] - Parser.getAltGround()));
 		
 		//set Current Altitude 
-		setCurrentAltitudeValue(String.format("%.2f", data[DataIndex.ALTITUDE_INDEX.getOrder()]));
+		setCurrentAltitudeValue(String.format("%.2f", data[DataIndex.ALTITUDE_INDEX.getOrder()] - Parser.getAltGround()));
 		
 		//set Peak X Acceleration
 		if (data[DataIndex.ACCEL_X_INDEX.getOrder()] > Double.parseDouble(peakXAccelValue.getText())) 

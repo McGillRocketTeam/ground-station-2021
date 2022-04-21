@@ -16,7 +16,9 @@ public class Parser {
 	private boolean containsHex;
 	private int hexLocation;
 	private final double EMPTY_ARRAY = 0;
-	private final double LOCAL_PRESSURE = 96754; // pressure conversion to altitude
+	private final double LOCAL_PRESSURE = 1031; // pressure conversion to altitude
+	
+	private static double alt_ground = Double.MAX_VALUE; // init to known value
 
 	//show error if state are not in range
 	public void setRangeError(boolean showRangeError){this.showRangeError = showRangeError;}
@@ -282,6 +284,10 @@ public class Parser {
 				try {
 					pressure = Double.parseDouble(splitStr[i]);
 					out[i] = getAltitude(pressure);
+					
+					if (alt_ground == Double.MAX_VALUE) {
+						alt_ground = out[i];
+					}
 				}
 				catch (Exception e) {
 					throw new InvalidParameterException(
@@ -427,6 +433,10 @@ public class Parser {
 	private double getAltitude(double pressure) {
 		double altitude = 145442.1609 * (1.0 - Math.pow(pressure / LOCAL_PRESSURE, 0.190266436));
 		return altitude;
+	}
+	
+	public static double getAltGround() {
+		return alt_ground;
 	}
 	
 //	public static void main(String[] args) {
