@@ -154,11 +154,18 @@ public class SceneController {
 	
 	
 	
-//	Runnable launchStatus = 0;
+	private static int launchStatus = 0;
 	
-//	
-//	public void setLaunchListener(Runnable launchStatus) {
-//		this.launchStatus = launchStatus;
+	public static int getLaunchStatus() {
+		return launchStatus;
+	}
+	
+	public static void setLaunchStatus(int status) {
+		launchStatus = status;
+	}
+	
+//	public void setLaunchListener(int launchStatus) {
+//		launchStatus = launchStatus;
 //	}
 	
 	@FXML private Button launch;
@@ -174,8 +181,9 @@ public class SceneController {
 			public void handle(ActionEvent event) {
 	
 				// TODO: sending data
-//				this.launchStatus = 1;
-				launch.setDisable(true);
+				launchStatus = 1;
+				
+//				launch.setDisable(true);
 				
 			}
 		});

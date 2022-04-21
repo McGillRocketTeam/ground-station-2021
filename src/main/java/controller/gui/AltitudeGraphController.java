@@ -29,7 +29,7 @@ public class AltitudeGraphController {
 	private static double alt_ground;
 	
 	private int ALT_YMIN = -100;
-	private int ALT_YMAX = +8000;
+	private int ALT_YMAX = +12000;
 	
 	private boolean isAltitudePlotFullHistory = false;
 	
@@ -126,7 +126,7 @@ public class AltitudeGraphController {
 			altitudeData.getData().add(new XYChart.Data<>(x, y - alt_ground));
 			
 			if (y - alt_ground > ALT_YMAX) {
-				ALT_YMAX += 1000;
+				ALT_YMAX += 2000;
 				NumberAxis yAxis = (NumberAxis) altitudeChart.getYAxis();
 				yAxis.setUpperBound(ALT_YMAX);
 			}
