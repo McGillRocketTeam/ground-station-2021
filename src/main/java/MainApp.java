@@ -344,13 +344,17 @@ public class MainApp extends Application {
 						e1.printStackTrace();
 					}
 
-					if (SceneController.getLaunchStatus() == 1) {
+					if (SceneController.getLaunchStatus() > 0) {
+						int cmdNumber = SceneController.getLaunchStatus();
 						SceneController.setLaunchStatus(0);
 						System.out.println("Launch button pressed! Sending command!");
 						
 						// send command to Teensy over Serial port
-						System.out.println("Command = " + RadioCommands.CMD_LAUNCH.code()[0] + ", " + RadioCommands.CMD_LAUNCH.code()[1]);
-						comPort.writeBytes(RadioCommands.CMD_LAUNCH.code(), RadioCommands.command_length);
+						byte[] code = RadioCommands.getByInt(cmdNumber);
+//						System.out.println("Command = " + RadioCommands.CMD_LAUNCH.code()[0] + ", " + RadioCommands.CMD_LAUNCH.code()[1]);
+						System.out.println("Command = " + new String(code));
+						
+						comPort.writeBytes(code, RadioCommands.command_length);
 					}
 				}
 			});

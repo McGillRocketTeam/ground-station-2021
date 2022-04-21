@@ -36,4 +36,13 @@ public enum RadioCommands {
 	public int index() { return this.command_index; }
 	public byte[] code() { return this.command_code; }
 	
+	public static byte[] getByInt(int index) {
+		for (final RadioCommands cmd: values()) {
+			if (cmd.command_index == index) {
+				return cmd.command_code;
+			}
+		}
+		return CMD_INVALID.command_code;
+	}
+	
 }

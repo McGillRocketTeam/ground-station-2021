@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="916.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.SceneController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="916.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.SceneController">
   <tabs>
     <Tab text="Main">
       <content>
@@ -118,6 +118,15 @@
                   </AnchorPane>
                   
                </children></AnchorPane>
+        </content>
+      </Tab>
+      <Tab text="Radio Commands">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <fx:include fx:id="radioCommandButtons" source="RadioCommandButtons.fxml" />
+               </children>
+            </AnchorPane>
         </content>
       </Tab>
   </tabs>

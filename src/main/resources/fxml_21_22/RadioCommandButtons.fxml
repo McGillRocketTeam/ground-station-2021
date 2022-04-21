@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.RadioCommandButtonsController">
+   <children>
+      <AnchorPane prefHeight="218.0" prefWidth="302.0">
+         <children>
+            <VBox layoutY="13.0" prefHeight="387.0" prefWidth="302.0" AnchorPane.bottomAnchor="-182.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="13.0">
+               <children>
+                  <AnchorPane prefHeight="187.0" prefWidth="302.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="150.0" layoutX="51.0" layoutY="7.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+                        <Text layoutX="83.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recovery" wrappingWidth="99.9999877929688">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <RadioButton fx:id="arm_rcov_safed_rb" layoutX="162.0" layoutY="104.0" mnemonicParsing="false" selected="true" text="Safed" textFill="#1e991e">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="arm_recovery" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="arm_rcov_armed_rb" layoutX="162.0" layoutY="124.0" mnemonicParsing="false" text="Armed" textFill="RED">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="arm_recovery" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <Text layoutX="83.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Propulsion" wrappingWidth="89.5999633789063">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <RadioButton fx:id="arm_prop_armed_rb" layoutX="162.0" layoutY="71.0" mnemonicParsing="false" text="Armed" textFill="RED">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="arm_prop" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="arm_prop_safed_rb" layoutX="162.0" layoutY="51.0" mnemonicParsing="false" selected="true" text="Safed" textFill="#1e991e">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="arm_prop" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <Text layoutX="76.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pyro Channel Arming" textAlignment="CENTER">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="187.0" prefWidth="302.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="150.0" layoutX="51.0" layoutY="7.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f0f0f0" height="30.0" layoutX="157.0" layoutY="108.0" stroke="BLACK" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" width="86.0" />
+                        <Text fx:id="dump_valve_status_text_value" layoutX="165.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unpowered" textAlignment="CENTER" />
+                        <Text fx:id="arm_status_rcov1" layoutX="82.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" wrappingWidth="51.200000000000045">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="arm_status_prop1" layoutX="83.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Setting" wrappingWidth="89.5999633789063">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <RadioButton fx:id="arm_prop_armed_rb1" layoutX="162.0" layoutY="71.0" mnemonicParsing="false" text="Powered" textFill="RED">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="dump_valve" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="arm_prop_safed_rb1" layoutX="162.0" layoutY="51.0" mnemonicParsing="false" selected="true" text="Unpowered" textFill="#1e991e" toggleGroup="$dump_valve" />
+                        <Text layoutX="108.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dump Valve" textAlignment="CENTER">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <VBox layoutX="297.0" layoutY="13.0" prefHeight="387.0" prefWidth="302.0">
+         <children>
+            <AnchorPane prefHeight="187.0" prefWidth="302.0">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="150.0" layoutX="51.0" layoutY="7.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+                  <Text layoutX="83.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recording" wrappingWidth="99.9999877929688">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <RadioButton fx:id="arm_rcov_safed_rb1" layoutX="162.0" layoutY="104.0" mnemonicParsing="false" selected="true" text="Stopped">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="vr_recording" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="arm_rcov_armed_rb1" layoutX="162.0" layoutY="124.0" mnemonicParsing="false" text="Started" toggleGroup="$vr_recording" />
+                  <Text layoutX="83.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Power" wrappingWidth="89.5999633789063">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <RadioButton fx:id="arm_prop_armed_rb1" layoutX="162.0" layoutY="71.0" mnemonicParsing="false" text="On">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="vr_power" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="arm_prop_safed_rb1" layoutX="162.0" layoutY="51.0" mnemonicParsing="false" selected="true" text="Off" toggleGroup="$vr_power" />
+                  <Text layoutX="97.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Video Recorder" textAlignment="CENTER">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="187.0" prefWidth="302.0">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="150.0" layoutX="51.0" layoutY="7.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+                  <Text layoutX="100.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rocket Launch" textAlignment="CENTER">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Button layoutX="106.0" layoutY="66.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Launch">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
