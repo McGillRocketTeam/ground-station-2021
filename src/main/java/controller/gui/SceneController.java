@@ -203,19 +203,19 @@ public class SceneController {
 	
 	
 	@FXML private VBox dynamicmap;
-	@FXML private DynamicMapController dynamicMapController;
+	@FXML private DynamicMapController dynamicmapController;
 	
 	public void sceneInitializeMap() throws Exception {
-		if (dynamicMapController != null) {
-			dynamicMapController.initializeMap();
+		if (dynamicmapController != null) {
+			dynamicmapController.initializeMap();
 		} else {
 			System.out.println("dynamicMapController is NULL");
 		}
 	}
 	
 	public void sceneAddMapData(double[] data) {
-		if (dynamicMapController != null) {
-			dynamicMapController.addMapData(data);
+		if (dynamicmapController != null) {
+			dynamicmapController.addMapData(data);
 		} else {
 			System.out.println("dynamicMapController is NULL");
 		}
@@ -232,12 +232,12 @@ public class SceneController {
 	@FXML
 	private AnchorPane coordinatestable;
 	@FXML
-	private CoordinatesController coordinatesController;
+	private CoordinatesController coordinatestableController;
 	
 	
 	public void startCoordinates(double[] data) {
-		if (coordinatesController != null) {
-			coordinatesController.updateCoordinatesDisplay(data);
+		if (coordinatestableController != null) {
+			coordinatestableController.updateCoordinatesDisplay(data);
 		} else {
 			System.out.println("CoordinatesController is NULL");
 		}
