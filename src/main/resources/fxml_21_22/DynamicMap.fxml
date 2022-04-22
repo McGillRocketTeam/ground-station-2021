@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.ParallelCamera?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.DynamicMapController">
    <children>
-      <Label layoutX="256.0" layoutY="312.0" text="Lat Long Values" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="256.0" AnchorPane.rightAnchor="256.5" AnchorPane.topAnchor="312.0" />
-      <Label alignment="CENTER" layoutX="257.0" layoutY="192.0" text="DYNAMIC MAP" />
+      <StackPane fx:id="mapPane" />
+      <StackPane fx:id="lonPane" />
+      <StackPane fx:id="latPane" />
+      <StackPane fx:id="buttonPane" />
    </children>
-</AnchorPane>
+</VBox>

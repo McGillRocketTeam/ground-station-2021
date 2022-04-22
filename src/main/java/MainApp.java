@@ -67,7 +67,7 @@ public class MainApp extends Application {
 	static StringBuffer rawDataConcatBuffer = new StringBuffer();
 	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
 
-	private final Mode mode = Mode.LIVE;
+	private final Mode mode = Mode.OLD;
 	public final boolean flightComputer = true;
 	private final int NUMBER_OF_PARAMETERS_FC = 14;
 	private final int NUMBER_OF_PARAMETERS_PROP = 6;
@@ -97,6 +97,7 @@ public class MainApp extends Application {
 		sceneController.sceneInitializeGyro();
 		sceneController.sceneInitializeGraphs();
 		sceneController.sceneInitializePropulsionGraphs();
+		sceneController.sceneInitializeMap();
 //		sceneController.setLaunchListener((launchStatus) -> {});
 		sceneController.sceneInitializeLaunchButton();
 		
@@ -162,8 +163,10 @@ public class MainApp extends Application {
 //					mainAppController.mainAppAddRawData(data);
 					sceneController.sceneAddGraphData(data);
 					sceneController.startTimer(data);
+					sceneController.startCoordinates(data);
 					
 					sceneController.sceneAddGyroData(data);
+					sceneController.sceneAddMapData(data);
 //					mainAppController.mainAppAddGyroData(data);
 					sceneController.startPropulsionTimer(dataProp);
 					sceneController.sceneAddPropulsionGraphData(dataProp);

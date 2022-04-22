@@ -37,6 +37,7 @@ public class SceneController {
 	private AnchorPane numbertable;
 	@FXML
 	private NumbertableController numbertableController;
+	
 
 	/**
 	 * Start the asynchronous timer for updating the numbers display when running
@@ -48,6 +49,7 @@ public class SceneController {
 //		System.out.println(numbersController);
 		numbertableController.updateNumberDisplay(data);
 	}
+	
 
 	// === Rocket Model ===
 
@@ -194,6 +196,59 @@ public class SceneController {
 	
 	
 	
+
+	
+	////////////////////////// MAP //////////////////////////////
+	
+	
+	
+	@FXML private VBox dynamicmap;
+	@FXML private DynamicMapController dynamicMapController;
+	
+	public void sceneInitializeMap() throws Exception {
+		if (dynamicMapController != null) {
+			dynamicMapController.initializeMap();
+		} else {
+			System.out.println("dynamicMapController is NULL");
+		}
+	}
+	
+	public void sceneAddMapData(double[] data) {
+		if (dynamicMapController != null) {
+			dynamicMapController.addMapData(data);
+		} else {
+			System.out.println("dynamicMapController is NULL");
+		}
+	}
+	
+	
+	
+	
+	////////////////////////// COORDINATES //////////////////////////////
+	
+	
+	
+	
+	@FXML
+	private AnchorPane coordinatestable;
+	@FXML
+	private CoordinatesController coordinatesController;
+	
+	
+	public void startCoordinates(double[] data) {
+		if (coordinatesController != null) {
+			coordinatesController.updateCoordinatesDisplay(data);
+		} else {
+			System.out.println("CoordinatesController is NULL");
+		}
+		
+	}
+	
+	
+	
+	
+	
+
 	////////////////////////////////////////////////////////
 	//	=== Launch Page ===
 	
