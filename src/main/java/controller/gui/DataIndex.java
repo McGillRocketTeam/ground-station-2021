@@ -32,10 +32,12 @@ public enum DataIndex {
 //	LONGITUDE_INDEX(10);
 	
 	/*
-	 * propulsion integration, TODO: fix properly later
+	 * propulsion integration
 	 */
-	TEMP_INDEX(2),
-	VALVE_STATUS(2),
+	PROP_PRESSURE_INDEX(0),
+	PROP_TEMP_INDEX(1),
+	PROP_DUMP_VALVE_INDEX(2),
+	PROP_RUN_VALVE_INDEX(3),
 	
 	/*
 	 * Flight Computer

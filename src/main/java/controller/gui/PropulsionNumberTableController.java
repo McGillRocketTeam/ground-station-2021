@@ -89,10 +89,10 @@ public class PropulsionNumberTableController {
 	public void setCurrentTempValue(String value) {
 		this.currentTempValue.setText(value);
 		
-		if (Integer.parseInt(value) <= 20) {
+		if (Double.parseDouble(value) <= 20) {
 			this.currentTempValue.setTextFill(Color.web("#d1b94d"));
 		} 
-		else if (Integer.parseInt(value) > 20 && Integer.parseInt(value) <= 25) {
+		else if (Double.parseDouble(value) > 20 && Double.parseDouble(value) <= 25) {
 			this.currentTempValue.setTextFill(Color.web("#04b810"));
 		} 
 		else {
@@ -104,10 +104,10 @@ public class PropulsionNumberTableController {
 	public void setCurrentPressureValue(String value) {
 		this.currentPressureValue.setText(value);
 		
-		if (Integer.parseInt(value) <= 733) {
+		if (Double.parseDouble(value) <= 733) {
 			this.currentPressureValue.setTextFill(Color.web("#d1b94d"));
 		} 
-		else if (Integer.parseInt(value) > 733 && Integer.parseInt(value) <= 821) {
+		else if (Double.parseDouble(value) > 733 && Double.parseDouble(value) <= 821) {
 			this.currentPressureValue.setTextFill(Color.web("#04b810"));
 		} 
 		else {
@@ -123,13 +123,11 @@ public class PropulsionNumberTableController {
 	
 	
 	public void updateNumDisplay(double[] data) {
-
-		int temp_index = 1, pressure_index = 0, time_index = 3, valve_status_index = 2;
 		
-		setCurrentTempValue(String.valueOf((int) Math.round(data[temp_index])));
-		setCurrentPressureValue(String.valueOf((int) Math.round(data[pressure_index])));
+		setCurrentTempValue(String.format("%.3f", data[DataIndex.PROP_TEMP_INDEX.getOrder()]));
+		setCurrentPressureValue(String.format("%.3f", data[DataIndex.PROP_PRESSURE_INDEX.getOrder()]));
 
-		if (data[valve_status_index] > 0) {
+		if (data[DataIndex.PROP_DUMP_VALVE_INDEX.getOrder()] > 0) {
 			setValveStatus("open");
 		} else {
 			setValveStatus("closed");

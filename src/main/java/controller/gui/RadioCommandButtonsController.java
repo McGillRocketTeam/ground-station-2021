@@ -174,7 +174,7 @@ public class RadioCommandButtonsController {
 	}
 	
 	public void updateDumpValveLabel(double data[]) {
-		if (data[DataIndex.VALVE_STATUS.getOrder()] == 0) {
+		if (data[DataIndex.PROP_DUMP_VALVE_INDEX.getOrder()] == 0) {
 			dump_valve_status_text_value.setText("Unpowered");
 		} else {
 			dump_valve_status_text_value.setText("Powered");

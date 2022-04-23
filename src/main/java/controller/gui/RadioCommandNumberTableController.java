@@ -21,7 +21,7 @@ public class RadioCommandNumberTableController {
 	@FXML
 	public Label drogueContinuity;
 	public Label mainContinuity;
-	public Label dumpValveStatus;
+	public Label runValveStatus;
 
 	
 	@FXML 
@@ -36,8 +36,8 @@ public class RadioCommandNumberTableController {
 	}
 	
 	@FXML 
-	public void setDumpValveStatusValue(String value) {
-		this.dumpValveStatus.setText(value);
+	public void setRunValveStatusValue(String value) {
+		this.runValveStatus.setText(value);
 		
 	}
 	
@@ -49,7 +49,6 @@ public class RadioCommandNumberTableController {
 		if (data.length >= DataIndex.CONTINUITY_INDEX.getOrder()) {
 			
 			// check if armed first; cannot have continuity if FC is not armed
-			System.out.println("getArmRcovStatus = " + RadioCommandButtonsController.getArmRecoveryStatus());
 			if (RadioCommandButtonsController.getArmRecoveryStatus().equals("Safed")) {
 				setDrogueContinuityValue("safed");
 				setMainContinuityValue("safed");
@@ -75,10 +74,10 @@ public class RadioCommandNumberTableController {
 		}
 		
 		else {
-			if (data[DataIndex.VALVE_STATUS.getOrder()] > 0) {
-				setDumpValveStatusValue("powered");
+			if (data[DataIndex.PROP_DUMP_VALVE_INDEX.getOrder()] > 0) {
+				setRunValveStatusValue("powered");
 			} else {
-				setDumpValveStatusValue("unpowered");
+				setRunValveStatusValue("unpowered");
 			}
 		}
 
