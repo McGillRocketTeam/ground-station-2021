@@ -90,41 +90,41 @@ public class NumbertableController {
 		
 		//set Peak Altitude 
 		if (data[DataIndex.ALTITUDE_INDEX.getOrder()] - Parser.getAltGround() > Double.parseDouble(peakAltitudeValue.getText())) 
-			setPeakAltitudeValue(String.format("%.2f", data[DataIndex.ALTITUDE_INDEX.getOrder()] - Parser.getAltGround()));
+			setPeakAltitudeValue(String.format("%.3f", data[DataIndex.ALTITUDE_INDEX.getOrder()] - Parser.getAltGround()));
 		
 		//set Current Altitude 
-		setCurrentAltitudeValue(String.format("%.2f", data[DataIndex.ALTITUDE_INDEX.getOrder()] - Parser.getAltGround()));
+		setCurrentAltitudeValue(String.format("%.3f", data[DataIndex.ALTITUDE_INDEX.getOrder()] - Parser.getAltGround()));
 		
 		//set Peak X Acceleration
-		if (data[DataIndex.ACCEL_X_INDEX.getOrder()] > Double.parseDouble(peakXAccelValue.getText())) 
-			setPeakXAccelValue(String.format("%.2f", data[DataIndex.ACCEL_X_INDEX.getOrder()]));
+		if (Math.abs(data[DataIndex.ACCEL_X_INDEX.getOrder()]) > Double.parseDouble(peakXAccelValue.getText())) 
+			setPeakXAccelValue(String.format("%.3f", data[DataIndex.ACCEL_X_INDEX.getOrder()]/1000.0));
 		
 		//set Current X Acceleration
-		setCurrentXAccelValue(String.format("%.2f", data[DataIndex.ACCEL_X_INDEX.getOrder()]));
+		setCurrentXAccelValue(String.format("%.3f", data[DataIndex.ACCEL_X_INDEX.getOrder()]/1000.0));
 		
 		//set Peak Y Acceleration
-		if (data[DataIndex.ACCEL_Y_INDEX.getOrder()] > Double.parseDouble(peakYAccelValue.getText())) 
-			setPeakYAccelValue(String.format("%.2f", data[DataIndex.ACCEL_Y_INDEX.getOrder()]));
+		if (Math.abs(data[DataIndex.ACCEL_Y_INDEX.getOrder()]) > Double.parseDouble(peakYAccelValue.getText())) 
+			setPeakYAccelValue(String.format("%.3f", data[DataIndex.ACCEL_Y_INDEX.getOrder()]/1000.0));
 		
 		//set Current Y Acceleration
-		setCurrentYAccelValue(String.format("%.2f", data[DataIndex.ACCEL_Y_INDEX.getOrder()]));
+		setCurrentYAccelValue(String.format("%.3f", data[DataIndex.ACCEL_Y_INDEX.getOrder()]/1000.0));
 		
 		//set Peak Z Acceleration
-		if (data[DataIndex.ACCEL_Z_INDEX.getOrder()] > Double.parseDouble(peakZAccelValue.getText())) 
-			setPeakZAccelValue(String.format("%.2f", data[DataIndex.ACCEL_Z_INDEX.getOrder()]));
+		if (Math.abs(data[DataIndex.ACCEL_Y_INDEX.getOrder()]) > Double.parseDouble(peakZAccelValue.getText())) 
+			setPeakZAccelValue(String.format("%.3f", data[DataIndex.ACCEL_Z_INDEX.getOrder()]/1000.0));
 		
 		//set Current Z Acceleration
-		setCurrentZAccelValue(String.format("%.2f", data[DataIndex.ACCEL_Z_INDEX.getOrder()]));
+		setCurrentZAccelValue(String.format("%.3f", data[DataIndex.ACCEL_Z_INDEX.getOrder()]/1000.0));
 		
 		//setCurrentRSSI
-//		setCurrentRSSIValue(String.format("%.2f", data[DataIndex.RSSI_INDEX.getOrder()]));
+//		setCurrentRSSIValue(String.format("%.3f", data[DataIndex.RSSI_INDEX.getOrder()]));
 		
 		//set Current Velocity (TODO: fix or remove velocity)
 		setCurrentVelocityValue("Which Index");
 
 		//set Peak Acceleration
 //		if (data[DataIndex.ACCELERATION_INDEX.getOrder()]>Double.parseDouble(peakAccelerationLabel.getText())) 
-//		setPeakAccelerationLabel(String.format("%.2f", data[DataIndex.ACCELERATION_INDEX.getOrder()]));
+//		setPeakAccelerationLabel(String.format("%.3f", data[DataIndex.ACCELERATION_INDEX.getOrder()]));
 		if (data[DataIndex.STATE_INDEX.getOrder()] == 0) {
 				setState("Pad");
 			} else if (data[DataIndex.STATE_INDEX.getOrder()] == 1) {

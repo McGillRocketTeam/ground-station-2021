@@ -230,7 +230,7 @@ public class SceneController {
 		
 	}
 	
-	///////////////////////// PROPULSION /////////////////
+	///////////////////////// RADIO COMMANDS /////////////////
 	
 	@FXML 
 	private AnchorPane radioCommandButtons;
@@ -239,6 +239,10 @@ public class SceneController {
 	
 	public void sceneInitializeRadioCommandButtons() {
 		radioCommandButtonsController.initialize();
+	}
+	
+	public void startRadioCommandsTimer(double data[]) {
+		radioCommandButtonsController.updateDumpValveLabel(data);
 	}
 	
 	

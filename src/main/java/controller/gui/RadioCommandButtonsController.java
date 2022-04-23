@@ -94,7 +94,7 @@ public class RadioCommandButtonsController {
 		comPort = port;
 	}
 	
-	// EXAMPLE 1 with a listener. Would need access to commport from here.
+	
 	public void initialize() {
 		arm_recovery.selectedToggleProperty().addListener(new ChangeListener<Toggle>() 
         {
@@ -218,6 +218,13 @@ public class RadioCommandButtonsController {
 		});
 	}
 	
+	public void updateDumpValveLabel(double data[]) {
+		if (data[DataIndex.VALVE_STATUS.getOrder()] == 0) {
+			dump_valve_status_text_value.setText("Unpowered");
+		} else {
+			dump_valve_status_text_value.setText("Powered");
+		}
+	}
 	
 	// writes data to com port and prints the command sent
 	private void writeComPort(RadioCommands cmd) {

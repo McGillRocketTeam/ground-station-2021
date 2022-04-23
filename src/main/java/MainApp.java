@@ -103,6 +103,7 @@ public class MainApp extends Application {
 		sceneController.sceneInitializeLaunchButton();
 		
 		
+		
 //		MainAppController mainAppController = (MainAppController)fxmlLoader.getController();
 //		mainAppController.mainAppInitializeGraphs();
 //		mainAppController.mainAppInitializeMap();
@@ -111,9 +112,8 @@ public class MainApp extends Application {
 //		//        ((Pane)mainApp.getRoot()).getChildren().add(gyroController.initializeGyro().getRoot());
 //
 //
-//		stage.setTitle("McGill Rocket Team Ground Station");
-//
-//
+		stage.setTitle("McGill Rocket Team Avionics Ground Station");
+
 		Parser parser_fc = new Parser(NUMBER_OF_PARAMETERS_FC);
 		Parser parser_prop = new Parser(NUMBER_OF_PARAMETERS_PROP);
 		
@@ -275,6 +275,8 @@ public class MainApp extends Application {
 										sceneController.sceneAddGraphData(data);
 //										sceneController.sceneAddGyroData(data);
 										sceneController.startTimer(data);
+										sceneController.startCoordinates(data);
+										sceneController.sceneAddMapData(data);
 //										mainAppController.mainAppAddMapData(data);
 //										mainAppController.mainAppAddRawData(data);
 //										mainAppController.startTimer(data);
@@ -317,6 +319,7 @@ public class MainApp extends Application {
 //										sceneController.sceneAddGyroData(data);
 										sceneController.startPropulsionTimer(data);
 										sceneController.sceneAddPropulsionGraphData(data);
+										sceneController.startRadioCommandsTimer(data);
 //										mainAppController.mainAppAddMapData(data);
 //										mainAppController.mainAppAddRawData(data);
 //										mainAppController.startTimer(data);

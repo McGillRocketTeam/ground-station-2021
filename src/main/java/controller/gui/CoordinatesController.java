@@ -18,7 +18,7 @@ public class CoordinatesController {
 	}
 	
 	public void updateCoordinatesDisplay(double[] data) {
-		setCurrentLatitudeValue(String.format("%.2f", data[DataIndex.LATITUDE_INDEX.getOrder()]));
-		setCurrentLongitudeValue(String.format("%.2f", data[DataIndex.LONGITUDE_INDEX.getOrder()]));
+		setCurrentLatitudeValue(String.format("%.7f", data[DataIndex.LATITUDE_INDEX.getOrder()]));
+		setCurrentLongitudeValue(String.format("%.7f", data[DataIndex.LONGITUDE_INDEX.getOrder()]));
 	}
 }

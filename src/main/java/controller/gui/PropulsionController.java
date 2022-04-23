@@ -203,7 +203,8 @@ public class PropulsionController {
 //		for (int i = 0; i < data.length; i++) System.out.print(data[i] + " ");
 //		System.out.println(""); // newline
 		
-		double x_val = data[time_index]*60 + data[time_index+1] + data[time_index+2]/100.0;
+		double x_val = data[time_index]*60 + data[time_index+1] + (255-data[time_index+2])/256.0; // subseconds calculated from FC RTC stuff
+		
 //		System.out.printf("addPropGraphData: time = %f, pressure = %f, temp = %f\n", x_val, data[pressure_index], data[temp_index]);
 		
 //		addPressureData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.PRESSURE_INDEX.getOrder()]);

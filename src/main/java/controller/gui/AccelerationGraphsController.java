@@ -236,7 +236,7 @@ public class AccelerationGraphsController {
 
 //		addVelocityData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.VELOCITY_INDEX.getOrder()]);
 //		addAccelerationXData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_X_INDEX.getOrder()]);
-		addAccelerationXData(x_val, data[DataIndex.ACCEL_X_INDEX.getOrder()]/1000.0);
+		addAccelerationXData(x_val, data[DataIndex.ACCEL_X_INDEX.getOrder()]/1000.0); // divide by 1000 to convert mg to g (1 g = 9.81 m/s^2)
 		
 //		addAccelerationData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCELERATION_INDEX.getOrder()]);
 //		addAccelerationYData(data[DataIndex.TIME_INDEX.getOrder()], data[DataIndex.ACCEL_Y_INDEX.getOrder()]);
