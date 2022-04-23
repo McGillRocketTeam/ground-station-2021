@@ -172,28 +172,15 @@ public class SceneController {
 	
 	@FXML private Button launch;
 	
-	
-	
-	private int num_commands_sent = 3; // to send different commands using launch button
 	public void sceneInitializeLaunchButton() {	
 		launch.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				
-				launchStatus = num_commands_sent;
-				
-				if (num_commands_sent == 3) {
-					num_commands_sent = 5;
-				}
-				else {
-					num_commands_sent = 3;
-				}
+				launchStatus = 1;
 			}
 		});
 	}
-	
-	
 	
 
 	

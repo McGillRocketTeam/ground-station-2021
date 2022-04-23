@@ -33,6 +33,7 @@ import controller.gui.GraphController;
 import controller.gui.Gyro3dController;
 import controller.gui.MainAppController;
 import controller.gui.Mode;
+import controller.gui.RadioCommandButtonsController;
 import controller.gui.RadioCommands;
 import controller.gui.SceneController;
 import javafx.application.Application;
@@ -67,7 +68,7 @@ public class MainApp extends Application {
 	static StringBuffer rawDataConcatBuffer = new StringBuffer();
 	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
 
-	private final Mode mode = Mode.OLD;
+	private final Mode mode = Mode.LIVE;
 	public final boolean flightComputer = true;
 	private final int NUMBER_OF_PARAMETERS_FC = 14;
 	private final int NUMBER_OF_PARAMETERS_PROP = 6;
@@ -181,7 +182,8 @@ public class MainApp extends Application {
 			break;
 		case LIVE:
 
-
+			RadioCommandButtonsController.attachComPort(comPort); // give class access to com port
+			
 			Queue<String> q = new ConcurrentLinkedQueue<String>();
 			Queue<String> qp = new ConcurrentLinkedQueue<String>(); // propulsion
 			SerialPort[] t = SerialPort.getCommPorts();
@@ -338,29 +340,29 @@ public class MainApp extends Application {
 				}
 			});
 			
-			ex.execute(() -> { // launch button thread
-				while(true) {
-					try {
-						Thread.sleep(20);
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-					if (SceneController.getLaunchStatus() > 0) {
-						int cmdNumber = SceneController.getLaunchStatus();
-						SceneController.setLaunchStatus(0);
-						System.out.println("Launch button pressed! Sending command!");
-						
-						// send command to Teensy over Serial port
-						byte[] code = RadioCommands.getByInt(cmdNumber);
-//						System.out.println("Command = " + RadioCommands.CMD_LAUNCH.code()[0] + ", " + RadioCommands.CMD_LAUNCH.code()[1]);
-						System.out.println("Command = " + new String(code));
-						
-						comPort.writeBytes(code, RadioCommands.command_length);
-					}
-				}
-			});
+//			ex.execute(() -> { // radio commands thread
+//				// realistically humans can't click around that fast so one thread for all commands is ok?
+//				while(true) {
+//					try {
+//						Thread.sleep(20);
+//					} catch (InterruptedException e1) {
+//						e1.printStackTrace();
+//					}
+//
+//					if (SceneController.getLaunchStatus() > 0) {
+//						int cmdNumber = SceneController.getLaunchStatus();
+//						SceneController.setLaunchStatus(0);
+//						System.out.println("Launch button pressed! Sending command!");
+//						
+//						// send command to Teensy over Serial port
+//						byte[] code = RadioCommands.getByInt(cmdNumber);
+////						System.out.println("Command = " + RadioCommands.CMD_LAUNCH.code()[0] + ", " + RadioCommands.CMD_LAUNCH.code()[1]);
+//						System.out.println("Command = " + new String(code));
+//						
+//						comPort.writeBytes(code, RadioCommands.command_length);
+//					}
+//				}
+//			});
 
 		}
 

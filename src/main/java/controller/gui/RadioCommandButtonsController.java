@@ -1,4 +1,5 @@
 package controller.gui;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -52,6 +53,7 @@ import org.gillius.jfxutils.chart.FixedFormatTickFormatter;
 import org.gillius.jfxutils.chart.JFXChartUtil;
 import org.gillius.jfxutils.chart.StableTicksAxis;
 
+import com.fazecast.jSerialComm.SerialPort;
 
 import controller.Parser;
 import javafx.fxml.FXMLLoader;
@@ -86,6 +88,11 @@ public class RadioCommandButtonsController {
 	@FXML
 	public Button launch_button;
 	
+	private static SerialPort comPort = null; // stays null if we use mode.OLD
+	
+	public static void attachComPort(SerialPort port) {
+		comPort = port;
+	}
 	
 	// EXAMPLE 1 with a listener. Would need access to commport from here.
 	public void initialize() {
@@ -95,16 +102,86 @@ public class RadioCommandButtonsController {
             public void changed(ObservableValue<? extends Toggle> changed, 
                                                     Toggle oldVal, Toggle newVal)
             {
-  
+				RadioCommands cmd;
                 RadioButton rb = (RadioButton)arm_recovery.getSelectedToggle();
-                System.out.println(rb.getText());
                 if (rb.getText().equals("Armed")) {
-                	System.out.println("hello");
-                	// Execute method that does commport communication somehow
+                	cmd = RadioCommands.CMD_ARM_RCOV;
                 } else if (rb.getText().equals("Safed")){
-                	System.out.println("hi");
-                	
+                	cmd = RadioCommands.CMD_DISARM_RCOV;
+                } else {
+                	cmd = null;
+                	System.out.println("Something went very wrong with recovery arming radio buttons");
                 }
+                
+                writeComPort(cmd);
+            }
+        });
+		
+		arm_prop.selectedToggleProperty().addListener(new ChangeListener<Toggle>() 
+        {
+			@Override
+            public void changed(ObservableValue<? extends Toggle> changed, 
+                                                    Toggle oldVal, Toggle newVal)
+            {
+  
+				RadioCommands cmd;
+                RadioButton rb = (RadioButton)arm_prop.getSelectedToggle();
+                if (rb.getText().equals("Armed")) {
+                	cmd = RadioCommands.CMD_ARM_PROP;
+                } else if (rb.getText().equals("Safed")){
+                	cmd = RadioCommands.CMD_DISARM_PROP;
+                } else {
+                	cmd = null;
+                	System.out.println("Something went very wrong with propulsion arming radio buttons");
+                }
+                
+                writeComPort(cmd);
+            }
+        });
+		
+		
+		vr_power.selectedToggleProperty().addListener(new ChangeListener<Toggle>() 
+        {
+			@Override
+            public void changed(ObservableValue<? extends Toggle> changed, 
+                                                    Toggle oldVal, Toggle newVal)
+            {
+  
+				RadioCommands cmd;
+                RadioButton rb = (RadioButton)vr_power.getSelectedToggle();
+                if (rb.getText().equals("Off")) {
+                	cmd = RadioCommands.CMD_VR_POWER_OFF;
+                } else if (rb.getText().equals("On")){
+                	cmd = RadioCommands.CMD_VR_POWER_ON;
+                } else {
+                	cmd = null;
+                	System.out.println("Something went very wrong with propulsion arming radio buttons");
+                }
+                
+                writeComPort(cmd);
+            }
+        });
+		
+		
+		vr_recording.selectedToggleProperty().addListener(new ChangeListener<Toggle>() 
+        {
+			@Override
+            public void changed(ObservableValue<? extends Toggle> changed, 
+                                                    Toggle oldVal, Toggle newVal)
+            {
+  
+				RadioCommands cmd;
+                RadioButton rb = (RadioButton)vr_recording.getSelectedToggle();
+                if (rb.getText().equals("Stopped")) {
+                	cmd = RadioCommands.CMD_VR_REC_STOP;
+                } else if (rb.getText().equals("Started")){
+                	cmd = RadioCommands.CMD_VR_REC_START;
+                } else {
+                	cmd = null;
+                	System.out.println("Something went very wrong with propulsion arming radio buttons");
+                }
+                
+                writeComPort(cmd);
             }
         });
 		
@@ -116,30 +193,38 @@ public class RadioCommandButtonsController {
                                                     Toggle oldVal, Toggle newVal)
             {
   
+				RadioCommands cmd;
                 RadioButton rb = (RadioButton)dump_valve.getSelectedToggle();
-                dump_valve_status_text_value.setText(rb.getText());
-               
+                if (rb.getText().equals("Unpowered")) {
+                	cmd = RadioCommands.CMD_DUMP_POWER_OFF;
+                } else if (rb.getText().equals("Powered")){
+                	cmd = RadioCommands.CMD_DUMP_POWER_ON;
+                } else {
+                	cmd = null;
+                	System.out.println("Something went very wrong with propulsion arming radio buttons");
+                }
+                
+                writeComPort(cmd);
             }
         });
-		
 		
 		
 		launch_button.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-	
-				// LAUNCH BUTTON PRESSED ACTIONS
-				System.out.println("LAUNCH");
-				
+				writeComPort(RadioCommands.CMD_LAUNCH);
 			}
 		});
 	}
 	
-	// EXAMPLE 2 Just return the value i.e. how launch button on other prop page is implemented currently.
-	public String getRecoveryValue() {
-		RadioButton rb = (RadioButton)arm_recovery.getSelectedToggle();
-		return rb.getText();
+	
+	// writes data to com port and prints the command sent
+	private void writeComPort(RadioCommands cmd) {
+		if (comPort != null) { // would be null if running in mode.OLD
+			comPort.writeBytes(cmd.code(), RadioCommands.command_length);
+        } 
+		System.out.println("Sending command = " + new String(cmd.code()));
 	}
 	
 }
