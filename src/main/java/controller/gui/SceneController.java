@@ -237,6 +237,11 @@ public class SceneController {
 	@FXML
 	private RadioCommandButtonsController radioCommandButtonsController;
 	
+	@FXML
+	private AnchorPane radioCommandNumberTable;
+	@FXML
+	private RadioCommandNumberTableController radioCommandNumberTableController;
+	
 	public void sceneInitializeRadioCommandButtons() {
 		radioCommandButtonsController.initialize();
 	}
@@ -245,6 +250,9 @@ public class SceneController {
 		radioCommandButtonsController.updateDumpValveLabel(data);
 	}
 	
+	public void startRadioCommandsNumberTableTimer(double data[]) {
+		radioCommandNumberTableController.updateNumDisplay(data);
+	}
 	
 	
 	

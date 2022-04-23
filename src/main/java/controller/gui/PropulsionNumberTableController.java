@@ -125,11 +125,8 @@ public class PropulsionNumberTableController {
 	public void updateNumDisplay(double[] data) {
 
 		int temp_index = 1, pressure_index = 0, time_index = 3, valve_status_index = 2;
-		double x_val = data[time_index]*60 + data[time_index+1] + data[time_index+2]/100.0;
 		
-//		System.out.printf("updateNumDisplay: time = %f, pressure = %f, temp = %f, valve = %f\n", x_val, data[pressure_index], data[temp_index], data[valve_status_index]);
 		setCurrentTempValue(String.valueOf((int) Math.round(data[temp_index])));
-		
 		setCurrentPressureValue(String.valueOf((int) Math.round(data[pressure_index])));
 
 		if (data[valve_status_index] > 0) {

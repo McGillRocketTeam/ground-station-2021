@@ -172,6 +172,9 @@ public class MainApp extends Application {
 					sceneController.startPropulsionTimer(dataProp);
 					sceneController.sceneAddPropulsionGraphData(dataProp);
 					
+					sceneController.startRadioCommandsNumberTableTimer(data);
+					sceneController.startRadioCommandsNumberTableTimer(dataProp);
+					
 //
 //
 //
@@ -277,6 +280,7 @@ public class MainApp extends Application {
 										sceneController.startTimer(data);
 										sceneController.startCoordinates(data);
 										sceneController.sceneAddMapData(data);
+										sceneController.startRadioCommandsNumberTableTimer(data);
 //										mainAppController.mainAppAddMapData(data);
 //										mainAppController.mainAppAddRawData(data);
 //										mainAppController.startTimer(data);
@@ -320,6 +324,7 @@ public class MainApp extends Application {
 										sceneController.startPropulsionTimer(data);
 										sceneController.sceneAddPropulsionGraphData(data);
 										sceneController.startRadioCommandsTimer(data);
+										sceneController.startRadioCommandsNumberTableTimer(data);
 //										mainAppController.mainAppAddMapData(data);
 //										mainAppController.mainAppAddRawData(data);
 //										mainAppController.startTimer(data);

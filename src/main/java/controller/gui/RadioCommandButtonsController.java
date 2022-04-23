@@ -1,68 +1,18 @@
 package controller.gui;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.stage.Window;
-import javafx.util.Duration;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.EnumMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-
 import javafx.fxml.FXML;
-
-
-import org.gillius.jfxutils.JFXUtil;
-import org.gillius.jfxutils.chart.ChartPanManager;
-import org.gillius.jfxutils.chart.FixedFormatTickFormatter;
-import org.gillius.jfxutils.chart.JFXChartUtil;
-import org.gillius.jfxutils.chart.StableTicksAxis;
 
 import com.fazecast.jSerialComm.SerialPort;
 
-import controller.Parser;
-import javafx.fxml.FXMLLoader;
-
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.Node;
 import javafx.event.EventHandler;
-
-import javafx.scene.paint.Color;
 
 
 public class RadioCommandButtonsController {
@@ -89,11 +39,15 @@ public class RadioCommandButtonsController {
 	public Button launch_button;
 	
 	private static SerialPort comPort = null; // stays null if we use mode.OLD
+	private static String armRecoveryStatus = "Safed";
 	
 	public static void attachComPort(SerialPort port) {
 		comPort = port;
 	}
 	
+	public static String getArmRecoveryStatus() {
+		return armRecoveryStatus;
+	}
 	
 	public void initialize() {
 		arm_recovery.selectedToggleProperty().addListener(new ChangeListener<Toggle>() 
@@ -104,6 +58,7 @@ public class RadioCommandButtonsController {
             {
 				RadioCommands cmd;
                 RadioButton rb = (RadioButton)arm_recovery.getSelectedToggle();
+                armRecoveryStatus = rb.getText();
                 if (rb.getText().equals("Armed")) {
                 	cmd = RadioCommands.CMD_ARM_RCOV;
                 } else if (rb.getText().equals("Safed")){
