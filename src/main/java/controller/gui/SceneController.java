@@ -172,22 +172,21 @@ public class SceneController {
 	
 	
 	
-	private int num_commands_sent = 1; // to send different commands using launch button
+	private int num_commands_sent = 3; // to send different commands using launch button
 	public void sceneInitializeLaunchButton() {	
 		launch.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-	
+				
 				launchStatus = num_commands_sent;
-				num_commands_sent += 1;
 				
-				if (num_commands_sent == RadioCommands.CMD_VR_POWER_ON.index() + 1) {
-					num_commands_sent = 0;
+				if (num_commands_sent == 3) {
+					num_commands_sent = 5;
 				}
-				
-//				launch.setDisable(true);
-				
+				else {
+					num_commands_sent = 3;
+				}
 			}
 		});
 	}

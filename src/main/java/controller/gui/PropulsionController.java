@@ -131,6 +131,7 @@ public class PropulsionController {
 		pressureData = new XYChart.Series<>();
 		pressureData.setName("pressureData");
 		pressureChart.getData().add(pressureData);
+		pressureChart.setCreateSymbols(false);
 		
 		NumberAxis yAxis = (NumberAxis) pressureChart.getYAxis();
 		yAxis.setForceZeroInRange(false);
@@ -162,6 +163,7 @@ public class PropulsionController {
 		temperatureData = new XYChart.Series<>();
 		temperatureData.setName("temperatureData");
 		temperatureChart.getData().add(temperatureData);	
+		temperatureChart.setCreateSymbols(false);
 		
 		NumberAxis yAxis = (NumberAxis) temperatureChart.getYAxis();
 		yAxis.setForceZeroInRange(false);

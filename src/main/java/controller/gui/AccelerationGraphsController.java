@@ -128,6 +128,7 @@ public class AccelerationGraphsController {
 		accelerationXData = new XYChart.Series<>();
 		accelerationXData.setName("velocityData");
 		accelerationXChart.getData().add(accelerationXData);
+		accelerationXChart.setCreateSymbols(false);
 		
 		NumberAxis yAxis = (NumberAxis) accelerationXChart.getYAxis();
 		yAxis.setForceZeroInRange(false);
@@ -160,7 +161,8 @@ public class AccelerationGraphsController {
 	private void initializeAccelerationYChart() {
 		accelerationYData = new XYChart.Series<>();
 		accelerationYData.setName("accelerationData");
-		accelerationYChart.getData().add(accelerationYData);	
+		accelerationYChart.getData().add(accelerationYData);
+		accelerationYChart.setCreateSymbols(false);
 		
 		NumberAxis yAxis = (NumberAxis) accelerationYChart.getYAxis();
 		yAxis.setForceZeroInRange(false);
@@ -193,6 +195,7 @@ public class AccelerationGraphsController {
 		accelerationZData = new XYChart.Series<>();
 		accelerationZData.setName("MYDATA");
 		accelerationZChart.getData().add(accelerationZData);	
+		accelerationZChart.setCreateSymbols(false);
 		
 		NumberAxis yAxis = (NumberAxis) accelerationZChart.getYAxis();
 		yAxis.setForceZeroInRange(false);

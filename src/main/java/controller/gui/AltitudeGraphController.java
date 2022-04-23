@@ -53,6 +53,7 @@ public class AltitudeGraphController {
 		altitudeData = new XYChart.Series<>();
 		altitudeData.setName("altitudeData");
 		altitudeChart.getData().add(altitudeData);
+		altitudeChart.setCreateSymbols(false);
 
 		NumberAxis yAxis = (NumberAxis) altitudeChart.getYAxis();
 		yAxis.setForceZeroInRange(false);
