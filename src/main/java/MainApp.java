@@ -181,8 +181,6 @@ public class MainApp extends Application {
 		case SIMULATION:
 			break;
 		case LIVE:
-
-			RadioCommandButtonsController.attachComPort(comPort); // give class access to com port
 			
 			Queue<String> q = new ConcurrentLinkedQueue<String>();
 			Queue<String> qp = new ConcurrentLinkedQueue<String>(); // propulsion
@@ -204,6 +202,7 @@ public class MainApp extends Application {
 			try {
 				System.out.println("Port open: " + comPort.openPort());
 				comPort.setComPortParameters(9600,8,1,0);
+				RadioCommandButtonsController.attachComPort(comPort); // give class access to com port
 				comPort.addDataListener(new SerialPortDataListener() {
 
 					public int getListeningEvents() {
@@ -339,30 +338,6 @@ public class MainApp extends Application {
 					}
 				}
 			});
-			
-//			ex.execute(() -> { // radio commands thread
-//				// realistically humans can't click around that fast so one thread for all commands is ok?
-//				while(true) {
-//					try {
-//						Thread.sleep(20);
-//					} catch (InterruptedException e1) {
-//						e1.printStackTrace();
-//					}
-//
-//					if (SceneController.getLaunchStatus() > 0) {
-//						int cmdNumber = SceneController.getLaunchStatus();
-//						SceneController.setLaunchStatus(0);
-//						System.out.println("Launch button pressed! Sending command!");
-//						
-//						// send command to Teensy over Serial port
-//						byte[] code = RadioCommands.getByInt(cmdNumber);
-////						System.out.println("Command = " + RadioCommands.CMD_LAUNCH.code()[0] + ", " + RadioCommands.CMD_LAUNCH.code()[1]);
-//						System.out.println("Command = " + new String(code));
-//						
-//						comPort.writeBytes(code, RadioCommands.command_length);
-//					}
-//				}
-//			});
 
 		}
 
