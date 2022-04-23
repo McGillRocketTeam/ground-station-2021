@@ -51,6 +51,11 @@
                                     <AnchorPane prefHeight="480.0" prefWidth="635.0" VBox.vgrow="ALWAYS">
                                        <children>
                                        	  <fx:include fx:id="dynamicmap" source="DynamicMap.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <AnchorPane layoutX="54.0" layoutY="347.0" prefHeight="125.0" prefWidth="534.0">
+                                          	<children>
+                                          		<fx:include fx:id="coordinatestable" source="Coordinates.fxml" />
+                                          	</children>
+                                          </AnchorPane>
                                        </children>
                                     </AnchorPane>
                                  </children>
@@ -76,11 +81,14 @@
                                           <Label layoutX="68.0" layoutY="83.0" text="MRT LOGO" />
                                        </children>
                                     </AnchorPane>
+                                    <!--
+                                    
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                        <children>
                                      	<fx:include fx:id="rocketmodel" source="RocketModel.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
+                                    -->
                                  </children>
                               </VBox>
                            </children>

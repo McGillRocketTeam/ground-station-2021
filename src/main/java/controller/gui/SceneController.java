@@ -37,6 +37,7 @@ public class SceneController {
 	private AnchorPane numbertable;
 	@FXML
 	private NumbertableController numbertableController;
+	
 
 	/**
 	 * Start the asynchronous timer for updating the numbers display when running
@@ -48,6 +49,7 @@ public class SceneController {
 //		System.out.println(numbersController);
 		numbertableController.updateNumberDisplay(data);
 	}
+	
 
 	// === Rocket Model ===
 
@@ -193,6 +195,69 @@ public class SceneController {
 	
 	
 	
+
+	
+	////////////////////////// MAP //////////////////////////////
+	
+	
+	
+	@FXML private VBox dynamicmap;
+	@FXML private DynamicMapController dynamicmapController;
+	
+	public void sceneInitializeMap() throws Exception {
+		if (dynamicmapController != null) {
+			dynamicmapController.initializeMap();
+		} else {
+			System.out.println("dynamicMapController is NULL");
+		}
+	}
+	
+	public void sceneAddMapData(double[] data) {
+		if (dynamicmapController != null) {
+			dynamicmapController.addMapData(data);
+		} else {
+			System.out.println("dynamicMapController is NULL");
+		}
+	}
+	
+	
+	
+	
+	////////////////////////// COORDINATES //////////////////////////////
+	
+	
+	
+	
+	@FXML
+	private AnchorPane coordinatestable;
+	@FXML
+	private CoordinatesController coordinatestableController;
+	
+	
+	public void startCoordinates(double[] data) {
+		if (coordinatestableController != null) {
+			coordinatestableController.updateCoordinatesDisplay(data);
+		} else {
+			System.out.println("CoordinatesController is NULL");
+		}
+		
+	}
+	
+	///////////////////////// PROPULSION /////////////////
+	
+	@FXML 
+	private AnchorPane radioCommandButtons;
+	@FXML
+	private RadioCommandButtonsController radioCommandButtonsController;
+	
+	public void sceneInitializeRadioCommandButtons() {
+		radioCommandButtonsController.initialize();
+	}
+	
+	
+	
+	
+
 	////////////////////////////////////////////////////////
 	//	=== Launch Page ===
 	

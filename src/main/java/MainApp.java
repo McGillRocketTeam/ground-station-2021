@@ -94,9 +94,10 @@ public class MainApp extends Application {
 		
 		SceneController sceneController = (SceneController)fxmlLoader.getController();
 //		sceneController.initializeScene();
-		sceneController.sceneInitializeGyro();
+//		sceneController.sceneInitializeGyro();
 		sceneController.sceneInitializeGraphs();
 		sceneController.sceneInitializePropulsionGraphs();
+		sceneController.sceneInitializeMap();
 //		sceneController.setLaunchListener((launchStatus) -> {});
 		sceneController.sceneInitializeLaunchButton();
 		
@@ -162,8 +163,10 @@ public class MainApp extends Application {
 //					mainAppController.mainAppAddRawData(data);
 					sceneController.sceneAddGraphData(data);
 					sceneController.startTimer(data);
+					sceneController.startCoordinates(data);
 					
-					sceneController.sceneAddGyroData(data);
+//					sceneController.sceneAddGyroData(data);
+					sceneController.sceneAddMapData(data);
 //					mainAppController.mainAppAddGyroData(data);
 					sceneController.startPropulsionTimer(dataProp);
 					sceneController.sceneAddPropulsionGraphData(dataProp);
@@ -269,7 +272,7 @@ public class MainApp extends Application {
 //
 //										mainAppController.mainAppAddGraphData(data);
 										sceneController.sceneAddGraphData(data);
-										sceneController.sceneAddGyroData(data);
+//										sceneController.sceneAddGyroData(data);
 										sceneController.startTimer(data);
 //										mainAppController.mainAppAddMapData(data);
 //										mainAppController.mainAppAddRawData(data);
