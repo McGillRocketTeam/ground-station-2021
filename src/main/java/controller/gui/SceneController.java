@@ -244,6 +244,16 @@ public class SceneController {
 		
 	}
 	
+	///////////////////////// PROPULSION /////////////////
+	
+	@FXML 
+	private AnchorPane radioCommandButtons;
+	@FXML
+	private RadioCommandButtonsController radioCommandButtonsController;
+	
+	public void sceneInitializeRadioCommandButtons() {
+		radioCommandButtonsController.initialize();
+	}
 	
 	
 	

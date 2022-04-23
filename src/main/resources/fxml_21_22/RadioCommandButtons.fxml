@@ -29,11 +29,7 @@
                               <ToggleGroup fx:id="arm_recovery" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="arm_rcov_armed_rb" layoutX="162.0" layoutY="124.0" mnemonicParsing="false" text="Armed" textFill="RED">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="arm_recovery" />
-                           </toggleGroup>
-                        </RadioButton>
+                        <RadioButton fx:id="arm_rcov_armed_rb" layoutX="162.0" layoutY="124.0" mnemonicParsing="false" text="Armed" textFill="RED" toggleGroup="$arm_recovery"/>
                         <Text layoutX="83.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Propulsion" wrappingWidth="89.5999633789063">
                            <font>
                               <Font size="14.0" />
@@ -44,11 +40,7 @@
                               <ToggleGroup fx:id="arm_prop" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="arm_prop_safed_rb" layoutX="162.0" layoutY="51.0" mnemonicParsing="false" selected="true" text="Safed" textFill="#1e991e">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="arm_prop" />
-                           </toggleGroup>
-                        </RadioButton>
+                        <RadioButton fx:id="arm_prop_safed_rb" layoutX="162.0" layoutY="51.0" mnemonicParsing="false" selected="true" text="Safed" textFill="#1e991e" toggleGroup="$arm_prop"/>
                         <Text layoutX="76.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pyro Channel Arming" textAlignment="CENTER">
                            <font>
                               <Font size="16.0" />
@@ -130,7 +122,7 @@
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Button layoutX="106.0" layoutY="66.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Launch">
+                  <Button fx:id="launch_button" layoutX="106.0" layoutY="66.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Launch">
                      <font>
                         <Font size="14.0" />
                      </font>
