@@ -30,25 +30,7 @@ import javafx.stage.Stage;
 
 public class SceneController {
 
-	// === Number Table ===
-
-	// initialize variables
-	@FXML
-	private AnchorPane numbertable;
-	@FXML
-	private NumbertableController numbertableController;
 	
-
-	/**
-	 * Start the asynchronous timer for updating the numbers display when running
-	 * old data that is read in its entirety
-	 * 
-	 * @param data
-	 */
-	public void startTimer(double[] data) {
-//		System.out.println(numbersController);
-		numbertableController.updateNumberDisplay(data);
-	}
 	
 
 	// === Rocket Model ===
@@ -170,17 +152,7 @@ public class SceneController {
 //		launchStatus = launchStatus;
 //	}
 	
-	@FXML private Button launch;
-	
-	public void sceneInitializeLaunchButton() {	
-		launch.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-				launchStatus = 1;
-			}
-		});
-	}
+
 	
 
 	
@@ -210,25 +182,26 @@ public class SceneController {
 	
 	
 	
-	////////////////////////// COORDINATES //////////////////////////////
-	
-	
-	
-	
+	////////////////////////// NUMBER TABLE & COORDINATES //////////////////////////////
+
+
+	// initialize variables
+	@FXML
+	private AnchorPane numbertable;
+	@FXML
+	private NumbertableController numbertableController;
 	@FXML
 	private AnchorPane coordinatestable;
 	@FXML
 	private CoordinatesController coordinatestableController;
-	
-	
-	public void startCoordinates(double[] data) {
-		if (coordinatestableController != null) {
-			coordinatestableController.updateCoordinatesDisplay(data);
-		} else {
-			System.out.println("CoordinatesController is NULL");
-		}
-		
+
+
+	public void startTimer(double[] data) {
+		numbertableController.updateNumberDisplay(data);
+		coordinatestableController.updateCoordinatesDisplay(data);
 	}
+	
+
 	
 	///////////////////////// RADIO COMMANDS /////////////////
 	
@@ -254,54 +227,5 @@ public class SceneController {
 		radioCommandNumberTableController.updateNumDisplay(data);
 	}
 	
-	
-	
 
-	////////////////////////////////////////////////////////
-	//	=== Launch Page ===
-	
-//	@FXML Button launchButton;
-//	
-//	/**
-//	 * Creates a new Scene, the Launch Page. Launch Page becomes visible once the
-//	 * "Launch Page" button is clicked.
-//	 * 
-//	 * @throws Exception
-//	 */
-//	public void initializeScene() throws Exception {
-//
-//		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
-//			public void handle(ActionEvent e) {
-//
-////        		e.consume();
-//
-//				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml_21_22/LaunchPage.fxml"));
-//				// FXMLLoader fxmlLoader = new
-//				// FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
-//
-//				try {
-//					Parent launchRoot = fxmlLoader.load();
-//					Scene launchScene = new Scene(launchRoot, 800, 600);
-//
-//					Stage newWindow = new Stage();
-//					newWindow.setTitle("Launch");
-//					newWindow.setScene(launchScene);
-//					newWindow.show();
-//				} catch (IOException e1) {
-//					// TODO Auto-generated catch block
-//					System.out.println("oh no");
-//				}
-//
-////        		StackPane secondaryLayout = new StackPane();
-////                
-////                Scene secondScene = new Scene(secondaryLayout, 500,500);
-////                Stage newWindow = new Stage();
-////                newWindow.setTitle("Launch");
-////                newWindow.setScene(secondScene);
-////                newWindow.show();
-//			}
-//		};
-//
-//		launchButton.setOnAction(event);
-//	}
 }
