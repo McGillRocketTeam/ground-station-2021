@@ -6,7 +6,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="348.0" prefWidth="276.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui.RadioCommandLogController">
    <children>
-      <CheckBox fx:id="auto_scroll_checkbox" mnemonicParsing="false" text="Auto-scroll" />
+      <CheckBox fx:id="auto_scroll_checkbox" mnemonicParsing="false" selected="true" text="Auto-scroll" />
       <ListView fx:id="command_log" layoutY="21.0" prefHeight="330.0" prefWidth="278.0" />
    </children>
 </AnchorPane>
