@@ -80,7 +80,7 @@ public class PropulsionNumberTableController {
 	@FXML
 	public Label currentTempValue;
 	public Label currentPressureValue;
-	public Label valveStatus;
+
 
 	
 	
@@ -115,11 +115,7 @@ public class PropulsionNumberTableController {
 		}
 	}
 	
-	@FXML 
-	public void setValveStatus(String value) {
-		this.valveStatus.setText(value);
-		
-	}
+
 	
 	
 	public void updateNumDisplay(double[] data) {
@@ -127,11 +123,6 @@ public class PropulsionNumberTableController {
 		setCurrentTempValue(String.format("%.3f", data[DataIndex.PROP_TEMP_INDEX.getOrder()]));
 		setCurrentPressureValue(String.format("%.3f", data[DataIndex.PROP_PRESSURE_INDEX.getOrder()]));
 
-		if (data[DataIndex.PROP_DUMP_VALVE_INDEX.getOrder()] > 0) {
-			setValveStatus("open");
-		} else {
-			setValveStatus("closed");
-		}
 		
 
 	}

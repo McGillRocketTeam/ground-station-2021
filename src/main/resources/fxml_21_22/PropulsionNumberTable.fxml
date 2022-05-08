@@ -14,26 +14,11 @@
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
-               <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Valve Status" textAlignment="CENTER" underline="true">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="valveStatus" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
             <VBox prefHeight="168.0" prefWidth="147.0">
                <children>
                   <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Temperature" textAlignment="CENTER" underline="true">
