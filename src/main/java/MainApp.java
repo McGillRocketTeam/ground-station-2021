@@ -65,11 +65,13 @@ import javafx.fxml.FXMLLoader;
 public class MainApp extends Application {
 	static StringBuffer rawDataConcatBuffer = new StringBuffer();
 	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
+	static StringBuffer parsedPropDataConcatBuffer = new StringBuffer();
+	static StringBuffer parsedFCDataConcatBuffer = new StringBuffer();
+	static StringBuffer parsedXtendAckDataConcatBuffer = new StringBuffer();
+	static StringBuffer parsedSradioAckDataConcatBuffer = new StringBuffer();
 
 	private final Mode mode = Mode.LIVE;
 	public final boolean flightComputer = true;
-	private final int NUMBER_OF_PARAMETERS_FC = 14;
-	private final int NUMBER_OF_PARAMETERS_PROP = 6;
 	private int SERIAL_PORT_NUMBER = 6;
 //	private final String COM_PORT_DESC = "/dev/tty.usbmodem11101";
 	private final String COM_PORT_DESC = "COM5";
@@ -242,6 +244,11 @@ public class MainApp extends Application {
 							data = parser.parse(stringData);
 							if(data != null) {
 								parsedDataConcatBuffer.append(stringData + "\n");
+								//put in method
+								if (stringData.charAt(0)=='S' || stringData.charAt(0)=='J') parsedFCDataConcatBuffer.append(stringData + "\n");
+								if (stringData.charAt(0)=='P') parsedPropDataConcatBuffer.append(stringData + "\n");
+								if (stringData.charAt(0)=='x') parsedXtendAckDataConcatBuffer.append(stringData + "\n");
+								if (stringData.charAt(0)=='s') parsedSradioAckDataConcatBuffer.append(stringData + "\n");
 								//pw.println(stringData + "\n");
 								if(data[0] != -10000) {
 	
@@ -250,10 +257,13 @@ public class MainApp extends Application {
 											sceneController.sceneAddGraphData(data);
 											sceneController.sceneAddGyroData(data);
 											sceneController.startTimer(data);
+											//is this ok?
+//											parsedFCDataConcatBuffer.append(stringData + "\n");
 										}
 										else if (data.length == 6) {
 											sceneController.startPropulsionTimer(data);
 											sceneController.sceneAddPropulsionGraphData(data);
+//											parsedPropDataConcatBuffer.append(stringData + "\n");
 										}
 									});
 								}
@@ -266,9 +276,6 @@ public class MainApp extends Application {
 						} finally {
 							rawDataConcatBuffer.append(stringData + "\n");
 						}
-						//					finally {
-						//						pw.close();
-						//					}
 					}
 				}
 			});
@@ -315,6 +322,54 @@ public class MainApp extends Application {
 
 	}
 
+	public static void createParsedPropFile(String path) {
+		if(parsedPropDataConcatBuffer.length() == 0) {
+			System.out.println("No parsed propulsion data to save. Skipping data log creation.");
+		} else {
+			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_prop_data.txt"))){
+				writer.write(parsedPropDataConcatBuffer.toString());
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	public static void createParsedFCFile(String path) {
+		if(parsedFCDataConcatBuffer.length() == 0) {
+			System.out.println("No parsed flight computer data to save. Skipping data log creation.");
+		} else {
+			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_FC_data.txt"))){
+				writer.write(parsedFCDataConcatBuffer.toString());
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	public static void createParsedSradioAckFile(String path) {
+		if(parsedSradioAckDataConcatBuffer.length() == 0) {
+			System.out.println("No parsed flight computer data to save. Skipping data log creation.");
+		} else {
+			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "sradio_ack_data.txt"))){
+				writer.write(parsedSradioAckDataConcatBuffer.toString());
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	public static void createParsedXtendAckFile(String path) {
+		if(parsedXtendAckDataConcatBuffer.length() == 0) {
+			System.out.println("No parsed flight computer data to save. Skipping data log creation.");
+		} else {
+			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "xtend_ack_data.txt"))){
+				writer.write(parsedXtendAckDataConcatBuffer.toString());
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		launch();
 	}
@@ -328,8 +383,22 @@ public class MainApp extends Application {
 				createRawDataFiles("storage/raw_telemetry/");
 				createParsedDataFiles("storage/telemetry/");
 			} else {
+				//for testing
+				rawDataConcatBuffer.append("line to create file\n");
+				parsedDataConcatBuffer.append("line to create file\n");
+				parsedPropDataConcatBuffer.append("line to create file\n");
+				parsedFCDataConcatBuffer.append("line to create file\n");
+				parsedXtendAckDataConcatBuffer.append("line to create file\n");
+				parsedSradioAckDataConcatBuffer.append("line to create file\n");
+				System.out.println("---------------------------creating files!---------------------------");
+
 				createRawDataFiles("storage/raw_fc/");
 				createParsedDataFiles("storage/fc/");
+				//change dir
+				createParsedPropFile("storage/fc/");
+				createParsedFCFile("storage/fc/");
+				createParsedSradioAckFile("storage/fc/");
+				createParsedXtendAckFile("storage/fc/");
 			}
 
 			comPort.getInputStream().close();
