@@ -24,7 +24,6 @@ public class Parser {
 	
 	/**
 	 *
-	 * @param numberOfValues
 	 */
 	public Parser() {
 		this(false, -1);
@@ -33,7 +32,6 @@ public class Parser {
 	/**
 	 * Constructor used when there is a hex value in the string
 	 *
-	 * @param numberOfValuesInput number of values in the data string
 	 * @param containsHexValue boolean representing if the string contains a hex value
 	 * @param locationOfHexValue index of the hex value (first index = 0)
 	 */
@@ -46,7 +44,10 @@ public class Parser {
 		
 		if (sIn.trim().charAt(0)=='S' || sIn.trim().charAt(0)=='J') return parseFC(sIn);
 		if (sIn.trim().charAt(0)=='P') return parsePropulsion(sIn);
-		throw new IllegalArgumentException("invalid string, doesn't start with S, or P");
+		//or check xtend and sradio
+		if (sIn.trim().charAt(0)=='x') return parseAcknowledgeXtend(sIn);
+		if (sIn.trim().charAt(0)=='s') return parseAcknowledgeSradio(sIn);
+		throw new IllegalArgumentException("invalid string, doesn't start with S, P or an acknowledge format");
 		
 	}
 
@@ -318,6 +319,30 @@ public class Parser {
 		}
 
 		return out;
+	}
+	public double[] parseAcknowledgeXtend(String sIn) throws IllegalArgumentException {
+		//xtend_ack_ in var
+		double[] out = new double[1]; //get from class
+		if (!sIn.startsWith("xtend_ack_")) throw new IllegalArgumentException("Input string does not start with 'xtend_ack_'");
+		String numberString = sIn.replace("xtend_ack_", "");
+		try {
+			out[0]=Double.parseDouble(numberString);
+			return out;
+		} catch(NumberFormatException e){
+			throw new IllegalArgumentException("Acknowledge message is missing the number");
+		}
+	}
+
+	public double[] parseAcknowledgeSradio(String sIn) throws IllegalArgumentException {
+		double[] out = new double[1]; //get from class
+		if (!sIn.startsWith("sradio_ack_")) throw new IllegalArgumentException("Input string does not start with 'sradio_ack_'");
+		String numberString = sIn.replace("sradio_ack_", "");
+		try {
+			out[0]=Double.parseDouble(numberString);
+			return out;
+		} catch(NumberFormatException e){
+			throw new IllegalArgumentException("Acknowledge message is missing the number");
+		}
 	}
 	
 	public double[] parsePropulsion(String sIn) throws IllegalArgumentException {
