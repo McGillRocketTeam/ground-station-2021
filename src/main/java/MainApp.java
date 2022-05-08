@@ -67,14 +67,16 @@ import javafx.fxml.FXMLLoader;
 public class MainApp extends Application {
 	static StringBuffer rawDataConcatBuffer = new StringBuffer();
 	static StringBuffer parsedDataConcatBuffer = new StringBuffer();
+	static StringBuffer parsedPropDataConcatBuffer = new StringBuffer();
+	static StringBuffer parsedFCDataConcatBuffer = new StringBuffer();
+	static StringBuffer parsedXtendAckDataConcatBuffer = new StringBuffer();
+	static StringBuffer parsedSradioAckDataConcatBuffer = new StringBuffer();
 
-	private final Mode mode = Mode.OLD;
+	private final Mode mode = Mode.LIVE;
 	public final boolean flightComputer = true;
-	private final int NUMBER_OF_PARAMETERS_FC = 14;
-	private final int NUMBER_OF_PARAMETERS_PROP = 7;
 	private int SERIAL_PORT_NUMBER = 6;
 //	private final String COM_PORT_DESC = "/dev/tty.usbmodem11101";
-	private final String COM_PORT_DESC = "COM37";
+	private final String COM_PORT_DESC = "COM5";
 	
 	@FXML Button launchButton;
 	private ScheduledExecutorService scheduledExecutorService;
@@ -84,7 +86,8 @@ public class MainApp extends Application {
 	public void start(Stage stage) throws Exception {
 	//	Button launchButton = this.launchButton;
 
-//		DataStorage.makeFolders();
+		//uncommented this?
+		DataStorage.makeFolders();
 //
 
 		Label l = new Label("McGill Rocket Team Ground Station");
@@ -112,10 +115,10 @@ public class MainApp extends Application {
 //		//        ((Pane)mainApp.getRoot()).getChildren().add(gyroController.initializeGyro().getRoot());
 //
 //
-		stage.setTitle("McGill Rocket Team Avionics Ground Station");
-
-		Parser parser_fc = new Parser(NUMBER_OF_PARAMETERS_FC);
-		Parser parser_prop = new Parser(NUMBER_OF_PARAMETERS_PROP);
+//		stage.setTitle("McGill Rocket Team Ground Station");
+//
+//
+		Parser parser = new Parser();
 		
 		ArrayList<String> myData = new ArrayList<String>();
 		ArrayList<double[]> myDataArrays = new ArrayList<double[]>();
@@ -135,9 +138,7 @@ public class MainApp extends Application {
 			}
 			for (String str: myData) {
 				try {
-//					System.out.println("Single string: " + str); // debug
-					if (str.contains("S,") || str.contains("J,")) myDataArrays.add(parser_fc.parseFC((str)));
-					if (str.contains("P,")) myDataArraysProp.add(parser_prop.parsePropulsion(str));
+					myDataArraysProp.add(parser.parse(str));
 				} catch (IllegalArgumentException e) {
 					System.out.println("Invalid message. Message was thrown out.");
 					System.out.println(e.toString());
@@ -191,7 +192,6 @@ public class MainApp extends Application {
 		case LIVE:
 			
 			Queue<String> q = new ConcurrentLinkedQueue<String>();
-			Queue<String> qp = new ConcurrentLinkedQueue<String>(); // propulsion
 			SerialPort[] t = SerialPort.getCommPorts();
 
 			for (SerialPort x : t ) {
@@ -225,8 +225,7 @@ public class MainApp extends Application {
 							//	System.out.println(comPort.bytesAvailable());
 							String s = buffer.readLine();
 							
-							if (s.contains("S,") || s.contains("J,")) q.add(s); // fc or event message
-							if (s.contains("P,")) qp.add(s); // prop message
+							q.add(s);
 							
 							//	System.out.println(buffer.read());
 							//					System.out.println(s);
@@ -262,36 +261,34 @@ public class MainApp extends Application {
 						try {
 							System.out.println(stringData);
 							double[] data;
-							if (!flightComputer) {
-								data = parser_fc.parse(stringData);
-							} else {
-								data = parser_fc.parseFC(stringData);
-//								data[DataIndex.TIME_INDEX.getOrder()] = data[DataIndex.TIME_INDEX.getOrder()]*60 + data[DataIndex.TIME_INDEX.getOrder()+1] + data[DataIndex.TIME_INDEX.getOrder()+2]/100.0;
-							}
-
-
+							data = parser.parse(stringData);
 							if(data != null) {
 								parsedDataConcatBuffer.append(stringData + "\n");
+								//put in method
+								if (stringData.charAt(0)=='S' || stringData.charAt(0)=='J') parsedFCDataConcatBuffer.append(stringData + "\n");
+								if (stringData.charAt(0)=='P') parsedPropDataConcatBuffer.append(stringData + "\n");
+								if (stringData.charAt(0)=='x') parsedXtendAckDataConcatBuffer.append(stringData + "\n");
+								if (stringData.charAt(0)=='s') parsedSradioAckDataConcatBuffer.append(stringData + "\n");
+
+								//change after merge!
+//								if (stringData.charAt(0)=='x') parsedXtendAckDataConcatBuffer.append(RadioCommands.getByInt(data) + "\n");
+//								if (stringData.charAt(0) == 's') parsedSradioAckDataConcatBuffer.append(RadioCommands.getByInt(data) + "\n");
 								//pw.println(stringData + "\n");
 								if(data[0] != -10000) {
 	
 									Platform.runLater(()-> {
-										
-										//	System.out.println(data[3]);
-//
-//										mainAppController.mainAppAddGraphData(data);
-										sceneController.sceneAddGraphData(data);
-//										sceneController.sceneAddGyroData(data);
-										sceneController.startTimer(data);
-
-										sceneController.sceneAddMapData(data);
-										sceneController.startRadioCommandsNumberTableTimer(data);
-//										mainAppController.mainAppAddMapData(data);
-//										mainAppController.mainAppAddRawData(data);
-//										mainAppController.startTimer(data);
-//										mainAppController.mainAppAddGyroData(data);
-
-
+										if(data.length == 14) { // get numbers from the class
+											sceneController.sceneAddGraphData(data);
+											sceneController.sceneAddGyroData(data);
+											sceneController.startTimer(data);
+											//is this ok?
+//											parsedFCDataConcatBuffer.append(stringData + "\n");
+										}
+										else if (data.length == 6) {
+											sceneController.startPropulsionTimer(data);
+											sceneController.sceneAddPropulsionGraphData(data);
+//											parsedPropDataConcatBuffer.append(stringData + "\n");
+										}
 									});
 								}
 							}
@@ -303,51 +300,6 @@ public class MainApp extends Application {
 						} finally {
 							rawDataConcatBuffer.append(stringData + "\n");
 						}
-						//					finally {
-						//						pw.close();
-						//					}
-					}
-					
-					if(!qp.isEmpty()) {
-						String stringData = qp.remove();
-						try {
-							System.out.println(stringData);
-							double[] data = parser_prop.parsePropulsion(stringData);
-
-							if(data != null) {
-								parsedDataConcatBuffer.append(stringData + "\n");
-								//pw.println(stringData + "\n");
-								if(data[0] != -10000) {
-	
-									Platform.runLater(()-> {
-										
-										//	System.out.println(data[3]);
-//
-//										mainAppController.mainAppAddGraphData(data);
-//										sceneController.sceneAddGraphData(data);
-//										sceneController.sceneAddGyroData(data);
-										sceneController.startPropulsionTimer(data);
-										sceneController.sceneAddPropulsionGraphData(data);
-										sceneController.startRadioCommandsTimer(data);
-										sceneController.startRadioCommandsNumberTableTimer(data);
-//										mainAppController.mainAppAddMapData(data);
-//										mainAppController.mainAppAddRawData(data);
-//										mainAppController.startTimer(data);
-//										mainAppController.mainAppAddGyroData(data);
-									});
-								}
-							}
-
-						} catch (IllegalArgumentException e) {
-							System.out.println("Invalid message. Message was thrown out.");
-						} catch (NullPointerException e) {
-							System.out.println("Why you passing null to the parser");
-						} finally {
-							rawDataConcatBuffer.append(stringData + "\n");
-						}
-						//					finally {
-						//						pw.close();
-						//					}
 					}
 				}
 			});
@@ -363,13 +315,17 @@ public class MainApp extends Application {
  * @param path to which raw live data is saved
  */
 	public static void createRawDataFiles(String path) {
-
-		try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data.txt"))){
-			writer.write(rawDataConcatBuffer.toString());
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if(rawDataConcatBuffer.length() == 0) {
+			System.out.println("No raw data to save. Skipping data log creation.");
+		} else {
+			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data.txt"))){
+				writer.write(rawDataConcatBuffer.toString());
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
+
 	}
 	
 /**
@@ -377,12 +333,64 @@ public class MainApp extends Application {
  * @param path to which parsed data is saved
  */
 	public static void createParsedDataFiles(String path) {
+		if(parsedDataConcatBuffer.length() == 0) {
+			System.out.println("No parsed data to save. Skipping data log creation.");
+		} else {
+			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data.txt"))){
+				writer.write(parsedDataConcatBuffer.toString());
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 
-		try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_data.txt"))){
-			writer.write(parsedDataConcatBuffer.toString());
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+	}
+
+	public static void createParsedPropFile(String path) {
+		if(parsedPropDataConcatBuffer.length() == 0) {
+			System.out.println("No parsed propulsion data to save. Skipping data log creation.");
+		} else {
+			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_prop_data.txt"))){
+				writer.write(parsedPropDataConcatBuffer.toString());
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	public static void createParsedFCFile(String path) {
+		if(parsedFCDataConcatBuffer.length() == 0) {
+			System.out.println("No parsed flight computer data to save. Skipping data log creation.");
+		} else {
+			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_FC_data.txt"))){
+				writer.write(parsedFCDataConcatBuffer.toString());
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	public static void createParsedSradioAckFile(String path) {
+		if(parsedSradioAckDataConcatBuffer.length() == 0) {
+			System.out.println("No parsed flight computer data to save. Skipping data log creation.");
+		} else {
+			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_sradio_ack_data.txt"))){
+				writer.write(parsedSradioAckDataConcatBuffer.toString());
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	public static void createParsedXtendAckFile(String path) {
+		if(parsedXtendAckDataConcatBuffer.length() == 0) {
+			System.out.println("No parsed flight computer data to save. Skipping data log creation.");
+		} else {
+			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_xtend_ack_data.txt"))){
+				writer.write(parsedXtendAckDataConcatBuffer.toString());
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 
@@ -399,8 +407,21 @@ public class MainApp extends Application {
 				createRawDataFiles("storage/raw_telemetry/");
 				createParsedDataFiles("storage/telemetry/");
 			} else {
+				//for testing
+				rawDataConcatBuffer.append("line to create file\n");
+				parsedDataConcatBuffer.append("line to create file\n");
+				parsedPropDataConcatBuffer.append("line to create file\n");
+				parsedFCDataConcatBuffer.append("line to create file\n");
+				parsedXtendAckDataConcatBuffer.append("line to create file\n");
+				parsedSradioAckDataConcatBuffer.append("line to create file\n");
+				System.out.println("---------------------------creating files!---------------------------");
+
 				createRawDataFiles("storage/raw_fc/");
-				createParsedDataFiles("storage/fc/");
+				createParsedDataFiles("storage/fc/all/");
+				createParsedPropFile("storage/fc/prop/");
+				createParsedFCFile("storage/fc/fc/");
+				createParsedSradioAckFile("storage/fc/sradio_ack/");
+				createParsedXtendAckFile("storage/fc/xtend_ack/");
 			}
 
 			comPort.getInputStream().close();

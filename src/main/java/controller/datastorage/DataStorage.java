@@ -119,6 +119,13 @@ public class DataStorage {
 		File raw_fc = new File(PROJECT_ROOT + "storage/raw_fc/");
 		File fc = new File(PROJECT_ROOT + "storage/fc/");
 
+		//dir for split files
+		File fcProp = new File(PROJECT_ROOT + "storage/fc/prop/");
+		File fcFc = new File(PROJECT_ROOT + "storage/fc/fc/");
+		File fcSradioAck = new File(PROJECT_ROOT + "storage/fc/sradio_ack/");
+		File fcXtendAck = new File(PROJECT_ROOT + "storage/fc/xtend_ack/");
+		File all = new File(PROJECT_ROOT + "storage/fc/all/");
+
 		make1Dir(storage);
 		make1Dir(telemetry);
 		make1Dir(gps);
@@ -128,6 +135,13 @@ public class DataStorage {
 		make1Dir(serial);
 		make1Dir(raw_fc);
 		make1Dir(fc);
+
+		//
+		make1Dir(fcProp);
+		make1Dir(fcFc);
+		make1Dir(fcSradioAck);
+		make1Dir(fcXtendAck);
+		make1Dir(all);
 
 		// for testing:
 		if (PRINTEXIST)
