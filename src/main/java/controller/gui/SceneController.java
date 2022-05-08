@@ -227,5 +227,13 @@ public class SceneController {
 		radioCommandNumberTableController.updateNumDisplay(data);
 	}
 	
+	@FXML
+	private RadioCommandLogController radioCommandLogController;
+	
+	int x = 0;
+	public void sceneTestRadioCommandLog() {
+		x++;
+        radioCommandLogController.add_log("" + x);
+	}
 
 }

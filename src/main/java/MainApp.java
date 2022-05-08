@@ -175,6 +175,11 @@ public class MainApp extends Application {
 					sceneController.startRadioCommandsNumberTableTimer(data);
 					sceneController.startRadioCommandsNumberTableTimer(dataProp);
 					
+					
+					
+					//************TO BE REMOVED*************//
+					sceneController.sceneTestRadioCommandLog();
+					
 //
 //
 //
