@@ -326,7 +326,8 @@ public class Parser {
 		if (!sIn.startsWith("xtend_ack_")) throw new IllegalArgumentException("Input string does not start with 'xtend_ack_'");
 		String numberString = sIn.replace("xtend_ack_", "");
 		try {
-			out[0]=Double.parseDouble(numberString);
+			out[0]=Integer.parseInt(numberString);
+			if (out[0]<0 || out[0]>12) throw new IllegalArgumentException("Invalid acknowledge message");
 			return out;
 		} catch(NumberFormatException e){
 			throw new IllegalArgumentException("Acknowledge message is missing the number");
@@ -338,7 +339,8 @@ public class Parser {
 		if (!sIn.startsWith("sradio_ack_")) throw new IllegalArgumentException("Input string does not start with 'sradio_ack_'");
 		String numberString = sIn.replace("sradio_ack_", "");
 		try {
-			out[0]=Double.parseDouble(numberString);
+			out[0]=Integer.parseInt(numberString);
+			if (out[0]<0 || out[0]>12) throw new IllegalArgumentException("Invalid acknowledge message");
 			return out;
 		} catch(NumberFormatException e){
 			throw new IllegalArgumentException("Acknowledge message is missing the number");

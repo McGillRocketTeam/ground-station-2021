@@ -124,6 +124,7 @@ public class DataStorage {
 		File fcFc = new File(PROJECT_ROOT + "storage/fc/fc/");
 		File fcSradioAck = new File(PROJECT_ROOT + "storage/fc/sradio_ack/");
 		File fcXtendAck = new File(PROJECT_ROOT + "storage/fc/xtend_ack/");
+		File all = new File(PROJECT_ROOT + "storage/fc/all/");
 
 		make1Dir(storage);
 		make1Dir(telemetry);
@@ -140,6 +141,7 @@ public class DataStorage {
 		make1Dir(fcFc);
 		make1Dir(fcSradioAck);
 		make1Dir(fcXtendAck);
+		make1Dir(all);
 
 		// for testing:
 		if (PRINTEXIST)

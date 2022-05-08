@@ -250,6 +250,10 @@ public class MainApp extends Application {
 								if (stringData.charAt(0)=='P') parsedPropDataConcatBuffer.append(stringData + "\n");
 								if (stringData.charAt(0)=='x') parsedXtendAckDataConcatBuffer.append(stringData + "\n");
 								if (stringData.charAt(0)=='s') parsedSradioAckDataConcatBuffer.append(stringData + "\n");
+
+								//change after merge!
+//								if (stringData.charAt(0)=='x') parsedXtendAckDataConcatBuffer.append(RadioCommands.getByInt(data) + "\n");
+//								if (stringData.charAt(0) == 's') parsedSradioAckDataConcatBuffer.append(RadioCommands.getByInt(data) + "\n");
 								//pw.println(stringData + "\n");
 								if(data[0] != -10000) {
 	
@@ -394,12 +398,7 @@ public class MainApp extends Application {
 				System.out.println("---------------------------creating files!---------------------------");
 
 				createRawDataFiles("storage/raw_fc/");
-				createParsedDataFiles("storage/fc/");
-				//change dir
-//				createParsedPropFile("storage/fc/");
-//				createParsedFCFile("storage/fc/");
-//				createParsedSradioAckFile("storage/fc/");
-//				createParsedXtendAckFile("storage/fc/");
+				createParsedDataFiles("storage/fc/all/");
 				createParsedPropFile("storage/fc/prop/");
 				createParsedFCFile("storage/fc/fc/");
 				createParsedSradioAckFile("storage/fc/sradio_ack/");
