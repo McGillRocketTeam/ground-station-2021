@@ -84,7 +84,8 @@ public class MainApp extends Application {
 	public void start(Stage stage) throws Exception {
 	//	Button launchButton = this.launchButton;
 
-//		DataStorage.makeFolders();
+		//uncommented this?
+		DataStorage.makeFolders();
 //
 
 		Label l = new Label("McGill Rocket Team Ground Station");
@@ -350,7 +351,7 @@ public class MainApp extends Application {
 		if(parsedSradioAckDataConcatBuffer.length() == 0) {
 			System.out.println("No parsed flight computer data to save. Skipping data log creation.");
 		} else {
-			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "sradio_ack_data.txt"))){
+			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_sradio_ack_data.txt"))){
 				writer.write(parsedSradioAckDataConcatBuffer.toString());
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
@@ -362,7 +363,7 @@ public class MainApp extends Application {
 		if(parsedXtendAckDataConcatBuffer.length() == 0) {
 			System.out.println("No parsed flight computer data to save. Skipping data log creation.");
 		} else {
-			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "xtend_ack_data.txt"))){
+			try (PrintWriter writer = new PrintWriter(new File(path + DataStorage.dateFormats()[0] + "_xtend_ack_data.txt"))){
 				writer.write(parsedXtendAckDataConcatBuffer.toString());
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
@@ -395,10 +396,14 @@ public class MainApp extends Application {
 				createRawDataFiles("storage/raw_fc/");
 				createParsedDataFiles("storage/fc/");
 				//change dir
-				createParsedPropFile("storage/fc/");
-				createParsedFCFile("storage/fc/");
-				createParsedSradioAckFile("storage/fc/");
-				createParsedXtendAckFile("storage/fc/");
+//				createParsedPropFile("storage/fc/");
+//				createParsedFCFile("storage/fc/");
+//				createParsedSradioAckFile("storage/fc/");
+//				createParsedXtendAckFile("storage/fc/");
+				createParsedPropFile("storage/fc/prop/");
+				createParsedFCFile("storage/fc/fc/");
+				createParsedSradioAckFile("storage/fc/sradio_ack/");
+				createParsedXtendAckFile("storage/fc/xtend_ack/");
 			}
 
 			comPort.getInputStream().close();
