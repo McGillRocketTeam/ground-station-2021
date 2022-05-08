@@ -48,39 +48,63 @@ public class RadioCommandNumberTableController {
 		// prop string is shorter
 		if (data.length >= DataIndex.CONTINUITY_INDEX.getOrder()) {
 			
+			int encodedContinuity = (int) data[DataIndex.CONTINUITY_INDEX.getOrder()];
+			String decodedContinuity[] = decodeContinuity(encodedContinuity);
+			
 			// check if armed first; cannot have continuity if FC is not armed
 			if (RadioCommandButtonsController.getArmRecoveryStatus().equals("Safed")) {
-				setDrogueContinuityValue("safed");
-				setMainContinuityValue("safed");
-				return;
+				if (encodedContinuity == 0) {
+					setDrogueContinuityValue("safed");
+					setMainContinuityValue("safed");
+				} 
+//					else {
+//					setDrogueContinuityValue("not safed -- " + decodedContinuity[0]);
+//					setMainContinuityValue("not safed -- " + decodedContinuity[1]);
+//				}
+			} else {
+				setDrogueContinuityValue(decodedContinuity[0]);
+				setMainContinuityValue(decodedContinuity[1]);
 			}
 			
-			int encodedContinuity = (int) data[DataIndex.CONTINUITY_INDEX.getOrder()];
-			
-			if (encodedContinuity == 0) {
-				setDrogueContinuityValue("no");
-				setMainContinuityValue("no");
-			} else if (encodedContinuity == 1) {
-				setDrogueContinuityValue("yes");
-				setMainContinuityValue("no");
-			} else if (encodedContinuity == 2) {
-				setDrogueContinuityValue("no");
-				setMainContinuityValue("yes");
-			} else if (encodedContinuity == 3) {
-				setDrogueContinuityValue("yes");
-				setMainContinuityValue("yes");
+			if (encodedContinuity >= 8) {
+				setRunValveStatusValue("yes");
+			} 
+			else {
+				setRunValveStatusValue("safed");
 			}
 			
 		}
 		
 		else {
-			if (data[DataIndex.PROP_DUMP_VALVE_INDEX.getOrder()] > 0) {
-				setRunValveStatusValue("powered");
-			} else {
-				setRunValveStatusValue("unpowered");
-			}
+//			if (data[DataIndex.PROP_DUMP_VALVE_INDEX.getOrder()] > 0) {
+//				setRunValveStatusValue("powered");
+//			} else {
+//				setRunValveStatusValue("unpowered");
+//			}
+			
 		}
 
+	}
+	
+	private String[] decodeContinuity(int encodedContinuity) {
+		String drogueCont = "no";
+		String mainCont = "no";
+		
+		if (encodedContinuity == 0) {
+			drogueCont = "no";
+			mainCont = "no";
+		} else if (encodedContinuity == 1) {
+			drogueCont = "yes";
+			mainCont = "no";
+		} else if (encodedContinuity == 2) {
+			drogueCont = "no";
+			mainCont = "yes";
+		} else if (encodedContinuity == 3 || encodedContinuity == 7 || encodedContinuity == 15) {
+			drogueCont = "yes";
+			mainCont = "yes";
+		}
+		
+		return (new String[] {drogueCont, mainCont});
 	}
 
 }

@@ -71,10 +71,10 @@ public class MainApp extends Application {
 	private final Mode mode = Mode.LIVE;
 	public final boolean flightComputer = true;
 	private final int NUMBER_OF_PARAMETERS_FC = 14;
-	private final int NUMBER_OF_PARAMETERS_PROP = 6;
+	private final int NUMBER_OF_PARAMETERS_PROP = 7;
 	private int SERIAL_PORT_NUMBER = 6;
 //	private final String COM_PORT_DESC = "/dev/tty.usbmodem11101";
-	private final String COM_PORT_DESC = "COM32";
+	private final String COM_PORT_DESC = "COM37";
 	
 	@FXML Button launchButton;
 	private ScheduledExecutorService scheduledExecutorService;

@@ -22,7 +22,7 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Run Valve Limit Switch" textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Propulsion Continuity" textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
