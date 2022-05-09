@@ -260,7 +260,7 @@ public class MainApp extends Application {
 							}
 
 						} catch (IllegalArgumentException e) {
-							System.out.println("Invalid message. Message was thrown out.");
+							System.out.println("Invalid message. Message was thrown out: " + stringData);
 						} catch (NullPointerException e) {
 							System.out.println("Why you passing null to the parser");
 						} finally {

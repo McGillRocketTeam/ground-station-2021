@@ -67,12 +67,22 @@ public class RadioCommandNumberTableController {
 			setMainContinuityValue(decodedContinuity[1]);
 		}
 		
-		if (encodedContinuity >= 4) {
-			setRunValveStatusValue("yes");
+		if (RadioCommandButtonsController.getArmPropulsionStatus().equals("Safed")) {
+			if (encodedContinuity >= 4) {
+				setRunValveStatusValue("not safed! -- yes");
+			}
+			else {
+				setRunValveStatusValue("safed");
+			}
+		} else {
+			if (encodedContinuity >= 4) {
+				setRunValveStatusValue("yes");
+			}
+			else {
+				setRunValveStatusValue("firing");
+			}
 		}
-		else {
-			setRunValveStatusValue("safed");
-		}
+		
 		
 	}
 	

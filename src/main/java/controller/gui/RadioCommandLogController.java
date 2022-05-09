@@ -26,7 +26,6 @@ public class RadioCommandLogController {
     
     public static void add_log(String str) {
     	fullCommandList.add(str);
-    	System.out.println(fullCommandList.toString());
     }
     
     public void update_log_display() {

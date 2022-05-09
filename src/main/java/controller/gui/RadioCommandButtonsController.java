@@ -40,6 +40,7 @@ public class RadioCommandButtonsController {
 	
 	private static SerialPort comPort = null; // stays null if we use mode.OLD
 	private static String armRecoveryStatus = "Safed";
+	private static String armPropulsionStatus = "Safed";
 	
 	public static void attachComPort(SerialPort port) {
 		comPort = port;
@@ -49,7 +50,15 @@ public class RadioCommandButtonsController {
 		return armRecoveryStatus;
 	}
 	
+	public static String getArmPropulsionStatus() {
+		return armPropulsionStatus;
+	}
+	
 	public void initialize() {
+		
+		launch_button.setDisable(true);
+		
+		
 		arm_recovery.selectedToggleProperty().addListener(new ChangeListener<Toggle>() 
         {
 			@Override
@@ -68,6 +77,12 @@ public class RadioCommandButtonsController {
                 	System.out.println("Something went very wrong with recovery arming radio buttons");
                 }
                 
+                if (armRecoveryStatus.equals("Armed") && armPropulsionStatus.equals("Armed")) {
+                	launch_button.setDisable(false);
+                } else {
+                	launch_button.setDisable(true);
+                }
+                
                 writeComPort(cmd);
             }
         });
@@ -80,6 +95,7 @@ public class RadioCommandButtonsController {
             {
 				RadioCommands cmd;
                 RadioButton rb = (RadioButton)arm_prop.getSelectedToggle();
+                armPropulsionStatus = rb.getText();
                 if (rb.getText().equals("Armed")) {
                 	cmd = RadioCommands.CMD_ARM_PROP;
                 } else if (rb.getText().equals("Safed")){
@@ -87,6 +103,12 @@ public class RadioCommandButtonsController {
                 } else {
                 	cmd = null;
                 	System.out.println("Something went very wrong with propulsion arming radio buttons");
+                }
+                
+                if (armRecoveryStatus.equals("Armed") && armPropulsionStatus.equals("Armed")) {
+                	launch_button.setDisable(false);
+                } else {
+                	launch_button.setDisable(true);
                 }
                 
                 writeComPort(cmd);

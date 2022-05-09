@@ -24,12 +24,6 @@ public class Parser {
 	
 	private static double alt_ground = Double.MAX_VALUE; // init to known value
 	
-//	private RadioCommandLogController radioCommandLogController = null;
-//	
-//	public void attachRadioCommandLogController(RadioCommandLogController c) {
-//		this.radioCommandLogController = c;
-//	}
-
 	//show error if state are not in range
 	public void setRangeError(boolean showRangeError){this.showRangeError = showRangeError;}
 	
@@ -64,6 +58,7 @@ public class Parser {
 		else if (sIn.charAt(0)=='x') return parseAcknowledgeXtend(sIn);
 		else if (sIn.charAt(0)=='r') return parseAcknowledgeSradio(sIn);
 		
+		System.out.println("invalid string = " + sIn);
 		throw new IllegalArgumentException("invalid string, doesn't start with S, P or an acknowledge format");
 		
 	}
