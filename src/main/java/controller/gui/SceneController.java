@@ -1,24 +1,11 @@
 package controller.gui;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 /**
  * SceneController is the controller class for the main GUI scene. It contains
@@ -31,8 +18,6 @@ import javafx.stage.Stage;
 public class SceneController {
 
 	
-	
-
 	// === Rocket Model ===
 
 	// initialize variables
@@ -151,9 +136,7 @@ public class SceneController {
 //	public void setLaunchListener(int launchStatus) {
 //		launchStatus = launchStatus;
 //	}
-	
-
-	
+		
 
 	
 	////////////////////////// MAP //////////////////////////////
@@ -219,7 +202,11 @@ public class SceneController {
 		radioCommandButtonsController.initialize();
 	}
 	
-	public void startRadioCommandsTimer(double data[]) {
+	public void sceneInitializeRadioCommandNumberTable() {
+		radioCommandNumberTableController.initializeDisplay();
+	}
+	
+	public void startRadioCommandsDumpValveTimer(double data[]) {
 		radioCommandButtonsController.updateDumpValveLabel(data);
 	}
 	
@@ -229,6 +216,15 @@ public class SceneController {
 	
 	@FXML
 	private RadioCommandLogController radioCommandLogController;
+	
+	// return handle to radioCommandLogController so that parser can attach
+	public void sceneInitializeRadioCommandLog() {
+		radioCommandLogController.initialize();
+	}
+	
+	public void sceneStartLogScrollUpdate() {
+		radioCommandLogController.update_log_display();
+	}
 	
 	int x = 0;
 	public void sceneTestRadioCommandLog() {

@@ -78,7 +78,6 @@ public class RadioCommandButtonsController {
             public void changed(ObservableValue<? extends Toggle> changed, 
                                                     Toggle oldVal, Toggle newVal)
             {
-  
 				RadioCommands cmd;
                 RadioButton rb = (RadioButton)arm_prop.getSelectedToggle();
                 if (rb.getText().equals("Armed")) {
@@ -184,9 +183,9 @@ public class RadioCommandButtonsController {
 	// writes data to com port and prints the command sent
 	private void writeComPort(RadioCommands cmd) {
 		if (comPort != null) { // would be null if running in mode.OLD
-			comPort.writeBytes(cmd.code(), RadioCommands.command_length);
+			comPort.writeBytes(cmd.getCode(), RadioCommands.command_length);
         } 
-		System.out.println("Sending command = " + new String(cmd.code()));
+		System.out.println("Sending command = " + new String(cmd.getCode()));
 	}
 	
 }

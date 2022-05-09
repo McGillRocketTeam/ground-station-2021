@@ -10,7 +10,7 @@ import javafx.fxml.FXML;
  * 
  *  DROGUE CONTINUITY = status of e-match for drogue parachute (ejection) (yes/no)
  *  MAIN CONTINUITY = status of e-match for main parachute
- *  DUMP VALVE STATUS = 1 when powered (closed), 0 when unpowered (open)
+ *  RUN VALVE STATUS = 1 when powered, 0 when unpowered
  *
  */
 
@@ -27,63 +27,53 @@ public class RadioCommandNumberTableController {
 	@FXML 
 	public void setDrogueContinuityValue(String value) {
 		this.drogueContinuity.setText(value);
-		
 	}
+	
 	@FXML 
 	public void setMainContinuityValue(String value) {
 		this.mainContinuity.setText(value);
-		
 	}
 	
 	@FXML 
 	public void setRunValveStatusValue(String value) {
 		this.runValveStatus.setText(value);
-		
 	}
 	
+	public void initializeDisplay() {
+		setDrogueContinuityValue("safed");
+		setMainContinuityValue("safed");
+		setRunValveStatusValue("unpowered");
+	}
 	
 	public void updateNumDisplay(double[] data) {
+			
+		int encodedContinuity = (int) data[DataIndex.CONTINUITY_INDEX.getOrder()];
+		String decodedContinuity[] = decodeContinuity(encodedContinuity);
 		
-		// continuity and dump valve status are in different telemetry strings
-		// prop string is shorter
-		if (data.length >= DataIndex.CONTINUITY_INDEX.getOrder()) {
-			
-			int encodedContinuity = (int) data[DataIndex.CONTINUITY_INDEX.getOrder()];
-			String decodedContinuity[] = decodeContinuity(encodedContinuity);
-			
-			// check if armed first; cannot have continuity if FC is not armed
-			if (RadioCommandButtonsController.getArmRecoveryStatus().equals("Safed")) {
-				if (encodedContinuity == 0) {
-					setDrogueContinuityValue("safed");
-					setMainContinuityValue("safed");
-				} 
-//					else {
-//					setDrogueContinuityValue("not safed -- " + decodedContinuity[0]);
-//					setMainContinuityValue("not safed -- " + decodedContinuity[1]);
-//				}
-			} else {
-				setDrogueContinuityValue(decodedContinuity[0]);
-				setMainContinuityValue(decodedContinuity[1]);
-			}
-			
-			if (encodedContinuity >= 8) {
-				setRunValveStatusValue("yes");
+		// check if armed first; cannot have continuity if FC is not armed
+		if (RadioCommandButtonsController.getArmRecoveryStatus().equals("Safed")) {
+			if (encodedContinuity == 0 || encodedContinuity == 4 || encodedContinuity == 8 || encodedContinuity == 12) { 
+				// prop channels can be armed independently of recovery
+				
+				setDrogueContinuityValue("safed");
+				setMainContinuityValue("safed");
 			} 
 			else {
-				setRunValveStatusValue("safed");
+				setDrogueContinuityValue("not safed -- " + decodedContinuity[0]);
+				setMainContinuityValue("not safed -- " + decodedContinuity[1]);
 			}
-			
+		} else {
+			setDrogueContinuityValue(decodedContinuity[0]);
+			setMainContinuityValue(decodedContinuity[1]);
 		}
 		
-		else {
-//			if (data[DataIndex.PROP_DUMP_VALVE_INDEX.getOrder()] > 0) {
-//				setRunValveStatusValue("powered");
-//			} else {
-//				setRunValveStatusValue("unpowered");
-//			}
-			
+		if (encodedContinuity >= 4) {
+			setRunValveStatusValue("yes");
 		}
-
+		else {
+			setRunValveStatusValue("safed");
+		}
+		
 	}
 	
 	private String[] decodeContinuity(int encodedContinuity) {
@@ -93,10 +83,10 @@ public class RadioCommandNumberTableController {
 		if (encodedContinuity == 0) {
 			drogueCont = "no";
 			mainCont = "no";
-		} else if (encodedContinuity == 1) {
+		} else if (encodedContinuity == 1 || encodedContinuity == 5 || encodedContinuity == 9 || encodedContinuity == 13) {
 			drogueCont = "yes";
 			mainCont = "no";
-		} else if (encodedContinuity == 2) {
+		} else if (encodedContinuity == 2 || encodedContinuity == 4 || encodedContinuity == 10 || encodedContinuity == 14) {
 			drogueCont = "no";
 			mainCont = "yes";
 		} else if (encodedContinuity == 3 || encodedContinuity == 7 || encodedContinuity == 15) {

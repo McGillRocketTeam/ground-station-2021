@@ -12,17 +12,8 @@ import javafx.fxml.FXML;
 
 import java.util.concurrent.ScheduledExecutorService;
 
-import org.gillius.jfxutils.JFXUtil;
-import org.gillius.jfxutils.chart.ChartPanManager;
-import org.gillius.jfxutils.chart.FixedFormatTickFormatter;
 import org.gillius.jfxutils.chart.JFXChartUtil;
-import org.gillius.jfxutils.chart.StableTicksAxis;
-
 import controller.Parser;
-import javafx.fxml.FXMLLoader;
-
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.Node;
 
 public class AltitudeGraphController {
 

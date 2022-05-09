@@ -73,17 +73,9 @@ import javafx.scene.paint.Color;
 public class PropulsionNumberTableController {
 	ArrayList<String> read;
 	
-	
-
-	
-	
 	@FXML
 	public Label currentTempValue;
 	public Label currentPressureValue;
-
-
-	
-	
 	
 	@FXML 
 	public void setCurrentTempValue(String value) {
@@ -100,6 +92,7 @@ public class PropulsionNumberTableController {
 		}
 		
 	}
+	
 	@FXML 
 	public void setCurrentPressureValue(String value) {
 		this.currentPressureValue.setText(value);
@@ -115,23 +108,11 @@ public class PropulsionNumberTableController {
 		}
 	}
 	
-
-	
-	
 	public void updateNumDisplay(double[] data) {
-		
 		setCurrentTempValue(String.format("%.3f", data[DataIndex.PROP_TEMP_INDEX.getOrder()]));
 		setCurrentPressureValue(String.format("%.3f", data[DataIndex.PROP_PRESSURE_INDEX.getOrder()]));
-
-		
-
 	}
 	
-	
-	
-	
-	
-
 }
 
 

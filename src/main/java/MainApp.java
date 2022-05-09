@@ -4,22 +4,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import com.fazecast.jSerialComm.SerialPort;
@@ -28,25 +22,15 @@ import com.fazecast.jSerialComm.SerialPortEvent;
 
 import controller.Parser;
 import controller.datastorage.DataStorage;
-import controller.gui.DataIndex;
-import controller.gui.GraphController;
-import controller.gui.Gyro3dController;
-import controller.gui.MainAppController;
 import controller.gui.Mode;
 import controller.gui.RadioCommandButtonsController;
-import controller.gui.RadioCommands;
 import controller.gui.SceneController;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -76,7 +60,7 @@ public class MainApp extends Application {
 	public final boolean flightComputer = true;
 	private int SERIAL_PORT_NUMBER = 6;
 //	private final String COM_PORT_DESC = "/dev/tty.usbmodem11101";
-	private final String COM_PORT_DESC = "COM5";
+	private final String COM_PORT_DESC = "COM32";
 	
 	@FXML Button launchButton;
 	private ScheduledExecutorService scheduledExecutorService;
@@ -84,7 +68,6 @@ public class MainApp extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-	//	Button launchButton = this.launchButton;
 
 		//uncommented this?
 		DataStorage.makeFolders();
@@ -102,22 +85,14 @@ public class MainApp extends Application {
 		sceneController.sceneInitializeGraphs();
 		sceneController.sceneInitializePropulsionGraphs();
 		sceneController.sceneInitializeMap();
+		sceneController.sceneInitializeRadioCommandNumberTable();
+		sceneController.sceneInitializeRadioCommandLog();
 //		sceneController.setLaunchListener((launchStatus) -> {});
 //		sceneController.sceneInitializeLaunchButton();
 		
 		
-		
-//		MainAppController mainAppController = (MainAppController)fxmlLoader.getController();
-//		mainAppController.mainAppInitializeGraphs();
-//		mainAppController.mainAppInitializeMap();
-//		mainAppController.mainAppIntitializeRawData();     
-//		mainAppController.mainAppInitializeGyro();
-//		//        ((Pane)mainApp.getRoot()).getChildren().add(gyroController.initializeGyro().getRoot());
-//
-//
-//		stage.setTitle("McGill Rocket Team Ground Station");
-//
-//
+		stage.setTitle("McGill Rocket Team Avionics Ground Station");
+
 		Parser parser = new Parser();
 		
 		ArrayList<String> myData = new ArrayList<String>();
@@ -157,33 +132,20 @@ public class MainApp extends Application {
 
 				Platform.runLater(()-> {
 
-					//	System.out.println(data[3]);
 					Date now = new Date();
-//
-//					mainAppController.mainAppAddGraphData(data);
-//					mainAppController.mainAppAddMapData(data);
-//					mainAppController.mainAppAddRawData(data);
+
 					sceneController.sceneAddGraphData(data);
 					sceneController.startTimer(data);
-
 					
 //					sceneController.sceneAddGyroData(data);
 					sceneController.sceneAddMapData(data);
-//					mainAppController.mainAppAddGyroData(data);
 					sceneController.startPropulsionTimer(dataProp);
 					sceneController.sceneAddPropulsionGraphData(dataProp);
 					
+					sceneController.startRadioCommandsDumpValveTimer(dataProp);
 					sceneController.startRadioCommandsNumberTableTimer(data);
 					sceneController.startRadioCommandsNumberTableTimer(dataProp);
 					
-					
-					
-					//************TO BE REMOVED*************//
-					sceneController.sceneTestRadioCommandLog();
-					
-//
-//
-//
 				});
 			}, 0, 10, TimeUnit.MILLISECONDS);
 //
@@ -225,7 +187,10 @@ public class MainApp extends Application {
 							//	System.out.println(comPort.bytesAvailable());
 							String s = buffer.readLine();
 							
-							q.add(s);
+							if (s.trim().length() > 0) {
+								q.add(s.trim());
+							}
+							
 							
 							//	System.out.println(buffer.read());
 							//					System.out.println(s);
@@ -268,27 +233,28 @@ public class MainApp extends Application {
 								if (stringData.charAt(0)=='S' || stringData.charAt(0)=='J') parsedFCDataConcatBuffer.append(stringData + "\n");
 								if (stringData.charAt(0)=='P') parsedPropDataConcatBuffer.append(stringData + "\n");
 								if (stringData.charAt(0)=='x') parsedXtendAckDataConcatBuffer.append(stringData + "\n");
-								if (stringData.charAt(0)=='s') parsedSradioAckDataConcatBuffer.append(stringData + "\n");
+								if (stringData.charAt(0)=='r') parsedSradioAckDataConcatBuffer.append(stringData + "\n");
 
 								//change after merge!
-//								if (stringData.charAt(0)=='x') parsedXtendAckDataConcatBuffer.append(RadioCommands.getByInt(data) + "\n");
-//								if (stringData.charAt(0) == 's') parsedSradioAckDataConcatBuffer.append(RadioCommands.getByInt(data) + "\n");
-								//pw.println(stringData + "\n");
+//								if (stringData.charAt(0) == 'x') parsedXtendAckDataConcatBuffer.append(RadioCommands.getByInt(data) + "\n");
+//								if (stringData.charAt(0) == 'r') parsedSradioAckDataConcatBuffer.append(RadioCommands.getByInt(data) + "\n");
+
 								if(data[0] != -10000) {
 	
 									Platform.runLater(()-> {
-										if(data.length == 14) { // get numbers from the class
+										if(data.length == parser.NUMBER_OF_VALUES_FC) { // get numbers from the class
 											sceneController.sceneAddGraphData(data);
-											sceneController.sceneAddGyroData(data);
+//											sceneController.sceneAddGyroData(data);
 											sceneController.startTimer(data);
-											//is this ok?
-//											parsedFCDataConcatBuffer.append(stringData + "\n");
+											sceneController.startRadioCommandsNumberTableTimer(data);
 										}
-										else if (data.length == 6) {
+										else if (data.length == parser.NUMBER_OF_VALUES_PR) {
 											sceneController.startPropulsionTimer(data);
 											sceneController.sceneAddPropulsionGraphData(data);
-//											parsedPropDataConcatBuffer.append(stringData + "\n");
+											sceneController.startRadioCommandsDumpValveTimer(data);
 										}
+										
+										sceneController.sceneStartLogScrollUpdate();
 									});
 								}
 							}
