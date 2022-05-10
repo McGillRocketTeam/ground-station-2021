@@ -59,6 +59,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.Node;
 import javafx.event.EventHandler;
 
+import javafx.scene.paint.Color;
 /**
 
  *  ---------------INFO------------------
@@ -72,53 +73,46 @@ import javafx.event.EventHandler;
 public class PropulsionNumberTableController {
 	ArrayList<String> read;
 	
-	
-
-	
-	
 	@FXML
 	public Label currentTempValue;
 	public Label currentPressureValue;
-	public Label valveStatus;
-	
-	
 	
 	@FXML 
 	public void setCurrentTempValue(String value) {
 		this.currentTempValue.setText(value);
+		
+		if (Double.parseDouble(value) <= 20) {
+			this.currentTempValue.setTextFill(Color.web("#d1b94d"));
+		} 
+		else if (Double.parseDouble(value) > 20 && Double.parseDouble(value) <= 25) {
+			this.currentTempValue.setTextFill(Color.web("#04b810"));
+		} 
+		else {
+			this.currentTempValue.setTextFill(Color.web("#ff0303"));
+		}
+		
 	}
+	
 	@FXML 
 	public void setCurrentPressureValue(String value) {
 		this.currentPressureValue.setText(value);
-	}
-	
-	@FXML 
-	public void setValveStatus(String value) {
-		this.valveStatus.setText(value);
 		
+		if (Double.parseDouble(value) <= 733) {
+			this.currentPressureValue.setTextFill(Color.web("#d1b94d"));
+		} 
+		else if (Double.parseDouble(value) > 733 && Double.parseDouble(value) <= 821) {
+			this.currentPressureValue.setTextFill(Color.web("#04b810"));
+		} 
+		else {
+			this.currentPressureValue.setTextFill(Color.web("#ff0303"));
+		}
 	}
 	
 	public void updateNumDisplay(double[] data) {
-
-		int temp_index = 1, pressure_index = 0, time_index = 3, valve_status_index = 2;
-		double x_val = data[time_index]*60 + data[time_index+1] + data[time_index+2]/100.0;
-		
-		System.out.printf("updateNumDisplay: time = %f, pressure = %f, temp = %f, valve = %f\n", x_val, data[pressure_index], data[temp_index], data[valve_status_index]);
-		setCurrentTempValue(String.valueOf(data[temp_index]));
-		
-		setCurrentPressureValue(String.valueOf(data[pressure_index]));
-
-		if (data[valve_status_index] > 0) {
-		setValveStatus("open");
-		} else {
-			setValveStatus("closed");
-		}
-
+		setCurrentTempValue(String.format("%.3f", data[DataIndex.PROP_TEMP_INDEX.getOrder()]));
+		setCurrentPressureValue(String.format("%.3f", data[DataIndex.PROP_PRESSURE_INDEX.getOrder()]));
 	}
 	
-	
-	
-
 }
 
 

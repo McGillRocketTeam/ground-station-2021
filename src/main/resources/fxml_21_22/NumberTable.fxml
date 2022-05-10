@@ -39,7 +39,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Altitude" textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Altitude" textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -53,7 +53,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Peak X Accel." textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Peak ACCx" textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -67,7 +67,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current X Accel." textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="ACCx" textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -81,7 +81,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Peak Y Accel." textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Peak ACCy" textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -95,7 +95,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Y Accel." textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="ACCy" textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -109,7 +109,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Peak Z Accel." textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Peak ACCz" textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -123,7 +123,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current Z Accel." textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="ACCz" textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -137,12 +137,12 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
                <children>
-                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Current RSSI" textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="411.0" text="Flight State" textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label fx:id="currentRSSIValue" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="state" alignment="CENTER" prefHeight="190.0" prefWidth="423.0" text="0" textAlignment="CENTER">
                      <font>
                         <Font size="19.0" />
                      </font>

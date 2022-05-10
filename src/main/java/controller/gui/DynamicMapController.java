@@ -84,7 +84,7 @@
 	 * @author Samuel Valentine
 	 */
 	
-	public class MapController {
+	public class DynamicMapController {
 		
 		/**
 
@@ -102,10 +102,10 @@
 		
 		// Ile de Boucherville National Park coordinates
 		
-//		final double lower_lat = decimal_converter(45,36,21); // Top of the screen
-//		final double upper_lat = decimal_converter(45,34,33); // Bottom of the screen
-//		final double lower_lon = decimal_converter(73,30,42); // Left of the screen
-//		final double upper_lon = decimal_converter(73,25,40); // Right of the screen
+		final double lower_lat = decimal_converter(45,36,21); // Top of the screen
+		final double upper_lat = decimal_converter(45,34,33); // Bottom of the screen
+		final double lower_lon = decimal_converter(73,30,42); // Left of the screen
+		final double upper_lon = decimal_converter(73,25,40); // Right of the screen
 		
 		// Rutherford Park's coordinates
 //		final double lower_lat = decimal_converter(45,30,23); // Top of the screen
@@ -114,10 +114,10 @@
 //		final double upper_lon = decimal_converter(73,34,41); // Right of the screen
 		
 		// McGill's coordinates
-		final double lower_lat = decimal_converter(45,30,30); // Top of the screen
-		final double upper_lat = decimal_converter(45,30,10); // Bottom of the screen
-		final double lower_lon = decimal_converter(73,35,04); // Left of the screen
-		final double upper_lon = decimal_converter(73,34,16); // Right of the screen
+//		final double lower_lat = decimal_converter(45,30,30); // Top of the screen
+//		final double upper_lat = decimal_converter(45,30,10); // Bottom of the screen
+//		final double lower_lon = decimal_converter(73,35,04); // Left of the screen
+//		final double upper_lon = decimal_converter(73,34,16); // Right of the screen
 		
 		// New Mexico Spaceport America's coordinates
 //		final double lower_lat = 33.1736; // Top of the screen
@@ -188,10 +188,10 @@
 	        
 	        
 //	        Rutherford Park map:
-//	    	InputStream stream = classloader.getResourceAsStream("boucherville.png");
+	    	InputStream stream = classloader.getResourceAsStream("boucherville.png");
 	        
 //	        Mcgill map:
-	    	InputStream stream = classloader.getResourceAsStream("Mcgill.JPG");
+//	    	InputStream stream = classloader.getResourceAsStream("Mcgill.JPG");
 	    	
 //	    	New Mexico map:
 //	    	InputStream stream = classloader.getResourceAsStream("GoogleEarthMap.JPG");
@@ -281,10 +281,10 @@
 			circle_extended.setTranslateY(-image_height_extended / 2 + find_y(y,image_height_extended));
 			
 			//	Create labels 
-			Label latlabel = new Label(String.format("Lat: %.7f", x));
-	        Label lonlabel = new Label(String.format("Lat: %.7f", y));
-			latlabel.setTextAlignment(TextAlignment.LEFT);
-			lonlabel.setTextAlignment(TextAlignment.LEFT);
+			Label latlabel = new Label("Lat: "+x);
+	        Label lonlabel = new Label("Lon: "+y);
+			latlabel.setTextAlignment(TextAlignment.CENTER);
+			lonlabel.setTextAlignment(TextAlignment.CENTER);
 			latPane.getChildren().clear();
 			lonPane.getChildren().clear();
 			latPane.getChildren().add(latlabel);

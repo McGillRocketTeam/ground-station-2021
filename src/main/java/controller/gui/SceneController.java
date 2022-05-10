@@ -1,24 +1,11 @@
 package controller.gui;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 /**
  * SceneController is the controller class for the main GUI scene. It contains
@@ -30,25 +17,7 @@ import javafx.stage.Stage;
 
 public class SceneController {
 
-	// === Number Table ===
-
-	// initialize variables
-	@FXML
-	private AnchorPane numbertable;
-	@FXML
-	private NumbertableController numbertableController;
-
-	/**
-	 * Start the asynchronous timer for updating the numbers display when running
-	 * old data that is read in its entirety
-	 * 
-	 * @param data
-	 */
-	public void startTimer(double[] data) {
-//		System.out.println(numbersController);
-		numbertableController.updateNumberDisplay(data);
-	}
-
+	
 	// === Rocket Model ===
 
 	// initialize variables
@@ -146,83 +115,121 @@ public class SceneController {
 	
 	@FXML private AnchorPane propulsionNumberTable;
 	@FXML private PropulsionNumberTableController propulsionNumberTableController;
-
 	
 	
 	public void startPropulsionTimer(double data[]) {
 		propulsionNumberTableController.updateNumDisplay(data);
+	}	
+	
+	
+	
+	private static int launchStatus = 0;
+	
+	public static int getLaunchStatus() {
+		return launchStatus;
+	}
+	
+	public static void setLaunchStatus(int status) {
+		launchStatus = status;
+	}
+	
+//	public void setLaunchListener(int launchStatus) {
+//		launchStatus = launchStatus;
+//	}
+		
+
+	
+	////////////////////////// MAP //////////////////////////////
+	
+	
+	
+	@FXML private VBox dynamicmap;
+	@FXML private DynamicMapController dynamicmapController;
+	
+	public void sceneInitializeMap() throws Exception {
+		if (dynamicmapController != null) {
+			dynamicmapController.initializeMap();
+		} else {
+			System.out.println("dynamicMapController is NULL");
+		}
+	}
+	
+	public void sceneAddMapData(double[] data) {
+		if (dynamicmapController != null) {
+			dynamicmapController.addMapData(data);
+		} else {
+			System.out.println("dynamicMapController is NULL");
+		}
 	}
 	
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	////////////////////////////////////////////////////////
-	//	=== Launch Page ===
-	
-	@FXML Button launchButton;
-	
-	/**
-	 * Creates a new Scene, the Launch Page. Launch Page becomes visible once the
-	 * "Launch Page" button is clicked.
-	 * 
-	 * @throws Exception
-	 */
-	public void initializeScene() throws Exception {
+	////////////////////////// NUMBER TABLE & COORDINATES //////////////////////////////
 
-		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent e) {
 
-//        		e.consume();
+	// initialize variables
+	@FXML
+	private AnchorPane numbertable;
+	@FXML
+	private NumbertableController numbertableController;
+	@FXML
+	private AnchorPane coordinatestable;
+	@FXML
+	private CoordinatesController coordinatestableController;
 
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml_21_22/LaunchPage.fxml"));
-				// FXMLLoader fxmlLoader = new
-				// FXMLLoader(getClass().getResource("fxml/MainApp.fxml"));
 
-				try {
-					Parent launchRoot = fxmlLoader.load();
-					Scene launchScene = new Scene(launchRoot, 800, 600);
-
-					Stage newWindow = new Stage();
-					newWindow.setTitle("Launch");
-					newWindow.setScene(launchScene);
-					newWindow.show();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					System.out.println("oh no");
-				}
-
-//        		StackPane secondaryLayout = new StackPane();
-//                
-//                Scene secondScene = new Scene(secondaryLayout, 500,500);
-//                Stage newWindow = new Stage();
-//                newWindow.setTitle("Launch");
-//                newWindow.setScene(secondScene);
-//                newWindow.show();
-			}
-		};
-
-		launchButton.setOnAction(event);
+	public void startTimer(double[] data) {
+		numbertableController.updateNumberDisplay(data);
+		coordinatestableController.updateCoordinatesDisplay(data);
 	}
+	
+
+	
+	///////////////////////// RADIO COMMANDS /////////////////
+	
+	@FXML 
+	private AnchorPane radioCommandButtons;
+	@FXML
+	private RadioCommandButtonsController radioCommandButtonsController;
+	
+	@FXML
+	private AnchorPane radioCommandNumberTable;
+	@FXML
+	private RadioCommandNumberTableController radioCommandNumberTableController;
+	
+	public void sceneInitializeRadioCommandButtons() {
+		radioCommandButtonsController.initialize();
+	}
+	
+	public void sceneInitializeRadioCommandNumberTable() {
+		radioCommandNumberTableController.initializeDisplay();
+	}
+	
+	public void startRadioCommandsDumpValveTimer(double data[]) {
+		radioCommandButtonsController.updateDumpValveLabel(data);
+	}
+	
+	public void startRadioCommandsNumberTableTimer(double data[]) {
+		radioCommandNumberTableController.updateNumDisplay(data);
+	}
+	
+	@FXML
+	private RadioCommandLogController radioCommandLogController;
+	
+	// return handle to radioCommandLogController so that parser can attach
+	public void sceneInitializeRadioCommandLog() {
+		radioCommandLogController.initialize();
+	}
+	
+	public void sceneStartLogScrollUpdate() {
+		radioCommandLogController.update_log_display();
+	}
+	
+	int x = 0;
+	public void sceneTestRadioCommandLog() {
+		x++;
+        radioCommandLogController.add_log("" + x);
+	}
+
 }
