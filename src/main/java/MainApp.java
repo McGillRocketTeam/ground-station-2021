@@ -60,7 +60,7 @@ public class MainApp extends Application {
 	public final boolean flightComputer = true;
 	private int SERIAL_PORT_NUMBER = 6;
 //	private final String COM_PORT_DESC = "/dev/tty.usbmodem11101";
-	private final String COM_PORT_DESC = "COM32";
+	private final String COM_PORT_DESC = "COM39";
 	
 	@FXML Button launchButton;
 	private ScheduledExecutorService scheduledExecutorService;
@@ -105,7 +105,8 @@ public class MainApp extends Application {
 //				myData = (ArrayList<String>) Parser.storeData("test_data/2020-10-10-serial-2378-flight-0021_av_only.csv");
 //				myData = (ArrayList<String>) Parser.storeData("test_data/2020-10-10-serial-2378-flight-0021_av_only_subsec.csv");
 //				myData = (ArrayList<String>) Parser.storeData("test_data/2020-10-10-serial-2378-flight-0021_combined_subsec.csv");
-				myData = (ArrayList<String>) Parser.storeData("test_data/2019-05-04-serial-1257-flight-0017_combined_subsec.csv");
+				// myData = (ArrayList<String>) Parser.storeData("test_data/2019-05-04-serial-1257-flight-0017_combined_subsec.csv");
+				myData = (ArrayList<String>) Parser.storeData("storage/raw_fc/2022-05-24--23-01-57_data.txt");
 				System.out.println("found file");
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -113,9 +114,9 @@ public class MainApp extends Application {
 			}
 			for (String str: myData) {
 				try {
-					myDataArraysProp.add(parser.parse(str));
+					myDataArrays.add(parser.parse(str));
 				} catch (IllegalArgumentException e) {
-					System.out.println("Invalid message. Message was thrown out.");
+					System.out.print("Invalid message. Message was thrown out: ");
 					System.out.println(e.toString());
 				} catch (NullPointerException e) {
 					System.out.println("Why you passing null to the parser");
@@ -124,27 +125,40 @@ public class MainApp extends Application {
 
 			scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 			Iterator<double[]> dataItr = myDataArrays.iterator();
-			Iterator<double[]> dataItrProp = myDataArraysProp.iterator();
 
 			scheduledExecutorService.scheduleAtFixedRate(() -> {
-				double[] data = dataItr.next();
-				double[] dataProp = dataItrProp.next();
+				double[] data;
+				double[] dataProp;
+				
+				double[] data_raw = dataItr.next();
+				if (data_raw.length == 14) { // hardcode to make OLD mode work for now
+					data = data_raw;
+					dataProp = null;
+				}
+				else {
+					data = null;
+					dataProp = data_raw;
+				}
+				
 
 				Platform.runLater(()-> {
 
 					Date now = new Date();
 
-					sceneController.sceneAddGraphData(data);
-					sceneController.startTimer(data);
+					if (data != null) {
+						sceneController.sceneAddGraphData(data);
+						sceneController.startTimer(data);
+						
+	//					sceneController.sceneAddGyroData(data);
+						sceneController.sceneAddMapData(data);
+						sceneController.startRadioCommandsNumberTableTimer(data);
+					}
 					
-//					sceneController.sceneAddGyroData(data);
-					sceneController.sceneAddMapData(data);
-					sceneController.startPropulsionTimer(dataProp);
-					sceneController.sceneAddPropulsionGraphData(dataProp);
-					
-					sceneController.startRadioCommandsDumpValveTimer(dataProp);
-					sceneController.startRadioCommandsNumberTableTimer(data);
-					sceneController.startRadioCommandsNumberTableTimer(dataProp);
+					if (dataProp != null) {
+						sceneController.startPropulsionTimer(dataProp);
+						sceneController.sceneAddPropulsionGraphData(dataProp);
+						sceneController.startRadioCommandsDumpValveTimer(dataProp);
+					}
 					
 				});
 			}, 0, 10, TimeUnit.MILLISECONDS);

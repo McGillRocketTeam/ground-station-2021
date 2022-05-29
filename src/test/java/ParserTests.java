@@ -183,18 +183,18 @@ public class ParserTests {
     
     //test for propulsion
     
-    @Test
-    public void testValidMessagePropulsion() {
-    	String test = "P,272.52,0.00,0,01,08,35,E";
-    	Parser testP = new Parser();
-    	double[] data =  testP.parsePropulsion(test);
-    	Assertions.assertEquals(272.52, data[0]);
-    	Assertions.assertEquals(0, data[1]);
-    	Assertions.assertEquals(0, data[2]);
-    	Assertions.assertEquals(1, data[3]);
-    	Assertions.assertEquals(8, data[4]);
-    	Assertions.assertEquals(35, data[5]);
-    }
+//    @Test
+//    public void testValidMessagePropulsion() {
+//    	String test = "P,272.52,0.00,0,01,08,35,E";
+//    	Parser testP = new Parser();
+//    	double[] data =  testP.parsePropulsion(test);
+//    	Assertions.assertEquals(272.52, data[0]);
+//    	Assertions.assertEquals(0, data[1]);
+//    	Assertions.assertEquals(0, data[2]);
+//    	Assertions.assertEquals(1, data[3]);
+//    	Assertions.assertEquals(8, data[4]);
+//    	Assertions.assertEquals(35, data[5]);
+//    }
 
     @Test
     public void testStartAndEndCharsPropulsion() {
@@ -230,34 +230,34 @@ public class ParserTests {
     	System.out.println("Test with wrong number of values passed");
     }
 
-    @Test
-    public void testNotDoublesInDataPropulsion() {
-    	String test = "P,A,0.00,0,01,08,35,E";
-    	Parser testP = new Parser();
-    	Assertions.assertThrows(InvalidParameterException.class, () -> {
-    		testP.parsePropulsion(test);
-    	});
-    	System.out.println("Test with strings instead of doubles in data passed");
-    }
+//    @Test
+//    public void testNotDoublesInDataPropulsion() {
+//    	String test = "P,A,0.00,0,01,08,35,E";
+//    	Parser testP = new Parser();
+//    	Assertions.assertThrows(InvalidParameterException.class, () -> {
+//    		testP.parsePropulsion(test);
+//    	});
+//    	System.out.println("Test with strings instead of doubles in data passed");
+//    }
 
-    @Test
-    public void testNewlineInDataPropulsion() {
-    	String test = "P,272.52,0.00,0,01,08\n,35,E";
-    	Parser testP = new Parser();
-    	double[] data = testP.parsePropulsion(test);
-    	Assertions.assertEquals(8, data[4]);
-    	System.out.println("Test with new line in data passed");
-    }
+//    @Test
+//    public void testNewlineInDataPropulsion() {
+//    	String test = "P,272.52,0.00,0,01,08\n,35,E";
+//    	Parser testP = new Parser();
+//    	double[] data = testP.parsePropulsion(test);
+//    	Assertions.assertEquals(8, data[4]);
+//    	System.out.println("Test with new line in data passed");
+//    }
 
-    @Test
-    public void testEmptyParameterInDataPropulsion() {
-    	String test = "P,272.52,0.00,0,01,,2,E";
-    	Parser testP = new Parser();
-    	Assertions.assertThrows(InvalidParameterException.class, () -> {
-    		testP.parsePropulsion(test);
-    	});
-    	System.out.println("Test with an empty parameter in data passed");
-    }
+//    @Test
+//    public void testEmptyParameterInDataPropulsion() {
+//    	String test = "P,272.52,0.00,0,01,,2,E";
+//    	Parser testP = new Parser();
+//    	Assertions.assertThrows(InvalidParameterException.class, () -> {
+//    		testP.parsePropulsion(test);
+//    	});
+//    	System.out.println("Test with an empty parameter in data passed");
+//    }
 
     @Test
     public void testEmptyDataPropulsion() {
@@ -295,21 +295,21 @@ public class ParserTests {
 //
     //ack
 
-	@Test
-	public void testAcknowledgeXtend() {
-		String test = "xtend_ack_12";
-		Parser testP = new Parser();
-		double[] data =  testP.parseAcknowledgeXtend(test);
-		Assertions.assertEquals(12, data[0]);
-	}
-
-	@Test
-	public void testAcknowledgeSradio() {
-		String test = "sradio_ack_2";
-		Parser testP = new Parser();
-		double[] data =  testP.parseAcknowledgeSradio(test);
-		Assertions.assertEquals(2, data[0]);
-	}
+//	@Test
+//	public void testAcknowledgeXtend() {
+//		String test = "xtend_ack_12";
+//		Parser testP = new Parser();
+//		double[] data =  testP.parseAcknowledgeXtend(test);
+//		Assertions.assertEquals(12, data[0]);
+//	}
+//
+//	@Test
+//	public void testAcknowledgeSradio() {
+//		String test = "sradio_ack_2";
+//		Parser testP = new Parser();
+//		double[] data =  testP.parseAcknowledgeSradio(test);
+//		Assertions.assertEquals(2, data[0]);
+//	}
 
 	//add test for .parse
 }

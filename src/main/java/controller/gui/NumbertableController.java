@@ -110,7 +110,7 @@ public class NumbertableController {
 		setCurrentYAccelValue(String.format("%.3f", data[DataIndex.ACCEL_Y_INDEX.getOrder()]/1000.0));
 		
 		//set Peak Z Acceleration
-		if (Math.abs(data[DataIndex.ACCEL_Y_INDEX.getOrder()]) > Double.parseDouble(peakZAccelValue.getText())) 
+		if (Math.abs(data[DataIndex.ACCEL_Z_INDEX.getOrder()]) > Double.parseDouble(peakZAccelValue.getText())) 
 			setPeakZAccelValue(String.format("%.3f", data[DataIndex.ACCEL_Z_INDEX.getOrder()]/1000.0));
 		
 		//set Current Z Acceleration

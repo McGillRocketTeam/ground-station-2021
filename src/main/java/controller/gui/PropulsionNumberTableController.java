@@ -110,7 +110,18 @@ public class PropulsionNumberTableController {
 	
 	public void updateNumDisplay(double[] data) {
 		setCurrentTempValue(String.format("%.3f", data[DataIndex.PROP_TEMP_INDEX.getOrder()]));
-		setCurrentPressureValue(String.format("%.3f", data[DataIndex.PROP_PRESSURE_INDEX.getOrder()]));
+		
+		// constants
+		double in_amp_gain = 33.077922; // V/V
+		double sensitivity = 0.054e-3; 	// mV/psi
+		
+		// calculate psi from constants
+		double FC_voltage = data[DataIndex.PROP_PRESSURE_INDEX.getOrder()];
+		FC_voltage *= 3.3/4096.0; // if needed to convert from "bits" to mV
+		double pressure = FC_voltage / (in_amp_gain * sensitivity);
+		
+		setCurrentPressureValue(String.format("%.3f", pressure));
+		System.out.println(String.format("FC voltage = %.3f mV\tPressure = %.3f psi", FC_voltage, pressure));
 	}
 	
 }

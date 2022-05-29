@@ -17,7 +17,7 @@ public class Parser {
 	private boolean containsHex;
 	private int hexLocation;
 	private final double EMPTY_ARRAY = 0;
-	private final double LOCAL_PRESSURE = 1031; // pressure conversion to altitude
+	private final double LOCAL_PRESSURE = 1018; // pressure conversion to altitude
 	
 	public final int NUMBER_OF_VALUES_FC = 14; // make accessible to MainApp
 	public final int NUMBER_OF_VALUES_PR = 7;
