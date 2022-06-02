@@ -117,11 +117,11 @@ public class PropulsionNumberTableController {
 		
 		// calculate psi from constants
 		double FC_voltage = data[DataIndex.PROP_PRESSURE_INDEX.getOrder()];
-		FC_voltage *= 3.3/4096.0; // if needed to convert from "bits" to mV
-		double pressure = FC_voltage / (in_amp_gain * sensitivity);
+		double voltage = FC_voltage * 3.3/4096.0; // if needed to convert from "bits" to V
+		double pressure = (voltage / in_amp_gain) / sensitivity - 86;
 		
 		setCurrentPressureValue(String.format("%.3f", pressure));
-		System.out.println(String.format("FC voltage = %.3f mV\tPressure = %.3f psi", FC_voltage, pressure));
+		// System.out.println(String.format("FC voltage = %.3f mV\tPressure = %.3f psi", FC_voltage, pressure));
 	}
 	
 }

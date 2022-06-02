@@ -56,7 +56,7 @@ public class MainApp extends Application {
 	static StringBuffer parsedXtendAckDataConcatBuffer = new StringBuffer();
 	static StringBuffer parsedSradioAckDataConcatBuffer = new StringBuffer();
 
-	private final Mode mode = Mode.LIVE;
+	private final Mode mode = Mode.OLD;
 	public final boolean flightComputer = true;
 	private int SERIAL_PORT_NUMBER = 6;
 //	private final String COM_PORT_DESC = "/dev/tty.usbmodem11101";
@@ -106,7 +106,7 @@ public class MainApp extends Application {
 //				myData = (ArrayList<String>) Parser.storeData("test_data/2020-10-10-serial-2378-flight-0021_av_only_subsec.csv");
 //				myData = (ArrayList<String>) Parser.storeData("test_data/2020-10-10-serial-2378-flight-0021_combined_subsec.csv");
 				// myData = (ArrayList<String>) Parser.storeData("test_data/2019-05-04-serial-1257-flight-0017_combined_subsec.csv");
-				myData = (ArrayList<String>) Parser.storeData("storage/raw_fc/2022-05-24--23-01-57_data.txt");
+				myData = (ArrayList<String>) Parser.storeData("storage/fc/all/2022-05-29--22-11-31_data.txt");
 				System.out.println("found file");
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block

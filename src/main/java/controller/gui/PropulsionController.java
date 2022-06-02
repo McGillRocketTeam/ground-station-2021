@@ -74,7 +74,11 @@ import javafx.event.EventHandler;
  */
 public class PropulsionController {
 
-
+	private final double TEMP_YMIN = -10.0;
+	private final double TEMP_YMAX = 40.0;
+	private final double TEMP_MAX_CHANGE = 10.0;
+	private final double PRESSURE_YMIN = -10.0;
+	private final double PRESSURE_YMAX = 1200.0;
 	
 
 	// --- displaying pressure and temperature graphs --- //
@@ -93,7 +97,7 @@ public class PropulsionController {
 	
 	XYChart.Series<Number, Number> temperatureData;
 	
-	private boolean isPlotFullHistory = false;
+	private boolean isPlotFullHistory = true;
 	
 	/**
 	 * Setter for button boolean
@@ -132,13 +136,16 @@ public class PropulsionController {
 		pressureData.setName("pressureData");
 		pressureChart.getData().add(pressureData);
 		pressureChart.setCreateSymbols(false);
-		
+
 		NumberAxis yAxis = (NumberAxis) pressureChart.getYAxis();
 		yAxis.setForceZeroInRange(false);
+		yAxis.setAutoRanging(false);
+		yAxis.setLowerBound(PRESSURE_YMIN);
+		yAxis.setUpperBound(PRESSURE_YMAX);
+		yAxis.setTickUnit(150);
 		
 		NumberAxis xAxis = (NumberAxis) pressureChart.getXAxis();
 		xAxis.setForceZeroInRange(false);
-		
 
 		
 		JFXChartUtil.setupZooming(pressureChart, new EventHandler<MouseEvent>() {
@@ -164,9 +171,13 @@ public class PropulsionController {
 		temperatureData.setName("temperatureData");
 		temperatureChart.getData().add(temperatureData);	
 		temperatureChart.setCreateSymbols(false);
-		
+
 		NumberAxis yAxis = (NumberAxis) temperatureChart.getYAxis();
 		yAxis.setForceZeroInRange(false);
+		yAxis.setAutoRanging(false);
+		yAxis.setLowerBound(TEMP_YMIN);
+		yAxis.setUpperBound(TEMP_YMAX);
+		yAxis.setTickUnit(10);
 		
 		NumberAxis xAxis = (NumberAxis) temperatureChart.getXAxis();
 		xAxis.setForceZeroInRange(false);
@@ -197,7 +208,7 @@ public class PropulsionController {
 	 */
 	public void addPropulsionGraphData(double[] data) {
 
-		int pressure_index = 0, temp_index = 1, time_index = 3;
+		int pressure_index = 0, temp_index = 1, time_index = 4;
 
 //		System.out.print("addPropGraphIn: ");
 //		for (int i = 0; i < data.length; i++) System.out.print(data[i] + " ");
@@ -227,7 +238,26 @@ public class PropulsionController {
 	
 	private void addTemperatureData(Double x, Double y) {
 //		temperatureData.getData().add(new XYChart.Data<>(x, y));
-		temperatureData.getData().add(new XYChart.Data<>(x, (int) Math.round(y)));
+		
+		// prevent spikes in temperature
+		int numPoints = temperatureData.getData().size();
+		if (numPoints > 0) {
+			double prevTemp = temperatureData.getData().get(numPoints - 1).getYValue().doubleValue(); 
+
+			if (y < TEMP_YMAX && y > TEMP_YMIN) {
+				temperatureData.getData().add(new XYChart.Data<>(x, y));
+			} else {
+				temperatureData.getData().add(new XYChart.Data<>(x, prevTemp));
+			} 
+		} else {
+			if (y < TEMP_YMAX && y > TEMP_YMIN) {
+				temperatureData.getData().add(new XYChart.Data<>(x, y));
+			} else {
+				temperatureData.getData().add(new XYChart.Data<>(x, 25.0)); // 25C should be good middle point
+			}
+			
+		}
+		
 		if (temperatureData.getData().size() > window_size && !isPlotFullHistory)
 			temperatureData.getData().remove(0);
 	}
