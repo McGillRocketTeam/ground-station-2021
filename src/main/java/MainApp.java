@@ -56,7 +56,7 @@ public class MainApp extends Application {
 	static StringBuffer parsedXtendAckDataConcatBuffer = new StringBuffer();
 	static StringBuffer parsedSradioAckDataConcatBuffer = new StringBuffer();
 
-	private final Mode mode = Mode.OLD;
+	private final Mode mode = Mode.LIVE;
 	public final boolean flightComputer = true;
 	private int SERIAL_PORT_NUMBER = 6;
 //	private final String COM_PORT_DESC = "/dev/tty.usbmodem11101";
@@ -152,12 +152,14 @@ public class MainApp extends Application {
 	//					sceneController.sceneAddGyroData(data);
 						sceneController.sceneAddMapData(data);
 						sceneController.startRadioCommandsNumberTableTimer(data);
+						sceneController.startRadioCommandsButtonsStatusUpdateTimer(data);
 					}
 					
 					if (dataProp != null) {
 						sceneController.startPropulsionTimer(dataProp);
 						sceneController.sceneAddPropulsionGraphData(dataProp);
 						sceneController.startRadioCommandsDumpValveTimer(dataProp);
+						sceneController.startRadioCommandsButtonsStatusUpdateTimer(dataProp);
 					}
 					
 				});
@@ -261,11 +263,13 @@ public class MainApp extends Application {
 //											sceneController.sceneAddGyroData(data);
 											sceneController.startTimer(data);
 											sceneController.startRadioCommandsNumberTableTimer(data);
+											sceneController.startRadioCommandsButtonsStatusUpdateTimer(data);
 										}
 										else if (data.length == parser.NUMBER_OF_VALUES_PR) {
 											sceneController.startPropulsionTimer(data);
 											sceneController.sceneAddPropulsionGraphData(data);
 											sceneController.startRadioCommandsDumpValveTimer(data);
+											sceneController.startRadioCommandsButtonsStatusUpdateTimer(data);
 										}
 										
 										sceneController.sceneStartLogScrollUpdate();

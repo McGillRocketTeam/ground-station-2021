@@ -42,7 +42,7 @@ public class RadioCommandNumberTableController {
 	public void initializeDisplay() {
 		setDrogueContinuityValue("safed");
 		setMainContinuityValue("safed");
-		setRunValveStatusValue("unpowered");
+		setRunValveStatusValue("Open");
 	}
 	
 	public void updateNumDisplay(double[] data) {
@@ -70,16 +70,18 @@ public class RadioCommandNumberTableController {
 		if (RadioCommandButtonsController.getArmPropulsionStatus().equals("Safed")) {
 			if (encodedContinuity >= 4) {
 				setRunValveStatusValue("not safed! -- yes");
-			}
-			else {
+			} else {
 				setRunValveStatusValue("safed");
 			}
 		} else {
-			if (encodedContinuity >= 4) {
+			if (encodedContinuity > 15) {
+				setRunValveStatusValue("launched!");
+			}
+			else if (encodedContinuity == 12 || encodedContinuity == 15) {
 				setRunValveStatusValue("yes");
 			}
-			else {
-				setRunValveStatusValue("firing");
+			else if (encodedContinuity < 12) {
+				setRunValveStatusValue("uh...idk");
 			}
 		}
 		
@@ -93,13 +95,7 @@ public class RadioCommandNumberTableController {
 		if (encodedContinuity == 0) {
 			drogueCont = "no";
 			mainCont = "no";
-		} else if (encodedContinuity == 1 || encodedContinuity == 5 || encodedContinuity == 9 || encodedContinuity == 13) {
-			drogueCont = "yes";
-			mainCont = "no";
-		} else if (encodedContinuity == 2 || encodedContinuity == 4 || encodedContinuity == 10 || encodedContinuity == 14) {
-			drogueCont = "no";
-			mainCont = "yes";
-		} else if (encodedContinuity == 3 || encodedContinuity == 7 || encodedContinuity == 15) {
+		} else if (encodedContinuity == 3 || encodedContinuity == 15 || encodedContinuity == 27) {
 			drogueCont = "yes";
 			mainCont = "yes";
 		}

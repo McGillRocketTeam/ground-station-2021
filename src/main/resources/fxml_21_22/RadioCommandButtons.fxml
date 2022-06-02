@@ -30,12 +30,12 @@
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <RadioButton fx:id="arm_prop_armed_rb1" layoutX="162.0" layoutY="71.0" mnemonicParsing="false" text="Powered" textFill="RED">
+                        <RadioButton fx:id="dump_powered_rb" layoutX="162.0" layoutY="71.0" mnemonicParsing="false" text="Closed" textFill="RED">
                            <toggleGroup>
                               <ToggleGroup fx:id="dump_valve" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="arm_prop_safed_rb1" layoutX="162.0" layoutY="51.0" mnemonicParsing="false" selected="true" text="Unpowered" textFill="#1e991e" toggleGroup="$dump_valve" />
+                        <RadioButton fx:id="dump_unpowered_rb" layoutX="162.0" layoutY="51.0" mnemonicParsing="false" selected="true" text="Open" textFill="#1e991e" toggleGroup="$dump_valve" />
                         <Text layoutX="108.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dump Valve" textAlignment="CENTER">
                            <font>
                               <Font size="16.0" />

@@ -210,6 +210,9 @@ public class SceneController {
 		radioCommandButtonsController.updateDumpValveLabel(data);
 	}
 	
+	public void startRadioCommandsButtonsStatusUpdateTimer(double data[]) {
+		radioCommandButtonsController.updateButtonsSelectedStatus(data);
+	}
 	public void startRadioCommandsNumberTableTimer(double data[]) {
 		radioCommandNumberTableController.updateNumDisplay(data);
 	}
