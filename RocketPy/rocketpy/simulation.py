@@ -5,7 +5,7 @@ Env = Environment(
     latitude=32.990254,
     longitude=-106.974998,
     elevation=1400,
-    date=(2022, 3, 16, 12)  # Tomorrow's date in year, month, day, hour UTC format
+    date=(2022, 4, 6, 12)  # Tomorrow's date in year, month, day, hour UTC format
 )
 
 Env.setAtmosphericModel(type='Forecast', file='GFS')
