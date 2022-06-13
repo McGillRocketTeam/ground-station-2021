@@ -92,6 +92,10 @@ analysis_parameters = {
         1.75,
         0.07,
     ),  # Drag coefficient times reference area for the drogue chute (m^2)
+    "CdSMain": (
+        22.48,
+        0.01,
+    ),
     "lag_rec": (
         1,
         0.5,
@@ -212,12 +216,18 @@ Env = Environment(
     date=(2022, 6, 13, 12)  # Tomorrow's date in year, month, day, hour UTC format
 )
 Env.setAtmosphericModel(type='Forecast', file='GFS')
-# Set up parachutes. This rocket, named Valetudo, only has a drogue chute.
+
 def drogueTrigger(p, y):
     # Check if rocket is going down, i.e. if it has passed the apogee
     vertical_velocity = y[5]
     # Return true to activate parachute once the vertical velocity is negative
     return True if vertical_velocity < 0 else False
+
+def mainTrigger(p, y):
+    # Check if rocket is going down, i.e. if it has passed the apogee
+    vertical_velocity = y[5]
+    # Return true to activate parachute once the vertical velocity is negative
+    return True if vertical_velocity < 0 and y[2] < 800 else False
 
 
 # Iterate over flight settings
@@ -227,48 +237,45 @@ for setting in flight_settings(analysis_parameters, number_of_simulations):
     i += 1
 
     # Update environment object
-    Env.selectEnsembleMember(setting["ensembleMember"])
+    # Env.selectEnsembleMember(setting["ensembleMember"])
     Env.railLength = setting["railLength"]
 
     # Create motor
-    Keron = SolidMotor(
-        thrustSource="dispersion_analysis_inputs/thrustCurve.csv",
-        burnOut=5.274,
-        reshapeThrustCurve=(setting["burnOut"], setting["impulse"]),
-        nozzleRadius=setting["nozzleRadius"],
-        throatRadius=setting["throatRadius"],
-        grainNumber=6,
-        grainSeparation=setting["grainSeparation"],
-        grainDensity=setting["grainDensity"],
-        grainOuterRadius=setting["grainOuterRadius"],
-        grainInitialInnerRadius=setting["grainInitialInnerRadius"],
-        grainInitialHeight=setting["grainInitialHeight"],
-        interpolationMethod="linear",
+    maelstromV5 = SolidMotor(
+        thrustSource="../data/motors/maelstrom/Maelstrom-V5-eng.eng",
+        burnOut=3.25,
+        grainNumber=1,
+        grainSeparation=0,
+        grainDensity=788.9,
+        grainOuterRadius=0.039624,
+        grainInitialInnerRadius=0.0226949,
+        grainInitialHeight=0.6096,
+        nozzleRadius=381 / 10000,
+        throatRadius=233 / 10000,
+        interpolationMethod='linear'
     )
 
-    # Create rocket
-    Valetudo = Rocket(
-        motor=Keron,
-        radius=setting["radius"],
-        mass=setting["rocketMass"],
-        inertiaI=setting["inertiaI"],
-        inertiaZ=setting["inertiaZ"],
-        distanceRocketNozzle=setting["distanceRocketNozzle"],
-        distanceRocketPropellant=setting["distanceRocketPropellant"],
-        powerOffDrag="dispersion_analysis_inputs/Cd_PowerOff.csv",
-        powerOnDrag="dispersion_analysis_inputs/Cd_PowerOn.csv",
+    athos = Rocket(
+        motor=maelstromV5,
+        radius=0.07874,
+        mass=47.5,
+        inertiaI=57.67515388,
+        inertiaZ=0.198348,
+        distanceRocketNozzle=-1.872244414,
+        distanceRocketPropellant=1.50523109705601,
+        powerOffDrag=0.555,
+        powerOnDrag=0.555
     )
-    Valetudo.setRailButtons([0.224, -0.93], 30)
-    # Edit rocket drag
-    Valetudo.powerOffDrag *= setting["powerOffDrag"]
-    Valetudo.powerOnDrag *= setting["powerOnDrag"]
+
+    athos.setRailButtons([0.2, -0.5])
+
     # Add rocket nose, fins and tail
-    NoseCone = Valetudo.addNose(
+    NoseCone = athos.addNose(
         length=setting["noseLength"],
         kind="vonKarman",
         distanceToCM=setting["noseDistanceToCM"],
     )
-    FinSet = Valetudo.addFins(
+    FinSet = athos.addFins(
         n=3,
         rootChord=setting["finRootChord"],
         tipChord=setting["finTipChord"],
@@ -276,7 +283,7 @@ for setting in flight_settings(analysis_parameters, number_of_simulations):
         distanceToCM=setting["finDistanceToCM"],
     )
     # Add parachute
-    Drogue = Valetudo.addParachute(
+    Drogue = athos.addParachute(
         "Drogue",
         CdS=setting["CdSDrogue"],
         trigger=drogueTrigger,
@@ -285,10 +292,19 @@ for setting in flight_settings(analysis_parameters, number_of_simulations):
         noise=(0, 8.3, 0.5),
     )
 
+    Main = athos.addParachute(
+        'Main',
+        CdS=setting["CdSMain"],
+        trigger=mainTrigger,
+        samplingRate=105,
+        lag=setting["lag_rec"] + setting["lag_se"],
+        noise=(0, 8.3, 0.5)
+    )
+
     # Run trajectory simulation
     try:
         TestFlight = Flight(
-            rocket=Valetudo,
+            rocket=athos,
             environment=Env,
             inclination=setting["inclination"],
             heading=setting["heading"],
@@ -319,7 +335,7 @@ dispersion_output_file.close()
 dispersion_error_file.close()
 
 
-filename = "dispersion_analysis_outputs/valetudo_rocket_v0"
+filename = "dispersion_analysis_outputs/athos_v0"
 
 # Initialize variable to store all results
 dispersion_general_results = []
