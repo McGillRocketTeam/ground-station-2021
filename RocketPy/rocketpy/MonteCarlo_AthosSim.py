@@ -26,7 +26,7 @@ analysis_parameters = {
         0.001,
     ),  # Rocket's dry mass (kg) and its uncertainty (standard deviation)
     # Propulsion Details - run help(SolidMotor) for more information
-    "impulse": (1415.15, 35.3),  # Motor total impulse (N*s)
+    "impulse": (16584.9340, 1.0),  # Motor total impulse (N*s)
     "burnOut": (3.25, 1),  # Motor burn out time (s)
     "nozzleRadius": (381/10000, 0.5 / 1000),  # Motor's nozzle radius (m)
     "throatRadius": (233/10000, 0.5 / 1000),  # Motor's nozzle throat radius (m)
@@ -128,6 +128,7 @@ def flight_settings(analysis_parameters, total_number):
         # Yield a flight setting
         yield flight_setting
 
+
 def export_flight_data(flight_setting, flight_data, exec_time):
     # Generate flight results
     flight_result = {
@@ -213,15 +214,18 @@ Env = Environment(
     latitude=32.990254,
     longitude=-106.974998,
     elevation=1400,
-    date=(2022, 6, 13, 12)  # Tomorrow's date in year, month, day, hour UTC format
+    date=(2022, 6, 18, 12)  # Tomorrow's date in year, month, day, hour UTC format
 )
 Env.setAtmosphericModel(type='Forecast', file='GFS')
+# Env.maxExpectedHeight = 1500
+
 
 def drogueTrigger(p, y):
     # Check if rocket is going down, i.e. if it has passed the apogee
     vertical_velocity = y[5]
     # Return true to activate parachute once the vertical velocity is negative
     return True if vertical_velocity < 0 else False
+
 
 def mainTrigger(p, y):
     # Check if rocket is going down, i.e. if it has passed the apogee
@@ -238,7 +242,7 @@ for setting in flight_settings(analysis_parameters, number_of_simulations):
 
     # Update environment object
     # Env.selectEnsembleMember(setting["ensembleMember"])
-    Env.railLength = setting["railLength"]
+    # Env.railLength = setting["railLength"]
 
     # Create motor
     maelstromV5 = SolidMotor(
