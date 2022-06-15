@@ -195,7 +195,7 @@ def export_flight_error(flight_setting):
 
 # Basic analysis info
 filename = "dispersion_analysis_outputs/Athos"
-number_of_simulations = 100
+number_of_simulations = 10000
 
 # Create data files for inputs, outputs and error logging
 dispersion_error_file = open(str(filename) + ".disp_errors.txt", "w")
@@ -236,8 +236,10 @@ def mainTrigger(p, y):
 
 # Iterate over flight settings
 out = display("Starting", display_id=True)
+
 for setting in flight_settings(analysis_parameters, number_of_simulations):
     start_time = process_time()
+    print(str((i / number_of_simulations) * 100) + "%")
     i += 1
 
     # Update environment object
@@ -747,20 +749,20 @@ plt.legend()
 
 # Add title and labels to plot
 ax.set_title(
-    "1$\sigma$, 2$\sigma$ and 3$\sigma$ Dispersion Ellipses: Apogee and Lading Points"
+    "1$\sigma$, 2$\sigma$ and 3$\sigma$ Dispersion Ellipses: Apogee and Landing Points"
 )
 ax.set_ylabel("North (m)")
 ax.set_xlabel("East (m)")
 
 # Add background image to plot
 # You can translate the basemap by changing dx and dy (in meters)
-dx = 0
-dy = 0
-plt.imshow(img, zorder=0, extent=[-1000 - dx, 1000 - dx, -1000 - dy, 1000 - dy])
+dx = -360
+dy = -222
+plt.imshow(img, zorder=0, extent=[-11112.9, 16612.903225806452, -3225.806451612903, 6806.451612903226])
 plt.axhline(0, color="black", linewidth=0.5)
 plt.axvline(0, color="black", linewidth=0.5)
-plt.xlim(-300, 700)
-plt.ylim(-300, 3000)
+plt.xlim(-2000, 2000)
+plt.ylim(-1000, 3000)
 
 # Save plot and show result
 # plt.savefig(str(filename) + ".pdf", bbox_inches="tight", pad_inches=0)
