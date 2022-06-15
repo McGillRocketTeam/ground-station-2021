@@ -759,8 +759,8 @@ dy = 0
 plt.imshow(img, zorder=0, extent=[-1000 - dx, 1000 - dx, -1000 - dy, 1000 - dy])
 plt.axhline(0, color="black", linewidth=0.5)
 plt.axvline(0, color="black", linewidth=0.5)
-plt.xlim(-100, 700)
-plt.ylim(-300, 300)
+plt.xlim(-300, 700)
+plt.ylim(-300, 3000)
 
 # Save plot and show result
 # plt.savefig(str(filename) + ".pdf", bbox_inches="tight", pad_inches=0)
