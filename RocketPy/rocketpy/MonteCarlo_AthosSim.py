@@ -673,7 +673,7 @@ from imageio import imread
 from matplotlib.patches import Ellipse
 
 # Import background map
-img = imread("dispersion_analysis_inputs/Valetudo_basemap_final.jpg")
+img = imread("dispersion_analysis_inputs/SAC_google_map.jpg")
 
 # Retrieve dispersion data por apogee and impact XY position
 apogeeX = np.array(dispersion_results["apogeeX"])
@@ -763,6 +763,6 @@ plt.xlim(-100, 700)
 plt.ylim(-300, 300)
 
 # Save plot and show result
-plt.savefig(str(filename) + ".pdf", bbox_inches="tight", pad_inches=0)
-plt.savefig(str(filename) + ".svg", bbox_inches="tight", pad_inches=0)
+# plt.savefig(str(filename) + ".pdf", bbox_inches="tight", pad_inches=0)
+# plt.savefig(str(filename) + ".svg", bbox_inches="tight", pad_inches=0)
 plt.show()
