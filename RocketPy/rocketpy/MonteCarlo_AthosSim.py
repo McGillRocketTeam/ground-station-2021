@@ -320,15 +320,15 @@ for setting in flight_settings(analysis_parameters, number_of_simulations):
         export_flight_error(setting)
 
     # Register time
-    out.update(
-        f"Curent iteration: {i:06d} | Average Time per Iteration: {(process_time() - initial_cpu_time)/i:2.6f} s"
-    )
+    # out.update(
+    #     f"Curent iteration: {i:06d} | Average Time per Iteration: {(process_time() - initial_cpu_time)/i:2.6f} s"
+    # )
 
 # Done
 
 ## Print and save total time
 final_string = f"Completed {i} iterations successfully. Total CPU time: {process_time() - initial_cpu_time} s. Total wall time: {time() - initial_wall_time} s"
-out.update(final_string)
+# out.update(final_string)
 dispersion_input_file.write(final_string + "\n")
 dispersion_output_file.write(final_string + "\n")
 dispersion_error_file.write(final_string + "\n")
@@ -339,7 +339,7 @@ dispersion_output_file.close()
 dispersion_error_file.close()
 
 
-filename = "dispersion_analysis_outputs/athos_v0"
+filename = "dispersion_analysis_outputs/Athos"
 
 # Initialize variable to store all results
 dispersion_general_results = []
@@ -739,9 +739,9 @@ plt.scatter(
     impactX, impactY, s=5, marker="v", color="blue", label="Simulated Landing Point"
 )
 # Draw real landing point
-plt.scatter(
-    411.89, -61.07, s=20, marker="X", color="red", label="Measured Landing Point"
-)
+# plt.scatter(
+#     411.89, -61.07, s=20, marker="X", color="red", label="Measured Landing Point"
+# )
 
 plt.legend()
 
