@@ -1,0 +1,38 @@
+Simulated for 5pm UTC = 12pm EST = 10am MDT on 25/06/2022
+
+
+Number of simulations:  1000
+Out of Rail Time -         Mean Value: 0.223 s
+Out of Rail Time - Standard Deviation: 0.000 s
+Out of Rail Velocity -         Mean Value: 28.120 m/s
+Out of Rail Velocity - Standard Deviation: 0.002 m/s
+Apogee Time -         Mean Value: 27.538 s
+Apogee Time - Standard Deviation: 0.044 s
+Apogee Altitude -         Mean Value: 3768.531 m
+Apogee Altitude - Standard Deviation: 13.611 m
+Apogee X Position -         Mean Value: 222.972 m
+Apogee X Position - Standard Deviation: 30.422 m
+Apogee Y Position -         Mean Value: 714.526 m
+Apogee Y Position - Standard Deviation: 125.549 m
+Impact Time -         Mean Value: 179.739 s
+Impact Time - Standard Deviation: 3.099 s
+Impact X Position -         Mean Value: 165.158 m
+Impact X Position - Standard Deviation: 35.338 m
+Impact Y Position -         Mean Value: 1502.804 m
+Impact Y Position - Standard Deviation: 145.645 m
+Impact Velocity -         Mean Value: -23.135 m/s
+Impact Velocity - Standard Deviation: 0.484 m/s
+Initial Static Margin -             Mean Value: 3.758 c
+Initial Static Margin -     Standard Deviation: 0.033 c
+Out of Rail Static Margin -         Mean Value: 3.731 c
+Out of Rail Static Margin - Standard Deviation: 0.033 c
+Final Static Margin -               Mean Value: 3.448 c
+Final Static Margin -       Standard Deviation: 0.033 c
+Maximum Velocity -         Mean Value: 291.865 m/s
+Maximum Velocity - Standard Deviation: 0.064 m/s
+Drogue Parachute Trigger Time -         Mean Value: 27.543 s
+Drogue Parachute Trigger Time - Standard Deviation: 0.044 s
+Drogue Parachute Fully Inflated Time -         Mean Value: 29.295 s
+Drogue Parachute Fully Inflated Time - Standard Deviation: 0.467 s
+Drogue Parachute Fully Inflated Velocity -         Mean Value: 30.788 m/s
+Drogue Parachute Fully Inflated Velocity - Standard Deviation: 4.342 m/s

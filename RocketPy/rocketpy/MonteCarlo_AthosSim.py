@@ -195,7 +195,7 @@ def export_flight_error(flight_setting):
 
 # Basic analysis info
 filename = "dispersion_analysis_outputs/Athos"
-number_of_simulations = 10000
+number_of_simulations = 1000
 
 # Create data files for inputs, outputs and error logging
 dispersion_error_file = open(str(filename) + ".disp_errors.txt", "w")
@@ -214,7 +214,7 @@ Env = Environment(
     latitude=32.990254,
     longitude=-106.974998,
     elevation=1400,
-    date=(2022, 6, 18, 12)  # Tomorrow's date in year, month, day, hour UTC format
+    date=(2022, 6, 25, 17)  # Tomorrow's date in year, month, day, hour UTC format
 )
 Env.setAtmosphericModel(type='Forecast', file='GFS')
 # Env.maxExpectedHeight = 1500
@@ -231,7 +231,7 @@ def mainTrigger(p, y):
     # Check if rocket is going down, i.e. if it has passed the apogee
     vertical_velocity = y[5]
     # Return true to activate parachute once the vertical velocity is negative
-    return True if vertical_velocity < 0 and y[2] < 800 else False
+    return True if vertical_velocity < 0 and y[2] < 457 else False
 
 
 # Iterate over flight settings
