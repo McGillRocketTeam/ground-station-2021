@@ -195,7 +195,7 @@ def export_flight_error(flight_setting):
 
 # Basic analysis info
 filename = "dispersion_analysis_outputs/Athos"
-number_of_simulations = 1000
+number_of_simulations = 1
 
 # Create data files for inputs, outputs and error logging
 dispersion_error_file = open(str(filename) + ".disp_errors.txt", "w")
@@ -214,7 +214,7 @@ Env = Environment(
     latitude=32.990254,
     longitude=-106.974998,
     elevation=1400,
-    date=(2022, 6, 25, 17)  # Tomorrow's date in year, month, day, hour UTC format
+    date=(2022, 7, 27, 18)  # Tomorrow's date in year, month, day, hour UTC format
 )
 Env.setAtmosphericModel(type='Forecast', file='GFS')
 # Env.maxExpectedHeight = 1500
@@ -327,444 +327,452 @@ for setting in flight_settings(analysis_parameters, number_of_simulations):
     # )
 
 # Done
+Flight.postProcess(TestFlight)
 
-## Print and save total time
-final_string = f"Completed {i} iterations successfully. Total CPU time: {process_time() - initial_cpu_time} s. Total wall time: {time() - initial_wall_time} s"
-# out.update(final_string)
-dispersion_input_file.write(final_string + "\n")
-dispersion_output_file.write(final_string + "\n")
-dispersion_error_file.write(final_string + "\n")
-
-## Close files
-dispersion_input_file.close()
-dispersion_output_file.close()
-dispersion_error_file.close()
+file = open("outputAcceleration.txt", "w")
+for i in range(0, len(TestFlight.ax), 1):
+    file.write("{:f}\n".format(TestFlight.ax[i]))
 
 
-filename = "dispersion_analysis_outputs/Athos"
-
-# Initialize variable to store all results
-dispersion_general_results = []
-
-dispersion_results = {
-    "outOfRailTime": [],
-    "outOfRailVelocity": [],
-    "apogeeTime": [],
-    "apogeeAltitude": [],
-    "apogeeX": [],
-    "apogeeY": [],
-    "impactTime": [],
-    "impactX": [],
-    "impactY": [],
-    "impactVelocity": [],
-    "initialStaticMargin": [],
-    "outOfRailStaticMargin": [],
-    "finalStaticMargin": [],
-    "numberOfEvents": [],
-    "maxVelocity": [],
-    "drogueTriggerTime": [],
-    "drogueInflatedTime": [],
-    "drogueInflatedVelocity": [],
-    "executionTime": [],
-}
-
-# Get all dispersion results
-# Get file
-dispersion_output_file = open(str(filename) + ".disp_outputs.txt", "r+")
-
-# Read each line of the file and convert to dict
-for line in dispersion_output_file:
-    # Skip comments lines
-    if line[0] != "{":
-        continue
-    # Eval results and store them
-    flight_result = eval(line)
-    dispersion_general_results.append(flight_result)
-    for parameter_key, parameter_value in flight_result.items():
-        dispersion_results[parameter_key].append(parameter_value)
-
-# Close data file
-dispersion_output_file.close()
-
-# Print number of flights simulated
-N = len(dispersion_general_results)
-print("Number of simulations: ", N)
-
-
-
-print(
-    f'Out of Rail Time -         Mean Value: {np.mean(dispersion_results["outOfRailTime"]):0.3f} s'
-)
-print(
-    f'Out of Rail Time - Standard Deviation: {np.std(dispersion_results["outOfRailTime"]):0.3f} s'
-)
-
-plt.figure()
-plt.hist(dispersion_results["outOfRailTime"], bins=int(N**0.5))
-plt.title("Out of Rail Time")
-plt.xlabel("Time (s)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-# You can also use Plotly instead of Matplotlib if you wish!
-# import plotly.express as px
-# fig1 = px.histogram(
-#     x=dispersion_results["outOfRailTime"],
-#     title='Out of Rail Time',
-#     nbins=int(N**0.5)
+# ## Print and save total time
+# final_string = f"Completed {i} iterations successfully. Total CPU time: {process_time() - initial_cpu_time} s. Total wall time: {time() - initial_wall_time} s"
+# # out.update(final_string)
+# dispersion_input_file.write(final_string + "\n")
+# dispersion_output_file.write(final_string + "\n")
+# dispersion_error_file.write(final_string + "\n")
+#
+# ## Close files
+# dispersion_input_file.close()
+# dispersion_output_file.close()
+# dispersion_error_file.close()
+#
+#
+# filename = "dispersion_analysis_outputs/Athos"
+#
+# # Initialize variable to store all results
+# dispersion_general_results = []
+#
+# dispersion_results = {
+#     "outOfRailTime": [],
+#     "outOfRailVelocity": [],
+#     "apogeeTime": [],
+#     "apogeeAltitude": [],
+#     "apogeeX": [],
+#     "apogeeY": [],
+#     "impactTime": [],
+#     "impactX": [],
+#     "impactY": [],
+#     "impactVelocity": [],
+#     "initialStaticMargin": [],
+#     "outOfRailStaticMargin": [],
+#     "finalStaticMargin": [],
+#     "numberOfEvents": [],
+#     "maxVelocity": [],
+#     "drogueTriggerTime": [],
+#     "drogueInflatedTime": [],
+#     "drogueInflatedVelocity": [],
+#     "executionTime": [],
+# }
+#
+# # Get all dispersion results
+# # Get file
+# dispersion_output_file = open(str(filename) + ".disp_outputs.txt", "r+")
+#
+# # Read each line of the file and convert to dict
+# for line in dispersion_output_file:
+#     # Skip comments lines
+#     if line[0] != "{":
+#         continue
+#     # Eval results and store them
+#     flight_result = eval(line)
+#     dispersion_general_results.append(flight_result)
+#     for parameter_key, parameter_value in flight_result.items():
+#         dispersion_results[parameter_key].append(parameter_value)
+#
+# # Close data file
+# dispersion_output_file.close()
+#
+# # Print number of flights simulated
+# N = len(dispersion_general_results)
+# print("Number of simulations: ", N)
+#
+#
+#
+# print(
+#     f'Out of Rail Time -         Mean Value: {np.mean(dispersion_results["outOfRailTime"]):0.3f} s'
 # )
-# fig1.update_layout(
-#     xaxis_title_text='Time (s)',
-#     yaxis_title_text='Number of occurences'
+# print(
+#     f'Out of Rail Time - Standard Deviation: {np.std(dispersion_results["outOfRailTime"]):0.3f} s'
 # )
-
-
-
-print(
-    f'Out of Rail Velocity -         Mean Value: {np.mean(dispersion_results["outOfRailVelocity"]):0.3f} m/s'
-)
-print(
-    f'Out of Rail Velocity - Standard Deviation: {np.std(dispersion_results["outOfRailVelocity"]):0.3f} m/s'
-)
-
-plt.figure()
-plt.hist(dispersion_results["outOfRailVelocity"], bins=int(N**0.5))
-plt.title("Out of Rail Velocity")
-plt.xlabel("Velocity (m/s)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-
-print(
-    f'Apogee Time -         Mean Value: {np.mean(dispersion_results["apogeeTime"]):0.3f} s'
-)
-print(
-    f'Apogee Time - Standard Deviation: {np.std(dispersion_results["apogeeTime"]):0.3f} s'
-)
-
-plt.figure()
-plt.hist(dispersion_results["apogeeTime"], bins=int(N**0.5))
-plt.title("Apogee Time")
-plt.xlabel("Time (s)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-
-print(
-    f'Apogee Altitude -         Mean Value: {np.mean(dispersion_results["apogeeAltitude"]):0.3f} m'
-)
-print(
-    f'Apogee Altitude - Standard Deviation: {np.std(dispersion_results["apogeeAltitude"]):0.3f} m'
-)
-
-plt.figure()
-plt.hist(dispersion_results["apogeeAltitude"], bins=int(N**0.5))
-plt.title("Apogee Altitude")
-plt.xlabel("Altitude (m)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-# Real measured apogee for Valetudo = 860 m
-
-
-print(
-    f'Apogee X Position -         Mean Value: {np.mean(dispersion_results["apogeeX"]):0.3f} m'
-)
-print(
-    f'Apogee X Position - Standard Deviation: {np.std(dispersion_results["apogeeX"]):0.3f} m'
-)
-
-plt.figure()
-plt.hist(dispersion_results["apogeeX"], bins=int(N**0.5))
-plt.title("Apogee X Position")
-plt.xlabel("Apogee X Position (m)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-
-
-print(
-    f'Apogee Y Position -         Mean Value: {np.mean(dispersion_results["apogeeY"]):0.3f} m'
-)
-print(
-    f'Apogee Y Position - Standard Deviation: {np.std(dispersion_results["apogeeY"]):0.3f} m'
-)
-
-plt.figure()
-plt.hist(dispersion_results["apogeeY"], bins=int(N**0.5))
-plt.title("Apogee Y Position")
-plt.xlabel("Apogee Y Position (m)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-
-print(
-    f'Impact Time -         Mean Value: {np.mean(dispersion_results["impactTime"]):0.3f} s'
-)
-print(
-    f'Impact Time - Standard Deviation: {np.std(dispersion_results["impactTime"]):0.3f} s'
-)
-
-plt.figure()
-plt.hist(dispersion_results["impactTime"], bins=int(N**0.5))
-plt.title("Impact Time")
-plt.xlabel("Time (s)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-
-print(
-    f'Impact X Position -         Mean Value: {np.mean(dispersion_results["impactX"]):0.3f} m'
-)
-print(
-    f'Impact X Position - Standard Deviation: {np.std(dispersion_results["impactX"]):0.3f} m'
-)
-
-plt.figure()
-plt.hist(dispersion_results["impactX"], bins=int(N**0.5))
-plt.title("Impact X Position")
-plt.xlabel("Impact X Position (m)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-
-print(
-    f'Impact Y Position -         Mean Value: {np.mean(dispersion_results["impactY"]):0.3f} m'
-)
-print(
-    f'Impact Y Position - Standard Deviation: {np.std(dispersion_results["impactY"]):0.3f} m'
-)
-
-plt.figure()
-plt.hist(dispersion_results["impactY"], bins=int(N**0.5))
-plt.title("Impact Y Position")
-plt.xlabel("Impact Y Position (m)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-
-
-
-print(
-    f'Impact Velocity -         Mean Value: {np.mean(dispersion_results["impactVelocity"]):0.3f} m/s'
-)
-print(
-    f'Impact Velocity - Standard Deviation: {np.std(dispersion_results["impactVelocity"]):0.3f} m/s'
-)
-
-plt.figure()
-plt.hist(dispersion_results["impactVelocity"], bins=int(N**0.5))
-plt.title("Impact Velocity")
-# plt.grid()
-plt.xlim(-35, 0)
-plt.xlabel("Velocity (m/s)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-
-print(
-    f'Initial Static Margin -             Mean Value: {np.mean(dispersion_results["initialStaticMargin"]):0.3f} c'
-)
-print(
-    f'Initial Static Margin -     Standard Deviation: {np.std(dispersion_results["initialStaticMargin"]):0.3f} c'
-)
-
-print(
-    f'Out of Rail Static Margin -         Mean Value: {np.mean(dispersion_results["outOfRailStaticMargin"]):0.3f} c'
-)
-print(
-    f'Out of Rail Static Margin - Standard Deviation: {np.std(dispersion_results["outOfRailStaticMargin"]):0.3f} c'
-)
-
-print(
-    f'Final Static Margin -               Mean Value: {np.mean(dispersion_results["finalStaticMargin"]):0.3f} c'
-)
-print(
-    f'Final Static Margin -       Standard Deviation: {np.std(dispersion_results["finalStaticMargin"]):0.3f} c'
-)
-
-plt.figure()
-plt.hist(dispersion_results["initialStaticMargin"], label="Initial", bins=int(N**0.5))
-plt.hist(
-    dispersion_results["outOfRailStaticMargin"], label="Out of Rail", bins=int(N**0.5)
-)
-plt.hist(dispersion_results["finalStaticMargin"], label="Final", bins=int(N**0.5))
-plt.legend()
-plt.title("Static Margin")
-plt.xlabel("Static Margin (c)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-
-
-print(
-    f'Maximum Velocity -         Mean Value: {np.mean(dispersion_results["maxVelocity"]):0.3f} m/s'
-)
-print(
-    f'Maximum Velocity - Standard Deviation: {np.std(dispersion_results["maxVelocity"]):0.3f} m/s'
-)
-
-plt.figure()
-plt.hist(dispersion_results["maxVelocity"], bins=int(N**0.5))
-plt.title("Maximum Velocity")
-plt.xlabel("Velocity (m/s)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-
-
-plt.figure()
-plt.hist(dispersion_results["numberOfEvents"])
-plt.title("Parachute Events")
-plt.xlabel("Number of Parachute Events")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-
-print(
-    f'Drogue Parachute Trigger Time -         Mean Value: {np.mean(dispersion_results["drogueTriggerTime"]):0.3f} s'
-)
-print(
-    f'Drogue Parachute Trigger Time - Standard Deviation: {np.std(dispersion_results["drogueTriggerTime"]):0.3f} s'
-)
-
-plt.figure()
-plt.hist(dispersion_results["drogueTriggerTime"], bins=int(N**0.5))
-plt.title("Drogue Parachute Trigger Time")
-plt.xlabel("Time (s)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-
-
-print(
-    f'Drogue Parachute Fully Inflated Time -         Mean Value: {np.mean(dispersion_results["drogueInflatedTime"]):0.3f} s'
-)
-print(
-    f'Drogue Parachute Fully Inflated Time - Standard Deviation: {np.std(dispersion_results["drogueInflatedTime"]):0.3f} s'
-)
-
-plt.figure()
-plt.hist(dispersion_results["drogueInflatedTime"], bins=int(N**0.5))
-plt.title("Drogue Parachute Fully Inflated Time")
-plt.xlabel("Time (s)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-
-
-
-print(
-    f'Drogue Parachute Fully Inflated Velocity -         Mean Value: {np.mean(dispersion_results["drogueInflatedVelocity"]):0.3f} m/s'
-)
-print(
-    f'Drogue Parachute Fully Inflated Velocity - Standard Deviation: {np.std(dispersion_results["drogueInflatedVelocity"]):0.3f} m/s'
-)
-
-plt.figure()
-plt.hist(dispersion_results["drogueInflatedVelocity"], bins=int(N**0.5))
-plt.title("Drogue Parachute Fully Inflated Velocity")
-plt.xlabel("Velocity m/s)")
-plt.ylabel("Number of Occurences")
-plt.show()
-
-
-
-# Import libraries
-from imageio import imread
-from matplotlib.patches import Ellipse
-
-# Import background map
-img = imread("dispersion_analysis_inputs/SAC_google_map.jpg")
-
-# Retrieve dispersion data por apogee and impact XY position
-apogeeX = np.array(dispersion_results["apogeeX"])
-apogeeY = np.array(dispersion_results["apogeeY"])
-impactX = np.array(dispersion_results["impactX"])
-impactY = np.array(dispersion_results["impactY"])
-
-# Define function to calculate eigen values
-def eigsorted(cov):
-    vals, vecs = np.linalg.eigh(cov)
-    order = vals.argsort()[::-1]
-    return vals[order], vecs[:, order]
-
-
-# Create plot figure
-plt.figure(num=None, figsize=(8, 6), dpi=150, facecolor="w", edgecolor="k")
-ax = plt.subplot(111)
-
-# Calculate error ellipses for impact
-impactCov = np.cov(impactX, impactY)
-impactVals, impactVecs = eigsorted(impactCov)
-impactTheta = np.degrees(np.arctan2(*impactVecs[:, 0][::-1]))
-impactW, impactH = 2 * np.sqrt(impactVals)
-
-# Draw error ellipses for impact
-impact_ellipses = []
-for j in [1, 2, 3]:
-    impactEll = Ellipse(
-        xy=(np.mean(impactX), np.mean(impactY)),
-        width=impactW * j,
-        height=impactH * j,
-        angle=impactTheta,
-        color="black",
-    )
-    impactEll.set_facecolor((0, 0, 1, 0.2))
-    impact_ellipses.append(impactEll)
-    ax.add_artist(impactEll)
-
-# Calculate error ellipses for apogee
-apogeeCov = np.cov(apogeeX, apogeeY)
-apogeeVals, apogeeVecs = eigsorted(apogeeCov)
-apogeeTheta = np.degrees(np.arctan2(*apogeeVecs[:, 0][::-1]))
-apogeeW, apogeeH = 2 * np.sqrt(apogeeVals)
-
-# Draw error ellipses for apogee
-for j in [1, 2, 3]:
-    apogeeEll = Ellipse(
-        xy=(np.mean(apogeeX), np.mean(apogeeY)),
-        width=apogeeW * j,
-        height=apogeeH * j,
-        angle=apogeeTheta,
-        color="black",
-    )
-    apogeeEll.set_facecolor((0, 1, 0, 0.2))
-    ax.add_artist(apogeeEll)
-
-# Draw launch point
-plt.scatter(0, 0, s=30, marker="*", color="black", label="Launch Point")
-# Draw apogee points
-plt.scatter(apogeeX, apogeeY, s=5, marker="^", color="green", label="Simulated Apogee")
-# Draw impact points
-plt.scatter(
-    impactX, impactY, s=5, marker="v", color="blue", label="Simulated Landing Point"
-)
-# Draw real landing point
+#
+# plt.figure()
+# plt.hist(dispersion_results["outOfRailTime"], bins=int(N**0.5))
+# plt.title("Out of Rail Time")
+# plt.xlabel("Time (s)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+# # You can also use Plotly instead of Matplotlib if you wish!
+# # import plotly.express as px
+# # fig1 = px.histogram(
+# #     x=dispersion_results["outOfRailTime"],
+# #     title='Out of Rail Time',
+# #     nbins=int(N**0.5)
+# # )
+# # fig1.update_layout(
+# #     xaxis_title_text='Time (s)',
+# #     yaxis_title_text='Number of occurences'
+# # )
+#
+#
+#
+# print(
+#     f'Out of Rail Velocity -         Mean Value: {np.mean(dispersion_results["outOfRailVelocity"]):0.3f} m/s'
+# )
+# print(
+#     f'Out of Rail Velocity - Standard Deviation: {np.std(dispersion_results["outOfRailVelocity"]):0.3f} m/s'
+# )
+#
+# plt.figure()
+# plt.hist(dispersion_results["outOfRailVelocity"], bins=int(N**0.5))
+# plt.title("Out of Rail Velocity")
+# plt.xlabel("Velocity (m/s)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+#
+# print(
+#     f'Apogee Time -         Mean Value: {np.mean(dispersion_results["apogeeTime"]):0.3f} s'
+# )
+# print(
+#     f'Apogee Time - Standard Deviation: {np.std(dispersion_results["apogeeTime"]):0.3f} s'
+# )
+#
+# plt.figure()
+# plt.hist(dispersion_results["apogeeTime"], bins=int(N**0.5))
+# plt.title("Apogee Time")
+# plt.xlabel("Time (s)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+#
+# print(
+#     f'Apogee Altitude -         Mean Value: {np.mean(dispersion_results["apogeeAltitude"]):0.3f} m'
+# )
+# print(
+#     f'Apogee Altitude - Standard Deviation: {np.std(dispersion_results["apogeeAltitude"]):0.3f} m'
+# )
+#
+# plt.figure()
+# plt.hist(dispersion_results["apogeeAltitude"], bins=int(N**0.5))
+# plt.title("Apogee Altitude")
+# plt.xlabel("Altitude (m)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+# # Real measured apogee for Valetudo = 860 m
+#
+#
+# print(
+#     f'Apogee X Position -         Mean Value: {np.mean(dispersion_results["apogeeX"]):0.3f} m'
+# )
+# print(
+#     f'Apogee X Position - Standard Deviation: {np.std(dispersion_results["apogeeX"]):0.3f} m'
+# )
+#
+# plt.figure()
+# plt.hist(dispersion_results["apogeeX"], bins=int(N**0.5))
+# plt.title("Apogee X Position")
+# plt.xlabel("Apogee X Position (m)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+#
+#
+# print(
+#     f'Apogee Y Position -         Mean Value: {np.mean(dispersion_results["apogeeY"]):0.3f} m'
+# )
+# print(
+#     f'Apogee Y Position - Standard Deviation: {np.std(dispersion_results["apogeeY"]):0.3f} m'
+# )
+#
+# plt.figure()
+# plt.hist(dispersion_results["apogeeY"], bins=int(N**0.5))
+# plt.title("Apogee Y Position")
+# plt.xlabel("Apogee Y Position (m)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+#
+# print(
+#     f'Impact Time -         Mean Value: {np.mean(dispersion_results["impactTime"]):0.3f} s'
+# )
+# print(
+#     f'Impact Time - Standard Deviation: {np.std(dispersion_results["impactTime"]):0.3f} s'
+# )
+#
+# plt.figure()
+# plt.hist(dispersion_results["impactTime"], bins=int(N**0.5))
+# plt.title("Impact Time")
+# plt.xlabel("Time (s)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+#
+# print(
+#     f'Impact X Position -         Mean Value: {np.mean(dispersion_results["impactX"]):0.3f} m'
+# )
+# print(
+#     f'Impact X Position - Standard Deviation: {np.std(dispersion_results["impactX"]):0.3f} m'
+# )
+#
+# plt.figure()
+# plt.hist(dispersion_results["impactX"], bins=int(N**0.5))
+# plt.title("Impact X Position")
+# plt.xlabel("Impact X Position (m)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+#
+# print(
+#     f'Impact Y Position -         Mean Value: {np.mean(dispersion_results["impactY"]):0.3f} m'
+# )
+# print(
+#     f'Impact Y Position - Standard Deviation: {np.std(dispersion_results["impactY"]):0.3f} m'
+# )
+#
+# plt.figure()
+# plt.hist(dispersion_results["impactY"], bins=int(N**0.5))
+# plt.title("Impact Y Position")
+# plt.xlabel("Impact Y Position (m)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+#
+#
+#
+# print(
+#     f'Impact Velocity -         Mean Value: {np.mean(dispersion_results["impactVelocity"]):0.3f} m/s'
+# )
+# print(
+#     f'Impact Velocity - Standard Deviation: {np.std(dispersion_results["impactVelocity"]):0.3f} m/s'
+# )
+#
+# plt.figure()
+# plt.hist(dispersion_results["impactVelocity"], bins=int(N**0.5))
+# plt.title("Impact Velocity")
+# # plt.grid()
+# plt.xlim(-35, 0)
+# plt.xlabel("Velocity (m/s)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+#
+# print(
+#     f'Initial Static Margin -             Mean Value: {np.mean(dispersion_results["initialStaticMargin"]):0.3f} c'
+# )
+# print(
+#     f'Initial Static Margin -     Standard Deviation: {np.std(dispersion_results["initialStaticMargin"]):0.3f} c'
+# )
+#
+# print(
+#     f'Out of Rail Static Margin -         Mean Value: {np.mean(dispersion_results["outOfRailStaticMargin"]):0.3f} c'
+# )
+# print(
+#     f'Out of Rail Static Margin - Standard Deviation: {np.std(dispersion_results["outOfRailStaticMargin"]):0.3f} c'
+# )
+#
+# print(
+#     f'Final Static Margin -               Mean Value: {np.mean(dispersion_results["finalStaticMargin"]):0.3f} c'
+# )
+# print(
+#     f'Final Static Margin -       Standard Deviation: {np.std(dispersion_results["finalStaticMargin"]):0.3f} c'
+# )
+#
+# plt.figure()
+# plt.hist(dispersion_results["initialStaticMargin"], label="Initial", bins=int(N**0.5))
+# plt.hist(
+#     dispersion_results["outOfRailStaticMargin"], label="Out of Rail", bins=int(N**0.5)
+# )
+# plt.hist(dispersion_results["finalStaticMargin"], label="Final", bins=int(N**0.5))
+# plt.legend()
+# plt.title("Static Margin")
+# plt.xlabel("Static Margin (c)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+#
+#
+# print(
+#     f'Maximum Velocity -         Mean Value: {np.mean(dispersion_results["maxVelocity"]):0.3f} m/s'
+# )
+# print(
+#     f'Maximum Velocity - Standard Deviation: {np.std(dispersion_results["maxVelocity"]):0.3f} m/s'
+# )
+#
+# plt.figure()
+# plt.hist(dispersion_results["maxVelocity"], bins=int(N**0.5))
+# plt.title("Maximum Velocity")
+# plt.xlabel("Velocity (m/s)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+#
+#
+# plt.figure()
+# plt.hist(dispersion_results["numberOfEvents"])
+# plt.title("Parachute Events")
+# plt.xlabel("Number of Parachute Events")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+#
+# print(
+#     f'Drogue Parachute Trigger Time -         Mean Value: {np.mean(dispersion_results["drogueTriggerTime"]):0.3f} s'
+# )
+# print(
+#     f'Drogue Parachute Trigger Time - Standard Deviation: {np.std(dispersion_results["drogueTriggerTime"]):0.3f} s'
+# )
+#
+# plt.figure()
+# plt.hist(dispersion_results["drogueTriggerTime"], bins=int(N**0.5))
+# plt.title("Drogue Parachute Trigger Time")
+# plt.xlabel("Time (s)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+#
+#
+# print(
+#     f'Drogue Parachute Fully Inflated Time -         Mean Value: {np.mean(dispersion_results["drogueInflatedTime"]):0.3f} s'
+# )
+# print(
+#     f'Drogue Parachute Fully Inflated Time - Standard Deviation: {np.std(dispersion_results["drogueInflatedTime"]):0.3f} s'
+# )
+#
+# plt.figure()
+# plt.hist(dispersion_results["drogueInflatedTime"], bins=int(N**0.5))
+# plt.title("Drogue Parachute Fully Inflated Time")
+# plt.xlabel("Time (s)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+#
+#
+#
+# print(
+#     f'Drogue Parachute Fully Inflated Velocity -         Mean Value: {np.mean(dispersion_results["drogueInflatedVelocity"]):0.3f} m/s'
+# )
+# print(
+#     f'Drogue Parachute Fully Inflated Velocity - Standard Deviation: {np.std(dispersion_results["drogueInflatedVelocity"]):0.3f} m/s'
+# )
+#
+# plt.figure()
+# plt.hist(dispersion_results["drogueInflatedVelocity"], bins=int(N**0.5))
+# plt.title("Drogue Parachute Fully Inflated Velocity")
+# plt.xlabel("Velocity m/s)")
+# plt.ylabel("Number of Occurences")
+# plt.show()
+#
+#
+#
+# # Import libraries
+# from imageio import imread
+# from matplotlib.patches import Ellipse
+#
+# # Import background map
+# img = imread("dispersion_analysis_inputs/SAC_google_map.jpg")
+#
+# # Retrieve dispersion data por apogee and impact XY position
+# apogeeX = np.array(dispersion_results["apogeeX"])
+# apogeeY = np.array(dispersion_results["apogeeY"])
+# impactX = np.array(dispersion_results["impactX"])
+# impactY = np.array(dispersion_results["impactY"])
+#
+# # Define function to calculate eigen values
+# def eigsorted(cov):
+#     vals, vecs = np.linalg.eigh(cov)
+#     order = vals.argsort()[::-1]
+#     return vals[order], vecs[:, order]
+#
+#
+# # Create plot figure
+# plt.figure(num=None, figsize=(8, 6), dpi=150, facecolor="w", edgecolor="k")
+# ax = plt.subplot(111)
+#
+# # Calculate error ellipses for impact
+# impactCov = np.cov(impactX, impactY)
+# impactVals, impactVecs = eigsorted(impactCov)
+# impactTheta = np.degrees(np.arctan2(*impactVecs[:, 0][::-1]))
+# impactW, impactH = 2 * np.sqrt(impactVals)
+#
+# # Draw error ellipses for impact
+# impact_ellipses = []
+# for j in [1, 2, 3]:
+#     impactEll = Ellipse(
+#         xy=(np.mean(impactX), np.mean(impactY)),
+#         width=impactW * j,
+#         height=impactH * j,
+#         angle=impactTheta,
+#         color="black",
+#     )
+#     impactEll.set_facecolor((0, 0, 1, 0.2))
+#     impact_ellipses.append(impactEll)
+#     ax.add_artist(impactEll)
+#
+# # Calculate error ellipses for apogee
+# apogeeCov = np.cov(apogeeX, apogeeY)
+# apogeeVals, apogeeVecs = eigsorted(apogeeCov)
+# apogeeTheta = np.degrees(np.arctan2(*apogeeVecs[:, 0][::-1]))
+# apogeeW, apogeeH = 2 * np.sqrt(apogeeVals)
+#
+# # Draw error ellipses for apogee
+# for j in [1, 2, 3]:
+#     apogeeEll = Ellipse(
+#         xy=(np.mean(apogeeX), np.mean(apogeeY)),
+#         width=apogeeW * j,
+#         height=apogeeH * j,
+#         angle=apogeeTheta,
+#         color="black",
+#     )
+#     apogeeEll.set_facecolor((0, 1, 0, 0.2))
+#     ax.add_artist(apogeeEll)
+#
+# # Draw launch point
+# plt.scatter(0, 0, s=30, marker="*", color="black", label="Launch Point")
+# # Draw apogee points
+# plt.scatter(apogeeX, apogeeY, s=5, marker="^", color="green", label="Simulated Apogee")
+# # Draw impact points
 # plt.scatter(
-#     411.89, -61.07, s=20, marker="X", color="red", label="Measured Landing Point"
+#     impactX, impactY, s=5, marker="v", color="blue", label="Simulated Landing Point"
 # )
+# # Draw real landing point
+# # plt.scatter(
+# #     411.89, -61.07, s=20, marker="X", color="red", label="Measured Landing Point"
+# # )
+#
+# plt.legend()
+#
+# # Add title and labels to plot
+# ax.set_title(
+#     "1$\sigma$, 2$\sigma$ and 3$\sigma$ Dispersion Ellipses: Apogee and Landing Points"
+# )
+# ax.set_ylabel("North (m)")
+# ax.set_xlabel("East (m)")
+#
+# # Add background image to plot
+# # You can translate the basemap by changing dx and dy (in meters)
+# dx = -360
+# dy = -222
+# plt.imshow(img, zorder=0, extent=[-11112.9, 16612.903225806452, -3225.806451612903, 6806.451612903226])
+# plt.axhline(0, color="black", linewidth=0.5)
+# plt.axvline(0, color="black", linewidth=0.5)
+# plt.xlim(-2000, 2000)
+# plt.ylim(-1000, 3000)
+#
+# # Save plot and show result
+# # plt.savefig(str(filename) + ".pdf", bbox_inches="tight", pad_inches=0)
+# # plt.savefig(str(filename) + ".svg", bbox_inches="tight", pad_inches=0)
+# plt.show()
 
-plt.legend()
 
-# Add title and labels to plot
-ax.set_title(
-    "1$\sigma$, 2$\sigma$ and 3$\sigma$ Dispersion Ellipses: Apogee and Landing Points"
-)
-ax.set_ylabel("North (m)")
-ax.set_xlabel("East (m)")
-
-# Add background image to plot
-# You can translate the basemap by changing dx and dy (in meters)
-dx = -360
-dy = -222
-plt.imshow(img, zorder=0, extent=[-11112.9, 16612.903225806452, -3225.806451612903, 6806.451612903226])
-plt.axhline(0, color="black", linewidth=0.5)
-plt.axvline(0, color="black", linewidth=0.5)
-plt.xlim(-2000, 2000)
-plt.ylim(-1000, 3000)
-
-# Save plot and show result
-# plt.savefig(str(filename) + ".pdf", bbox_inches="tight", pad_inches=0)
-# plt.savefig(str(filename) + ".svg", bbox_inches="tight", pad_inches=0)
-plt.show()

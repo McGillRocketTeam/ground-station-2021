@@ -1596,9 +1596,9 @@ class Flight:
                     self.alpha2.append([step[0], alpha2])
                     self.alpha3.append([step[0], alpha3])
         # Convert accelerations to functions
-        self.ax = Function(self.ax, "Time (s)", "Ax (m/s2)", interpolation)
-        self.ay = Function(self.ay, "Time (s)", "Ay (m/s2)", interpolation)
-        self.az = Function(self.az, "Time (s)", "Az (m/s2)", interpolation)
+        # self.ax = Function(self.ax, "Time (s)", "Ax (m/s2)", interpolation)
+        # self.ay = Function(self.ay, "Time (s)", "Ay (m/s2)", interpolation)
+        # self.az = Function(self.az, "Time (s)", "Az (m/s2)", interpolation)
         self.alpha1 = Function(self.alpha1, "Time (s)", "α1 (rad/s2)", interpolation)
         self.alpha2 = Function(self.alpha2, "Time (s)", "α2 (rad/s2)", interpolation)
         self.alpha3 = Function(self.alpha3, "Time (s)", "α3 (rad/s2)", interpolation)
@@ -2402,7 +2402,7 @@ class Flight:
 
         return None
 
-    def plotLinearKinematicsData(self):
+    def plotLinearKinematicsData(self): # FC TESTER
         """Prints out all Kinematics graphs available about the Flight
 
         Parameters
@@ -2602,7 +2602,7 @@ class Flight:
 
         return None
 
-    def plotAngularKinematicsData(self):
+    def plotAngularKinematicsData(self): # FC TESTER
         """Prints out all Angular velocity and acceleration graphs available
         about the Flight
 
