@@ -2402,6 +2402,25 @@ class Flight:
 
         return None
 
+    def exportAccelerations(self, fileName, timestep):
+        # Post-process results
+        if self.postProcessed is False:
+            self.postProcess()
+
+        timePoints = np.arange(0, self.tFinal, 0.1)
+
+        file = open("accelerations2.txt", "w")
+
+        for i in range(0, timePoints.size, 1):
+            ax = self.ax.getValue(timePoints[i])
+            ay = self.ay.getValue(timePoints[i])
+            az = self.az.getValue(timePoints[i])
+            file.write("Time: {:f}    Ax: {:.5f}    Ay: {:.5f}    Az: {:.5f}\n".format(timePoints[i], ax, ay, ax))
+
+        file.close()
+
+        return None
+
     def plotLinearKinematicsData(self): # FC TESTER
         """Prints out all Kinematics graphs available about the Flight
 

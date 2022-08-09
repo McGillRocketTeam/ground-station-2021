@@ -8,11 +8,11 @@ import numpy as np
 from numpy.random import normal, uniform, choice
 from IPython.display import display
 
-#%config InlineBackend.figure_formats = ['svg']
+# %config InlineBackend.figure_formats = ['svg']
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-#%matplotlib inline
+# %matplotlib inline
 mpl.rcParams["figure.figsize"] = [8, 5]
 mpl.rcParams["figure.dpi"] = 120
 mpl.rcParams["font.size"] = 14
@@ -28,8 +28,8 @@ analysis_parameters = {
     # Propulsion Details - run help(SolidMotor) for more information
     "impulse": (16584.9340, 1.0),  # Motor total impulse (N*s)
     "burnOut": (3.25, 1),  # Motor burn out time (s)
-    "nozzleRadius": (381/10000, 0.5 / 1000),  # Motor's nozzle radius (m)
-    "throatRadius": (233/10000, 0.5 / 1000),  # Motor's nozzle throat radius (m)
+    "nozzleRadius": (381 / 10000, 0.5 / 1000),  # Motor's nozzle radius (m)
+    "throatRadius": (233 / 10000, 0.5 / 1000),  # Motor's nozzle throat radius (m)
     "grainSeparation": (
         0,
         1 / 1000,
@@ -165,8 +165,8 @@ def export_flight_data(flight_setting, flight_data, exec_time):
         sol[:, [0, 6]], "Time (s)", "Vz (m/s)", "linear", extrapolation="natural"
     )
     flight_data.v = (
-        flight_data.vx**2 + flight_data.vy**2 + flight_data.vz**2
-    ) ** 0.5
+                            flight_data.vx ** 2 + flight_data.vy ** 2 + flight_data.vz ** 2
+                    ) ** 0.5
     flight_data.maxVel = np.amax(flight_data.v.source[:, 1])
     flight_result["maxVelocity"] = flight_data.maxVel
 
@@ -174,7 +174,7 @@ def export_flight_data(flight_setting, flight_data, exec_time):
     if len(flight_data.parachuteEvents) > 0:
         flight_result["drogueTriggerTime"] = flight_data.parachuteEvents[0][0]
         flight_result["drogueInflatedTime"] = (
-            flight_data.parachuteEvents[0][0] + flight_data.parachuteEvents[0][1].lag
+                flight_data.parachuteEvents[0][0] + flight_data.parachuteEvents[0][1].lag
         )
         flight_result["drogueInflatedVelocity"] = flight_data.v(
             flight_data.parachuteEvents[0][0] + flight_data.parachuteEvents[0][1].lag
@@ -214,9 +214,11 @@ Env = Environment(
     latitude=32.990254,
     longitude=-106.974998,
     elevation=1400,
-    date=(2022, 7, 27, 18)  # Tomorrow's date in year, month, day, hour UTC format
+    date=(2022, 8, 2, 18)  # Tomorrow's date in year, month, day, hour UTC format
 )
 Env.setAtmosphericModel(type='Forecast', file='GFS')
+
+
 # Env.maxExpectedHeight = 1500
 
 
@@ -327,12 +329,57 @@ for setting in flight_settings(analysis_parameters, number_of_simulations):
     # )
 
 # Done
-Flight.postProcess(TestFlight)
+TestFlight.postProcess()
 
-file = open("outputAcceleration.txt", "w")
-for i in range(0, len(TestFlight.ax), 1):
-    file.write("{:f}\n".format(TestFlight.ax[i]))
+timeStep = 0.1
+timePoints = np.arange(0, TestFlight.tFinal, timeStep)
 
+# Export Pressures
+TestFlight.exportPressures("./../data/FC_Tester/pressures.txt", timeStep)
+
+# Export Accelerations
+file = open("./../data/FC_Tester/accelerations.txt", "w")
+
+for i in range(0, timePoints.size, 1):
+    ax = TestFlight.ax.getValue(timePoints[i])
+    ay = TestFlight.ay.getValue(timePoints[i])
+    az = TestFlight.az.getValue(timePoints[i])
+    file.write("Time: {:f}\tAx: {:f}\tAy: {:f}\tAz: {:f}\n".format(timePoints[i], ax, ay, ax))
+
+file.close()
+
+# Export Angular Velocity
+file = open("./../data/FC_Tester/angularVelocity.txt", "w")
+
+for i in range(0, timePoints.size, 1):
+    angVel1 = TestFlight.w1.getValue(timePoints[i])
+    angVel2 = TestFlight.w2.getValue(timePoints[i])
+    angVel3 = TestFlight.w3.getValue(timePoints[i])
+    file.write("Time: {:f}\tw1: {:f}\tw2: {:f}\t w3: {:f}\n".format(timePoints[i], angVel1, angVel2, angVel3))
+
+file.close()
+
+# Export Angular Acceleration
+file = open("./../data/FC_Tester/angularAcceleration.txt", "w")
+
+for i in range(0, timePoints.size, 1):
+    angAcc1 = TestFlight.alpha1.getValue(timePoints[i])
+    angAcc2 = TestFlight.alpha2.getValue(timePoints[i])
+    angAcc3 = TestFlight.alpha3.getValue(timePoints[i])
+    file.write("Time: {:f}\taplha1: {:f}\taplha2: {:f}\taplha3: {:f}\n".format(timePoints[i], angAcc1, angAcc2, angAcc3))
+
+file.close()
+
+# Export Altitude
+file = open("./../data/FC_Tester/altitudes.txt", "w")
+
+for i in range(0, timePoints.size, 1):
+    altx = TestFlight.attitudeVectorX.getValue(timePoints[i])
+    alty = TestFlight.attitudeVectorY.getValue(timePoints[i])
+    altz = TestFlight.attitudeVectorZ.getValue(timePoints[i])
+    file.write("Time: {:f}\tAltX: {:f}\tAltY: {:f}\tAltZ: {:f}\n".format(timePoints[i], altx, alty, altz))
+
+file.close()
 
 # ## Print and save total time
 # final_string = f"Completed {i} iterations successfully. Total CPU time: {process_time() - initial_cpu_time} s. Total wall time: {time() - initial_wall_time} s"
@@ -774,5 +821,3 @@ for i in range(0, len(TestFlight.ax), 1):
 # # plt.savefig(str(filename) + ".pdf", bbox_inches="tight", pad_inches=0)
 # # plt.savefig(str(filename) + ".svg", bbox_inches="tight", pad_inches=0)
 # plt.show()
-
-
